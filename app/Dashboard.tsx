@@ -6,7 +6,8 @@ import { useState } from 'react';
 
 export default function App() {
 
-  const [selectedValue, setSelectedValue] = useState('manzana');
+  const [selectedValue, setSelectedValue] = useState('hoy');
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -70,12 +71,12 @@ export default function App() {
           <Picker
             selectedValue={selectedValue}
             onValueChange={(itemValue) => setSelectedValue(itemValue)}
-            style={styles.picker}
+            style={styles.picker} itemStyle={styles.pickerItem}
             >
-              <Picker.Item label="Manzana" value="manzana" />
-              <Picker.Item label="Naranja" value="naranja" />
-              <Picker.Item label="Plátano" value="platano" />
-              <Picker.Item label="Uva" value="uva" />
+              <Picker.Item label="Hoy" value="hoy" />
+              <Picker.Item label="Esta semana" value="semana" />
+              <Picker.Item label="Este mes" value="mes" />
+              <Picker.Item label="Este año" value="año" />
           </Picker>
           </View>
           <Text style={styles.box}>
@@ -174,7 +175,12 @@ const styles = StyleSheet.create({
   //---------------
   picker: {
     height: 50,
-    minWidth: 150,  // Ancho mínimo
+    marginLeft: 10,
     flex: 1,
+    backgroundColor: 'white',
+  },
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
