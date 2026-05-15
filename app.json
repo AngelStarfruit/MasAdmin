@@ -2,6 +2,9 @@
   "expo": {
     "name": "masadmin",
     "slug": "masadmin",
+    "plugins": [
+      "voltra"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +24,17 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.angel12805.masadmin"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1955109a-1bce-4eba-b58a-5130716f00f8"
+      }
+    },
+    "owner": "angel12805"
   }
 }
