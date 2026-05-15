@@ -10,6 +10,7 @@
     "lint": "expo lint"
   },
   "dependencies": {
+    "@react-native-picker/picker": "2.11.1",
     "@supabase/supabase-js": "^2.105.4",
     "expo": "~54.0.33",
     "expo-constants": "~18.0.13",
