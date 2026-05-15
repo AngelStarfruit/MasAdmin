@@ -43,15 +43,15 @@ export default function Compras() {
         <View style={styles.space}>
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("XDDCC")}
+        onPress={() => alert("María")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Proveedores</Text>
+          <Text style={styles.touchText}>Clientes</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert(":-)")}
+        onPress={() => alert("pollo feo")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Control de compras</Text>
+          <Text style={styles.touchText}>Control de ventas</Text>
           </TouchableHighlight>
         </View>
       

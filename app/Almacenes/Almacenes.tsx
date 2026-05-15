@@ -43,15 +43,21 @@ export default function Compras() {
         <View style={styles.space}>
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("XDDCC")}
+        onPress={() => alert("alvin")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Proveedores</Text>
+          <Text style={styles.touchText}>Almacenes</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert(":-)")}
+        onPress={() => alert("simon")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Control de compras</Text>
+          <Text style={styles.touchText}>Existencias por almacen</Text>
+          </TouchableHighlight>
+          <TouchableHighlight 
+        underlayColor={'#0015cd'}
+        onPress={() => alert("teodoro")}
+        style={styles.touch}>
+          <Text style={styles.touchText}>Ajustes de inventario</Text>
           </TouchableHighlight>
         </View>
       
@@ -82,7 +88,8 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: '#0012a8',
-    margin: 80,
+    marginVertical: 40, marginHorizontal: 80,
+    padding: 20,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

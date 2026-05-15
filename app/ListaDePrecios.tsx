@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 export default function Dashboard() {
 
-  const [selectedValue, setSelectedValue] = useState('hoy');
+  const [selectedValue, setSelectedValue] = useState('A');
 
   return (
     <View style={styles.container}>
@@ -54,67 +54,43 @@ export default function Dashboard() {
 
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{ fontSize: 30, fontWeight: 'bold', 
-          color: '#2435f0', paddingBottom: 10}}>
-        Bienvenido
+        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+          Lista de precios
         </Text>
-        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-          Dashboard
-          </Text>
-          <View style={{flexDirection:'row'}}>
-          <Text style={{ 
+        <Text style={{ 
           fontSize: 20, 
-          paddingTop: 10,}}>
-          Mostrar información de:
+          paddingVertical: 10,}}>
+          Inserte un grupo de productos
           </Text>
           <Picker
-            selectedValue={selectedValue}
-            onValueChange={(itemValue) => setSelectedValue(itemValue)}
-            style={styles.picker} itemStyle={styles.pickerItem}
-            >
-              <Picker.Item label="Hoy" value="hoy" />
-              <Picker.Item label="Esta semana" value="semana" />
-              <Picker.Item label="Este mes" value="mes" />
-              <Picker.Item label="Este año" value="año" />
+              selectedValue={selectedValue}
+              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              style={styles.picker} itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="A" value="A" />
           </Picker>
-          </View>
-          <Text style={styles.box}>
-            Ventas: $1000
-            </Text>
-          <Text style={styles.box}>
-            Compras: $500
-            </Text>
-          <Text style={styles.box}>
-            Gastos: $200
-            </Text>
-            <View style={styles.hr}/>
-          <Text style={{ fontSize: 25, fontWeight: 'bold', 
-            paddingBottom: 10
-          }}>
-          Agenda
-          </Text>
-          <View>
-            <View style={styles.row}>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Evento</Text>
+          <View style={styles.table}>
+                <View style={styles.row}>
+                        <View style={styles.headerCell}>
+                          <Text style={styles.headerText}>Marca</Text>
+                          </View>
+                        <View style={styles.headerCell}>
+                          <Text style={styles.headerText}>Descripción</Text>
+                          </View>
+                        <View style={styles.headerCell}>
+                          <Text style={styles.headerText}>Cantidad</Text>
+                          </View>
+                        <View style={styles.headerCell}>
+                          <Text style={styles.headerText}>Costo</Text>
+                          </View>
+                      </View>
+                      <View style={styles.row}>
+                        <View style={styles.cell}><Text>herramienta</Text></View>
+                        <View style={styles.cell}><Text>algo que usar</Text></View>
+                        <View style={styles.cell}><Text>17</Text></View>
+                        <View style={styles.cell}><Text>$59.99</Text></View>
                 </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Fecha</Text>
-                </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Lugar</Text>
-                </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Contacto</Text>
-                </View>
-            </View>
-            <View style={styles.row}>
-              <View style={styles.cell}><Text>hjsakldfhl</Text></View>
-              <View style={styles.cell}><Text>2023-10-15</Text></View>
-              <View style={styles.cell}><Text>Centro de Convenciones</Text></View>
-              <View style={styles.cell}><Text>contacto@evento.com</Text></View>
-            </View>
-          </View>
+          </View>      
         </View>
       </ScrollView>
     </View>
@@ -140,24 +116,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     padding: 18,
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
-  hr:{
-    height: 1, 
-    backgroundColor: '#bbb', 
-    marginVertical: 8,
-  },
   //Tabla estilos
+  table: {
+    paddingVertical: 20
+  },
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 12,
-    backgroundColor: 'white',
+    backgroundColor: '#e3e5ff',
     borderWidth: 1,
     borderColor: 'black',
   },
