@@ -69,6 +69,12 @@ export default function Dashboard() {
               >
                 <Picker.Item label="A" value="A" />
           </Picker>
+          <TouchableHighlight 
+                underlayColor={'#f0f1ff'}
+                onPress={() => alert("add")}
+                style={styles.add}>
+                    <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
+                  </TouchableHighlight>
           <View style={styles.table}>
                 <View style={styles.row}>
                         <View style={styles.headerCell}>
@@ -115,6 +121,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#eee',
     padding: 18,
+  },
+  add: {
+    backgroundColor: 'white',
+    width: 125,
+    marginTop: 10,
+    padding: 10
   },
   //Tabla estilos
   table: {

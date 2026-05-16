@@ -57,28 +57,34 @@ export default function Dashboard() {
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Sucursales
         </Text>
+        <TouchableHighlight 
+        underlayColor={'#f0f1ff'}
+        onPress={() => alert("add")}
+        style={styles.add}>
+            <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
+          </TouchableHighlight>
         <View style={styles.table}>
-                        <View style={styles.row}>
-                                <View style={styles.headerCell}>
-                                  <Text style={styles.headerText}>Marca</Text>
-                                  </View>
-                                <View style={styles.headerCell}>
-                                  <Text style={styles.headerText}>Descripción</Text>
-                                  </View>
-                                <View style={styles.headerCell}>
-                                  <Text style={styles.headerText}>Cantidad</Text>
-                                  </View>
-                                <View style={styles.headerCell}>
-                                  <Text style={styles.headerText}>Costo</Text>
-                                  </View>
-                              </View>
-                              <View style={styles.row}>
-                                <View style={styles.cell}><Text>herramienta</Text></View>
-                                <View style={styles.cell}><Text>algo que usar</Text></View>
-                                <View style={styles.cell}><Text>17</Text></View>
-                                <View style={styles.cell}><Text>$59.99</Text></View>
-                        </View>
+              <View style={styles.row}>
+                  <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Marca</Text>
+                      </View>
+                  <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Descripción</Text>
+                      </View>
+                  <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Cantidad</Text>
+                      </View>
+                  <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Costo</Text>
+                      </View>
                   </View>
+                      <View style={styles.row}>
+                      <View style={styles.cell}><Text>herramienta</Text></View>
+                      <View style={styles.cell}><Text>algo que usar</Text></View>
+                      <View style={styles.cell}><Text>17</Text></View>
+                      <View style={styles.cell}><Text>$59.99</Text></View>
+                </View>
+          </View>
         
         </View>
       </ScrollView>
@@ -113,10 +119,11 @@ const styles = StyleSheet.create({
     paddingVertical: 40, marginVertical: 10,
     borderRadius: 10,
   },
-  hr:{
-    height: 1, 
-    backgroundColor: '#bbb', 
-    marginVertical: 8,
+  add: {
+    backgroundColor: 'white',
+    width: 125,
+    marginTop: 10,
+    padding: 10
   },
   //Tabla estilos
   table: {
@@ -136,14 +143,4 @@ const styles = StyleSheet.create({
   },
   headerText: {fontWeight: 'bold',},
   //---------------
-  picker: {
-    height: 50,
-    marginLeft: 10,
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  pickerItem: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
 });
