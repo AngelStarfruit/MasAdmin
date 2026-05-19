@@ -41,16 +41,16 @@ export default function Dashboard() {
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Marca</Text>
+                      <Text style={styles.headerText}>Empresa</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Descripción</Text>
+                      <Text style={styles.headerText}>Teléfono</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Cantidad</Text>
+                      <Text style={styles.headerText}>Ciudad</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Costo</Text>
+                      <Text style={styles.headerText}>Estado</Text>
                       </View>
                   </View>
                       <View style={styles.row}>
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   add: {
     backgroundColor: 'white',
-    width: 125,
+    width: 150,
     marginTop: 10,
     padding: 10
   },

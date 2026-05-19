@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
+    fontWeight: 'bold', fontSize: 30, color: '#2435f0',
     paddingVertical: 40, marginVertical: 10,
     borderRadius: 10,
   },

@@ -73,7 +73,7 @@ export default function Dashboard() {
                 underlayColor={'#f0f1ff'}
                 onPress={() => alert("add")}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
+                    <Text style={{fontWeight: 'bold'}}>Añadir producto</Text>
                   </TouchableHighlight>
           <View style={styles.table}>
                 <View style={styles.row}>
