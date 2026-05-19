@@ -1,11 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
 import Constants from 'expo-constants';
-import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
+import type { ControlComprasScreenProps } from './types';
 
-export default function ControlCompras() {
-
+export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -20,7 +18,7 @@ export default function ControlCompras() {
       <View style={styles.navigation}>
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        onPress={() => navigation.navigate("Compras")} 
       >
         <Text>B</Text></TouchableHighlight>
     </View>

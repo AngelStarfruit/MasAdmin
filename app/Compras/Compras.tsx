@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Constants from 'expo-constants';
+import type { ComprasScreenProps } from './types';
 
-export default function Compras() {
+export default function Compras({ navigation }: ComprasScreenProps ) {
 
   return (
     <View style={styles.container}>
@@ -43,13 +44,13 @@ export default function Compras() {
         <View style={styles.space}>
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("XDDCC")}
+        onPress={() => navigation.navigate("Proveedores")}
         style={styles.touch}>
           <Text style={styles.touchText}>Proveedores</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert(":-)")}
+        onPress={() => navigation.navigate("ControlCompras")}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de compras</Text>
           </TouchableHighlight>
