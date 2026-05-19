@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 
-export default function Compras() {
+export default function Ventas() {
 
   return (
     <View style={styles.container}>

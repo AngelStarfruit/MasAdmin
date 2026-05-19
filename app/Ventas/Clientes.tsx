@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 
-export default function Dashboard() {
+export default function Clientes() {
 
   const [selectedValue, setSelectedValue] = useState('hoy');
 
