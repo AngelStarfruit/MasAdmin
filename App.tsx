@@ -1,15 +1,32 @@
-// App.tsx (en la RAÍZ de tu proyecto)
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Compras from './app/Compras/Compras';
 import ControlCompras from './app/Compras/ControlCompras';
 import Proveedores from './app/Compras/Proveedores';
+import Ventas from './app/Ventas/Ventas';
+import Clientes from './app/Ventas/Clientes';
+import ControlVentas from './app/Ventas/ControlVentas';
+import Almacenes from './app/Almacenes/Almacenes';
+import AjustesInventario from './app/Almacenes/AjustesInventario';
+import AlmacenesInfo from './app/Almacenes/AlmacenesInfo';
+import ExistenciasAlmacen from './app/Almacenes/ExistenciasAlmacen';
+import Dashboard from './app/Dashboard';
+import Sucursales from './app/Sucursales';
 
-// Define los tipos de navegación
 export type RootStackParamList = {
   Compras: undefined;
   ControlCompras: undefined;
   Proveedores: undefined;
+  Ventas: undefined;
+  Clientes: undefined;
+  ControlVentas: undefined;
+  Almacenes: undefined;
+  AjustesInventario: undefined;
+  AlmacenesInfo: undefined;
+  ExistenciasAlmacen: undefined;
+  Dashboard: undefined;
+  Sucursales: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
