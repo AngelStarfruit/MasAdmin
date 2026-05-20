@@ -48,18 +48,28 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
     </View>
       
         <View style={styles.space}>
+
+        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+          Compras
+          </Text>
+          <Text style={{ fontSize: 20}}>
+          Seleccione una sección:
+          </Text>
+
         <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("Proveedores")}
         style={styles.touch}>
           <Text style={styles.touchText}>Proveedores</Text>
           </TouchableHighlight>
+
           <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("ControlCompras")}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de compras</Text>
           </TouchableHighlight>
+
         </View>
       
     </View>
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: '#0012a8',
     margin: 80,
-    borderRadius: 10,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
   },

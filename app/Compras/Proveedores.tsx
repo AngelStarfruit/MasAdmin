@@ -44,10 +44,10 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
+                      <View style={styles.cellF}><Text>LALA</Text></View>
+                      <View style={styles.cell}><Text>123-456-7890</Text></View>
+                      <View style={styles.cell}><Text>Tampico</Text></View>
+                      <View style={styles.cell}><Text>Tamaulipas</Text></View>
                 </View>
           </View>
         
@@ -106,6 +106,11 @@ const styles = StyleSheet.create({
     flex: 1, padding: 12,
     borderWidth: 1,
     backgroundColor: 'white',
+  },
+  cellF: {
+    flex: 1, padding: 12,
+    borderWidth: 1,
+    backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
   //---------------

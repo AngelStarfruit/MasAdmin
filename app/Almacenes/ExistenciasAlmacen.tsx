@@ -31,6 +31,9 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                       <Text style={styles.headerText}>Producto</Text>
                       </View>
                   <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Marca</Text>
+                      </View>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -38,9 +41,10 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
+                      <View style={styles.cell}><Text>Jabón</Text></View>
+                      <View style={styles.cell}><Text>Zote</Text></View>
                       <View style={styles.cell}><Text>17</Text></View>
+                      <View style={styles.cell}><Text>29.99</Text></View>
                 </View>
           </View>
         

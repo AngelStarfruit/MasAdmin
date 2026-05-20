@@ -48,24 +48,35 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
     </View>
       
         <View style={styles.space}>
+
+          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+          Almacenes
+          </Text>
+          <Text style={{ fontSize: 20}}>
+          Seleccione una sección:
+          </Text>
+
         <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("AlmacenesInfo")}
         style={styles.touch}>
           <Text style={styles.touchText}>Almacenes</Text>
           </TouchableHighlight>
+
           <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("ExistenciasAlmacen")}
         style={styles.touch}>
           <Text style={styles.touchText}>Existencias por almacen</Text>
           </TouchableHighlight>
+
           <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("AjustesInventario")}
         style={styles.touch}>
           <Text style={styles.touchText}>Ajustes de inventario</Text>
           </TouchableHighlight>
+
         </View>
       
     </View>

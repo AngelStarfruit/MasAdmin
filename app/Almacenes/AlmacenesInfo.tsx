@@ -41,8 +41,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
+                      <View style={styles.cellF}><Text>Objetos</Text></View>
+                      <View style={styles.cell}><Text>Altama</Text></View>
                 </View>
           </View>
         
@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
     flex: 1, padding: 12,
     borderWidth: 1,
     backgroundColor: 'white',
+  },
+  cellF: {
+    flex: 1, padding: 12,
+    borderWidth: 1,
+    backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
   //---------------

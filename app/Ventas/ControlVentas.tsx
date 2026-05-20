@@ -40,13 +40,13 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                       <Text style={styles.headerText}>Total</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Proveedor</Text>
+                      <Text style={styles.headerText}>Cliente</Text>
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
+                      <View style={styles.cell}><Text>12-01-2023</Text></View>
+                      <View style={styles.cell}><Text>$59.99</Text></View>
+                      <View style={styles.cell}><Text>Javier Rivera</Text></View>
                 </View>
           </View>
         

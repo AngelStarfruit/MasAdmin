@@ -42,9 +42,9 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
+                      <View style={styles.cell}><Text>Almacen objetos</Text></View>
+                      <View style={styles.cell}><Text>entrada</Text></View>
+                      <View style={styles.cell}><Text>3-03-2023</Text></View>
                 </View>
           </View>
         

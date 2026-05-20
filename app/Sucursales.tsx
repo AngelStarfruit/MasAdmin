@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { SucursalesScreenProps } from './types';
+
+import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
+import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
@@ -18,36 +21,36 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Text>D</Text></TouchableHighlight>
+        <Image source={D} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Text>C</Text></TouchableHighlight>
+        <Image source={C} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Text>V</Text></TouchableHighlight>
+        <Image source={V} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Text>S</Text></TouchableHighlight>
+        <Image source={S} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Text>A</Text></TouchableHighlight>
+        <Image source={A} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Text>$</Text></TouchableHighlight>
+        <Image source={$} style={styles.navIconImage}/></TouchableHighlight>
 
     </View>
 
@@ -65,23 +68,15 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Marca</Text>
+                      <Text style={styles.headerText}>Sucursal</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Descripción</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Cantidad</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Costo</Text>
+                      <Text style={styles.headerText}>Teléfono</Text>
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
+                      <View style={styles.cellF}><Text>Altama</Text></View>
+                      <View style={styles.cell}><Text>123-456-7890</Text></View>
                 </View>
           </View>
         
@@ -106,6 +101,9 @@ const styles = StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+  },
+  navIconImage: {
+    width: 20, height: 20,
   },
   scroll: {
     flex: 1,
@@ -141,6 +139,11 @@ const styles = StyleSheet.create({
     flex: 1, padding: 12,
     borderWidth: 1,
     backgroundColor: 'white',
+  },
+  cellF: {
+    flex: 1, padding: 12,
+    borderWidth: 1,
+    backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
   //---------------

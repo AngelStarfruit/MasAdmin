@@ -40,9 +40,9 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>herramienta</Text></View>
-                      <View style={styles.cell}><Text>algo que usar</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
+                      <View style={styles.cellF}><Text>12-01-2023</Text></View>
+                      <View style={styles.cell}><Text>$59.99</Text></View>
+                      <View style={styles.cell}><Text>LALA</Text></View>
                 </View>
           </View>
         
@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
     flex: 1, padding: 12,
     borderWidth: 1,
     backgroundColor: 'white',
+  },
+  cellF: {
+    flex: 1, padding: 12,
+    borderWidth: 1,
+    backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
   //---------------

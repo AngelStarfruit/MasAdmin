@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import type { DashboardScreenProps } from './types';
+
+import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
+import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
@@ -25,37 +28,37 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Text>D</Text></TouchableHighlight>
+        <Image source={D} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Text>C</Text></TouchableHighlight>
+        <Image source={C} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Text>V</Text></TouchableHighlight>
+        <Image source={V} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Text>S</Text></TouchableHighlight>
+        <Image source={S} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Text>A</Text></TouchableHighlight>
+        <Image source={A} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Text>$</Text></TouchableHighlight>
+        <Image source={$} style={styles.navIconImage}/></TouchableHighlight>
 
     </View>
 
@@ -63,7 +66,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         <View style={styles.scroll}>
         <Text style={{ fontSize: 30, fontWeight: 'bold', 
           color: '#2435f0', paddingBottom: 10}}>
-        Bienvenido
+        Bienvenido, Ángel
         </Text>
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
           Dashboard
@@ -144,6 +147,9 @@ const styles = StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+  },
+  navIconImage: {
+    width: 20, height: 20,
   },
   scroll: {
     flex: 1,
