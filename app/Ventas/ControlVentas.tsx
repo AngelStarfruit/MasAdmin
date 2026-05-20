@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ControlVentasScreenProps } from './types';
+
+import B from '../../assets/B.png';
 
 export default function ControlVentas({ navigation }: ControlVentasScreenProps ) {
 
@@ -17,7 +19,8 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")} 
       >
-        <Text>B</Text></TouchableHighlight>
+        <Image source={B} style={styles.navIconImage}/>
+      </TouchableHighlight>
     </View>
 
       <ScrollView>
@@ -70,6 +73,9 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
+  },
+  navIconImage: {
+    width: 20, height: 20,
   },
   scroll: {
     flex: 1,

@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
+
+import B from '../../assets/B.png';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
@@ -14,7 +16,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")} 
       >
-        <Text>B</Text></TouchableHighlight>
+        <Image source={B} style={styles.navIconImage}/>
+      </TouchableHighlight>
     </View>
 
       <ScrollView>
@@ -71,6 +74,9 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
+  },
+  navIconImage: {
+    width: 20, height: 20,
   },
   scroll: {
     flex: 1,

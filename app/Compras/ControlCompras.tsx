@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image } from 'react-native';
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
+
+import B from '../../assets/B.png';
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
   return (
@@ -13,7 +15,8 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
             underlayColor={"#ddf"} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
-            <Text>B</Text></TouchableHighlight>
+            <Image source={B} style={styles.navIconImage}/>
+          </TouchableHighlight>
         </View>
 
       <ScrollView>
@@ -40,7 +43,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cellF}><Text>12-01-2023</Text></View>
+                      <View style={styles.cell}><Text>12-01-2023</Text></View>
                       <View style={styles.cell}><Text>$59.99</Text></View>
                       <View style={styles.cell}><Text>LALA</Text></View>
                 </View>
@@ -66,6 +69,9 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
+  },
+  navIconImage: {
+    width: 20, height: 20,
   },
   scroll: {
     flex: 1,
@@ -101,11 +107,6 @@ const styles = StyleSheet.create({
     flex: 1, padding: 12,
     borderWidth: 1,
     backgroundColor: 'white',
-  },
-  cellF: {
-    flex: 1, padding: 12,
-    borderWidth: 1,
-    backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
   //---------------
