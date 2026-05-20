@@ -9,54 +9,60 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.navigation}>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("1")}
+        onPress={() => navigation.navigate("Dashboard")}
       >
         <Text>D</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("2")}
+        onPress={() => navigation.navigate("Compras")}
       >
         <Text>C</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("3")}
+        onPress={() => navigation.navigate("Ventas")}
       >
         <Text>V</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("4")} 
+        onPress={() => navigation.navigate("Sucursales")} 
       >
         <Text>S</Text></TouchableHighlight>
+
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("5")} 
+        style={styles.navIconsS} 
       >
         <Text>A</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        onPress={() => navigation.navigate("ListaDePrecios")} 
       >
         <Text>$</Text></TouchableHighlight>
+
     </View>
       
         <View style={styles.space}>
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("alvin")}
+        onPress={() => navigation.navigate("AlmacenesInfo")}
         style={styles.touch}>
           <Text style={styles.touchText}>Almacenes</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("simon")}
+        onPress={() => navigation.navigate("ExistenciasAlmacen")}
         style={styles.touch}>
           <Text style={styles.touchText}>Existencias por almacen</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("teodoro")}
+        onPress={() => navigation.navigate("AjustesInventario")}
         style={styles.touch}>
           <Text style={styles.touchText}>Ajustes de inventario</Text>
           </TouchableHighlight>
@@ -77,8 +83,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
+    padding: 10, borderRadius: 50 ,
+  },
+  navIconsS:{
+    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
   },
   space: {
     flex: 1,

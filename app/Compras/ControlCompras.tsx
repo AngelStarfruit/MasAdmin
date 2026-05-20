@@ -8,20 +8,13 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-    <View style={{paddingLeft: 10}}>
-      <Text style={{
-        fontSize:40,
-        fontWeight: 'bold',
-        color: '#2435f0',
-      }}>MasAdmin</Text>
-    </View>
-      <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => navigation.navigate("Compras")} 
-      >
-        <Text>B</Text></TouchableHighlight>
-    </View>
+    <View style={styles.navigation}>
+            <TouchableHighlight
+            underlayColor={"#ddf"} style={styles.navIcons}
+            onPress={() => navigation.navigate("Compras")} 
+          >
+            <Text>B</Text></TouchableHighlight>
+        </View>
 
       <ScrollView>
         <View style={styles.scroll}>
@@ -72,6 +65,7 @@ const styles = StyleSheet.create({
   navIcons:{
     padding: 10, 
     borderRadius: 50 ,
+    marginTop: 20,
   },
   scroll: {
     flex: 1,

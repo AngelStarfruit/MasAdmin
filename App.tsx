@@ -55,11 +55,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Dashboard">
+
         <Stack.Screen 
           name="Dashboard" 
           component={Dashboard} 
           options={{ headerShown: false }}
         />
+
         <Stack.Screen 
           name="Compras" 
           component={Compras} 
@@ -68,21 +70,63 @@ export default function App() {
         <Stack.Screen 
           name="ControlCompras" 
           component={ControlCompras} 
-          options={{ 
-            title: 'Control de Compras',
-            headerStyle: { backgroundColor: '#2435f0' },
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
         <Stack.Screen 
           name="Proveedores" 
           component={Proveedores} 
-          options={{ 
-            title: 'Proveedores',
-            headerStyle: { backgroundColor: '#2435f0' },
-            headerTintColor: '#fff',
-          }}
+          options={{ headerShown: false }}
         />
+
+        <Stack.Screen 
+          name="Ventas" 
+          component={Ventas} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="ControlVentas" 
+          component={ControlVentas} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="Clientes" 
+          component={Clientes} 
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen 
+          name="Sucursales" 
+          component={Sucursales} 
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen 
+          name="Almacenes" 
+          component={Almacenes} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="AjustesInventario" 
+          component={AjustesInventario} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="AlmacenesInfo" 
+          component={AlmacenesInfo} 
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen 
+          name="ExistenciasAlmacen" 
+          component={ExistenciasAlmacen} 
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen 
+          name="ListaDePrecios" 
+          component={ListaDePrecios} 
+          options={{ headerShown: false }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

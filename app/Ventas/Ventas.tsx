@@ -9,48 +9,54 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.navigation}>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("1")}
+        onPress={() => navigation.navigate("Dashboard")}
       >
         <Text>D</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("2")}
+        onPress={() => navigation.navigate("Compras")}
       >
         <Text>C</Text></TouchableHighlight>
+
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("3")}
+        style={styles.navIconsS}
       >
         <Text>V</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("4")} 
+        onPress={() => navigation.navigate("Sucursales")} 
       >
         <Text>S</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("5")} 
+        onPress={() => navigation.navigate("Almacenes")} 
       >
         <Text>A</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        onPress={() => navigation.navigate("ListaDePrecios")} 
       >
         <Text>$</Text></TouchableHighlight>
+
     </View>
       
         <View style={styles.space}>
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("María")}
+        onPress={() => navigation.navigate("Clientes")}
         style={styles.touch}>
           <Text style={styles.touchText}>Clientes</Text>
           </TouchableHighlight>
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => alert("pollo feo")}
+        onPress={() => navigation.navigate("ControlVentas")}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de ventas</Text>
           </TouchableHighlight>
@@ -71,8 +77,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
+    padding: 10, borderRadius: 50 ,
+  },
+  navIconsS:{
+    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
   },
   space: {
     flex: 1,

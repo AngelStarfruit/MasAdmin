@@ -23,28 +23,28 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("3")}
+        onPress={() => navigation.navigate("Ventas")}
       >
         <Text>V</Text></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("4")} 
+        onPress={() => navigation.navigate("Sucursales")} 
       >
         <Text>S</Text></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("5")} 
+        onPress={() => navigation.navigate("Almacenes")} 
       >
         <Text>A</Text></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        onPress={() => navigation.navigate("ListaDePrecios")} 
       >
         <Text>$</Text></TouchableHighlight>
-        
+
     </View>
       
         <View style={styles.space}>

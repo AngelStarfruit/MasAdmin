@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import type { ListaDePreciosScreenProps } from './types';
 
-export default function ListaDePrecios() {
+export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
 
   const [selectedValue, setSelectedValue] = useState('A');
 
@@ -12,44 +13,43 @@ export default function ListaDePrecios() {
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-    <View style={{paddingLeft: 10}}>
-      <Text style={{
-        fontSize:40,
-        fontWeight: 'bold',
-        color: '#2435f0',
-      }}>MasAdmin</Text>
-    </View>
       <View style={styles.navigation}>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("1")}
+        onPress={() => navigation.navigate("Dashboard")}
       >
         <Text>D</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("2")}
+        onPress={() => navigation.navigate("Compras")}
       >
         <Text>C</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("3")}
+        onPress={() => navigation.navigate("Ventas")}
       >
         <Text>V</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("4")} 
+        onPress={() => navigation.navigate("Sucursales")} 
       >
         <Text>S</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("5")} 
+        onPress={() => navigation.navigate("Almacenes")} 
       >
         <Text>A</Text></TouchableHighlight>
+
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        style={styles.navIconsS} 
       >
         <Text>$</Text></TouchableHighlight>
+
     </View>
 
       <ScrollView>
@@ -114,8 +114,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
+    padding: 10, borderRadius: 50 ,
+  },
+  navIconsS:{
+    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
   },
   scroll: {
     flex: 1,

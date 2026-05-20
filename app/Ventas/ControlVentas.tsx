@@ -12,17 +12,10 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-    <View style={{paddingLeft: 10}}>
-      <Text style={{
-        fontSize:40,
-        fontWeight: 'bold',
-        color: '#2435f0',
-      }}>MasAdmin</Text>
-    </View>
       <View style={styles.navigation}>
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("6")} 
+        onPress={() => navigation.navigate("Ventas")} 
       >
         <Text>B</Text></TouchableHighlight>
     </View>
@@ -76,6 +69,7 @@ const styles = StyleSheet.create({
   navIcons:{
     padding: 10, 
     borderRadius: 50 ,
+    marginTop: 20,
   },
   scroll: {
     flex: 1,
