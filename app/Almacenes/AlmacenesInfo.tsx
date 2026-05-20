@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import type { AlmacenesInfoScreenProps } from './types';
 
-export default function AlmacenesInfo() {
+export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
 
   const [selectedValue, setSelectedValue] = useState('hoy');
 

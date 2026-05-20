@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import type { AjustesInventarioScreenProps } from './types';
 
-export default function AjustesInventario() {
+export default function AjustesInventario({ navigation }: AjustesInventarioScreenProps ) {
 
   return (
     <View style={styles.container}>

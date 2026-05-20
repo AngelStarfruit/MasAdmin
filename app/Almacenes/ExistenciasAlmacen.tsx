@@ -2,8 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import type { ExistenciasAlmacenScreenProps } from './types';
 
-export default function ExistenciasAlmacen() {
+export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
   const [selectedValue, setSelectedValue] = useState('hoy');
 

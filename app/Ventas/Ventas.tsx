@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
+import type { VentasScreenProps } from './types';
 
-export default function Ventas() {
+export default function Ventas({ navigation }: VentasScreenProps ) {
 
   return (
     <View style={styles.container}>

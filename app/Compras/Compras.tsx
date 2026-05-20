@@ -9,36 +9,42 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
     <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.navigation}>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("1")}
+        onPress={() => navigation.navigate("Dashboard")}
       >
         <Text>D</Text></TouchableHighlight>
+
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("2")}
+        style={styles.navIconsS}
       >
         <Text>C</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("3")}
       >
         <Text>V</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("4")} 
       >
         <Text>S</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("5")} 
       >
         <Text>A</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("6")} 
       >
         <Text>$</Text></TouchableHighlight>
+        
     </View>
       
         <View style={styles.space}>
@@ -71,8 +77,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
+    padding: 10, borderRadius: 50 ,
+  },
+  navIconsS:{
+    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
   },
   space: {
     flex: 1,

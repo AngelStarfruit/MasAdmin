@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import type { DashboardScreenProps } from './types';
 
-export default function Dashboard() {
+export default function Dashboard({navigation}: DashboardScreenProps ) {
 
   const [selectedValue, setSelectedValue] = useState('hoy');
 
@@ -20,36 +21,42 @@ export default function Dashboard() {
       }}>MasAdmin</Text>
     </View>
       <View style={styles.navigation}>
+
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("1")}
+        style={styles.navIconsS}
       >
         <Text>D</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => alert("2")}
+        onPress={() => navigation.navigate("Compras")}
       >
         <Text>C</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("3")}
       >
         <Text>V</Text></TouchableHighlight>
+
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("4")} 
       >
         <Text>S</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("5")} 
       >
         <Text>A</Text></TouchableHighlight>
+
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => alert("6")} 
       >
         <Text>$</Text></TouchableHighlight>
+        
     </View>
 
       <ScrollView>
@@ -133,8 +140,10 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
+    padding: 10, borderRadius: 50 ,
+  },
+  navIconsS:{
+    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
   },
   scroll: {
     flex: 1,

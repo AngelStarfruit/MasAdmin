@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
+import { AlmacenesScreenProps } from './types';
 
-export default function Almacenes() {
+export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
 
   return (
     <View style={styles.container}>
