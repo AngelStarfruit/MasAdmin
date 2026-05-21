@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput} from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 
@@ -25,12 +25,16 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Proveedores
         </Text>
-        <TouchableHighlight 
-        underlayColor={'#f0f1ff'}
-        onPress={() => alert("add")}
-        style={styles.add}>
-            <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
-          </TouchableHighlight>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableHighlight
+                underlayColor={'#f0f1ff'}
+                onPress={() => alert("add")}
+                style={styles.add}>
+                    <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
+                  </TouchableHighlight>
+                  <TextInput style={styles.query}
+                  placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  </View>
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -92,10 +96,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   add: {
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
     width: 150,
     marginTop: 10,
     padding: 10
+  },
+  query: {
+    backgroundColor: 'white', color: 'black',
+    borderWidth: 1, borderColor: 'black', 
+    height: 40, width: 150,
+    marginTop: 10,
   },
   //Tabla estilos
   table: {

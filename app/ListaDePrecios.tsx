@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
     backgroundColor: 'white',
+    color: 'black',
   },
   pickerItem: {
     fontSize: 16,

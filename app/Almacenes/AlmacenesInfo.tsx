@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AlmacenesInfoScreenProps } from './types';
@@ -27,12 +27,16 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Almacenes
         </Text>
-        <TouchableHighlight 
-        underlayColor={'#f0f1ff'}
-        onPress={() => alert("add")}
-        style={styles.add}>
-            <Text style={{fontWeight: 'bold'}}>Añadir almacen</Text>
-          </TouchableHighlight>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <TouchableHighlight
+                underlayColor={'#f0f1ff'}
+                onPress={() => alert("add")}
+                style={styles.add}>
+                    <Text style={{fontWeight: 'bold'}}>Añadir almacen</Text>
+                  </TouchableHighlight>
+                  <TextInput style={styles.query}
+                  placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  </View>
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -85,11 +89,17 @@ const styles = StyleSheet.create({
     paddingVertical: 40, marginVertical: 10,
     borderRadius: 10,
   },
-  add: {
-    backgroundColor: 'white',
-    width: 125,
+   add: {
+    backgroundColor: '#eee',
+    height: 40, width: 150,
     marginTop: 10,
     padding: 10
+  },
+  query: {
+    backgroundColor: 'white', color: 'black', 
+    borderWidth: 1, borderColor: 'black', 
+    height: 40, width: 150,
+    marginTop: 10,
   },
   //Tabla estilos
   table: {

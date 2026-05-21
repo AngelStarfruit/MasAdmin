@@ -165,8 +165,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   hr:{
-    height: 1, 
-    backgroundColor: '#bbb', 
+    height: 2, 
+    backgroundColor: '#777', 
     marginVertical: 8,
   },
   //Tabla estilos

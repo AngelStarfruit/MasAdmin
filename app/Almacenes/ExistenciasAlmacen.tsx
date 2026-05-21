@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
@@ -8,7 +9,7 @@ import B from '../../assets/B.png';
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
-  const [selectedValue, setSelectedValue] = useState('hoy');
+  const [selectedValue, setSelectedValue] = useState('A');
 
   return (
     <View style={styles.container}>
@@ -27,6 +28,18 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Existencias por almacen
         </Text>
+        <Text style={{ 
+          fontSize: 20, 
+          paddingVertical: 10,}}>
+          Inserte un almacen para ver sus existencias
+          </Text>
+          <Picker
+              selectedValue={selectedValue}
+              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              style={styles.picker} itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="A" value="A" />
+          </Picker>
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -105,4 +118,15 @@ const styles = StyleSheet.create({
   },
   headerText: {fontWeight: 'bold',},
   //---------------
+  picker: {
+    height: 50,
+    marginLeft: 10,
+    flex: 1,
+    backgroundColor: '#eee',
+    color: 'black',
+  },
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

@@ -1,28 +1,30 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { lazy, Suspense } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
-import Compras from './app/Compras/Compras';
-import ControlCompras from './app/Compras/ControlCompras';
-import Proveedores from './app/Compras/Proveedores';
+const Compras = lazy(() => import('./app/Compras/Compras'));
+const ControlCompras = lazy(() => import('./app/Compras/ControlCompras'));
+const Proveedores = lazy(() => import('./app/Compras/Proveedores'));
 
-import Ventas from './app/Ventas/Ventas';
-import Clientes from './app/Ventas/Clientes';
-import ControlVentas from './app/Ventas/ControlVentas';
+const Ventas = lazy(() => import('./app/Ventas/Ventas'));
+const Clientes = lazy(() => import('./app/Ventas/Clientes'));
+const ControlVentas = lazy(() => import('./app/Ventas/ControlVentas'));
 
-import Almacenes from './app/Almacenes/Almacenes';
-import AjustesInventario from './app/Almacenes/AjustesInventario';
-import AlmacenesInfo from './app/Almacenes/AlmacenesInfo';
-import ExistenciasAlmacen from './app/Almacenes/ExistenciasAlmacen';
+const Almacenes = lazy(() => import('./app/Almacenes/Almacenes'));
+const AjustesInventario = lazy(() => import('./app/Almacenes/AjustesInventario'));
+const AlmacenesInfo = lazy(() => import('./app/Almacenes/AlmacenesInfo'));
+const ExistenciasAlmacen = lazy(() => import('./app/Almacenes/ExistenciasAlmacen'));
 
-import Dashboard from './app/Dashboard';
+const Dashboard = lazy(() => import('./app/Dashboard'));
 
-import ListaDePrecios from './app/ListaDePrecios';
+const ListaDePrecios = lazy(() => import('./app/ListaDePrecios'));
 
-import Sucursales from './app/Sucursales';
+const Sucursales = lazy(() => import('./app/Sucursales'));
 
-import home from './app/home';
-import register from './app/register';
-import signup from './app/signup';
+const home = lazy(() => import('./app/home'));
+const signup = lazy(() => import('./app/signup'));
+const register = lazy(() => import('./app/register'));
 
 export type RootStackParamList = {
   Compras: undefined;
@@ -51,83 +53,71 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+function LoadingScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ActivityIndicator size="large" color="#2435f0" />
+    </View>
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Dashboard">
+      <Suspense fallback={<LoadingScreen />}>
+        <Stack.Navigator initialRouteName="Dashboard"
+          screenOptions={{
+            headerShown: false,
+            animation: 'fade',
+          }}>
 
-        <Stack.Screen 
-          name="Dashboard" 
-          component={Dashboard} 
-          options={{ headerShown: false }}
-        />
+          <Stack.Screen 
+            name="Dashboard"
+            component={Dashboard}/>
 
-        <Stack.Screen 
+          <Stack.Screen 
           name="Compras" 
-          component={Compras} 
-          options={{ headerShown: false }}
-        />
+          component={Compras} />
         <Stack.Screen 
           name="ControlCompras" 
-          component={ControlCompras} 
-          options={{ headerShown: false }}
-        />
+          component={ControlCompras}/>
         <Stack.Screen 
           name="Proveedores" 
-          component={Proveedores} 
-          options={{ headerShown: false }}
-        />
+          component={Proveedores}/>
 
         <Stack.Screen 
           name="Ventas" 
-          component={Ventas} 
-          options={{ headerShown: false }}
-        />
+          component={Ventas}/>
         <Stack.Screen 
           name="ControlVentas" 
-          component={ControlVentas} 
-          options={{ headerShown: false }}
-        />
+          component={ControlVentas}/>
         <Stack.Screen 
           name="Clientes" 
-          component={Clientes} 
-          options={{ headerShown: false }}
-        />
+          component={Clientes}/>
 
         <Stack.Screen 
           name="Sucursales" 
-          component={Sucursales} 
-          options={{ headerShown: false }}
-        />
+          component={Sucursales}/>
 
         <Stack.Screen 
           name="Almacenes" 
-          component={Almacenes} 
-          options={{ headerShown: false }}
-        />
+          component={Almacenes}/>
         <Stack.Screen 
           name="AjustesInventario" 
-          component={AjustesInventario} 
-          options={{ headerShown: false }}
-        />
+          component={AjustesInventario}/>
         <Stack.Screen 
           name="AlmacenesInfo" 
-          component={AlmacenesInfo} 
-          options={{ headerShown: false }}
-        />
+          component={AlmacenesInfo}/>
         <Stack.Screen 
           name="ExistenciasAlmacen" 
-          component={ExistenciasAlmacen} 
-          options={{ headerShown: false }}
-        />
+          component={ExistenciasAlmacen}/>
 
         <Stack.Screen 
           name="ListaDePrecios" 
-          component={ListaDePrecios} 
-          options={{ headerShown: false }}
-        />
+          component={ListaDePrecios}/>
 
-      </Stack.Navigator>
+        </Stack.Navigator>
+      </Suspense>
     </NavigationContainer>
   );
 }
