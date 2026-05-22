@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 
-import B from '../../assets/B.png';
+import B from '../../assets/B.png'; import lupa from '../../assets/lupa.png';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
@@ -22,19 +22,36 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
       <ScrollView>
         <View style={styles.scroll}>
+
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Proveedores
         </Text>
+
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione la empresa de un proveedor en la tabla para modificar sus datos.
+          </Text>
+
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
-                underlayColor={'#f0f1ff'}
+                underlayColor={'#ddd'}
                 onPress={() => alert("add")}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
                   </TouchableHighlight>
+                  <View style={{flexDirection: 'row'}}>
                   <TextInput style={styles.query}
                   placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  <TouchableHighlight
+                  underlayColor={'#ddd'}
+                  onPress={() => alert("search")}
+                  style={{...styles.add, width: 40, padding: 10}}>
+                  <Image source={lupa} style={styles.lupaImage}/>
+                  </TouchableHighlight>
                   </View>
+                  </View>
+
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -51,7 +68,13 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cellF}><Text>LALA</Text></View>
+                        <View style={styles.cellF}>
+                        <TouchableHighlight
+                        underlayColor={'#ddd'}
+                        onPress={() => alert("edit")}>
+                        <Text>LALA</Text>
+                        </TouchableHighlight>
+                        </View> 
                       <View style={styles.cell}><Text>123-456-7890</Text></View>
                       <View style={styles.cell}><Text>Tampico</Text></View>
                       <View style={styles.cell}><Text>Tamaulipas</Text></View>
@@ -82,6 +105,9 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
+  lupaImage: {
+    width: 15, height: 15,
+  },
   scroll: {
     flex: 1,
     backgroundColor: 'white',
@@ -104,7 +130,7 @@ const styles = StyleSheet.create({
   query: {
     backgroundColor: 'white', color: 'black',
     borderWidth: 1, borderColor: 'black', 
-    height: 40, width: 150,
+    height: 40, width: 120,
     marginTop: 10,
   },
   //Tabla estilos

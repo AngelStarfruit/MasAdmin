@@ -67,9 +67,10 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           Lista de precios
         </Text>
         <Text style={{ 
-          fontSize: 20, 
+          fontSize: 15, 
           paddingVertical: 10,}}>
-          Inserte un grupo de productos
+          Inserte un grupo de productos. 
+          Seleccione la descripción de un producto en la tabla para modificar sus datos.
           </Text>
           <Picker
               selectedValue={selectedValue}
@@ -97,7 +98,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           </View>
                       </View>
                       <View style={styles.row}>
-                        <View style={styles.cellF}><Text>Jabón</Text></View>
+                        <View style={styles.cellF}>
+                        <TouchableHighlight
+                        underlayColor={'#ddd'}
+                        onPress={() => alert("edit")}>
+                        <Text>Jabón</Text>
+                        </TouchableHighlight>
+                        </View> 
                         <View style={styles.cell}><Text>ZOTE</Text></View>
                         <View style={styles.cell}><Text>$29.99</Text></View>
                 </View>
@@ -134,7 +141,7 @@ const styles = StyleSheet.create({
   },
   add: {
     backgroundColor: 'white',
-    width: 125,
+    width: 150,
     marginTop: 10,
     padding: 10
   },

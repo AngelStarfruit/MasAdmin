@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import { ClientesScreenProps } from './types';
 
-import B from '../../assets/B.png';
+import B from '../../assets/B.png'; import lupa from '../../assets/lupa.png';
 
 export default function Clientes({ navigation }: ClientesScreenProps ) {
 
@@ -27,16 +27,32 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Clientes
         </Text>
+
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione el nombre de un cliente en la tabla para modificar sus datos.
+          </Text>
+
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
-                underlayColor={'#f0f1ff'}
+                underlayColor={'#ddd'}
                 onPress={() => alert("add")}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir cliente</Text>
                   </TouchableHighlight>
-                  <TextInput style={styles.query}
-                  placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  <View style={{flexDirection: 'row'}}>
+                      <TextInput style={styles.query}
+                      placeholder="Buscar" placeholderTextColor="#aaa"/>
+                      <TouchableHighlight
+                      underlayColor={'#ddd'}
+                      onPress={() => alert("search")}
+                      style={{...styles.add, width: 40, padding: 10}}>
+                      <Image source={lupa} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                      </View>
                   </View>
+
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -53,7 +69,13 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cellF}><Text>Javier Rivera</Text></View>
+                      <View style={styles.cellF}>
+                          <TouchableHighlight
+                          underlayColor={'#ddd'}
+                          onPress={() => alert("edit")}>
+                          <Text>Javier Rivera</Text>
+                          </TouchableHighlight>
+                          </View> 
                       <View style={styles.cell}><Text>833-456-7890</Text></View>
                       <View style={styles.cell}><Text>Tampico</Text></View>
                       <View style={styles.cell}><Text>Tamaulipas</Text></View>
@@ -84,6 +106,9 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
+  lupaImage: {
+    width: 15, height: 15,
+  },
   scroll: {
     flex: 1,
     backgroundColor: 'white',
@@ -106,7 +131,7 @@ const styles = StyleSheet.create({
   query: {
     backgroundColor: 'white', color: 'black',
     borderWidth: 1, borderColor: 'black', 
-    height: 40, width: 150,
+    height: 40, width: 120,
     marginTop: 10,
   },
   //Tabla estilos

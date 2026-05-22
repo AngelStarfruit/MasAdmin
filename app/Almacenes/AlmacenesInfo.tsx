@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AlmacenesInfoScreenProps } from './types';
 
-import B from '../../assets/B.png';
+import B from '../../assets/B.png'; import lupa from '../../assets/lupa.png';
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
 
@@ -27,16 +27,32 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Almacenes
         </Text>
+
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione el nombre de un almacen en la tabla para modificar sus datos.
+          </Text>
+
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
-                underlayColor={'#f0f1ff'}
+                underlayColor={'#ddd'}
                 onPress={() => alert("add")}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir almacen</Text>
                   </TouchableHighlight>
-                  <TextInput style={styles.query}
-                  placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  <View style={{flexDirection: 'row'}}>
+                    <TextInput style={styles.query}
+                    placeholder="Buscar" placeholderTextColor="#aaa"/>
+                    <TouchableHighlight
+                    underlayColor={'#ddd'}
+                    onPress={() => alert("search")}
+                    style={{...styles.add, width: 40, padding: 10}}>
+                    <Image source={lupa} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                      </View>
                   </View>
+
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -47,7 +63,13 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cellF}><Text>Objetos</Text></View>
+                      <View style={styles.cellF}>
+                          <TouchableHighlight
+                          underlayColor={'#ddd'}
+                          onPress={() => alert("edit")}>
+                          <Text>Objetos</Text>
+                          </TouchableHighlight>
+                          </View> 
                       <View style={styles.cell}><Text>Altama</Text></View>
                 </View>
           </View>
@@ -75,6 +97,9 @@ const styles = StyleSheet.create({
   },
   navIconImage: {
     width: 20, height: 20,
+  },
+  lupaImage: {
+    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

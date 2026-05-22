@@ -26,7 +26,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
         Ajustes de inventario
         </Text>
         <TouchableHighlight 
-                underlayColor={'#f0f1ff'}
+                underlayColor={'#ddd'}
                 onPress={() => alert("add")}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Realizar ajuste</Text>

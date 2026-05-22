@@ -12,7 +12,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={"#ddd"} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
             <Image source={B} style={styles.navIconImage}/>
@@ -24,12 +24,14 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Control compras
         </Text>
+
         <TouchableHighlight 
         underlayColor={'#f0f1ff'}
         onPress={() => alert("add")}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir registro de compra</Text>
           </TouchableHighlight>
+
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   add: {
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
     width: 200,
     marginTop: 10,
     padding: 10,

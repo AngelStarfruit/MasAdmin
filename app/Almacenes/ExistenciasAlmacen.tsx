@@ -29,7 +29,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
         Existencias por almacen
         </Text>
         <Text style={{ 
-          fontSize: 20, 
+          fontSize: 15, 
           paddingVertical: 10,}}>
           Inserte un almacen para ver sus existencias
           </Text>

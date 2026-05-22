@@ -6,6 +6,7 @@ import type { SucursalesScreenProps } from './types';
 
 import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
 import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
+import lupa from '../assets/lupa.png';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
@@ -59,6 +60,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
         Sucursales
         </Text>
+
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione el nombre de una sucursal en la tabla para modificar sus datos.
+          </Text>
+
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
         underlayColor={'#f0f1ff'}
@@ -66,9 +74,18 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
           </TouchableHighlight>
-          <TextInput style={styles.query}
-          placeholder="Buscar" placeholderTextColor="#aaa"/>
+            <View style={{flexDirection: 'row'}}>
+            <TextInput style={styles.query}
+            placeholder="Buscar" placeholderTextColor="#aaa"/>
+            <TouchableHighlight
+            underlayColor={'#f0f1ff'}
+            onPress={() => alert("search")}
+            style={{...styles.add, width: 40, padding: 10}}>
+            <Image source={lupa} style={styles.lupaImage}/>
+            </TouchableHighlight>
+            </View>
           </View>
+          
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -79,7 +96,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       </View>
                   </View>
                       <View style={styles.row}>
-                      <View style={styles.cellF}><Text>Altama</Text></View>
+                        <View style={styles.cellF}>
+                        <TouchableHighlight
+                        underlayColor={'#ddd'}
+                        onPress={() => alert("edit")}>
+                        <Text>Altama</Text>
+                        </TouchableHighlight>
+                        </View> 
                       <View style={styles.cell}><Text>123-456-7890</Text></View>
                 </View>
           </View>
@@ -109,6 +132,9 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
+  lupaImage: {
+    width: 15, height: 15,
+  },
   scroll: {
     flex: 1,
     backgroundColor: '#eee',
@@ -131,7 +157,7 @@ const styles = StyleSheet.create({
   query: {
     backgroundColor: 'white', color: 'black', 
     borderWidth: 1, borderColor: 'black', 
-    height: 40, width: 150,
+    height: 40, width: 120,
     marginTop: 10,
   },
   //Tabla estilos
