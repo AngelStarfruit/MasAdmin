@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { SucursalesScreenProps } from './types';
@@ -7,10 +7,13 @@ import type { SucursalesScreenProps } from './types';
 import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
 import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
 import lupa from '../assets/lupa.png';
+import x from '../assets/x.png';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
-  const [selectedValue, setSelectedValue] = useState('hoy');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [EmodalVisible, setEModalVisible] = useState(false);
+  const [Confirm, setConfirm] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -55,6 +58,148 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
     </View>
 
+    {/* Modal para añadir proveedores */}
+            <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    alert('Modal has been closed.');
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <View style={styles.modalOverlay}>
+                  <View style={styles.modalView}>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <TouchableHighlight
+                      underlayColor={'#ccc'}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <Image source={x} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                    </View>
+        
+                    <View>
+                      <Text style={styles.modalTitle}>Añadir sucursal</Text>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Sucursal:</Text>
+                      <TextInput style={{...styles.query, width: 150}}/>
+                    </View>
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Teléfono:</Text>
+                      <TextInput style={{...styles.query, width: 150}}/>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                      <TouchableHighlight
+                      underlayColor={'#82ff92'} style={styles.modalConfirm}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text>Añadir registro</Text>
+                      </TouchableHighlight>
+                    </View>
+        
+                  </View>
+                  </View>
+                </Modal>
+        
+              {/* Modal para editar proveedores */}
+            <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={EmodalVisible}
+                  onRequestClose={() => {
+                    alert('Modal has been closed.');
+                    setEModalVisible(!EmodalVisible);
+                  }}>
+                  <View style={styles.modalOverlay}>
+                  <View style={styles.modalView}>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <TouchableHighlight
+                      underlayColor={'#ccc'}
+                      onPress={() => setEModalVisible(!EmodalVisible)}>
+                      <Image source={x} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                    </View>
+        
+                    <View>
+                      <Text style={styles.modalTitle}>Editar sucursal</Text>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Sucursal:</Text>
+                      <TextInput style={{...styles.query, width: 150}}/>
+                    </View>
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Teléfono:</Text>
+                      <TextInput style={{...styles.query, width: 150}}/>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                      <TouchableHighlight
+                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                        onPress={() => setEModalVisible(!EmodalVisible)}>
+                        <Text>Editar registro</Text>
+                      </TouchableHighlight>
+                      <TouchableHighlight
+                      underlayColor={'#ff9797'} style={styles.modalDelete}
+                        onPress={() => setConfirm(true)}>
+                        <Text>Borrar registro</Text>
+                      </TouchableHighlight>
+                    </View>
+        
+                  </View>
+                  </View>
+                </Modal>
+              
+            {/* Modal para confirmar borrado */}
+                        <Modal
+                              animationType="slide"
+                              transparent={true}
+                              visible={Confirm}
+                              onRequestClose={() => {
+                                alert('Modal has been closed.');
+                                setConfirm(!Confirm);
+                              }}>
+                              <View style={styles.modalOverlay}>
+                              <View style={[styles.modalView, {marginVertical: 375}]}>
+                    
+                                <View>
+                                  <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
+                                </View>
+                    
+                                <View style={styles.hr}/>
+                    
+                                <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                                  <TouchableHighlight
+                                  underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                    onPress={() => setConfirm(!Confirm)}>
+                                    <Text>NO</Text>
+                                  </TouchableHighlight>
+                                  <TouchableHighlight
+                                  underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                    onPress={() => {
+                                      setConfirm(!Confirm);
+                                      setEModalVisible(!EmodalVisible);
+                                    }}>
+                                    <Text>SÍ</Text>
+                                  </TouchableHighlight>
+                                </View>
+                    
+                              </View>
+                              </View>
+                            </Modal>
+
+    {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
@@ -70,7 +215,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
         underlayColor={'#f0f1ff'}
-        onPress={() => alert("add")}
+        onPress={() => setModalVisible(true)}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
           </TouchableHighlight>
@@ -99,7 +244,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
-                        onPress={() => alert("edit")}>
+                        onPress={() => setEModalVisible(true)}>
                         <Text>Altama</Text>
                         </TouchableHighlight>
                         </View> 
@@ -182,5 +327,64 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
   },
   headerText: {fontWeight: 'bold',},
-  //---------------
+  //Modal estilos
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  modalView: {
+    marginHorizontal: 30, marginVertical: 300,
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 30, fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+   hr:{
+    height: 2, 
+    backgroundColor: '#bbb', 
+    marginBottom: 15,
+  },
+  modalRow:{
+    flexDirection: 'row', 
+    justifyContent: 'space-evenly', 
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  modalLabel:{
+    fontSize: 20, fontWeight: 'bold',
+  },
+  modalConfirm: {
+    backgroundColor: '#62ff77',
+    padding: 10,
+    borderRadius: 15,
+    width: 130,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalEdit: {
+    backgroundColor: '#f3fe53',
+    padding: 10,
+    borderRadius: 15,
+    width: 135,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalDelete: {
+    backgroundColor: '#ff8787',
+    padding: 10,
+    borderRadius: 15,
+    width: 135,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalRegret: {
+    backgroundColor: '#ccc',
+    padding: 10,
+    borderRadius: 15,
+    width: 130,
+    justifyContent: 'center', alignItems: 'center',
+  },
 });
