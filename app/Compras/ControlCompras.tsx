@@ -1,11 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } from 'react-native';
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
+import { useState } from 'react';
 
 import B from '../../assets/B.png';
+import x from '../../assets/x.png';
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
+
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -19,6 +24,35 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
           </TouchableHighlight>
         </View>
 
+      {/* Modal para realizar registros*/}
+          <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  alert('Modal has been closed.');
+                  setModalVisible(!modalVisible);
+                }}>
+                <View style={styles.modalOverlay}>
+                <View style={styles.modalView}>
+      
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <TouchableHighlight
+                    underlayColor={'#ccc'}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Image source={x} style={styles.lupaImage}/>
+                    </TouchableHighlight>
+                  </View>
+      
+                  <View>
+                    <Text style={styles.modalTitle}>Registrar compra</Text>
+                  </View>
+      
+                </View>
+                </View>
+              </Modal>
+
+      {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
@@ -27,7 +61,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
 
         <TouchableHighlight 
         underlayColor={'#f0f1ff'}
-        onPress={() => alert("add")}
+        onPress={() => setModalVisible(true)}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir registro de compra</Text>
           </TouchableHighlight>
@@ -75,6 +109,9 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
+  lupaImage: {
+    width: 15, height: 15,
+  },
   scroll: {
     flex: 1,
     backgroundColor: 'white',
@@ -111,5 +148,43 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerText: {fontWeight: 'bold',},
-  //---------------
+  //Modal estilos
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  modalView: {
+    marginHorizontal: 30, marginVertical: 30,
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 30, fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+   hr:{
+    height: 2, 
+    backgroundColor: '#bbb', 
+    marginBottom: 15,
+  },
+  modalRow:{
+    flexDirection: 'row', 
+    justifyContent: 'space-evenly', 
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  modalLabel:{
+    fontSize: 20, fontWeight: 'bold',
+  },
+  modalConfirm: {
+    backgroundColor: '#62ff77',
+    padding: 10,
+    borderRadius: 15,
+    width: 130,
+    justifyContent: 'center', alignItems: 'center',
+  },
 });
