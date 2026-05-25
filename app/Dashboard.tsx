@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
@@ -8,14 +8,107 @@ import type { DashboardScreenProps } from './types';
 import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
 import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
 
+import x from '../assets/x.png';
+import config from '../assets/config.png';
+
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
   const [selectedValue, setSelectedValue] = useState('hoy');
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [Confirm, setConfirm] = useState(false);
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
 
+    {/* Modal configuración */}
+                <Modal
+                      animationType="slide"
+                      transparent={true}
+                      visible={modalVisible}
+                      onRequestClose={() => {
+                        alert('Modal has been closed.');
+                        setModalVisible(!modalVisible);
+                      }}>
+                      <View style={styles.modalOverlay}>
+                      <View style={styles.modalView}>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                          <TouchableHighlight
+                          underlayColor={'#ccc'}
+                          onPress={() => setModalVisible(!modalVisible)}>
+                          <Image source={x} style={styles.lupaImage}/>
+                          </TouchableHighlight>
+                        </View>
+            
+                        <View>
+                          <Text style={styles.modalTitle}>Configuración</Text>
+                        </View>
+            
+                        <View style={styles.modalhr}/>
+            
+                        <View style={styles.modalRow}>
+                          <TouchableHighlight
+                          underlayColor={'#cbcffe'} style={styles.modalOption}
+                          onPress={() => alert("Funcionalidad en desarrollo")}
+                          >
+                            <Text>Mi cuenta</Text>
+                          </TouchableHighlight>
+                        </View>
+                        <View style={styles.modalRow}>
+                          <TouchableHighlight
+                          underlayColor={'#cbcffe'} style={styles.modalOption}
+                          onPress={() => setConfirm(true)}
+                          >
+                            <Text>Cerrar sesión</Text>
+                          </TouchableHighlight>
+                        </View>
+            
+                      </View>
+                      </View>
+                    </Modal>
+
+    {/* Modal para confirmar cerrado de sesión */}
+                            <Modal
+                                  animationType="slide"
+                                  transparent={true}
+                                  visible={Confirm}
+                                  onRequestClose={() => {
+                                    alert('Modal has been closed.');
+                                    setConfirm(!Confirm);
+                                  }}>
+                                  <View style={styles.modalOverlay}>
+                                  <View style={[styles.modalView, {marginVertical: 375}]}>
+                        
+                                    <View>
+                                      <Text style={styles.modalTitle}>¿Cerrar sesión?</Text>
+                                    </View>
+                        
+                                    <View style={styles.modalhr}/>
+                        
+                                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                                      <TouchableHighlight
+                                      underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        onPress={() => setConfirm(!Confirm)}>
+                                        <Text>NO</Text>
+                                      </TouchableHighlight>
+                                      <TouchableHighlight
+                                      underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                        onPress={() => {
+                                          setConfirm(!Confirm);
+                                          navigation.navigate("home");
+                                        }}>
+                                        <Text>SÍ</Text>
+                                      </TouchableHighlight>
+                                    </View>
+                        
+                                  </View>
+                                  </View>
+                                </Modal>
+
+    {/* Pantalla */}
+    <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
     <View style={{paddingLeft: 10}}>
       <Text style={{
         fontSize:40,
@@ -23,8 +116,16 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         color: '#2435f0',
       }}>MasAdmin</Text>
     </View>
-      <View style={styles.navigation}>
+    <TouchableHighlight
+    underlayColor={"#ddf"}
+      onPress={() => setModalVisible(true)}
+      style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}
+    >
+      <Image source={config} style={{width: 30, height: 30, marginLeft: 'auto', marginRight: 20}}/>
+    </TouchableHighlight>
+    </View>
 
+      <View style={styles.navigation}>
       <TouchableHighlight
         style={styles.navIconsS}
       >
@@ -151,6 +252,9 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
+  lupaImage: {
+    width: 15, height: 15,
+  },
   scroll: {
     flex: 1,
     backgroundColor: '#eee',
@@ -193,5 +297,65 @@ const styles = StyleSheet.create({
   pickerItem: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  //Modal estilos
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  modalView: {
+    marginHorizontal: 30, marginVertical: 340,
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 30, fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  modalhr:{
+    height: 2, 
+    backgroundColor: '#bbb', 
+    marginBottom: 15,
+  },
+  modalRow:{
+    flexDirection: 'row', 
+    justifyContent: 'space-evenly', 
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  modalLabel:{
+    fontSize: 20, fontWeight: 'bold',
+  },
+  modalOption: {
+    backgroundColor: '#bdc2ff',
+    padding: 10,
+    borderRadius: 15,
+    width: 200,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalConfirm: {
+    backgroundColor: '#62ff77',
+    padding: 10,
+    borderRadius: 15,
+    width: 135,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalDelete: {
+    backgroundColor: '#ff8787',
+    padding: 10,
+    borderRadius: 15,
+    width: 135,
+    justifyContent: 'center', alignItems: 'center',
+  },
+  modalRegret: {
+    backgroundColor: '#ccc',
+    padding: 10,
+    borderRadius: 15,
+    width: 130,
+    justifyContent: 'center', alignItems: 'center',
   },
 });

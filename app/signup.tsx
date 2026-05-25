@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput, Image} from 'react-native';
 import Constants from 'expo-constants';
+import type { signupScreenProps } from './types';
 
-export default function Dashboard() {
+import BL from '../assets/BL.png';
+
+export default function Dashboard({navigation}: signupScreenProps ) {
 
 
   return (
@@ -12,9 +15,10 @@ export default function Dashboard() {
       <View style={styles.navigation}>
         <TouchableHighlight
         underlayColor={"#414ff1"} style={styles.navButton}
-        onPress={() => alert("back")} 
+        onPress={() => navigation.navigate("home")} 
       >
-        <Text style={{color: 'white', fontWeight: 'bold'}}>B</Text></TouchableHighlight>
+        <Image source={BL} style={{ width: 20, height: 20 }} />
+      </TouchableHighlight>
     </View>
 
       <ScrollView>
@@ -39,13 +43,14 @@ export default function Dashboard() {
             <View style={styles.Card}>
                 <TouchableHighlight
                 underlayColor={"#ff9f9f"} style={styles.Button}
-                onPress={() => alert("Iniciar sesión")}
+                onPress={() => navigation.navigate("Dashboard")}
                 >
                     <Text style={styles.ButtonText}>Iniciar sesión</Text>
                 </TouchableHighlight>
                 <Text style={{textAlign: 'center', marginTop: 30}}
                 >¿Es nuevo?
-                    <Text style={styles.LinkText} onPress={() => alert("Iniciar sesión")}>Registrese</Text>
+                    <Text style={styles.LinkText} onPress={() => navigation.navigate("register")}>
+                      Registrese</Text>
                     </Text>
             </View>
             </View>

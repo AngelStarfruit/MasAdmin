@@ -1,8 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput, Image, Alert} from 'react-native';
 import Constants from 'expo-constants';
+import type { registerScreenProps } from './types';
 
-export default function Dashboard() {
+import BL from '../assets/BL.png';
+
+export default function Dashboard({navigation}: registerScreenProps ) {
 
 
   return (
@@ -12,9 +15,10 @@ export default function Dashboard() {
       <View style={styles.navigation}>
         <TouchableHighlight
         underlayColor={"#414ff1"} style={styles.navButton}
-        onPress={() => alert("back")} 
+        onPress={() => navigation.navigate("home")} 
       >
-        <Text style={{color: 'white', fontWeight: 'bold'}}>B</Text></TouchableHighlight>
+        <Image source={BL} style={{ width: 20, height: 20 }} />
+        </TouchableHighlight>
     </View>
 
       <ScrollView>
@@ -27,29 +31,40 @@ export default function Dashboard() {
                     Regístrese
                 </Text>
                 <View style={styles.Card}>
+                  <Text style={styles.CardText}>
+                    Nombre completo:
+                </Text>
+                <TextInput style={styles.input} />
+                <Text style={styles.CardText}>
+                    Teléfono:
+                </Text>
+                <TextInput style={styles.input} />
+                <Text style={styles.CardText}>
+                    Fecha de nacimiento:
+                </Text>
+                <TextInput style={styles.input} />
                 <Text style={styles.CardText}>
                     Email:
                 </Text>
-                <TextInput style={styles.input} placeholder="Ingrese su email" />
+                <TextInput style={styles.input} />
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
-                <TextInput style={styles.input} placeholder="Ingrese su contraseña" secureTextEntry />
-                <Text style={styles.CardText}>
-                    Nombre completo:
-                </Text>
-                <TextInput style={styles.input} placeholder="Ingrese su nombre completo" />
+                <TextInput style={styles.input} secureTextEntry />
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
                 underlayColor={"#ff9f9f"} style={styles.Button}
-                onPress={() => alert("Registrarse")}
+                onPress={() => {navigation.navigate("signup");
+                Alert.alert("Éxito", "Usuario registrado con exito")
+              }}
                 >
                     <Text style={styles.ButtonText}>Registrarse</Text>
                 </TouchableHighlight>
                 <Text style={{textAlign: 'center', marginTop: 30}}
                 >Ya tiene una cuenta? 
-                    <Text style={styles.LinkText} onPress={() => alert("Iniciar sesión")}>Iniciar sesión</Text>
+                    <Text style={styles.LinkText} onPress={() => navigation.navigate("signup")}>
+                      Iniciar sesión</Text>
                     </Text>
             </View>
             </View>
@@ -91,9 +106,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     paddingHorizontal: 30,
-    paddingVertical: 90,
   },
   box:{
+    marginVertical: 20,
     flex: 1,
     borderRadius: 20,
     backgroundColor: 'white',

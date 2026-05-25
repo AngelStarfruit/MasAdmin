@@ -55,7 +55,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function LoadingScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View>
       <ActivityIndicator size="large" color="#2435f0" />
     </View>
   );
@@ -65,11 +65,23 @@ export default function App() {
   return (
     <NavigationContainer>
       <Suspense fallback={<LoadingScreen />}>
-        <Stack.Navigator initialRouteName="Dashboard"
+        <Stack.Navigator initialRouteName="home"
           screenOptions={{
             headerShown: false,
             animation: 'fade',
           }}>
+
+         <Stack.Screen 
+            name="home"
+            component={home}/>
+
+          <Stack.Screen 
+            name="signup"
+            component={signup}/>
+          
+          <Stack.Screen 
+            name="register"
+            component={register}/>
 
           <Stack.Screen 
             name="Dashboard"
