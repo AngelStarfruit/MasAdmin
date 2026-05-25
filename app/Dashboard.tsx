@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
@@ -16,6 +16,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [selectedValue, setSelectedValue] = useState('hoy');
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [userModalVisible, setUserModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
 
   return (
@@ -28,7 +29,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       transparent={true}
                       visible={modalVisible}
                       onRequestClose={() => {
-                        alert('Modal has been closed.');
                         setModalVisible(!modalVisible);
                       }}>
                       <View style={styles.modalOverlay}>
@@ -51,8 +51,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         <View style={styles.modalRow}>
                           <TouchableHighlight
                           underlayColor={'#cbcffe'} style={styles.modalOption}
-                          onPress={() => alert("Funcionalidad en desarrollo")}
-                          >
+                          onPress={() => setUserModalVisible(true)}>
                             <Text>Mi cuenta</Text>
                           </TouchableHighlight>
                         </View>
@@ -68,6 +67,69 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       </View>
                       </View>
                     </Modal>
+    
+    {/* Modal Mi cuenta */}
+                <Modal
+                      animationType="slide"
+                      transparent={true}
+                      visible={userModalVisible}
+                      onRequestClose={() => {
+                        setUserModalVisible(!userModalVisible);
+                      }}>
+                      <View style={styles.modalOverlay}>
+                      <View style={[styles.modalView, { marginVertical: 150 }]}>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                          <TouchableHighlight
+                          underlayColor={'#ccc'}
+                          onPress={() => setUserModalVisible(!userModalVisible)}>
+                          <Image source={x} style={styles.lupaImage}/>
+                          </TouchableHighlight>
+                        </View>
+            
+                        <View>
+                          <Text style={styles.modalTitle}>Ajustes de cuenta</Text>
+                        </View>
+            
+                        <View style={styles.modalhr}/>
+            
+                          <Text style={styles.CardText}>
+                                              Nombre completo:
+                                          </Text>
+                                          <TextInput style={styles.input} />
+                                          <Text style={styles.CardText}>
+                                              Teléfono:
+                                          </Text>
+                                          <TextInput style={styles.input} />
+                                          <Text style={styles.CardText}>
+                                              Fecha de nacimiento:
+                                          </Text>
+                                          <TextInput style={styles.input} />
+                                          <Text style={styles.CardText}>
+                                              Email:
+                                          </Text>
+                                          <TextInput style={styles.input} />
+                                          <Text style={styles.CardText}>
+                                              Contraseña:
+                                          </Text>
+                                          <TextInput style={styles.input} secureTextEntry />
+
+                        <View style={styles.modalhr}/>
+                        
+                                    <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                                      <TouchableHighlight
+                                      underlayColor={'#90ff9f'} style={[styles.modalConfirm, {width: 160}]}
+                                        onPress={() => {
+                                          setUserModalVisible(!userModalVisible);
+                                          Alert.alert("Éxito","Cambios guardados con éxito");
+                                        }}>
+                                        <Text>Confirmar cambios</Text>
+                                      </TouchableHighlight>
+                                    </View>
+            
+                      </View>
+                      </View>
+                    </Modal>
 
     {/* Modal para confirmar cerrado de sesión */}
                             <Modal
@@ -75,7 +137,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                   transparent={true}
                                   visible={Confirm}
                                   onRequestClose={() => {
-                                    alert('Modal has been closed.');
                                     setConfirm(!Confirm);
                                   }}>
                                   <View style={styles.modalOverlay}>
@@ -96,6 +157,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                       <TouchableHighlight
                                       underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                         onPress={() => {
+                                          setModalVisible(!modalVisible);
                                           setConfirm(!Confirm);
                                           navigation.navigate("home");
                                         }}>
@@ -260,6 +322,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#eee',
     padding: 18,
   },
+  input:{
+    backgroundColor: '#eee',
+    padding: 10,
+    borderRadius: 5,
+     marginBottom: 15,
+     color: 'black',
+  },
   box: {
     flex: 1,
     textAlign: 'center',
@@ -315,6 +384,9 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+  },
+  CardText:{
+    fontSize: 20,  color: 'black',
   },
   modalhr:{
     height: 2, 

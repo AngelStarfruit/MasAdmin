@@ -18,7 +18,6 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                   transparent={true}
                   visible={modalVisible}
                   onRequestClose={() => {
-                    alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                   }}>
                   <View style={styles.modalOverlay}>

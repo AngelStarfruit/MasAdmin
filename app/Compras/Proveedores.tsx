@@ -33,7 +33,6 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
           <View style={styles.modalOverlay}>
@@ -90,7 +89,6 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
           transparent={true}
           visible={EmodalVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
             setEModalVisible(!EmodalVisible);
           }}>
           <View style={styles.modalOverlay}>
@@ -152,7 +150,6 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                               transparent={true}
                               visible={Confirm}
                               onRequestClose={() => {
-                                alert('Modal has been closed.');
                                 setConfirm(!Confirm);
                               }}>
                               <View style={styles.modalOverlay}>

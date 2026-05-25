@@ -29,7 +29,6 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
-                          alert('Modal has been closed.');
                           setModalVisible(!modalVisible);
                         }}>
                         <View style={styles.modalOverlay}>

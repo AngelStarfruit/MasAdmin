@@ -30,7 +30,6 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                  alert('Modal has been closed.');
                   setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.modalOverlay}>

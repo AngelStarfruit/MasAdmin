@@ -30,7 +30,6 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
-                      alert('Modal has been closed.');
                       setModalVisible(!modalVisible);
                     }}>
                     <View style={styles.modalOverlay}>

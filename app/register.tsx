@@ -61,8 +61,8 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 >
                     <Text style={styles.ButtonText}>Registrarse</Text>
                 </TouchableHighlight>
-                <Text style={{textAlign: 'center', marginTop: 30}}
-                >Ya tiene una cuenta? 
+                <Text style={{textAlign: 'center', marginTop: 30}}>
+                  Ya tiene una cuenta? 
                     <Text style={styles.LinkText} onPress={() => navigation.navigate("signup")}>
                       Iniciar sesión</Text>
                     </Text>
