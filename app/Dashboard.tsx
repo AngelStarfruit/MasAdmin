@@ -5,15 +5,23 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import type { DashboardScreenProps } from './types';
 
-import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
-import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
-
-import x from '../assets/x.png';
-import config from '../assets/config.png';
-
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
+  const getImage = (nombre: any) => {
+  switch(nombre) {
+    case 'C': return require('../assets/C.png');
+    case 'V': return require('../assets/V.png');
+    case 'S': return require('../assets/S.png');
+    case 'D': return require('../assets/D.png');
+    case 'A': return require('../assets/A.png');
+    case '$': return require('../assets/$.png');
+    case 'x': return require('../assets/x.png');
+    default: return require('../assets/config.png');
+    }
+  }
+
   const [selectedValue, setSelectedValue] = useState('hoy');
+  const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
@@ -38,7 +46,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           <TouchableHighlight
                           underlayColor={'#ccc'}
                           onPress={() => setModalVisible(!modalVisible)}>
-                          <Image source={x} style={styles.lupaImage}/>
+                          <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
                         </View>
             
@@ -83,7 +91,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           <TouchableHighlight
                           underlayColor={'#ccc'}
                           onPress={() => setUserModalVisible(!userModalVisible)}>
-                          <Image source={x} style={styles.lupaImage}/>
+                          <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
                         </View>
             
@@ -183,7 +191,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       onPress={() => setModalVisible(true)}
       style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}
     >
-      <Image source={config} style={{width: 30, height: 30, marginLeft: 'auto', marginRight: 20}}/>
+      <Image source={getImage('config')} style={{width: 30, height: 30, marginLeft: 'auto', marginRight: 20}}/>
     </TouchableHighlight>
     </View>
 
@@ -191,37 +199,37 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Image source={D} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('D')} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={C} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('C')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={V} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('V')} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Image source={S} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('S')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={A} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('A')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Image source={$} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('$')} style={styles.navIconImage}/></TouchableHighlight>
 
     </View>
 
@@ -261,11 +269,23 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             Gastos: $200
             </Text>
             <View style={styles.hr}/>
+            <View style={{width: 150}}>
           <Text style={{ fontSize: 25, fontWeight: 'bold', 
-            paddingBottom: 10
-          }}>
+            paddingBottom: 10}}>
           Agenda
           </Text>
+          <View style={{width: 150}}>
+          <Picker
+            selectedValue={selectedAValue}
+            onValueChange={(itemValue) => setSelectedAValue(itemValue)}
+            style={[styles.picker]} itemStyle={styles.pickerItem}
+            >
+              <Picker.Item label="Hoy" value="hoyA" />
+              <Picker.Item label="Esta semana" value="semanaA" />
+              <Picker.Item label="Este mes" value="mesA" />
+              <Picker.Item label="Este año" value="añoA" />
+          </Picker></View>
+          </View>
           <View>
             <View style={styles.row}>
               <View style={styles.headerCell}>
@@ -361,7 +381,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'white', color: 'black',
+  
   },
   pickerItem: {
     fontSize: 16,

@@ -4,10 +4,11 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ControlVentasScreenProps } from './types';
 
-import B from '../../assets/B.png';
-import x from '../../assets/x.png';
-
 export default function ControlVentas({ navigation }: ControlVentasScreenProps ) {
+
+  const getImage = (nombre: any) => {
+   return require('../../assets/B.png');
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,36 +21,9 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")} 
       >
-        <Image source={B} style={styles.navIconImage}/>
+        <Image source={getImage('B')} style={styles.navIconImage}/>
       </TouchableHighlight>
     </View>
-
-    {/* Modal para realizar registros*/}
-              <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                      setModalVisible(!modalVisible);
-                    }}>
-                    <View style={styles.modalOverlay}>
-                    <View style={styles.modalView}>
-          
-                      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <TouchableHighlight
-                        underlayColor={'#ccc'}
-                        onPress={() => setModalVisible(!modalVisible)}>
-                        <Image source={x} style={styles.lupaImage}/>
-                        </TouchableHighlight>
-                      </View>
-          
-                      <View>
-                        <Text style={styles.modalTitle}>Registrar venta</Text>
-                      </View>
-          
-                    </View>
-                    </View>
-                  </Modal>
 
       {/*ScrollView*/}
       <ScrollView>

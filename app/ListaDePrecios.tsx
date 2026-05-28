@@ -5,11 +5,19 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import type { ListaDePreciosScreenProps } from './types';
 
-import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
-import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
-import x from '../assets/x.png';
-
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
+
+  const getImage = (nombre: any) => {
+  switch(nombre) {
+    case 'C': return require('../assets/C.png');
+    case 'V': return require('../assets/V.png');
+    case 'S': return require('../assets/S.png');
+    case 'D': return require('../assets/D.png');
+    case 'A': return require('../assets/A.png');
+    case '$': return require('../assets/$.png');
+    default: return require('../assets/x.png');
+    }
+  }
 
   const [selectedValue, setSelectedValue] = useState('A');
 
@@ -27,41 +35,41 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={D} style={styles.navIconImage} />
+        <Image source={getImage('D')} style={styles.navIconImage} />
       </TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={C} style={styles.navIconImage} />
+        <Image source={getImage('C')} style={styles.navIconImage} />
       </TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={V} style={styles.navIconImage} />
+        <Image source={getImage('V')} style={styles.navIconImage} />
       </TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Image source={S} style={styles.navIconImage} />
+        <Image source={getImage('S')} style={styles.navIconImage} />
       </TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={A} style={styles.navIconImage} />
+        <Image source={getImage('A')} style={styles.navIconImage} />
       </TouchableHighlight>
 
         <TouchableHighlight
         style={styles.navIconsS} 
       >
-        <Image source={$} style={styles.navIconImage} />
+        <Image source={getImage('$')} style={styles.navIconImage} />
       </TouchableHighlight>
 
     </View>
@@ -81,7 +89,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#ccc'}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Image source={x} style={styles.lupaImage}/>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
                     </View>
         
@@ -133,7 +141,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#ccc'}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Image source={x} style={styles.lupaImage}/>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
                     </View>
         

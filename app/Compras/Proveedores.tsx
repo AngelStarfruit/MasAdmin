@@ -4,11 +4,15 @@ import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 import { useState } from 'react';
 
-import B from '../../assets/B.png'; 
-import lupa from '../../assets/lupa.png';
-import x from '../../assets/x.png';
-
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
+
+  const getImage = (nombre: any) => {
+  switch(nombre) {
+    case 'B': return require('../../assets/B.png');
+    case 'x': return require('../../assets/x.png');
+    default: return require('../../assets/lupa.png');
+    }
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -23,7 +27,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")} 
       >
-        <Image source={B} style={styles.navIconImage}/>
+        <Image source={getImage('B')} style={styles.navIconImage}/>
       </TouchableHighlight>
     </View>
 
@@ -42,7 +46,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               <TouchableHighlight
               underlayColor={'#ccc'}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Image source={x} style={styles.lupaImage}/>
+              <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
             </View>
 
@@ -98,7 +102,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               <TouchableHighlight
               underlayColor={'#ccc'}
               onPress={() => setEModalVisible(!EmodalVisible)}>
-              <Image source={x} style={styles.lupaImage}/>
+              <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
             </View>
 
@@ -209,7 +213,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   underlayColor={'#ddd'}
                   onPress={() => alert("search")}
                   style={{...styles.add, width: 40, padding: 10}}>
-                  <Image source={lupa} style={styles.lupaImage}/>
+                  <Image source={getImage('lupa')} style={styles.lupaImage}/>
                   </TouchableHighlight>
                   </View>
                   </View>

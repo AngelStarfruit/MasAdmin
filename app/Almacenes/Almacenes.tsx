@@ -3,10 +3,18 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Imag
 import Constants from 'expo-constants';
 import { AlmacenesScreenProps } from './types';
 
-import C from '../../assets/C.png'; import V from '../../assets/V.png'; import S from '../../assets/S.png';
-import D from '../../assets/D.png'; import A from '../../assets/A.png'; import $ from '../../assets/$.png';
-
 export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
+
+  const getImage = (nombre: any) => {
+  switch(nombre) {
+    case 'C': return require('../../assets/C.png');
+    case 'V': return require('../../assets/V.png');
+    case 'S': return require('../../assets/S.png');
+    case 'D': return require('../../assets/D.png');
+    case 'A': return require('../../assets/A.png');
+    default: return require('../../assets/$.png');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -17,36 +25,36 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={D} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('D')} style={styles.navIconImage} /></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={C} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('C')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={V} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('V')} style={styles.navIconImage} /></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Image source={S} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('S')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
         style={styles.navIconsS} 
       >
-        <Image source={A} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('A')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Image source={$} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('$')} style={styles.navIconImage} /></TouchableHighlight>
 
     </View>
       

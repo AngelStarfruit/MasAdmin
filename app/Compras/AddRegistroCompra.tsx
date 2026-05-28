@@ -1,14 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } from 'react-native';
 import Constants from 'expo-constants';
-import type { ControlComprasScreenProps } from './types';
+import type { AddRegistroCompraScreenProps } from './types';
 import { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 
-export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
+export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
   }
+
+  const [selectedProvider, setSelectedProvider] = useState('A');
+  const [selectedBranch, setSelectedBranch] = useState('1');
 
   return (
     <View style={styles.container}>
@@ -17,7 +21,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
     <View style={styles.navigation}>
             <TouchableHighlight
             underlayColor={"#ddd"} style={styles.navIcons}
-            onPress={() => navigation.navigate("Compras")} 
+            onPress={() => navigation.navigate("ControlCompras")} 
           >
             <Image source={getImage('B')} style={styles.navIconImage}/>
           </TouchableHighlight>
@@ -26,33 +30,47 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Control compras
+        Realizar compra
         </Text>
 
-        <TouchableHighlight 
-        underlayColor={'#f0f1ff'}
-        onPress={() => navigation.navigate("AddRegistroCompra")}
-        style={styles.add}>
-            <Text style={{fontWeight: 'bold'}}>Añadir registro de compra</Text>
-          </TouchableHighlight>
+        <View style={styles.row}>
+          <Text style={styles.textRow}>Proveedor:</Text>
+          <View style={{width:150}}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedProvider}
+            onValueChange={(itemValue) => setSelectedProvider(itemValue)}
+          >
+            <Picker.Item style={styles.pickerItem} label="A" value="A" />
+          </Picker></View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.textRow}>Sucursal afectada:</Text>
+          <View style={{width:150}}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedBranch}
+            onValueChange={(itemValue) => setSelectedBranch(itemValue)}
+          >
+            <Picker.Item style={styles.pickerItem} label="1" value="1" />
+          </Picker></View>
+        </View>
 
         <View style={styles.table}>
-              <View style={styles.row}>
+              <View style={styles.tableRow}>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Fecha</Text>
+                      <Text style={styles.headerText}>Descripción</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Total</Text>
+                      <Text style={styles.headerText}>Marca</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Proveedor</Text>
+                      <Text style={styles.headerText}>Costo</Text>
+                      </View>
+                  <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Cantidad</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
-                      <View style={styles.cell}><Text>12-01-2023</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
-                      <View style={styles.cell}><Text>LALA</Text></View>
-                </View>
           </View>
         
         </View>
@@ -79,13 +97,20 @@ const styles = StyleSheet.create({
   navIconImage: {
     width: 20, height: 20,
   },
-  lupaImage: {
-    width: 15, height: 15,
-  },
   scroll: {
     flex: 1,
     backgroundColor: 'white',
     padding: 18,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  textRow:{
+    fontSize: 20, 
+    paddingVertical: 5, 
+    fontWeight: 'bold',
   },
   box: {
     flex: 1,
@@ -105,7 +130,7 @@ const styles = StyleSheet.create({
   table: {
     paddingVertical: 20,
   },
-  row: {flexDirection: 'row',},
+  tableRow: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 12,
     backgroundColor: '#e3e5ff',
@@ -118,43 +143,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerText: {fontWeight: 'bold',},
-  //Modal estilos
-  modalOverlay: {
+  //------------------
+  picker: {
+    height: 50,
+    marginLeft: 10,
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: '#eee', color: 'black',
   },
-  modalView: {
-    marginHorizontal: 30, marginVertical: 30,
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
-  modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#bbb', 
-    marginBottom: 15,
-  },
-  modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-  },
-  modalConfirm: {
-    backgroundColor: '#62ff77',
-    padding: 10,
-    borderRadius: 15,
-    width: 130,
-    justifyContent: 'center', alignItems: 'center',
-  },
+  
 });

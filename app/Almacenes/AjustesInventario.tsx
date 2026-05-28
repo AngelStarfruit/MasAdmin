@@ -4,10 +4,11 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AjustesInventarioScreenProps } from './types';
 
-import B from '../../assets/B.png';
-import x from '../../assets/x.png';
-
 export default function AjustesInventario({ navigation }: AjustesInventarioScreenProps ) {
+
+  const getImage = (nombre: any) => {
+   return require('../../assets/B.png');
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,35 +21,8 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={B} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
     </View>
-
-    {/* Modal para realizar ajustes*/}
-                  <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                          setModalVisible(!modalVisible);
-                        }}>
-                        <View style={styles.modalOverlay}>
-                        <View style={styles.modalView}>
-              
-                          <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                            <TouchableHighlight
-                            underlayColor={'#ccc'}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Image source={x} style={styles.lupaImage}/>
-                            </TouchableHighlight>
-                          </View>
-              
-                          <View>
-                            <Text style={styles.modalTitle}>Realizar ajuste</Text>
-                          </View>
-              
-                        </View>
-                        </View>
-                      </Modal>
 
       <ScrollView>
         <View style={styles.scroll}>

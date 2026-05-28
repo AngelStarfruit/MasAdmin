@@ -3,10 +3,11 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Text
 import Constants from 'expo-constants';
 import type { signupScreenProps } from './types';
 
-import BL from '../assets/BL.png';
-
 export default function Dashboard({navigation}: signupScreenProps ) {
 
+  const getImage = (nombre: any) => {
+   return require('../assets/BL.png');
+  }
 
   return (
     <View style={styles.container}>
@@ -17,7 +18,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
         underlayColor={"#414ff1"} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Image source={BL} style={{ width: 20, height: 20 }} />
+        <Image source={getImage('BL')} style={{ width: 20, height: 20 }} />
       </TouchableHighlight>
     </View>
 

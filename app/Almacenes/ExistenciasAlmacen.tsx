@@ -5,9 +5,11 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
 
-import B from '../../assets/B.png';
-
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
+
+  const getImage = (nombre: any) => {
+   return require('../../assets/B.png');
+  }
 
   const [selectedValue, setSelectedValue] = useState('A');
 
@@ -20,7 +22,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={B} style={styles.navIconImage} /></TouchableHighlight>
+        <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
     </View>
 
       <ScrollView>

@@ -4,12 +4,20 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { SucursalesScreenProps } from './types';
 
-import C from '../assets/C.png'; import V from '../assets/V.png'; import S from '../assets/S.png';
-import D from '../assets/D.png'; import A from '../assets/A.png'; import $ from '../assets/$.png';
-import lupa from '../assets/lupa.png';
-import x from '../assets/x.png';
-
 export default function Sucursales({navigation}: SucursalesScreenProps) {
+
+  const getImage = (nombre: any) => {
+  switch(nombre) {
+    case 'C': return require('../assets/C.png');
+    case 'V': return require('../assets/V.png');
+    case 'S': return require('../assets/S.png');
+    case 'D': return require('../assets/D.png');
+    case 'A': return require('../assets/A.png');
+    case '$': return require('../assets/$.png');
+    case 'x': return require('../assets/x.png');
+    default: return require('../assets/lupa.png');
+    }
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -25,36 +33,36 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={D} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('D')} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={C} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('C')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={V} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('V')} style={styles.navIconImage}/></TouchableHighlight>
 
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Image source={S} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('S')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={A} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('A')} style={styles.navIconImage}/></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={"#ddf"} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Image source={$} style={styles.navIconImage}/></TouchableHighlight>
+        <Image source={getImage('$')} style={styles.navIconImage}/></TouchableHighlight>
 
     </View>
 
@@ -73,7 +81,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <TouchableHighlight
                       underlayColor={'#ccc'}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Image source={x} style={styles.lupaImage}/>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
                     </View>
         
@@ -121,7 +129,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <TouchableHighlight
                       underlayColor={'#ccc'}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Image source={x} style={styles.lupaImage}/>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
                     </View>
         
@@ -223,7 +231,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
             underlayColor={'#f0f1ff'}
             onPress={() => alert("search")}
             style={{...styles.add, width: 40, padding: 10}}>
-            <Image source={lupa} style={styles.lupaImage}/>
+            <Image source={getImage('lupa')} style={styles.lupaImage}/>
             </TouchableHighlight>
             </View>
           </View>
