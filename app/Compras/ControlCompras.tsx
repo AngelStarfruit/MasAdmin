@@ -10,6 +10,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
    return require('../../assets/B.png');
   }
 
+  
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -118,43 +119,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   headerText: {fontWeight: 'bold',},
-  //Modal estilos
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-  },
-  modalView: {
-    marginHorizontal: 30, marginVertical: 30,
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#bbb', 
-    marginBottom: 15,
-  },
-  modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
-  },
-  modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-  },
-  modalConfirm: {
-    backgroundColor: '#62ff77',
-    padding: 10,
-    borderRadius: 15,
-    width: 130,
-    justifyContent: 'center', alignItems: 'center',
-  },
 });

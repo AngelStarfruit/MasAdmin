@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';

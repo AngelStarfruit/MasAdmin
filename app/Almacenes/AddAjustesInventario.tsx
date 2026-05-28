@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput } from 'react-native';
 import Constants from 'expo-constants';
-import type { AddRegistroCompraScreenProps } from './types';
+import type { AddAjustesInventarioScreenProps } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import ControlCompras from './ControlCompras';
+import AjustesInventario from './AjustesInventario';
 
-export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
+export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
 
   const getImage = (nombre: any) => {
     switch (nombre){
@@ -19,10 +19,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
-  const [selectedProvider, setSelectedProvider] = useState('A');
+  const [selectedStore, setSelectedStore] = useState('A');
   const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedProduct, setSelectedProduct] = useState('a');
-  const [selectedStore, setSelectedStore] = useState('I');
+  const [selectedOperation, setSelectedOperation] = useState('entrada');
 
   return (
     <View style={styles.container}>
@@ -102,7 +102,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                     <View style={[styles.modalView, {marginVertical: 360}]}>
                           
                                       <View>
-                                        <Text style={styles.modalTitle}>¿Recibir los artículos en el almacén?</Text>
+                                        <Text style={styles.modalTitle}>¿Confirmar cambio en el almacén?</Text>
                                       </View>
                           
                                       <View style={styles.hr}/>
@@ -117,7 +117,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                         underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
-                                            navigation.navigate("ControlCompras")
+                                            navigation.navigate("AjustesInventario")
                                           }}>
                                           <Text>SÍ</Text>
                                         </TouchableHighlight>
@@ -154,7 +154,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                         underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Confirm);
-                                            navigation.navigate("ControlCompras")
+                                            navigation.navigate("AjustesInventario")
                                           }}>
                                           <Text>SÍ</Text>
                                         </TouchableHighlight>
@@ -168,22 +168,11 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Realizar compra
+        Realizar ajuste
         </Text>
 
         <View style={styles.row}>
-          <Text style={styles.textRow}>Proveedor:</Text>
-          <View style={{width:150}}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedProvider}
-            onValueChange={(itemValue) => setSelectedProvider(itemValue)}
-          >
-            <Picker.Item style={styles.pickerItem} label="A" value="A" />
-          </Picker></View>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.textRow}>Sucursal afectada:</Text>
+          <Text style={styles.textRow}>Sucursal:</Text>
           <View style={{width:150}}>
           <Picker
             style={styles.picker}
@@ -193,17 +182,34 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             <Picker.Item style={styles.pickerItem} label="1" value="1" />
           </Picker></View>
         </View>
+        <View style={styles.row}>
+          <Text style={styles.textRow}>Almacén:</Text>
+          <View style={{width:150}}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedStore}
+            onValueChange={(itemValue) => setSelectedStore(itemValue)}
+          >
+            <Picker.Item style={styles.pickerItem} label="A" value="A" />
+          </Picker></View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.textRow}>Tipo de ajuste:</Text>
+          <View style={{width:150}}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedOperation}
+            onValueChange={(itemValue) => setSelectedOperation(itemValue)}
+          >
+            <Picker.Item style={styles.pickerItem} label="ENTRADA" value="entrada" />
+            <Picker.Item style={styles.pickerItem} label="SALIDA" value="salida" />
+          </Picker></View>
+        </View>
 
         <View style={styles.table}>
               <View style={styles.tableRow}>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Descripción</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Marca</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Costo</Text>
                       </View>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
@@ -223,60 +229,9 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => alert("enviar")}
-                  style={styles.button}>
-                  <Text style={styles.buttonText}>Enviar</Text>
-              </TouchableHighlight>
-              </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Total: 0
-        </Text>
-
-        <View style={[styles.hr, {marginTop: 15}]}></View>
-
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Recepciones al almacén
-        </Text>
-
-        <View style={styles.row}>
-          <Text style={styles.textRow}>Almacen afectado:</Text>
-          <View style={{width:150}}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedStore}
-            onValueChange={(itemValue) => setSelectedStore(itemValue)}
-          >
-            <Picker.Item style={styles.pickerItem} label="I" value="I" />
-          </Picker></View>
-        </View>
-
-        <View style={styles.table}>
-              <View style={styles.tableRow}>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Descripción</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Marca</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Costo</Text>
-                      </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>A recibir</Text>
-                      </View>
-                  </View>
-                  <ScrollView style={styles.showcase}>
-                    
-                  </ScrollView>
-          </View>
-
-          <View style={{flexDirection: 'row', justifyContent: 'center',
-            marginTop: 10, marginBottom: 50,}}>
-          <TouchableHighlight
-                underlayColor={'#5460ff'}
                   onPress={() => setReceive(true)}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Aplicar cambios</Text>
+                  <Text style={styles.buttonText}>Afectar inventario</Text>
               </TouchableHighlight>
               </View>
         

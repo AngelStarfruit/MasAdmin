@@ -14,6 +14,7 @@ const ControlVentas = lazy(() => import('./app/Ventas/ControlVentas'));
 
 const Almacenes = lazy(() => import('./app/Almacenes/Almacenes'));
 const AjustesInventario = lazy(() => import('./app/Almacenes/AjustesInventario'));
+const AddAjustesInventario = lazy(() => import('./app/Almacenes/AddAjustesInventario'));
 const AlmacenesInfo = lazy(() => import('./app/Almacenes/AlmacenesInfo'));
 const ExistenciasAlmacen = lazy(() => import('./app/Almacenes/ExistenciasAlmacen'));
 
@@ -39,6 +40,7 @@ export type RootStackParamList = {
 
   Almacenes: undefined;
   AjustesInventario: undefined;
+  AddAjustesInventario: undefined;
   AlmacenesInfo: undefined;
   ExistenciasAlmacen: undefined;
 
@@ -122,6 +124,9 @@ export default function App() {
         <Stack.Screen 
           name="AjustesInventario" 
           component={AjustesInventario}/>
+        <Stack.Screen 
+          name="AddAjustesInventario" 
+          component={AddAjustesInventario}/>
         <Stack.Screen 
           name="AlmacenesInfo" 
           component={AlmacenesInfo}/>

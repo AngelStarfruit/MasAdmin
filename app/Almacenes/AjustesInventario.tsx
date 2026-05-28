@@ -31,7 +31,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
         </Text>
         <TouchableHighlight 
                 underlayColor={'#ddd'}
-                onPress={() => setModalVisible(true)}
+                onPress={() => navigation.navigate("AddAjustesInventario")}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Realizar ajuste</Text>
                   </TouchableHighlight>
