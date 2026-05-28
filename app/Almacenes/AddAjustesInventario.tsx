@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddAjustesInventarioScreenProps } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
+import { NumeroValido } from './backend';
 import AjustesInventario from './AjustesInventario';
 
 export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
@@ -23,6 +24,8 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedProduct, setSelectedProduct] = useState('a');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
+
+  const [cantidad, setCantidad] = useState('');
 
   return (
     <View style={styles.container}>
@@ -74,14 +77,23 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Cantidad:</Text>
-                      <TextInput style={styles.input}></TextInput>
+                      <TextInput style={styles.input}
+                                  value={cantidad} onChangeText={setCantidad}
+                                  keyboardType='numeric'></TextInput>
                     </View>
                   <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={'#82ff92'} style={styles.modalConfirm}
-                      onPress={() => setModalVisible(!modalVisible)}>
+                      onPress={() => {
+                        const validation = NumeroValido(cantidad);
+                            if (!validation.isValid) {
+                        Alert.alert('Error', validation.message);
+                        return; 
+                      }
+                      setCantidad('')
+                      setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
                     </TouchableHighlight>
                   </View>
