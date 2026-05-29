@@ -13,7 +13,6 @@ export default function Dashboard({navigation}: registerScreenProps ) {
   const [showPicker, setShowPicker] = useState(false);
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
-
   const DOnChange = (event: any, selectedDate: any) => {
     setShowPicker(false);
     if (selectedDate) {
