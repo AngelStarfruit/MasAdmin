@@ -14,6 +14,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
     }
   }
 
+  const [empresa, setEmpresa] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [ciudad, setCiudad] = useState('');
+  const [estado, setEstado] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -58,19 +63,23 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Empresa:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={empresa} onChangeText={setEmpresa}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Teléfono:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={telefono} onChangeText={setTelefono}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Ciudad:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={ciudad} onChangeText={setCiudad}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Estado:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={estado} onChangeText={setEstado}/>
             </View>
 
             <View style={styles.hr}/>
@@ -114,19 +123,23 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Empresa:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={empresa} onChangeText={setEmpresa}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Teléfono:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={telefono} onChangeText={setTelefono}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Ciudad:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={ciudad} onChangeText={setCiudad}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Estado:</Text>
-              <TextInput style={{...styles.query, width: 150}}/>
+              <TextInput style={{...styles.query, width: 150}}
+              value={estado} onChangeText={setEstado}/>
             </View>
 
             <View style={styles.hr}/>

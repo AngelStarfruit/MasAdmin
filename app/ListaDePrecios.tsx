@@ -19,7 +19,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
     }
   }
 
+  const [descripcion, setDescripcion] = useState('');
+  const [marca, setMarca] = useState('');
+  const [costo, setCosto] = useState('');
+
   const [selectedValue, setSelectedValue] = useState('A');
+  const [selectedUValue, setSelectedUValue] = useState('pieza');
+  const [selectedTValue, setSelectedTValue] = useState('producto');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -94,22 +100,54 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Añadir producto</Text>
+                      <Text style={styles.modalTitle}>Añadir elemento</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={descripcion} onChangeText={setDescripcion}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={marca} onChangeText={setMarca}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={costo} onChangeText={setCosto}/>
+                    </View>
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Unidad:</Text>
+                      <View style={{width: 150, height: 50}}>
+                      <Picker
+                        selectedValue={selectedUValue}
+                        onValueChange={(itemValue) => setSelectedUValue(itemValue)}
+                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        itemStyle={styles.pickerItem}
+                        >
+                      <Picker.Item label="Pieza" value="pieza" />
+                      <Picker.Item label="Gramo" value="g" />
+                      </Picker>
+                      </View>
+                    </View>
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Tipo:</Text>
+                      <View style={{width: 150, height: 50}}>
+                      <Picker
+                        selectedValue={selectedTValue}
+                        onValueChange={(itemValue) => setSelectedTValue(itemValue)}
+                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        itemStyle={styles.pickerItem}
+                        >
+                      <Picker.Item label="Producto" value="producto" />
+                      <Picker.Item label="Servicio" value="servicio" />
+                      <Picker.Item label="Paquete" value="paquete" />
+                      </Picker>
+                      </View>
                     </View>
         
                     <View style={styles.hr}/>
@@ -135,7 +173,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setEModalVisible(!EmodalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={styles.modalView}>
+                  <View style={[styles.modalView, {marginVertical: 230}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -147,21 +185,26 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View>
                       <Text style={styles.modalTitle}>Editar producto</Text>
+                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                        (La unidad y el tipo no se pueden modificar)</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={descripcion} onChangeText={setDescripcion}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={marca} onChangeText={setMarca}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={costo} onChangeText={setCosto}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -220,6 +263,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </View>
                 </Modal>
 
+      {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
@@ -228,7 +272,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         <Text style={{ 
           fontSize: 15, 
           paddingVertical: 10,}}>
-          Inserte un grupo de productos. 
           Seleccione la descripción de un producto en la tabla para modificar sus datos.
           </Text>
           <Picker
@@ -341,7 +384,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 265,
+    marginHorizontal: 30, marginVertical: 200,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",

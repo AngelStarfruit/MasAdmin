@@ -14,6 +14,11 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     }
   }
 
+  const [nombre, setNombre] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [ciudad, setCiudad] = useState('');
+  const [estado, setEstado] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -59,19 +64,23 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={nombre} onChangeText={setNombre}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Teléfono:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={telefono} onChangeText={setTelefono}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Ciudad:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={ciudad} onChangeText={setCiudad}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Estado:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={estado} onChangeText={setEstado}/>
                 </View>
     
                 <View style={styles.hr}/>
@@ -115,19 +124,23 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={nombre} onChangeText={setNombre}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Teléfono:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={telefono} onChangeText={setTelefono}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Ciudad:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={ciudad} onChangeText={setCiudad}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Estado:</Text>
-                  <TextInput style={{...styles.query, width: 150}}/>
+                  <TextInput style={{...styles.query, width: 150}}
+                  value={estado} onChangeText={setEstado}/>
                 </View>
     
                 <View style={styles.hr}/>

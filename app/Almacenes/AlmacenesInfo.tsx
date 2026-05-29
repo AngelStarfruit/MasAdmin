@@ -14,6 +14,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
     }
   }
 
+  const [almacen, setAlmacen] = useState('');
+  const [sucursal, setSucursal] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -30,7 +33,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
         <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
     </View>
 
-    {/* Modal para añadir proveedores */}
+    {/* Modal para añadir almacenes */}
                 <Modal
                       animationType="slide"
                       transparent={true}
@@ -57,11 +60,13 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
-                          <TextInput style={{...styles.query, width: 150}}/>
+                          <TextInput style={{...styles.query, width: 150}}
+                          value={almacen} onChangeText={setAlmacen}/>
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <TextInput style={{...styles.query, width: 150}}/>
+                          <TextInput style={{...styles.query, width: 150}}
+                          value={sucursal} onChangeText={setSucursal}/>
                         </View>
             
                         <View style={styles.hr}/>
@@ -105,11 +110,13 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
-                          <TextInput style={{...styles.query, width: 150}}/>
+                          <TextInput style={{...styles.query, width: 150}}
+                          value={almacen} onChangeText={setAlmacen}/>
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <TextInput style={{...styles.query, width: 150}}/>
+                          <TextInput style={{...styles.query, width: 150}}
+                          value={sucursal} onChangeText={setSucursal}/>
                         </View>
             
                         <View style={styles.hr}/>

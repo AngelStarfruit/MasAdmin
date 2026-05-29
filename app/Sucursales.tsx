@@ -19,6 +19,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
     }
   }
 
+  const [sucursal, setSucursal] = useState('');
+  const [telefono, setTelefono] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -93,11 +96,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={sucursal} onChangeText={setSucursal}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={telefono} onChangeText={setTelefono}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -141,11 +146,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={sucursal} onChangeText={setSucursal}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
-                      <TextInput style={{...styles.query, width: 150}}/>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={telefono} onChangeText={setTelefono}/>
                     </View>
         
                     <View style={styles.hr}/>
