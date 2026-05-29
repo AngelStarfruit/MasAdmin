@@ -1,9 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput, Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image} from 'react-native';
 import Constants from 'expo-constants';
+import { useState } from 'react';
 import type { signupScreenProps } from './types';
 
 export default function Dashboard({navigation}: signupScreenProps ) {
+
+  const [email, setEmail] = useState('');
+  const [contrasena, setContrasena] = useState('');
 
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');
@@ -35,11 +39,15 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                 <Text style={styles.CardText}>
                     Email:
                 </Text>
-                <TextInput style={styles.input} placeholder="Ingrese su email" />
+                <TextInput style={styles.input}
+                  value={email} onChangeText={setEmail}
+                />
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
-                <TextInput style={styles.input} placeholder="Ingrese su contraseña" secureTextEntry />
+                <TextInput style={styles.input}
+                  value={contrasena} onChangeText={setContrasena}
+                 secureTextEntry />
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
@@ -114,6 +122,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
      marginBottom: 15,
+     color: 'black',
   },
   LinkText:{
     color: '#2435f0',

@@ -1,10 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, TextInput, Image, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image, Alert} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
+import { useState } from 'react';
 import type { registerScreenProps } from './types';
 
 export default function Dashboard({navigation}: registerScreenProps ) {
 
+  const [nombre, setNombre] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const DateInput = () => {
+  const [fecha, setFecha] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+
+  const onChange = (event : any, selectedDate: any) => {
+    setShowPicker(false); // Ocultar el picker al seleccionar o cancelar
+    if (selectedDate) {
+      setFecha(selectedDate);
+      // Aquí puedes formatear la fecha como quieras
+      console.log(selectedDate.toLocaleDateString());
+    }
+  };
+  const [email, setEmail] = useState('');
+  const [contrasena, setContrasena] = useState('');
 
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');
@@ -36,23 +54,40 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                   <Text style={styles.CardText}>
                     Nombre completo:
                 </Text>
-                <TextInput style={styles.input} />
+                <TextInput style={styles.input} 
+                  value={nombre} onChangeText={setNombre}/>
                 <Text style={styles.CardText}>
                     Teléfono:
                 </Text>
-                <TextInput style={styles.input} />
+                <TextInput style={styles.input} 
+                  value={telefono} onChangeText={setTelefono}/>
                 <Text style={styles.CardText}>
                     Fecha de nacimiento:
                 </Text>
-                <TextInput style={styles.input} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Selecciona una fecha"
+                  value={fecha.toLocaleDateString()} // Muestra la fecha
+                  onFocus={() => setShowPicker(true)} // Abre el picker al hacer focus
+                    />
+                    {showPicker && (
+                    <DateTimePicker
+                    value={fecha}
+                    mode="date" // 'date', 'time', 'datetime'
+                    onChange={onChange}
+                    />
+                )}
                 <Text style={styles.CardText}>
                     Email:
                 </Text>
-                <TextInput style={styles.input} />
+                <TextInput style={styles.input} 
+                  value={email} onChangeText={setEmail}/>
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
-                <TextInput style={styles.input} secureTextEntry />
+                <TextInput style={styles.input} 
+                  value={contrasena} onChangeText={setContrasena}
+                  secureTextEntry />
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
@@ -135,4 +170,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-});
+})};

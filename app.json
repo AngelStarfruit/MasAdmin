@@ -3,7 +3,8 @@
     "name": "masadmin",
     "slug": "masadmin",
     "plugins": [
-      "voltra"
+      "voltra",
+      "@react-native-community/datetimepicker"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
