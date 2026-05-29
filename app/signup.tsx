@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image,Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis } from './backend';
+import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
 
 export default function Dashboard({navigation}: signupScreenProps ) {
@@ -53,8 +53,14 @@ export default function Dashboard({navigation}: signupScreenProps ) {
             <View style={styles.Card}>
                 <TouchableHighlight
                 underlayColor={"#ff9f9f"} style={styles.Button}
-                onPress={() => navigation.navigate("Dashboard")}
-                >
+                onPress={() => {
+                          const validation = Validar(2,email,contrasena,'','');
+                            if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                                return; 
+                            }
+                            setEmail(''); setContrasena('')
+                        navigation.navigate("Dashboard")}}>
                     <Text style={styles.ButtonText}>Iniciar sesión</Text>
                 </TouchableHighlight>
                 <Text style={{textAlign: 'center', marginTop: 30}}

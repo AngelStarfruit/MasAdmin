@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Imag
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis } from './backend';
+import { NoEmojis, Validar } from './backend';
 import type { registerScreenProps } from './types';
 
 export default function Dashboard({navigation}: registerScreenProps ) {
@@ -101,7 +101,14 @@ export default function Dashboard({navigation}: registerScreenProps ) {
             <View style={styles.Card}>
                 <TouchableHighlight
                 underlayColor={"#ff9f9f"} style={styles.Button}
-                onPress={() => {navigation.navigate("signup");
+                onPress={() => {
+                          const validation = Validar(4,nombre,telefono,email,contrasena);
+                            if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                                return; 
+                            }
+                            setNombre(''); setTelefono(''); setEmail(''); setContrasena('')
+                  navigation.navigate("signup");
                 Alert.alert("Éxito", "Usuario registrado con exito")
               }}
                 >
@@ -173,6 +180,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
      marginBottom: 15,
+     color: 'black'
   },
   LinkText:{
     color: '#2435f0',

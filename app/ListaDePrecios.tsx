@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
-import { NoEmojis } from './backend';
+import { NoEmojis, Validar } from './backend';
 import type { ListaDePreciosScreenProps } from './types';
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
@@ -156,7 +156,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
                       underlayColor={'#82ff92'} style={styles.modalConfirm}
-                        onPress={() => setModalVisible(!modalVisible)}>
+                        onPress={() => {
+                          const validation = Validar(3,descripcion,marca,costo,'');
+                             if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                        setModalVisible(!modalVisible)}}>
                         <Text>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -218,7 +224,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
-                        onPress={() => setEModalVisible(!EmodalVisible)}>
+                        onPress={() => {
+                          const validation = Validar(3,descripcion,marca,costo,'');
+                             if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                        setModalVisible(!modalVisible)}}>
                         <Text>Editar registro</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -251,12 +263,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#ddd'} style={styles.modalRegret}
+                      underlayColor={'#ddd'} style={[styles.modalRegret , {width: 50}]}
                         onPress={() => setConfirm(!Confirm)}>
                         <Text>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#ff9797'} style={styles.modalDelete}
+                      underlayColor={'#ff9797'} style={[styles.modalDelete , {width: 50}]}
                         onPress={() => {
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
@@ -289,7 +301,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           </Picker>
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
-                onPress={() => setModalVisible(true)}
+                onPress={() => {
+                  setDescripcion(''); setMarca(''); setCosto('');
+                  setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
                   </TouchableHighlight>

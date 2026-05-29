@@ -78,7 +78,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
         underlayColor={'#0015cd'}
         onPress={() => navigation.navigate("ExistenciasAlmacen")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Existencias por almacen</Text>
+          <Text style={styles.touchText}>Existencias por almacén</Text>
           </TouchableHighlight>
 
           <TouchableHighlight 

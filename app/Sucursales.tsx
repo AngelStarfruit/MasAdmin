@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis } from './backend';
+import { NoEmojis, Validar } from './backend';
 import type { SucursalesScreenProps } from './types';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
@@ -112,7 +112,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
                       underlayColor={'#82ff92'} style={styles.modalConfirm}
-                        onPress={() => setModalVisible(!modalVisible)}>
+                        onPress={() => {
+                          const validation = Validar(2,sucursal,telefono,'','');
+                              if (!validation.isValid) {
+                              Alert.alert('Error', validation.message);
+                              return; 
+                              }
+                        setModalVisible(!modalVisible)}}>
                         <Text>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -162,7 +168,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
-                        onPress={() => setEModalVisible(!EmodalVisible)}>
+                        onPress={() => {
+                          const validation = Validar(2,sucursal,telefono,'','');
+                              if (!validation.isValid) {
+                              Alert.alert('Error', validation.message);
+                              return; 
+                              }
+                        setModalVisible(!modalVisible)}}>
                         <Text>Editar registro</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -229,7 +241,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
         underlayColor={'#f0f1ff'}
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          setSucursal(''); setTelefono('');
+          setModalVisible(true)}}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
           </TouchableHighlight>

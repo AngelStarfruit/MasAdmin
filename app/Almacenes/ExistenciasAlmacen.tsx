@@ -11,6 +11,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
    return require('../../assets/B.png');
   }
 
+  const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedValue, setSelectedValue] = useState('A');
 
   return (
@@ -28,12 +29,24 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Existencias por almacen
+        Existencias por almacén
         </Text>
         <Text style={{ 
           fontSize: 15, 
           paddingVertical: 10,}}>
-          Inserte un almacen para ver sus existencias
+          Inserte una sucursal
+          </Text>
+          <Picker
+              selectedValue={selectedBranch}
+              onValueChange={(itemValue) => setSelectedBranch(itemValue)}
+              style={styles.picker} itemStyle={styles.pickerItem}
+              >
+                <Picker.Item label="1" value="1" />
+          </Picker>
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Inserte un almacén para ver sus existencias
           </Text>
           <Picker
               selectedValue={selectedValue}

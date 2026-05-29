@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 import { useState } from 'react';
-import { NoEmojis } from './backend';
+import { NoEmojis, Validar } from './backend';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
@@ -89,7 +89,13 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableHighlight
               underlayColor={'#82ff92'} style={styles.modalConfirm}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => {
+                  const validation = Validar(4,empresa,telefono,ciudad,estado);
+                        if (!validation.isValid) {
+                        Alert.alert('Error', validation.message);
+                        return; 
+                        }
+                  setModalVisible(!modalVisible)}}>
                 <Text>Añadir registro</Text>
               </TouchableHighlight>
             </View>
@@ -149,7 +155,13 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <TouchableHighlight
               underlayColor={'#f3fe53'} style={styles.modalEdit}
-                onPress={() => setEModalVisible(!EmodalVisible)}>
+                onPress={() => {
+                  const validation = Validar(4,empresa,telefono,ciudad,estado);
+                        if (!validation.isValid) {
+                        Alert.alert('Error', validation.message);
+                        return; 
+                        }
+                  setEModalVisible(!EmodalVisible)}}>
                 <Text>Editar registro</Text>
               </TouchableHighlight>
               <TouchableHighlight
@@ -217,7 +229,9 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
                 underlayColor={'#ddd'}
-                onPress={() => setModalVisible(true)}
+                onPress={() => {
+                  setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
+                  setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
                   </TouchableHighlight>

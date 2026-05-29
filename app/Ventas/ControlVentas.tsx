@@ -10,8 +10,6 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
    return require('../../assets/B.png');
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -33,7 +31,7 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
         </Text>
         <TouchableHighlight 
         underlayColor={'#f0f1ff'}
-        onPress={() => setModalVisible(true)}
+        //onPress={() => setModalVisible(true)}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir registro de venta</Text>
           </TouchableHighlight>
