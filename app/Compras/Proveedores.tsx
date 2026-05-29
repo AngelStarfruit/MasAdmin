@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
@@ -18,6 +19,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   const [telefono, setTelefono] = useState('');
   const [ciudad, setCiudad] = useState('');
   const [estado, setEstado] = useState('');
+  const [query, setQuery] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -64,22 +66,22 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Empresa:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={empresa} onChangeText={setEmpresa}/>
+              value={empresa} onChangeText={(text) => setEmpresa(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Teléfono:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={telefono} onChangeText={setTelefono}/>
+              value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Ciudad:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={ciudad} onChangeText={setCiudad}/>
+              value={ciudad} onChangeText={(text) => setCiudad(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Estado:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={estado} onChangeText={setEstado}/>
+              value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
             </View>
 
             <View style={styles.hr}/>
@@ -124,22 +126,22 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Empresa:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={empresa} onChangeText={setEmpresa}/>
+              value={empresa} onChangeText={(text) => setEmpresa(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Teléfono:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={telefono} onChangeText={setTelefono}/>
+              value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Ciudad:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={ciudad} onChangeText={setCiudad}/>
+              value={ciudad} onChangeText={(text) => setCiudad(NoEmojis(text))}/>
             </View>
             <View style={styles.modalRow}>
               <Text style={styles.modalLabel}>Estado:</Text>
               <TextInput style={{...styles.query, width: 150}}
-              value={estado} onChangeText={setEstado}/>
+              value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
             </View>
 
             <View style={styles.hr}/>
@@ -221,7 +223,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   </TouchableHighlight>
                   <View style={{flexDirection: 'row'}}>
                   <TextInput style={styles.query}
-                  placeholder="Buscar" placeholderTextColor="#aaa"/>
+                  placeholder="Buscar" placeholderTextColor="#aaa"
+                  value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                   <TouchableHighlight
                   underlayColor={'#ddd'}
                   onPress={() => alert("search")}

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 import type { ListaDePreciosScreenProps } from './types';
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
@@ -108,17 +109,17 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={descripcion} onChangeText={setDescripcion}/>
+                      value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={marca} onChangeText={setMarca}/>
+                      value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={costo} onChangeText={setCosto}/>
+                      value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Unidad:</Text>
@@ -173,7 +174,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setEModalVisible(!EmodalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 230}]}>
+                  <View style={[styles.modalView, {marginVertical: 220}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -184,7 +185,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Editar producto</Text>
+                      <Text style={styles.modalTitle}>Editar elemento</Text>
                       <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
                         (La unidad y el tipo no se pueden modificar)</Text>
                     </View>
@@ -194,22 +195,27 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={descripcion} onChangeText={setDescripcion}/>
+                      value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={marca} onChangeText={setMarca}/>
+                      value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={costo} onChangeText={setCosto}/>
+                      value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                      <TouchableHighlight
+                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                        onPress={() => setEModalVisible(!EmodalVisible)}>
+                        <Text>Editar paquete</Text>
+                      </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
                         onPress={() => setEModalVisible(!EmodalVisible)}>
@@ -272,7 +278,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         <Text style={{ 
           fontSize: 15, 
           paddingVertical: 10,}}>
-          Seleccione la descripción de un producto en la tabla para modificar sus datos.
+          Seleccione la descripción de un elemento en la tabla para modificar sus datos.
           </Text>
           <Picker
               selectedValue={selectedValue}
@@ -285,7 +291,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 underlayColor={'#f0f1ff'}
                 onPress={() => setModalVisible(true)}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir producto</Text>
+                    <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
                   </TouchableHighlight>
           <View style={styles.table}>
                 <View style={styles.row}>
@@ -428,14 +434,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3fe53',
     padding: 10,
     borderRadius: 15,
-    width: 135,
+    width: 90,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: '#ff8787',
     padding: 10,
     borderRadius: 15,
-    width: 135,
+    width: 90,
     justifyContent: 'center', alignItems: 'center',
   },
   //---------------

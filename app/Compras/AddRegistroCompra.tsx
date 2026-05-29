@@ -65,7 +65,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
       
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Producto:</Text>
+                      <Text style={styles.modalLabel}>Elemento:</Text>
                       <View style={{width:130, height:50}}>
                         <Picker
                         style={styles.picker}

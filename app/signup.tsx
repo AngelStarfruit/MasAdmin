@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 import type { signupScreenProps } from './types';
 
 export default function Dashboard({navigation}: signupScreenProps ) {
@@ -40,7 +41,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                     Email:
                 </Text>
                 <TextInput style={styles.input}
-                  value={email} onChangeText={setEmail}
+                  value={email} onChangeText={(text) => setEmail(NoEmojis(text))}
                 />
                 <Text style={styles.CardText}>
                     Contraseña:

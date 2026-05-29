@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Imag
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 import type { registerScreenProps } from './types';
 
 export default function Dashboard({navigation}: registerScreenProps ) {
@@ -52,12 +53,12 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                     Nombre completo:
                 </Text>
                 <TextInput style={styles.input} 
-                  value={nombre} onChangeText={setNombre}/>
+                  value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                 <Text style={styles.CardText}>
                     Teléfono:
                 </Text>
                 <TextInput style={styles.input} 
-                  value={telefono} onChangeText={setTelefono}/>
+                  value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                 <Text style={styles.CardText}>
                     Fecha de nacimiento:
                 </Text>             
@@ -89,7 +90,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                     Email:
                 </Text>
                 <TextInput style={styles.input} 
-                  value={email} onChangeText={setEmail}/>
+                  value={email} onChangeText={(text) => setEmail(NoEmojis(text))}/>
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>

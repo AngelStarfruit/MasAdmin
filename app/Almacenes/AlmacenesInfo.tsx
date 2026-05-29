@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 import type { AlmacenesInfoScreenProps } from './types';
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
@@ -16,6 +17,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
   const [almacen, setAlmacen] = useState('');
   const [sucursal, setSucursal] = useState('');
+  const [query, setQuery] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -61,12 +63,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
                           <TextInput style={{...styles.query, width: 150}}
-                          value={almacen} onChangeText={setAlmacen}/>
+                          value={almacen} onChangeText={(text) => setAlmacen(NoEmojis(text))}/>
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                           <TextInput style={{...styles.query, width: 150}}
-                          value={sucursal} onChangeText={setSucursal}/>
+                          value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                         </View>
             
                         <View style={styles.hr}/>
@@ -111,12 +113,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
                           <TextInput style={{...styles.query, width: 150}}
-                          value={almacen} onChangeText={setAlmacen}/>
+                          value={almacen} onChangeText={(text) => setAlmacen(NoEmojis(text))}/>
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                           <TextInput style={{...styles.query, width: 150}}
-                          value={sucursal} onChangeText={setSucursal}/>
+                          value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                         </View>
             
                         <View style={styles.hr}/>
@@ -196,7 +198,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   </TouchableHighlight>
                   <View style={{flexDirection: 'row'}}>
                     <TextInput style={styles.query}
-                    placeholder="Buscar" placeholderTextColor="#aaa"/>
+                    placeholder="Buscar" placeholderTextColor="#aaa"
+                    value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                     <TouchableHighlight
                     underlayColor={'#ddd'}
                     onPress={() => alert("search")}

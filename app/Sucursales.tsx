@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { NoEmojis } from './backend';
 import type { SucursalesScreenProps } from './types';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
@@ -21,6 +22,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
   const [sucursal, setSucursal] = useState('');
   const [telefono, setTelefono] = useState('');
+  const [query, setQuery] = useState('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -97,12 +99,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={sucursal} onChangeText={setSucursal}/>
+                      value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={telefono} onChangeText={setTelefono}/>
+                      value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -147,12 +149,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={sucursal} onChangeText={setSucursal}/>
+                      value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
                       <TextInput style={{...styles.query, width: 150}}
-                      value={telefono} onChangeText={setTelefono}/>
+                      value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -233,7 +235,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           </TouchableHighlight>
             <View style={{flexDirection: 'row'}}>
             <TextInput style={styles.query}
-            placeholder="Buscar" placeholderTextColor="#aaa"/>
+            placeholder="Buscar" placeholderTextColor="#aaa"
+            value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
             <TouchableHighlight
             underlayColor={'#f0f1ff'}
             onPress={() => alert("search")}
