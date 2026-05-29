@@ -9,20 +9,18 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
-  const DateInput = () => {
   const [fecha, setFecha] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-
-  const onChange = (event : any, selectedDate: any) => {
-    setShowPicker(false); // Ocultar el picker al seleccionar o cancelar
-    if (selectedDate) {
-      setFecha(selectedDate);
-      // Aquí puedes formatear la fecha como quieras
-      console.log(selectedDate.toLocaleDateString());
-    }
-  };
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+
+  const DOnChange = (event: any, selectedDate: any) => {
+    setShowPicker(false);
+    if (selectedDate) {
+      setFecha(selectedDate);
+    }
+  };
+
 
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');
@@ -63,20 +61,31 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                   value={telefono} onChangeText={setTelefono}/>
                 <Text style={styles.CardText}>
                     Fecha de nacimiento:
-                </Text>
-                <TextInput
+                </Text>             
+                  <TextInput 
                   style={styles.input}
-                  placeholder="Selecciona una fecha"
-                  value={fecha.toLocaleDateString()} // Muestra la fecha
-                  onFocus={() => setShowPicker(true)} // Abre el picker al hacer focus
+                  value={fecha.toLocaleDateString()}
+                  onFocus={() => {
+                    setShowPicker(true);
+                    }}
+                    onPressIn={() => {
+                    setShowPicker(true);
+                    }}
+                    caretHidden={true}  // Oculta el cursor
+                    showSoftInputOnFocus={false}  // Evita que el teclado se abra
                     />
-                    {showPicker && (
-                    <DateTimePicker
+                  {showPicker && (
+                  <DateTimePicker
                     value={fecha}
-                    mode="date" // 'date', 'time', 'datetime'
-                    onChange={onChange}
-                    />
-                )}
+                    mode="date"
+                    onChange={(event, selectedDate) => {
+                     setShowPicker(false);
+                    if (selectedDate) {
+                    setFecha(selectedDate);
+                    }
+                    }}
+                   />
+                  )}
                 <Text style={styles.CardText}>
                     Email:
                 </Text>
@@ -170,4 +179,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-})};
+});

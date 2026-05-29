@@ -1,11 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput} from 'react-native';
 import Constants from 'expo-constants';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import type { DashboardScreenProps } from './types';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
+
+  const [nombre, setNombre] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [fecha, setFecha] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [email, setEmail] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  const DOnChange = (event: any, selectedDate: any) => {
+    setShowPicker(false);
+    if (selectedDate) {
+      setFecha(selectedDate);
+    }
+  };
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -104,23 +118,55 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           <Text style={styles.CardText}>
                                               Nombre completo:
                                           </Text>
-                                          <TextInput style={styles.input} />
+                                          <TextInput style={styles.input} 
+                                          value = {nombre}
+                                          onChangeText = {setNombre}/>
                                           <Text style={styles.CardText}>
                                               Teléfono:
                                           </Text>
-                                          <TextInput style={styles.input} />
+                                          <TextInput style={styles.input} 
+                                          value = {telefono}
+                                          onChangeText = {setTelefono}/>
                                           <Text style={styles.CardText}>
                                               Fecha de nacimiento:
                                           </Text>
-                                          <TextInput style={styles.input} />
+                                          <TextInput 
+                                            style={styles.input}
+                                            value={fecha.toLocaleDateString()}
+                                            onFocus={() => {
+                                            setShowPicker(true);
+                                            }}
+                                            onPressIn={() => {
+                                            setShowPicker(true);
+                                            }}
+                                            caretHidden={true}  // Oculta el cursor
+                                            showSoftInputOnFocus={false}  // Evita que el teclado se abra
+                                          />
+                                          {showPicker && (
+                                          <DateTimePicker
+                                          value={fecha}
+                                            mode="date"
+                                            onChange={(event, selectedDate) => {
+                                            setShowPicker(false);
+                                            if (selectedDate) {
+                                          setFecha(selectedDate);
+                                          }
+                                          }}
+                                            />
+                                          )}
                                           <Text style={styles.CardText}>
                                               Email:
                                           </Text>
-                                          <TextInput style={styles.input} />
+                                          <TextInput style={styles.input} 
+                                          value = {email}
+                                          onChangeText = {setEmail}/>
                                           <Text style={styles.CardText}>
                                               Contraseña:
                                           </Text>
-                                          <TextInput style={styles.input} secureTextEntry />
+                                          <TextInput style={styles.input} 
+                                          value = {contrasena}
+                                          onChangeText = {setContrasena}
+                                          secureTextEntry />
 
                         <View style={styles.modalhr}/>
                         
