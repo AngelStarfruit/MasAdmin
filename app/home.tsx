@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Modal} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Modal, Image} from 'react-native';
 import Constants from 'expo-constants';
 import type { homeScreenProps } from './types';
 import { useState } from 'react';
@@ -7,6 +7,10 @@ import { useState } from 'react';
 export default function Dashboard({navigation}: homeScreenProps ) {
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const getImage = (nombre: any) => {
+   return require('../assets/homeImage.webp');
+  }
 
   return (
     <View style={styles.container}>
@@ -72,6 +76,9 @@ export default function Dashboard({navigation}: homeScreenProps ) {
           color: '#2435f0', paddingBottom: 10, textAlign: 'center',}}>
         ¡Bienvenido a MasAdmin!
         </Text>
+
+        <Image source={getImage('homeImage')} style={{height: 300, width: 300, alignSelf: 'center', borderWidth: 1, borderColor: 'black'}}/>
+
         <View style={styles.ButtonRow}>
             <TouchableHighlight
             underlayColor={"#414ff1"} style={styles.Button}
