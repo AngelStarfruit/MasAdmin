@@ -11,6 +11,7 @@ const Proveedores = lazy(() => import('./app/Compras/Proveedores'));
 const Ventas = lazy(() => import('./app/Ventas/Ventas'));
 const Clientes = lazy(() => import('./app/Ventas/Clientes'));
 const ControlVentas = lazy(() => import('./app/Ventas/ControlVentas'));
+const AddRegistroVenta = lazy(() => import('./app/Ventas/AddRegistroVenta'));
 
 const Almacenes = lazy(() => import('./app/Almacenes/Almacenes'));
 const AjustesInventario = lazy(() => import('./app/Almacenes/AjustesInventario'));
@@ -37,6 +38,7 @@ export type RootStackParamList = {
   Ventas: undefined;
   Clientes: undefined;
   ControlVentas: undefined;
+  AddRegistroVenta: undefined;
 
   Almacenes: undefined;
   AjustesInventario: undefined;
@@ -110,6 +112,9 @@ export default function App() {
         <Stack.Screen 
           name="ControlVentas" 
           component={ControlVentas}/>
+        <Stack.Screen 
+          name="AddRegistroVenta" 
+          component={AddRegistroVenta}/>
         <Stack.Screen 
           name="Clientes" 
           component={Clientes}/>

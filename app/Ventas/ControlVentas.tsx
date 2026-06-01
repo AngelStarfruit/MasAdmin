@@ -31,7 +31,7 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
         </Text>
         <TouchableHighlight 
         underlayColor={'#f0f1ff'}
-        //onPress={() => setModalVisible(true)}
+        onPress={() => navigation.navigate("AddRegistroVenta")}
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir registro de venta</Text>
           </TouchableHighlight>

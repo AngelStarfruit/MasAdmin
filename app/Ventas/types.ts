@@ -3,4 +3,5 @@ import type { RootStackParamList } from '../../App';  // ✅ Importa desde App r
 
 export type VentasScreenProps = NativeStackScreenProps<RootStackParamList, 'Ventas'>;
 export type ControlVentasScreenProps = NativeStackScreenProps<RootStackParamList, 'ControlVentas'>;
+export type AddRegistroVentaScreenProps = NativeStackScreenProps<RootStackParamList, 'AddRegistroVenta'>;
 export type ClientesScreenProps = NativeStackScreenProps<RootStackParamList, 'Clientes'>;
