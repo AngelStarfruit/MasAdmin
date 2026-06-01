@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, NumeroValido } from './backend';
 import type { ListaDePreciosScreenProps } from './types';
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
@@ -23,13 +23,18 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [descripcion, setDescripcion] = useState('');
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
+  const [cantidad, setCantidad] = useState('');
 
   const [selectedValue, setSelectedValue] = useState('A');
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
+  const [selectedProduct, setSelectedProduct] = useState('1');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
+  const [NewPaquete, setNewPaquete] = useState(false);
+  const [Paquete, setPaquete] = useState(false);
+  const [AlterPaquete, setAlterPaquete] = useState(false);
   const [Confirm, setConfirm] = useState(false);
 
   return (
@@ -81,7 +86,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
     </View>
 
-    {/* Modal para añadir productos */}
+    {/* Modal para añadir elementos */}
             <Modal
                   animationType="slide"
                   transparent={true}
@@ -162,7 +167,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                        setModalVisible(!modalVisible)}}>
+                            if (selectedTValue != 'paquete'){
+                            setModalVisible(!modalVisible)
+                            }
+                            else {setNewPaquete(true)}
+                          }}>
                         <Text>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -219,7 +228,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
-                        onPress={() => setEModalVisible(!EmodalVisible)}>
+                        onPress={() => setPaquete(true)}>
                         <Text>Editar paquete</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -280,6 +289,206 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </View>
                   </View>
                 </Modal>
+
+      {/* Modal para agregar paquete */}
+            <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={NewPaquete}
+                  onRequestClose={() => {
+                    setNewPaquete(!NewPaquete);
+                  }}>
+                  <View style={styles.modalOverlay}>
+                  <View style={[styles.modalView, {marginVertical: 140}]}>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <TouchableHighlight
+                      underlayColor={'#ccc'}
+                      onPress={() => setNewPaquete(!NewPaquete)}>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                    </View>
+        
+                    <View>
+                      <Text style={styles.modalTitle}>Definir paquete</Text>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                   <View>
+                      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
+                        Ingrese los productos que contendrá este paquete</Text>
+                    </View>
+
+                    <View style={styles.table}>
+                        <View style={styles.row}>
+                        <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <Text style={styles.headerText}>Descripción</Text>
+                            </View>
+                            <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <Text style={styles.headerText}>Cantidad</Text>
+                              </View>
+                              </View>
+                              <ScrollView style={styles.showcase}>
+                                        
+                              </ScrollView>
+                          </View>
+
+                    <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
+                              <TouchableHighlight
+                                    underlayColor={'#5460ff'}
+                                      onPress={() => setAlterPaquete(true)}
+                                      style={styles.buttonRegister}>
+                                      <Text style={styles.buttonText}>Agregar</Text>
+                                  </TouchableHighlight>
+                                  </View>
+                    
+                    <View style={styles.hr}/>
+
+                    <View style={[styles.row, {justifyContent: 'center'}]}>
+                      <TouchableHighlight
+                      underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 150}]}
+                        onPress={() => {
+                        setNewPaquete(!NewPaquete)
+                        setModalVisible(!modalVisible)}}>
+                        <Text>Añadir paquete</Text>
+                      </TouchableHighlight>
+                      </View>
+        
+                  </View>
+                  </View>
+                </Modal>
+      
+      {/* Modal para editar paquete */}
+            <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={Paquete}
+                  onRequestClose={() => {
+                    setPaquete(!Paquete);
+                  }}>
+                  <View style={styles.modalOverlay}>
+                  <View style={[styles.modalView, {marginVertical: 140}]}>
+
+                  <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <TouchableHighlight
+                      underlayColor={'#ccc'}
+                      onPress={() => setPaquete(!Paquete)}>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                    </View>
+        
+                    <View>
+                      <Text style={styles.modalTitle}>Editar paquete</Text>
+                    </View>
+        
+                    <View style={styles.hr}/>
+        
+                   <View>
+                      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
+                        Ingrese los productos que contendrá este paquete</Text>
+                    </View>
+
+                    <View style={styles.table}>
+                        <View style={styles.row}>
+                        <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <Text style={styles.headerText}>Descripción</Text>
+                            </View>
+                            <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <Text style={styles.headerText}>Cantidad</Text>
+                              </View>
+                              </View>
+                              <ScrollView style={styles.showcase}>
+                                        
+                              </ScrollView>
+                          </View>
+
+                    <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
+                              <TouchableHighlight
+                                    underlayColor={'#5460ff'}
+                                      onPress={() => setAlterPaquete(true)}
+                                      style={styles.buttonRegister}>
+                                      <Text style={styles.buttonText}>Agregar</Text>
+                                  </TouchableHighlight>
+                                  </View>
+                    
+                    <View style={styles.hr}/>
+
+                    <View style={[styles.row, {justifyContent: 'center'}]}>
+                      <TouchableHighlight
+                      underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
+                        onPress={() =>  {
+                          Alert.alert('Exito', 'Cambios al paquete guardados');
+                        setPaquete(!Paquete)}}>
+                        <Text>Confirmar cambios</Text>
+                      </TouchableHighlight>
+                      </View>
+        
+                  </View>
+                  </View>
+                </Modal>
+      
+      {/* Modal para definir elementos para los paquetes*/}
+                <Modal
+                      animationType="slide"
+                      transparent={true}
+                      visible={AlterPaquete}
+                      onRequestClose={() => {
+                        setAlterPaquete(!AlterPaquete);
+                      }}>
+                      <View style={styles.modalOverlay}>
+                      <View style={[styles.modalView, {marginVertical: 300}]}>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                          <TouchableHighlight
+                          underlayColor={'#ccc'}
+                          onPress={() => setAlterPaquete(!AlterPaquete)}>
+                          <Image source={getImage('x')} style={styles.lupaImage}/>
+                          </TouchableHighlight>
+                        </View>
+            
+                        <View>
+                          <Text style={styles.modalTitle}>Agregar elementos</Text>
+                        </View>
+            
+                        <View style={styles.hr}/>
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Elemento:</Text>
+                            <View style={{width:130, height:50}}>
+                              <Picker
+                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              selectedValue={selectedProduct}
+                              onValueChange={(itemValue) => setSelectedProduct(itemValue)}
+                              >
+                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              </Picker></View>
+                          </View>
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Cantidad:</Text>
+                            <TextInput style={styles.query}
+                                        value={cantidad} onChangeText={setCantidad}
+                                        keyboardType='numeric'></TextInput>
+                          </View>
+                        <View style={styles.hr}/>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                          <TouchableHighlight
+                          underlayColor={'#82ff92'} style={styles.modalConfirm}
+                            onPress={() => {
+                              const validation = NumeroValido(cantidad);
+                                  if (!validation.isValid) {
+                              Alert.alert('Error', validation.message);
+                              return; 
+                            }
+                            setCantidad('')
+                            setAlterPaquete(!AlterPaquete)}}>
+                            <Text>Agregar</Text>
+                          </TouchableHighlight>
+                        </View>
+            
+                      </View>
+                      </View>
+                    </Modal>
 
       {/*ScrollView*/}
       <ScrollView>
@@ -363,6 +572,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#eee',
     padding: 18,
+  },
+  showcase: {
+    backgroundColor: '#e3e5ff',
+    minHeight: 250
   },
   add: {
     backgroundColor: 'white',
@@ -457,6 +670,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
+  },
+  buttonRegister: {
+    backgroundColor: '#656fff',
+    width: 150,
+    padding: 10,
+  },
+  buttonText: {
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
   //---------------
   picker: {
