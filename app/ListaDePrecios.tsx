@@ -341,7 +341,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase}>
@@ -353,7 +353,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                             <Text>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                             <TouchableHighlight
                             style={{height:20, width:20}}
                             onPress={()=> alert("x")}
@@ -431,7 +431,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase}>
@@ -444,7 +444,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                             <Text>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                             <TouchableHighlight
                             style={{height:20, width:20}}
                             onPress={()=> alert("x")}

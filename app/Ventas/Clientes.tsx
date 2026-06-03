@@ -258,10 +258,10 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Teléfono</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Ciudad</Text>
-                      </View>
-                  <View style={styles.headerCell}>
+                  </View>
+                      <View style={[styles.headerCell, {flex: 1.2}]}>
                       <Text style={styles.headerText}>Estado</Text>
                       </View>
                   </View>
@@ -274,8 +274,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           </TouchableHighlight>
                           </View> 
                       <View style={styles.cell}><Text>833-456-7890</Text></View>
-                      <View style={styles.cell}><Text>Tampico</Text></View>
-                      <View style={styles.cell}><Text>Tamaulipas</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text>Tampico</Text></View>
+                      <View style={[styles.cell, {flex: 1.2}]}><Text>Tamaulipas</Text></View>
                 </View>
           </View>
         

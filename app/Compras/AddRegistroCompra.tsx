@@ -229,13 +229,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.3}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
@@ -248,13 +248,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                     <Text>{costo}</Text>
                     </View>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.3}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
                         onPress={()=> alert("x")}
@@ -313,13 +313,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
-                    <View style={styles.headerCell}>
+                    <View style={[styles.headerCell, {flex: 0.3}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
@@ -332,13 +332,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                     <Text>{costo}</Text>
                     </View>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff' ,flex: 0.3}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
                         onPress={()=> alert("x")}

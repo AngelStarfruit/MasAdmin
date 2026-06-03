@@ -40,7 +40,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Almacen afectado</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Operación</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -49,7 +49,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                   </View>
                       <View style={styles.row}>
                       <View style={styles.cell}><Text>Almacen objetos</Text></View>
-                      <View style={styles.cell}><Text>entrada</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text>entrada</Text></View>
                       <View style={styles.cell}><Text>3-03-2023</Text></View>
                 </View>
           </View>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 12,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'black',
   },

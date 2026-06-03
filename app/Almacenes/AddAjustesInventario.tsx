@@ -237,7 +237,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.15}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
@@ -249,7 +249,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                         <Text>{cantidad}</Text>
                         </View>
-                          <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                          <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:20, width:20}}
                              onPress={()=> alert("x")}

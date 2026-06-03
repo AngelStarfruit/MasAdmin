@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 12,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'black',
   },
