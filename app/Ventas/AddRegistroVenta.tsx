@@ -15,17 +15,25 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
       default: return require('../../assets/x.png');
    }
   }
-
+  //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
+  //Constantes de pickers
   const [selectedProvider, setSelectedProvider] = useState('A');
   const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedProduct, setSelectedProduct] = useState('a');
   const [selectedStore, setSelectedStore] = useState('I');
 
+  //Constante de input
   const [cantidad, setCantidad] = useState('');
+
+  //Constante de JSON
+  const processVenta = {
+    "Queso" : 1,
+    "Chorizo" : 1,
+  };
 
   return (
     <View style={styles.container}>

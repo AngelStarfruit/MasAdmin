@@ -20,22 +20,31 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
     }
   }
 
+  //Constantes de inputs
   const [descripcion, setDescripcion] = useState('');
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
 
+  //Constantes de picker
   const [selectedValue, setSelectedValue] = useState('A');
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState('1');
 
+  //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [NewPaquete, setNewPaquete] = useState(false);
   const [Paquete, setPaquete] = useState(false);
   const [AlterPaquete, setAlterPaquete] = useState(false);
   const [Confirm, setConfirm] = useState(false);
+
+  //JSON para crear paquetes
+  const contenidoPaquete = {
+    "Queso" : 1,
+    "Chorizo" : 1,
+  };
 
   return (
     <View style={styles.container}>
@@ -500,6 +509,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
           Lista de precios
         </Text>
+        <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione una categoría para veer los elementos ubicados en ella.
+          </Text>
         <Text style={{ 
           fontSize: 15, 
           paddingVertical: 10,}}>

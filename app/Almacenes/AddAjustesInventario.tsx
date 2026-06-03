@@ -16,16 +16,25 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    }
   }
 
+  //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
+  //Constantes de pickers
   const [selectedStore, setSelectedStore] = useState('A');
   const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedProduct, setSelectedProduct] = useState('a');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
 
+  //Constantes de inputs
   const [cantidad, setCantidad] = useState('');
+
+   //JSON para efectuar ajustes de inventario
+  const processAjusteInventario = {
+    "Queso" : 1,
+    "Chorizo" : 1,
+  };
 
   return (
     <View style={styles.container}>
