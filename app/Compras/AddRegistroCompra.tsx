@@ -12,6 +12,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const getImage = (nombre: any) => {
     switch (nombre){
       case 'B': return require('../../assets/B.png');
+      case 'xr': return require('../../assets/xred.png');
       default: return require('../../assets/x.png');
    }
   }
@@ -30,10 +31,14 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   //Constante de input
   const [cantidad, setCantidad] = useState('');
 
-  //Constante de JSON
+  //Constantes de JSON
   const processCompra = {
-    "Queso" : 1,
-    "Chorizo" : 1,
+    "Queso" : ["Caperucita",260.00,1],
+    "Chorizo" : ["Chimex",23.99,1],
+  };
+  const processCompraAlmacen = {
+    "Queso" : ["Caperucita",260.00,1],
+    "Chorizo" : ["Chimex",23.99,1],
   };
 
   return (
@@ -230,8 +235,36 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
+                  <View style={styles.headerCell}>
+                      </View>
                   </View>
                   <ScrollView style={styles.showcase}>
+
+                    {Object.entries(processCompra).map(([descripcion, [marca, costo, cantidad]], index) => (
+                    <View key={index} style={styles.row}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{descripcion}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{marca}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{costo}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{cantidad}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                        <TouchableHighlight
+                        style={{height:20, width:20}}
+                        onPress={()=> alert("x")}
+                        underlayColor={"#ffa6a6"}
+                        >
+                        <Image source={getImage('xr')} style={styles.navIconImage} />
+                        </TouchableHighlight>
+                        </View>
+                      </View>
+                    ))}  
                     
                   </ScrollView>
           </View>
@@ -250,7 +283,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>
               </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10 }}>
         Total: 0
         </Text>
 
@@ -286,8 +319,36 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
+                    <View style={styles.headerCell}>
+                      </View>
                   </View>
                   <ScrollView style={styles.showcase}>
+
+                    {Object.entries(processCompraAlmacen).map(([descripcion, [marca, costo, cantidad]], index) => (
+                    <View key={index} style={styles.row}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{descripcion}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{marca}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{costo}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <Text>{cantidad}</Text>
+                    </View>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                        <TouchableHighlight
+                        style={{height:20, width:20}}
+                        onPress={()=> alert("x")}
+                        underlayColor={"#ffa6a6"}
+                        >
+                        <Image source={getImage('xr')} style={styles.navIconImage} />
+                        </TouchableHighlight>
+                        </View>
+                      </View>
+                    ))}
                     
                   </ScrollView>
           </View>
@@ -337,7 +398,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 10,
   },
   textRow:{
     fontSize: 20, 
@@ -375,7 +435,6 @@ const styles = StyleSheet.create({
   cell: {
     flex: 1, padding: 12,
     borderWidth: 1,
-    backgroundColor: 'white',
   },
   headerText: {
     fontWeight: 'bold',

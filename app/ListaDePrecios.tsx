@@ -16,6 +16,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
     case 'D': return require('../assets/D.png');
     case 'A': return require('../assets/A.png');
     case '$': return require('../assets/$.png');
+    case 'xr': return require('../assets/xred.png');
     default: return require('../assets/x.png');
     }
   }
@@ -340,9 +341,29 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
+                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                              </View>
                               </View>
                               <ScrollView style={styles.showcase}>
-                                        
+                          {Object.entries(contenidoPaquete).map(([descripcion, cantidad], index) => (
+                          <View key={index} style={styles.row}>
+                          <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                          <Text>{descripcion}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <Text>{cantidad}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <TouchableHighlight
+                            style={{height:20, width:20}}
+                            onPress={()=> alert("x")}
+                            underlayColor={"#ffa6a6"}
+                            >
+                               <Image source={getImage('xr')} style={styles.navIconImage} />
+                            </TouchableHighlight>
+                            </View>
+                          </View>
+                          ))}
                               </ScrollView>
                           </View>
 
@@ -410,9 +431,31 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
+                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                              </View>
                               </View>
                               <ScrollView style={styles.showcase}>
-                                        
+
+                                {Object.entries(contenidoPaquete).map(([descripcion, cantidad], index) => (
+                          <View key={index} style={styles.row}>
+                          <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                          <Text>{descripcion}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <Text>{cantidad}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                            <TouchableHighlight
+                            style={{height:20, width:20}}
+                            onPress={()=> alert("x")}
+                            underlayColor={"#ffa6a6"}
+                            >
+                               <Image source={getImage('xr')} style={styles.navIconImage} />
+                            </TouchableHighlight>
+                            </View>
+                          </View>
+                          ))}  
+                               
                               </ScrollView>
                           </View>
 
