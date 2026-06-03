@@ -330,7 +330,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 40, width: 150,
     marginTop: 10,
-    padding: 10
+    padding: 10,
+    borderRadius: 15,
+     elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query: {
     backgroundColor: 'white', color: 'black', 
@@ -400,6 +403,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
     backgroundColor: '#f3fe53',
@@ -407,6 +412,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: '#ff8787',
@@ -414,6 +421,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: '#ccc',
@@ -421,5 +430,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
 });

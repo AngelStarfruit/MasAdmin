@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
     width: 200,
     marginTop: 10,
     padding: 10,
+    borderRadius: 15,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   //Tabla estilos
   table: {
