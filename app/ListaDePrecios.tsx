@@ -99,7 +99,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
-                      underlayColor={'#ccc'}
+                      style={{height: 30, width: 30, alignItems: "flex-end"}}
+                      underlayColor={'#eee'}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -189,11 +190,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setEModalVisible(!EmodalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 220}]}>
+                  <View style={[styles.modalView, {marginVertical: 210}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
-                      underlayColor={'#ccc'}
+                      style={{height: 30, width: 30, alignItems: "flex-end"}}
+                      underlayColor={'#eee'}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -299,11 +301,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setNewPaquete(!NewPaquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 140}]}>
+                  <View style={[styles.modalView, {marginVertical: 130}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
-                      underlayColor={'#ccc'}
+                      style={{height: 30, width: 30, alignItems: "flex-end"}}
+                      underlayColor={'#eee'}
                       onPress={() => setNewPaquete(!NewPaquete)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -368,11 +371,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setPaquete(!Paquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 140}]}>
+                  <View style={[styles.modalView, {marginVertical: 130}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
-                      underlayColor={'#ccc'}
+                      style={{height: 30, width: 30, alignItems: "flex-end"}}
+                      underlayColor={'#eee'}
                       onPress={() => setPaquete(!Paquete)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -555,6 +559,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -591,7 +597,9 @@ const styles = StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20
+    paddingVertical: 20,
+    elevation: 10,
+    shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
   },
   row: {flexDirection: 'row',},
   headerCell: {
@@ -617,7 +625,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 200,
+    marginHorizontal: 30, marginVertical: 190,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",

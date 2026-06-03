@@ -52,7 +52,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
-                  underlayColor={'#ccc'}
+                  style={{height: 30, width: 30, alignItems: "flex-end"}}
+                  underlayColor={'#ddd'}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -118,7 +119,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
-                  underlayColor={'#ccc'}
+                  style={{height: 30, width: 30, alignItems: "flex-end"}}
+                  underlayColor={'#eee'}
                   onPress={() => setEModalVisible(!EmodalVisible)}>
                   <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -332,6 +334,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
   headerCell: {
@@ -357,7 +361,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 230,
+    marginHorizontal: 30, marginVertical: 220,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",

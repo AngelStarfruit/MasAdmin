@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -119,6 +121,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
+    elevation: 10,
+    shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
   },
   touchText: {
     color: 'white',

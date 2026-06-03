@@ -224,6 +224,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                 </Modal>
 
     {/* Pantalla */}
+    <View style={styles.head}>
     <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
     <View style={{paddingLeft: 10}}>
       <Text style={{
@@ -277,7 +278,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       >
         <Image source={getImage('$')} style={styles.navIconImage}/></TouchableHighlight>
 
-    </View>
+    </View></View>
 
       <ScrollView>
         <View style={styles.scroll}>
@@ -332,7 +333,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Picker.Item label="Este año" value="añoA" />
           </Picker></View>
           </View>
-          <View>
+          <View style={styles.table}>
             <View style={styles.row}>
               <View style={styles.headerCell}>
                 <Text style={styles.headerText}>Evento</Text>
@@ -365,6 +366,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Constants.statusBarHeight,
     backgroundColor: "white",
+  },
+  head:{
+    elevation: 10,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navigation: {
     backgroundColor: "white",
@@ -401,7 +406,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#e3e5ff',
     fontWeight: 'bold', fontSize: 30, color: '#2435f0',
     paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
+    borderRadius: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   hr:{
     height: 2, 
@@ -409,6 +416,10 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   //Tabla estilos
+  table:{
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 12,

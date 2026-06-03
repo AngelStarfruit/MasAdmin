@@ -53,7 +53,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
       
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableHighlight
-                    underlayColor={'#ccc'}
+                    style={{height: 30, width: 30, alignItems: "flex-end"}}
+                    underlayColor={'#eee'}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                     </TouchableHighlight>
@@ -334,18 +335,13 @@ const styles = StyleSheet.create({
     paddingVertical: 5, 
     fontWeight: 'bold',
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
   button: {
     backgroundColor: '#656fff',
     width: 150,
     padding: 10,
+    borderRadius: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonText: {
     fontWeight: 'bold',
@@ -392,7 +388,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 300,
+    marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",

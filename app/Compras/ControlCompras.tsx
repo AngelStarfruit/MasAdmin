@@ -105,6 +105,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
   headerCell: {

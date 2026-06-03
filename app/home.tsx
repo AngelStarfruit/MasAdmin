@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#2435f0",
     flexDirection: 'row', 
     paddingHorizontal: 5, paddingVertical: 10,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navButton:{
     padding: 10, 
@@ -124,7 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#2435f0",
     padding: 15, 
     borderRadius: 25 ,
-    
+    elevation: 5,
+    shadowColor: "#000",shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
     color: 'white', 

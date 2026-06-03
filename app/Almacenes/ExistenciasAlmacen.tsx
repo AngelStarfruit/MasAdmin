@@ -58,7 +58,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Producto</Text>
+                      <Text style={styles.headerText}>Poducto</Text>
                       </View>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
@@ -118,6 +118,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
   headerCell: {

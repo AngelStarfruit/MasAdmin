@@ -148,6 +148,8 @@ const styles = StyleSheet.create({
     borderRadius: 25 ,
     width: '50%',
     alignSelf: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
     color: 'black', 
@@ -167,6 +169,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontWeight: 'bold', 
     paddingVertical: 30, paddingHorizontal: 5,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      height: 2, width: 0,
+    }
   },
   Card:{
     flex: 1,

@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
 import type { AlmacenesInfoScreenProps } from './types';
 
@@ -16,8 +17,10 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   }
 
   const [almacen, setAlmacen] = useState('');
-  const [sucursal, setSucursal] = useState('');
   const [query, setQuery] = useState('');
+
+   const [selectedBranch, setSelectedBranch] = useState('1');
+   const [selectedEBranch, setSelectedEBranch] = useState('1');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -48,7 +51,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
-                          underlayColor={'#ccc'}
+                          style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={'#eee'}
                           onPress={() => setModalVisible(!modalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -67,8 +71,14 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <TextInput style={{...styles.query, width: 150}}
-                          value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
+                           <View style={{width:130, height:50}}>
+                              <Picker
+                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              selectedValue={selectedBranch}
+                              onValueChange={(itemValue) => setSelectedBranch(itemValue)}
+                              >
+                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              </Picker></View>
                         </View>
             
                         <View style={styles.hr}/>
@@ -77,7 +87,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <TouchableHighlight
                           underlayColor={'#82ff92'} style={styles.modalConfirm}
                             onPress={() => {
-                              const validation = Validar(2,almacen,sucursal,'','');
+                              const validation = Validar(1,almacen,'','','');
                                   if (!validation.isValid) {
                                   Alert.alert('Error', validation.message);
                                   return; 
@@ -104,7 +114,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
-                          underlayColor={'#ccc'}
+                          style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={'#eee'}
                           onPress={() => setEModalVisible(!EmodalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -123,8 +134,14 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <TextInput style={{...styles.query, width: 150}}
-                          value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
+                          <View style={{width:130, height:50}}>
+                              <Picker
+                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              selectedValue={selectedEBranch}
+                              onValueChange={(itemValue) => setSelectedEBranch(itemValue)}
+                              >
+                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              </Picker></View>
                         </View>
             
                         <View style={styles.hr}/>
@@ -133,7 +150,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <TouchableHighlight
                           underlayColor={'#f3fe53'} style={styles.modalEdit}
                             onPress={() => {
-                              const validation = Validar(2,almacen,sucursal,'','');
+                              const validation = Validar(1,almacen,'','','');
                                   if (!validation.isValid) {
                                   Alert.alert('Error', validation.message);
                                   return; 
@@ -205,7 +222,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                 <TouchableHighlight
                 underlayColor={'#ddd'}
                 onPress={() => {
-                  setAlmacen(''); setSucursal('')
+                  setAlmacen(''); 
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir almacén</Text>
@@ -299,6 +316,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
   headerCell: {
@@ -324,7 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 300,
+    marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",
@@ -377,5 +396,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-  }
+  },
+  //------------------
+  picker: {
+    height: 50,
+    marginLeft: 10,
+    flex: 1,
+    backgroundColor: 'white',
+    color: 'black',
+  },
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

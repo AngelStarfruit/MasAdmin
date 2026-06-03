@@ -1,8 +1,8 @@
+  // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes.
 export const NoEmojis = (texto: string) => {
-  // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes
   return texto.replace(/[^a-zA-ZáéíóúñÑüÜ0-9\s\.\,\-\_]/g, '');
 };
-
+// Valida que ningún campo esté vacio.
 export const Validar = (datos: number, A: string, B: string, C: string, D: string) 
 : { isValid: boolean; message?: string } => {
 
@@ -28,6 +28,7 @@ export const Validar = (datos: number, A: string, B: string, C: string, D: strin
         return { isValid: true };
     }
 }
+//Valida que en los inputs numéricos haya un número positivo válido.
 export const NumeroValido = (quantity: string): { isValid: boolean; message?: string } => {
 
     if (!quantity.trim()) {
