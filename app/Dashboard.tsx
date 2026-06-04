@@ -339,7 +339,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <Text style={styles.headerText}>Evento</Text>
                 </View>
               <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Fecha</Text>
+                <Text style={styles.headerText}>Fecha y Hora</Text>
                 </View>
               <View style={styles.headerCell}>
                 <Text style={styles.headerText}>Lugar</Text>
@@ -350,7 +350,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             </View>
             <View style={styles.row}>
               <View style={styles.cell}><Text>hjsakldfhl</Text></View>
-              <View style={styles.cell}><Text>2023-10-15</Text></View>
+              <View style={styles.cell}><Text>2023-10-15 18:00</Text></View>
               <View style={styles.cell}><Text>Centro de Convenciones</Text></View>
               <View style={styles.cell}><Text>contacto@evento.com</Text></View>
             </View>
@@ -422,13 +422,13 @@ const styles = StyleSheet.create({
   },
   row: {flexDirection: 'row',},
   headerCell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'black',
   },
   cell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
     backgroundColor: 'white',
   },

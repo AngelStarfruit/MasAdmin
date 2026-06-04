@@ -33,13 +33,16 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //Constantes de JSON
   const processCompra = {
-    "Queso" : ["Caperucita",260.00,1],
-    "Chorizo" : ["Chimex",23.99,1],
+    1 : ["Queso","Caperucita",260.00,1],
+    2 : ["Chorizo","Chimex",23.99,1],
   };
   const processCompraAlmacen = {
-    "Queso" : ["Caperucita",260.00,1],
-    "Chorizo" : ["Chimex",23.99,1],
+    1 : ["Queso","Caperucita",260.00,1],
+    2 : ["Chorizo","Chimex",23.99,1],
   };
+
+  //Constantes extras
+  const total = 9.99
 
   return (
     <View style={styles.container}>
@@ -198,7 +201,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         Realizar compra
         </Text>
 
-        <View style={styles.row}>
+        <View style={[styles.row, {marginBottom: 12}]}>
           <Text style={styles.textRow}>Proveedor:</Text>
           <View style={{width:150}}>
           <Picker
@@ -232,15 +235,15 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.3}]}>
+                  <View style={[styles.headerCell, {flex: 0.2}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
 
-                    {Object.entries(processCompra).map(([descripcion, [marca, costo, cantidad]], index) => (
+                    {Object.entries(processCompra).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{descripcion}</Text>
@@ -249,12 +252,12 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <Text>{marca}</Text>
                     </View>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                    <Text>{costo}</Text>
+                    <Text>{Number(costo).toFixed(2)}$</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                     <Text>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.3}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
                         onPress={()=> alert("x")}
@@ -284,7 +287,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
               </TouchableHighlight>
               </View>
         <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10 }}>
-        Total: 0
+        Total: {total}$
         </Text>
 
         <View style={[styles.hr, {marginTop: 15}]}></View>
@@ -316,15 +319,15 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
-                    <View style={[styles.headerCell, {flex: 0.3}]}>
+                    <View style={[styles.headerCell, {flex: 0.2}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
 
-                    {Object.entries(processCompraAlmacen).map(([descripcion, [marca, costo, cantidad]], index) => (
+                    {Object.entries(processCompraAlmacen).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{descripcion}</Text>
@@ -333,12 +336,12 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <Text>{marca}</Text>
                     </View>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                    <Text>{costo}</Text>
+                    <Text>{Number(costo).toFixed(2)}$</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                     <Text>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff' ,flex: 0.3}]}>
+                    <View style={[styles.cell, {backgroundColor: '#e3e5ff' ,flex: 0.2}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
                         onPress={()=> alert("x")}
@@ -423,7 +426,7 @@ const styles = StyleSheet.create({
   },
   tableRow: {flexDirection: 'row',},
   headerCell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     backgroundColor: '#c2c6ff', 
     borderWidth: 1,
     borderColor: 'black',
@@ -433,7 +436,7 @@ const styles = StyleSheet.create({
     minHeight: 250
   },
   cell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
   },
   headerText: {

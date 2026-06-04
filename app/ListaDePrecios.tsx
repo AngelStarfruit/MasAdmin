@@ -731,18 +731,18 @@ const styles = StyleSheet.create({
   },
   row: {flexDirection: 'row',},
   headerCell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     backgroundColor: '#e3e5ff',
     borderWidth: 1,
     borderColor: 'black',
   },
   cell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
     backgroundColor: 'white',
   },
   cellF: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
     backgroundColor: '#eee',
   },

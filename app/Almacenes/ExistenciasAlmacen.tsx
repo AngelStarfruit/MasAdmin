@@ -123,13 +123,13 @@ const styles = StyleSheet.create({
   },
   row: {flexDirection: 'row',},
   headerCell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'black',
   },
   cell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
     backgroundColor: 'white',
   },
