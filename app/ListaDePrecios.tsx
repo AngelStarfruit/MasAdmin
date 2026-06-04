@@ -26,14 +26,16 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
+  const [category, setCategory] = useState('');
 
   //Constantes de picker
-  const [selectedValue, setSelectedValue] = useState('A');
+  const [selectedValue, setSelectedValue] = useState('Servicios');
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState('1');
 
   //Constantes de modales
+  const [NewCategory, setNewCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [NewPaquete, setNewPaquete] = useState(false);
@@ -95,6 +97,55 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
       </TouchableHighlight>
 
     </View>
+
+    {/* Modal para añadir categorías */}
+            <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={NewCategory}
+                  onRequestClose={() => {
+                    setNewCategory(!NewCategory);
+                  }}>
+                  <View style={styles.modalOverlay}>
+                  <View style={[styles.modalView, {marginVertical: 330}]}>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                      <TouchableHighlight
+                      style={{height: 30, width: 30, alignItems: "flex-end"}}
+                      underlayColor={'#eee'}
+                      onPress={() => setNewCategory(!NewCategory)}>
+                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      </TouchableHighlight>
+                    </View>
+        
+                    <View>
+                      <Text style={styles.modalTitle}>Añadir categoría</Text>
+                    </View>
+        
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Descripción:</Text>
+                      <TextInput style={{...styles.query, width: 150}}
+                      value={category} onChangeText={(text) => setCategory(NoEmojis(text))}/>
+                    </View>
+        
+                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                      <TouchableHighlight
+                      underlayColor={'#82ff92'} style={styles.modalConfirm}
+                        onPress={() => {
+                          const validation = Validar(1,category,'','','');
+                             if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                            setNewCategory(!NewCategory)
+                          }}>
+                        <Text>Añadir registro</Text>
+                      </TouchableHighlight>
+                    </View>
+        
+                  </View>
+                  </View>
+                </Modal>
 
     {/* Modal para añadir elementos */}
             <Modal
@@ -561,14 +612,24 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           fontSize: 15, 
           paddingVertical: 10,}}>
           Seleccione la descripción de un elemento en la tabla para modificar sus datos.
-          </Text>
+          </Text>   
           <Picker
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-                <Picker.Item label="A" value="A" />
+                <Picker.Item label="Servicios" value="Servicios" />
+                <Picker.Item label="Paquetes" value="Paquetes" />
           </Picker>
+          <View style={[styles.row, {justifyContent: "space-between"}]}>
+            <TouchableHighlight 
+                underlayColor={'#f0f1ff'}
+                onPress={() => {
+                  setDescripcion(''); setMarca(''); setCosto('');
+                  setNewCategory(true)}}
+                style={styles.add}>
+                    <Text style={{fontWeight: 'bold'}}>Añadir Categoría</Text>
+                  </TouchableHighlight>
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
@@ -576,7 +637,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
-                  </TouchableHighlight>
+                  </TouchableHighlight></View>
+                  
+                  <View style={styles.hr}/>
           <View style={styles.table}>
                 <View style={styles.row}>
                         <View style={styles.headerCell}>
@@ -655,6 +718,11 @@ const styles = StyleSheet.create({
     height: 40, width: 120,
     marginTop: 10,
   },
+   hr:{
+    height: 2, 
+    backgroundColor: '#777', 
+    marginVertical: 8,
+  },
   //Tabla estilos
   table: {
     paddingVertical: 20,
@@ -697,11 +765,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
-   hr:{
-    height: 2, 
-    backgroundColor: '#bbb', 
-    marginBottom: 15,
-  },
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', 
@@ -714,7 +777,7 @@ const styles = StyleSheet.create({
   modalConfirm: {
     backgroundColor: '#62ff77',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
     paddingVertical: 20,
@@ -734,7 +797,7 @@ const styles = StyleSheet.create({
   modalEdit: {
     backgroundColor: '#f3fe53',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
@@ -743,7 +806,7 @@ const styles = StyleSheet.create({
   modalDelete: {
     backgroundColor: '#ff8787',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
@@ -753,7 +816,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#656fff',
     width: 150,
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },

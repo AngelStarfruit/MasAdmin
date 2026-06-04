@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
   modalConfirm: {
     backgroundColor: '#62ff77',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
      elevation: 5,
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
   modalRegret: {
     backgroundColor: '#ccc',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
      elevation: 5,
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
   modalDelete: {
     backgroundColor: '#ff8787',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
      elevation: 5,

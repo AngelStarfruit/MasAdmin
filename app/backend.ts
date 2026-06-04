@@ -1,3 +1,4 @@
+//-----------------------FUNCIONES GENERALES-----------------------------------------
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes.
 export const NoEmojis = (texto: string) => {
   return texto.replace(/[^a-zA-ZáéíóúñÑüÜ0-9\s\.\,\-\_]/g, '');
@@ -6,6 +7,13 @@ export const NoEmojis = (texto: string) => {
 export const Validar = (datos: number, A: string, B: string, C: string, D: string) 
 : { isValid: boolean; message?: string } => {
 
+    if (datos == 1){
+        if (!A.trim()){
+        return { isValid: false, message: 'Por favor, llene los campos solicitados.'};
+        }
+
+        return { isValid: true };
+    }
     if (datos == 2){
         if (!A.trim() || !B.trim()){
         return { isValid: false, message: 'Por favor, llene los campos solicitados.'};
@@ -42,3 +50,4 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
+
