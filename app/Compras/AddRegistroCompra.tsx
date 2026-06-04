@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { AddRegistroCompraScreenProps } from './types';
+import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido } from './backend';
+import { NumeroValido, totalCompra, AddElemento, QuitarElemento } from './backend';
 import ControlCompras from './ControlCompras';
 
 export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
@@ -32,17 +32,14 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [cantidad, setCantidad] = useState('');
 
   //Constantes de JSON
-  const processCompra = {
-    1 : ["Queso","Caperucita",260.00,1],
-    2 : ["Chorizo","Chimex",23.99,1],
-  };
-  const processCompraAlmacen = {
-    1 : ["Queso","Caperucita",260.00,1],
-    2 : ["Chorizo","Chimex",23.99,1],
-  };
+  const [processCompra, setProcessCompra] = useState<RegistroCompra>({})
+  const [processACompra, setProcessACompra] = useState<RegistroCompra>({})
 
   //Constantes extras
-  const total = 9.99
+  const total = totalCompra(processCompra)
+
+  //Desabilitar botones
+  const [Off, setOff] = useState(false)
 
   return (
     <View style={styles.container}>
@@ -110,6 +107,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                             Alert.alert('Error', validation.message);
                               return; 
                             }
+                            setProcessCompra(AddElemento(processCompra,selectedProduct,Number(cantidad)))
                             setCantidad('')
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
@@ -260,7 +258,8 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
-                        onPress={()=> alert("x")}
+                        onPress={()=> {
+                          setProcessCompra(QuitarElemento(processCompra,Number(id)))}}
                         underlayColor={"#ffa6a6"}
                         >
                         <Image source={getImage('xr')} style={styles.navIconImage} />
@@ -274,15 +273,19 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={'#5460ff'} 
+                disabled={Off}
                   onPress={() => setModalVisible(true)}
-                  style={styles.button}>
+                  style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => alert("enviar")}
-                  style={styles.button}>
+                disabled={Off}
+                  onPress={() => {
+                    setOff(true)
+                    setProcessACompra(processCompra), setProcessCompra({})}}
+                  style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>
               </View>
@@ -322,12 +325,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
-                    <View style={[styles.headerCell, {flex: 0.2}]}>
-                      </View>
                   </View>
                   <ScrollView style={styles.showcase}>
 
-                    {Object.entries(processCompraAlmacen).map(([id, [descripcion, marca, costo, cantidad]], index) => (
+                    {Object.entries(processACompra).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{descripcion}</Text>
@@ -341,15 +342,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                     <Text>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff' ,flex: 0.2}]}>
-                        <TouchableHighlight
-                        style={{height:20, width:20}}
-                        onPress={()=> alert("x")}
-                        underlayColor={"#ffa6a6"}
-                        >
-                        <Image source={getImage('xr')} style={styles.navIconImage} />
-                        </TouchableHighlight>
-                        </View>
                       </View>
                     ))}
                     
@@ -412,6 +404,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 150,
     padding: 10,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
+  buttonOff: {
+    opacity: 0.8, shadowOpacity: 0.8,
+    backgroundColor: '#656fff',
+    width: 150,
+    padding: 10,
+    borderRadius: 20,
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },

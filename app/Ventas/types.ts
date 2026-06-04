@@ -5,3 +5,5 @@ export type VentasScreenProps = NativeStackScreenProps<RootStackParamList, 'Vent
 export type ControlVentasScreenProps = NativeStackScreenProps<RootStackParamList, 'ControlVentas'>;
 export type AddRegistroVentaScreenProps = NativeStackScreenProps<RootStackParamList, 'AddRegistroVenta'>;
 export type ClientesScreenProps = NativeStackScreenProps<RootStackParamList, 'Clientes'>;
+
+export type RegistroVenta = {[key: number]: [string, string, number, number];};

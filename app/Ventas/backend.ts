@@ -44,3 +44,28 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
     return { isValid: true };
 }
 //-----------------------FUNCIONES AddRegistroVenta-----------------------------------------
+//Función para obtener el total de la venta
+export const totalVenta = (data: any) => {
+  let total = 0
+  const claves = Object.keys(data)
+
+    claves.forEach((id) => {
+        total += data[id][2]
+    });
+
+  return total.toFixed(2);
+};
+//Función para agregar un elemento al ajuste
+export const AddElemento = (data: any, elemento: string, cantidad: number) => {
+  const len = Object.keys(data).length;
+  
+  return {
+    ...data,
+    [len + 1]: [elemento,'',0, cantidad]
+  };
+};
+//Función para quitar un elemento del ajuste
+export const QuitarElemento = (data: any, id: number) => {
+  const newData = { ...data }; delete newData[id];
+  return newData;
+};

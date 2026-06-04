@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { AddAjustesInventarioScreenProps } from './types';
+import type { AddAjustesInventarioScreenProps, AjusteInventario } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido } from './backend';
+import { NumeroValido, AddElemento, QuitarElemento } from './backend';
 import AjustesInventario from './AjustesInventario';
 
 export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
@@ -32,10 +32,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [cantidad, setCantidad] = useState('');
 
    //JSON para efectuar ajustes de inventario
-  const processAjusteInventario = {
-    "Queso" : 1,
-    "Chorizo" : 1,
-  };
+  const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
 
   return (
     <View style={styles.container}>
@@ -103,6 +100,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         Alert.alert('Error', validation.message);
                         return; 
                       }
+                      setProcessAjusteInventario(AddElemento(processAjusteInventario, selectedProduct, Number(cantidad)))
                       setCantidad('')
                       setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
@@ -194,7 +192,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
         Realizar ajuste
         </Text>
 
-        <View style={styles.row}>
+        <View style={[styles.row, {marginBottom:12}]}>
           <Text style={styles.textRow}>Sucursal:</Text>
           <View style={{width:150}}>
           <Picker
@@ -205,7 +203,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             <Picker.Item style={styles.pickerItem} label="1" value="1" />
           </Picker></View>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, {marginBottom:12}]}>
           <Text style={styles.textRow}>Almacén:</Text>
           <View style={{width:150}}>
           <Picker
@@ -241,7 +239,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
-                  {Object.entries(processAjusteInventario).map(([descripcion, cantidad], index) => (
+
+                  
+                  {Object.entries(processAjusteInventario).map(([id, [descripcion, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                         <Text>{descripcion}</Text>
@@ -251,15 +251,18 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         </View>
                           <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.15}]}>
                             <TouchableHighlight
-                            style={{height:20, width:20}}
-                             onPress={()=> alert("x")}
+                            style={{height:25, width:25}}
+                             onPress={()=> {
+                              setProcessAjusteInventario(QuitarElemento(processAjusteInventario, Number(id)))
+                            }}
                              underlayColor={"#ffa6a6"}
                             >
                             <Image source={getImage('xr')} style={styles.navIconImage} />
                             </TouchableHighlight>
                             </View>
                         </View>
-                      ))}    
+                      ))} 
+
                   </ScrollView>
           </View>
 
@@ -338,7 +341,7 @@ const styles = StyleSheet.create({
   },
   tableRow: {flexDirection: 'row',},
   headerCell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     backgroundColor: '#c2c6ff', 
     borderWidth: 1,
     borderColor: 'black',
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
     minHeight: 250
   },
   cell: {
-    flex: 1, padding: 12,
+    flex: 1, padding: 6,
     borderWidth: 1,
     backgroundColor: 'white',
   },

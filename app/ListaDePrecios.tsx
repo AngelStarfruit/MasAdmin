@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
-import { NoEmojis, Validar, NumeroValido } from './backend';
-import type { ListaDePreciosScreenProps } from './types';
+import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento } from './backend';
+import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
 
@@ -44,10 +44,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [Confirm, setConfirm] = useState(false);
 
   //JSON para crear paquetes
-  const contenidoPaquete = {
-    "Queso" : 1,
-    "Chorizo" : 1,
-  };
+  const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
   return (
     <View style={styles.container}>
@@ -123,7 +120,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
         
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Descripción:</Text>
+                      <Text style={styles.modalLabel}>Nombre:</Text>
                       <TextInput style={{...styles.query, width: 150}}
                       value={category} onChangeText={(text) => setCategory(NoEmojis(text))}/>
                     </View>
@@ -232,7 +229,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             if (selectedTValue != 'paquete'){
                             setModalVisible(!modalVisible)
                             }
-                            else {setNewPaquete(true)}
+                            else {setNewPaquete(true)
+                              setContenidoPaquete({})
+                            }
                           }}>
                         <Text>Añadir registro</Text>
                       </TouchableHighlight>
@@ -396,7 +395,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               </View>
                               </View>
                               <ScrollView style={styles.showcase}>
-                          {Object.entries(contenidoPaquete).map(([descripcion, cantidad], index) => (
+                          {Object.entries(contenidoPaquete).map(([id, [descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                           <Text>{descripcion}</Text>
@@ -406,8 +405,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             </View>
                             <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                             <TouchableHighlight
-                            style={{height:20, width:20}}
-                            onPress={()=> alert("x")}
+                            style={{height:25, width:25}}
+                            onPress={() => {
+                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={"#ffa6a6"}
                             >
                                <Image source={getImage('xr')} style={styles.navIconImage} />
@@ -487,7 +487,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               </View>
                               <ScrollView style={styles.showcase}>
 
-                                {Object.entries(contenidoPaquete).map(([descripcion, cantidad], index) => (
+                                {Object.entries(contenidoPaquete).map(([id,[descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                           <Text>{descripcion}</Text>
@@ -497,8 +497,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             </View>
                             <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                             <TouchableHighlight
-                            style={{height:20, width:20}}
-                            onPress={()=> alert("x")}
+                            style={{height:25, width:25}}
+                            onPress={() => {
+                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={"#ffa6a6"}
                             >
                                <Image source={getImage('xr')} style={styles.navIconImage} />
@@ -587,6 +588,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               Alert.alert('Error', validation.message);
                               return; 
                             }
+                            setContenidoPaquete(AddElemento(contenidoPaquete, selectedProduct, Number(cantidad)))
                             setCantidad('')
                             setAlterPaquete(!AlterPaquete)}}>
                             <Text>Agregar</Text>
@@ -625,7 +627,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
             <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
-                  setDescripcion(''); setMarca(''); setCosto('');
+                  setCategory('');
                   setNewCategory(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir Categoría</Text>

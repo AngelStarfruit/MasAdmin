@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { AddRegistroVentaScreenProps } from './types';
+import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido } from './backend';
+import { NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
 import ControlVentas from './ControlVentas';
 
 export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenProps) {
@@ -31,17 +31,14 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   const [cantidad, setCantidad] = useState('');
 
   //Constantes de JSON
-  const processVenta = {
-    1 : ["Queso","Caperucita",260.00,1],
-    2 : ["Chorizo","Chimex",23.99,1],
-  };
-  const processVentaAlmacen = {
-    1 : ["Queso","Caperucita",260.00,1],
-    2 : ["Chorizo","Chimex",23.99,1],
-  };
+  const [processVenta, setProcessVenta] = useState<RegistroVenta>({});
+  const [processAVenta, setProcessAVenta] = useState<RegistroVenta>({});
 
   //Constantes extra
-  const total = 8.99
+  const total = totalVenta(processVenta)
+
+  //Desabilitar botones
+  const [Off, setOff] = useState(false)
 
   return (
     <View style={styles.container}>
@@ -109,6 +106,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                             Alert.alert('Error', validation.message);
                               return; 
                             }
+                            setProcessVenta(AddElemento(processVenta,selectedProduct,Number(cantidad)))
                             setCantidad('')
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
@@ -259,7 +257,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                       <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
                           <TouchableHighlight
                           style={{height:20, width:20}}
-                          onPress={()=> alert("x")}
+                          onPress={()=> {
+                            setProcessVenta(QuitarElemento(processVenta,Number(id)))}}
                         underlayColor={"#ffa6a6"}
                         >
                         <Image source={getImage('xr')} style={styles.navIconImage} />
@@ -274,14 +273,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <View style={styles.row}>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
+                  disabled={Off}
                   onPress={() => setModalVisible(true)}
-                  style={styles.button}>
+                  style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => alert("enviar")}
-                  style={styles.button}>
+                  disabled={Off}
+                  onPress={() => {
+                    setOff(true)
+                    setProcessAVenta(processVenta), setProcessVenta({})}}
+                  style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>
               </View>
@@ -321,11 +324,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={[styles.headerCell , {flex: 0.8}]}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
-                  <View style={[styles.headerCell , {flex: 0.2}]}>
-                      </View>
                   </View>
                   <ScrollView style={styles.showcase}>
-                   {Object.entries(processVentaAlmacen).map(([id, [descripcion, marca, costo, cantidad]], index) => (
+                   {Object.entries(processAVenta).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
                     <Text>{descripcion}</Text>
@@ -338,15 +339,6 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                       </View>
                       <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
                       <Text>{cantidad}</Text>
-                      </View>
-                      <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
-                          <TouchableHighlight
-                          style={{height:20, width:20}}
-                          onPress={()=> alert("x")}
-                        underlayColor={"#ffa6a6"}
-                        >
-                        <Image source={getImage('xr')} style={styles.navIconImage} />
-                        </TouchableHighlight>
                       </View>
                       </View>
                     ))}  
@@ -405,6 +397,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
+    backgroundColor: '#656fff',
+    width: 150,
+    padding: 10,
+    borderRadius: 20,
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
+  buttonOff: {
+    opacity: 0.8, shadowOpacity: 0.8,
     backgroundColor: '#656fff',
     width: 150,
     padding: 10,

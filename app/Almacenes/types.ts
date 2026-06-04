@@ -6,3 +6,5 @@ export type AlmacenesInfoScreenProps = NativeStackScreenProps<RootStackParamList
 export type AjustesInventarioScreenProps = NativeStackScreenProps<RootStackParamList, 'AjustesInventario'>;
 export type AddAjustesInventarioScreenProps = NativeStackScreenProps<RootStackParamList, 'AddAjustesInventario'>;
 export type ExistenciasAlmacenScreenProps = NativeStackScreenProps<RootStackParamList, 'ExistenciasAlmacen'>;
+
+export  type AjusteInventario = {[key: number]: [string, number];};
