@@ -40,6 +40,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   //Desabilitar botones
   const [Off, setOff] = useState(false)
 
+  //Variables
+  let id = 1
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -106,8 +109,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                             Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setProcessVenta(AddElemento(processVenta,selectedProduct,Number(cantidad)))
-                            setCantidad('')
+                            setProcessVenta(AddElemento(processVenta,id,selectedProduct,Number(cantidad)))
+                            id++; setCantidad('')
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
                     </TouchableHighlight>

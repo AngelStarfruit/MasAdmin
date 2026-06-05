@@ -56,12 +56,10 @@ export const totalCompra = (data: any) => {
   return total.toFixed(2);
 };
 //Función para agregar un elemento al ajuste
-export const AddElemento = (data: any, elemento: string, cantidad: number) => {
-  const len = Object.keys(data).length;
-  
+export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
   return {
     ...data,
-    [len + 1]: [elemento, '', 0,cantidad]
+    [id]: [elemento, '', 0,cantidad]
   };
 };
 //Función para quitar un elemento del ajuste

@@ -46,6 +46,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
+  //Variables
+  let id = 1;
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -229,8 +232,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             if (selectedTValue != 'paquete'){
                             setModalVisible(!modalVisible)
                             }
-                            else {setNewPaquete(true)
-                              setContenidoPaquete({})
+                            else {
+                              setNewPaquete(true)
+                              id = 1; setContenidoPaquete({});
                             }
                           }}>
                         <Text>Añadir registro</Text>
@@ -290,7 +294,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
-                        onPress={() => setPaquete(true)}>
+                        onPress={() => {
+                          setPaquete(true)}}>
                         <Text>Editar paquete</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -588,8 +593,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, selectedProduct, Number(cantidad)))
-                            setCantidad('')
+                            setContenidoPaquete(AddElemento(contenidoPaquete, id, selectedProduct, Number(cantidad)))
+                            id++; setCantidad('')
                             setAlterPaquete(!AlterPaquete)}}>
                             <Text>Agregar</Text>
                           </TouchableHighlight>

@@ -41,6 +41,9 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   //Desabilitar botones
   const [Off, setOff] = useState(false)
 
+  //Variables
+  let id = 1
+
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -107,8 +110,8 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                             Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setProcessCompra(AddElemento(processCompra,selectedProduct,Number(cantidad)))
-                            setCantidad('')
+                            setProcessCompra(AddElemento(processCompra,id,selectedProduct,Number(cantidad)))
+                            id++; setCantidad('')
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
                     </TouchableHighlight>

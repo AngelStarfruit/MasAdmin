@@ -52,12 +52,10 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 }
 //-----------------------FUNCIONES AddAjustesAlmacen-----------------------------------------
 //Función para agregar un elemento al ajuste
-export const AddElemento = (data: any, elemento: string, cantidad: number) => {
-  const len = Object.keys(data).length;
-  
+export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
   return {
     ...data,
-    [len + 1]: [elemento, cantidad]
+    [id]: [elemento, cantidad]
   };
 };
 //Función para quitar un elemento del ajuste
