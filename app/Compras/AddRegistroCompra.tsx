@@ -286,8 +286,12 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                 underlayColor={'#5460ff'}
                 disabled={Off}
                   onPress={() => {
+                    if (Object.keys(processCompra).length > 0){
                     setOff(true)
-                    setProcessACompra(processCompra), setProcessCompra({})}}
+                    setProcessACompra(processCompra), setProcessCompra({})
+                    }
+                    else Alert.alert("Error", "Por favor, agregue los elementos que va a comprar.")
+                  }}
                   style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>

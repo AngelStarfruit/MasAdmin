@@ -71,12 +71,12 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   </View>
       
                   <View>
-                    <Text style={styles.modalTitle}>Agregar elementos</Text>
+                    <Text style={styles.modalTitle}>Agregar productos</Text>
                   </View>
       
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Elemento:</Text>
+                      <Text style={styles.modalLabel}>Producto:</Text>
                       <View style={{width:130, height:50}}>
                         <Picker
                         style={styles.picker}
@@ -278,7 +278,11 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => setReceive(true)}
+                  onPress={() => {
+                    if(Object.keys(processAjusteInventario).length > 0){
+                      setReceive(true);
+                    }
+                    else Alert.alert("Error","Por favor, seleccione al menos un producto")}}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Afectar inventario</Text>
               </TouchableHighlight>

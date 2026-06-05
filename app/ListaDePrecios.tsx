@@ -440,8 +440,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 150}]}
                         onPress={() => {
-                        setNewPaquete(!NewPaquete)
-                        setModalVisible(!modalVisible)}}>
+                          if(Object.keys(contenidoPaquete).length > 0){
+                            setNewPaquete(!NewPaquete)
+                            setModalVisible(!modalVisible)}
+                          else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
+                          }}>
                         <Text>Añadir paquete</Text>
                       </TouchableHighlight>
                       </View>

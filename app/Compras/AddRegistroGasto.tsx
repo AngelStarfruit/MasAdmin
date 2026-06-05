@@ -242,7 +242,12 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => setReceive(true)}
+                  onPress={() => {
+                    if (Object.keys(processGasto).length > 0){
+                      setReceive(true)
+                    }
+                    else Alert.alert("Error","Por favor, inserte los gastos que va a efectuar.")
+                  }}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Confirmar</Text>
               </TouchableHighlight>

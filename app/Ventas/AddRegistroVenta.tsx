@@ -285,8 +285,12 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                 underlayColor={'#5460ff'}
                   disabled={Off}
                   onPress={() => {
+                    if (Object.keys(processVenta).length > 0){
                     setOff(true)
-                    setProcessAVenta(processVenta), setProcessVenta({})}}
+                    setProcessAVenta(processVenta), setProcessVenta({})
+                    }
+                    else Alert.alert("Error", "Por favor, agregue los elementos que va a vender.")
+                  }}
                   style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>
