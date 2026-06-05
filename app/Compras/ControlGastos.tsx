@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } from 'react-native';
 import Constants from 'expo-constants';
+import type { ControlGastosScreenProps } from './types';
 import { useState } from 'react';
-import type { ControlVentasScreenProps } from './types';
 
-export default function ControlVentas({ navigation }: ControlVentasScreenProps ) {
+export default function ControlGastos({ navigation }: ControlGastosScreenProps) {
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
@@ -14,27 +14,28 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
-        onPress={() => navigation.navigate("Ventas")} 
-      >
-        <Image source={getImage('B')} style={styles.navIconImage}/>
-      </TouchableHighlight>
-    </View>
+    <View style={styles.navigation}>
+            <TouchableHighlight
+            underlayColor={"#ddd"} style={styles.navIcons}
+            onPress={() => navigation.navigate("Compras")} 
+          >
+            <Image source={getImage('B')} style={styles.navIconImage}/>
+          </TouchableHighlight>
+        </View>
 
-      {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Control de ventas
+        Control de gastos
         </Text>
-        <TouchableHighlight 
+
+          <TouchableHighlight 
         underlayColor={'#f0f1ff'}
-        onPress={() => navigation.navigate("AddRegistroVenta")}
+        onPress={() => navigation.navigate("AddRegistroGasto")}
         style={styles.add}>
-            <Text style={{fontWeight: 'bold'}}>Añadir registro de venta</Text>
+            <Text style={{fontWeight: 'bold'}}>Añadir registro de gasto</Text>
           </TouchableHighlight>
+
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
@@ -44,13 +45,13 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                       <Text style={styles.headerText}>Total</Text>
                       </View>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Cliente</Text>
+                      <Text style={styles.headerText}>Proveedor</Text>
                       </View>
                   </View>
                       <View style={styles.row}>
                       <View style={styles.cell}><Text>12-01-2023</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
-                      <View style={styles.cell}><Text>Javier Rivera</Text></View>
+                      <View style={styles.cell}><Text>$500</Text></View>
+                      <View style={styles.cell}><Text>CFE</Text></View>
                 </View>
           </View>
         

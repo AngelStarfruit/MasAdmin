@@ -58,7 +58,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
-                          underlayColor={'#ccc'}
+                          style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={'#ddd'}
                           onPress={() => setModalVisible(!modalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>

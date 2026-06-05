@@ -61,7 +61,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <View style={styles.space}>
 
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-          Compras
+          Gastos
           </Text>
           <Text style={{ fontSize: 20}}>
           Seleccione una sección:
@@ -79,6 +79,13 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         onPress={() => navigation.navigate("ControlCompras")}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de compras</Text>
+          </TouchableHighlight>
+        
+        <TouchableHighlight 
+        underlayColor={'#0015cd'}
+        onPress={() => navigation.navigate("ControlGastos")}
+        style={styles.touch}>
+          <Text style={styles.touchText}>Control de gastos</Text>
           </TouchableHighlight>
 
         </View>
@@ -117,7 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: '#0012a8',
-    margin: 80,
+    marginHorizontal: 80, marginVertical: 40,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

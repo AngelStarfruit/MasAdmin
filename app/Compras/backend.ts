@@ -62,6 +62,13 @@ export const AddElemento = (data: any, id: number, elemento: string, cantidad: n
     [id]: [elemento, '', 0,cantidad]
   };
 };
+//Función para agregar un elemento al ajuste
+export const AddGasto = (data: any, id: number, elemento: string) => {
+  return {
+    ...data,
+    [id]: [elemento, '']
+  };
+};
 //Función para quitar un elemento del ajuste
 export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];

@@ -27,7 +27,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
-        Control compras
+        Control de compras
         </Text>
 
         <TouchableHighlight 

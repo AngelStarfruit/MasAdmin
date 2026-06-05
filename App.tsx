@@ -5,7 +5,9 @@ import { ActivityIndicator, View } from 'react-native';
 
 const Compras = lazy(() => import('./app/Compras/Compras'));
 const ControlCompras = lazy(() => import('./app/Compras/ControlCompras'));
+const ControlGastos = lazy(() => import('./app/Compras/ControlGastos'));
 const AddRegistroCompra = lazy(() => import('./app/Compras/AddRegistroCompra'));
+const AddRegistroGasto = lazy(() => import('./app/Compras/AddRegistroGasto'));
 const Proveedores = lazy(() => import('./app/Compras/Proveedores'));
 
 const Ventas = lazy(() => import('./app/Ventas/Ventas'));
@@ -32,7 +34,9 @@ const register = lazy(() => import('./app/register'));
 export type RootStackParamList = {
   Compras: undefined;
   ControlCompras: undefined;
+  ControlGastos: undefined;
   AddRegistroCompra: undefined;
+  AddRegistroGasto: undefined;
   Proveedores: undefined;
 
   Ventas: undefined;
@@ -100,8 +104,14 @@ export default function App() {
           name="ControlCompras" 
           component={ControlCompras}/>
         <Stack.Screen 
+          name="ControlGastos" 
+          component={ControlGastos}/>
+        <Stack.Screen 
           name="AddRegistroCompra" 
           component={AddRegistroCompra}/>
+        <Stack.Screen 
+          name="AddRegistroGasto" 
+          component={AddRegistroGasto}/>
         <Stack.Screen 
           name="Proveedores" 
           component={Proveedores}/>
