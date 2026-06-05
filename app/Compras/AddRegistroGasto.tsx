@@ -129,7 +129,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                         underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
-                                            navigation.navigate("ControlCompras")
+                                            navigation.navigate("ControlGastos")
                                           }}>
                                           <Text>SÍ</Text>
                                         </TouchableHighlight>
