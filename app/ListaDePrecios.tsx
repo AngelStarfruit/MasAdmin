@@ -46,8 +46,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
-  //Variables
-  let id = 1;
+  //ID
+  const [idP, setIdP] = useState(1);
 
   return (
     <View style={styles.container}>
@@ -213,6 +213,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         >
                       <Picker.Item label="Producto" value="producto" />
                       <Picker.Item label="Servicio" value="servicio" />
+                      <Picker.Item label="Gasto" value="gasto" />
                       <Picker.Item label="Paquete" value="paquete" />
                       </Picker>
                       </View>
@@ -234,7 +235,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             }
                             else {
                               setNewPaquete(true)
-                              id = 1; setContenidoPaquete({});
+                              setIdP(1); setContenidoPaquete({});
                             }
                           }}>
                         <Text>Añadir registro</Text>
@@ -295,6 +296,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
                         onPress={() => {
+                          //-----
                           setPaquete(true)}}>
                         <Text>Editar paquete</Text>
                       </TouchableHighlight>
@@ -593,8 +595,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, id, selectedProduct, Number(cantidad)))
-                            id++; setCantidad('')
+                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct, Number(cantidad)))
+                            setIdP(idP + 1); setCantidad('')
                             setAlterPaquete(!AlterPaquete)}}>
                             <Text>Agregar</Text>
                           </TouchableHighlight>
@@ -626,6 +628,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
               style={styles.picker} itemStyle={styles.pickerItem}
               >
                 <Picker.Item label="Servicios" value="Servicios" />
+                <Picker.Item label="Gastos" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
           </Picker>
           <View style={[styles.row, {justifyContent: "space-between"}]}>

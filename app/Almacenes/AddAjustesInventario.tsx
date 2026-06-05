@@ -34,8 +34,8 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    //JSON para efectuar ajustes de inventario
   const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
 
-   //Variables
-  let id = 1;
+   //ID
+  const [idP, setIdP] = useState(1);
 
   return (
     <View style={styles.container}>
@@ -103,8 +103,8 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         Alert.alert('Error', validation.message);
                         return; 
                       }
-                      setProcessAjusteInventario(AddElemento(processAjusteInventario, id, selectedProduct, Number(cantidad)))
-                      id++; setCantidad('')
+                      setProcessAjusteInventario(AddElemento(processAjusteInventario, idP, selectedProduct, Number(cantidad)))
+                      setIdP(idP + 1); setCantidad('')
                       setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
                     </TouchableHighlight>
