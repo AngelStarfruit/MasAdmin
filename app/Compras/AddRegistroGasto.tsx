@@ -44,7 +44,12 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
     <View style={styles.navigation}>
             <TouchableHighlight
             underlayColor={"#ddd"} style={styles.navIcons}
-            onPress={() => setConfirm(true)} 
+            onPress={() => {
+              if (Object.values(processGasto).length > 0){
+              setConfirm(true)
+              }
+              else navigation.navigate("ControlGastos")
+            }}
           >
             <Image source={getImage('B')} style={styles.navIconImage}/>
           </TouchableHighlight>

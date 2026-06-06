@@ -634,15 +634,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 <Picker.Item label="Gastos" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
           </Picker>
+
           <View style={[styles.row, {justifyContent: "space-between"}]}>
-            <TouchableHighlight 
-                underlayColor={'#f0f1ff'}
-                onPress={() => {
-                  setCategory('');
-                  setNewCategory(true)}}
-                style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir Categoría</Text>
-                  </TouchableHighlight>
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
@@ -650,7 +643,16 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
-                  </TouchableHighlight></View>
+                  </TouchableHighlight>
+          <TouchableHighlight 
+                underlayColor={'#f0f1ff'}
+                onPress={() => {
+                  setCategory('');
+                  setNewCategory(true)}}
+                style={styles.add}>
+                    <Text style={{fontWeight: 'bold'}}>Añadir Categoría</Text>
+                  </TouchableHighlight>
+                  </View>
                   
                   <View style={styles.hr}/>
           <View style={styles.table}>
