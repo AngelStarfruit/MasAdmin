@@ -52,7 +52,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             <TouchableHighlight
             underlayColor={"#ddd"} style={styles.navIcons}
             onPress={() => {
-              if (Object.values(processCompra).length > 0){
+              if (Object.values(processCompra).length > 0 || Object.values(processACompra).length > 0){
               setConfirm(true)
               }
               else navigation.navigate("ControlCompras")

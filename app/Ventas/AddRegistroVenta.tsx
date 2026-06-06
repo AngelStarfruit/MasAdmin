@@ -51,7 +51,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             <TouchableHighlight
             underlayColor={"#ddd"} style={styles.navIcons}
             onPress={() => {
-              if (Object.values(processVenta).length > 0){
+              if (Object.values(processVenta).length > 0 || Object.values(processAVenta).length > 0){
                 setConfirm(true)
               }
               else navigation.navigate("ControlVentas")
