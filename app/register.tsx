@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image, Alert, KeyboardAvoidingView, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
@@ -39,7 +39,11 @@ export default function Dashboard({navigation}: registerScreenProps ) {
         </TouchableHighlight>
     </View>
 
-      <ScrollView>
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+         style={{ flex: 1 }}
+      >
+      <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.scroll}>
         
             <View style={styles.box}>
@@ -123,6 +127,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
             </View>
         </View>
       </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }

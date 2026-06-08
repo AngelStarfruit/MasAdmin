@@ -83,7 +83,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   </View>
       
                   <View>
-                    <Text style={styles.modalTitle}>Agregar elementos</Text>
+                    <Text style={styles.modalTitle}>Agregar productos</Text>
                   </View>
       
                   <View style={styles.hr}/>
@@ -364,7 +364,11 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             marginTop: 10, marginBottom: 50,}}>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => setReceive(true)}
+                  onPress={() => {
+                    if (Object.keys(processACompra).length > 0){
+                      setReceive(true)
+                    }
+                    else Alert.alert("Error", "El almacén no tiene productos que recibir")}}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Aplicar cambios</Text>
               </TouchableHighlight>

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
@@ -39,7 +39,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
       </TouchableHighlight>
     </View>
 
-    {/* Modal para añadir proveedores */}
+    {/* Modal para añadir clientes */}
         <Modal
               animationType="slide"
               transparent={true}
@@ -48,6 +48,14 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 setModalVisible(!modalVisible);
               }}>
               <View style={styles.modalOverlay}>
+                <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -103,6 +111,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 </View>
     
               </View>
+              </ScrollView>
+              </KeyboardAvoidingView>
               </View>
             </Modal>
     
@@ -115,6 +125,14 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 setEModalVisible(!EmodalVisible);
               }}>
               <View style={styles.modalOverlay}>
+                <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -175,6 +193,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 </View>
     
               </View>
+              </ScrollView>
+              </KeyboardAvoidingView>
               </View>
             </Modal>
       

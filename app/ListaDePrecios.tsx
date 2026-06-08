@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
@@ -246,7 +246,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </View>
                 </Modal>
         
-              {/* Modal para editar productos */}
+              {/* Modal para editar elementos */}
             <Modal
                   animationType="slide"
                   transparent={true}
@@ -255,6 +255,14 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setEModalVisible(!EmodalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
+                    <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
                   <View style={[styles.modalView, {marginVertical: 210}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -319,7 +327,10 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
         
                   </View>
+                  </ScrollView>
+                  </KeyboardAvoidingView>
                   </View>
+                  
                 </Modal>
 
             {/* Modal para confirmar borrado */}

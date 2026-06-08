@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import { Validar } from './backend';
 import type { DashboardScreenProps } from './types';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
@@ -100,11 +101,20 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         setUserModalVisible(!userModalVisible);
                       }}>
                       <View style={styles.modalOverlay}>
+                      <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
                       <View style={[styles.modalView, { marginVertical: 150 }]}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
-                          underlayColor={'#ccc'}
+                          style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={'#ddd'}
                           onPress={() => setUserModalVisible(!userModalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -175,14 +185,20 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                       <TouchableHighlight
                                       underlayColor={'#90ff9f'} style={[styles.modalConfirm, {width: 160}]}
                                         onPress={() => {
-                                          setUserModalVisible(!userModalVisible);
-                                          Alert.alert("Éxito","Cambios guardados con éxito");
-                                        }}>
+                                          const validation = Validar(4,nombre,telefono,email,contrasena);
+                                          if (!validation.isValid) {
+                                            Alert.alert('Error', validation.message);
+                                            return; 
+                                          }
+                                          setModalVisible(!modalVisible)
+                                          setUserModalVisible(!userModalVisible)
+                                          Alert.alert('Éxito', 'Los cambios han sido guardados');}}>
                                         <Text>Confirmar cambios</Text>
                                       </TouchableHighlight>
                                     </View>
             
                       </View>
+                      </ScrollView></KeyboardAvoidingView>
                       </View>
                     </Modal>
 
@@ -281,7 +297,10 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
     </View></View>
 
-      <ScrollView>
+      
+      <ScrollView
+      keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.scroll}>
         <Text style={{ fontSize: 30, fontWeight: 'bold', 
           color: '#2435f0', paddingBottom: 10}}>

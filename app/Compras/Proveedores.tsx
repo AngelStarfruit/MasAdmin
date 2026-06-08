@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps } from './types';
 import { useState } from 'react';
@@ -47,6 +47,14 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             setModalVisible(!modalVisible);
           }}>
           <View style={styles.modalOverlay}>
+            <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
           <View style={styles.modalView}>
 
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -102,6 +110,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             </View>
 
           </View>
+          </ScrollView>
+          </KeyboardAvoidingView>
           </View>
         </Modal>
 
@@ -114,6 +124,14 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             setEModalVisible(!EmodalVisible);
           }}>
           <View style={styles.modalOverlay}>
+            <KeyboardAvoidingView 
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}
+                        >  
+                      <ScrollView 
+                           showsVerticalScrollIndicator={false}
+                          keyboardShouldPersistTaps="handled"
+                        >
           <View style={styles.modalView}>
 
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -174,6 +192,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             </View>
 
           </View>
+          </ScrollView>
+          </KeyboardAvoidingView>
           </View>
         </Modal>
 

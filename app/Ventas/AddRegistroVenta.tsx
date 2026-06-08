@@ -361,7 +361,11 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             marginTop: 10, marginBottom: 50,}}>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
-                  onPress={() => setReceive(true)}
+                  onPress={() => {
+                    if(Object.values(processAVenta).length > 0){
+                      setReceive(true)
+                    }
+                    else Alert.alert("Error", "El almacén no tiene productos que enviar")}}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Aplicar cambios</Text>
               </TouchableHighlight>
