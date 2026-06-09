@@ -6,6 +6,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Validar } from './backend';
 import type { DashboardScreenProps } from './types';
+import datos from './datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
@@ -35,12 +36,22 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     }
   }
 
+  //Constantes de picker
   const [selectedValue, setSelectedValue] = useState('hoy');
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
+  //JSON
+  const [eventos, setEventos] = useState(datos);
+
+  //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
+
+  //Constantes de totales
+  const [ventas, setVentas] = useState(1000);
+  const [compras, setCompras] = useState(500);
+  const [gastos, setGastos] = useState(200);
 
   return (
     <View style={styles.container}>
@@ -327,13 +338,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </Picker>
           </View>
           <Text style={styles.box}>
-            Ventas: $1000
+            Ventas: ${ventas.toFixed(2)}
             </Text>
           <Text style={styles.box}>
-            Compras: $500
+            Compras: ${compras.toFixed(2)}
             </Text>
           <Text style={styles.box}>
-            Gastos: $200
+            Gastos: ${gastos.toFixed(2)}
             </Text>
             <View style={styles.hr}/>
             <View style={{width: 150}}>
@@ -354,27 +365,25 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </Picker></View>
           </View>
           <View style={styles.table}>
-            <View style={styles.row}>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Evento</Text>
-                </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Fecha y Hora</Text>
-                </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Lugar</Text>
-                </View>
-              <View style={styles.headerCell}>
-                <Text style={styles.headerText}>Contacto</Text>
-                </View>
-            </View>
-            <View style={styles.row}>
-              <View style={styles.cell}><Text>hjsakldfhl</Text></View>
-              <View style={styles.cell}><Text>2023-10-15 18:00</Text></View>
-              <View style={styles.cell}><Text>Centro de Convenciones</Text></View>
-              <View style={styles.cell}><Text>contacto@evento.com</Text></View>
-            </View>
+          {/* Header */}
+          <View style={styles.row}>
+            <View style={styles.headerCell}><Text style={styles.headerText}>Evento</Text></View>
+            <View style={styles.headerCell}><Text style={styles.headerText}>Fecha y Hora</Text></View>
+            <View style={styles.headerCell}><Text style={styles.headerText}>Lugar</Text></View>
+             <View style={styles.headerCell}><Text style={styles.headerText}>Contacto</Text></View>
           </View>
+  
+        {/* Body - cada registro es una fila */}
+        {Object.entries(eventos).map(([id, [evento, fechaHora, lugar, contacto]], index) => (
+          <View key={index} style={styles.row}>
+            <View style={styles.cell}><Text>{evento}</Text></View>
+            <View style={styles.cell}><Text>{fechaHora}</Text></View>
+            <View style={styles.cell}><Text>{lugar}</Text></View>
+            <View style={styles.cell}><Text>{contacto}</Text></View>
+          </View>
+        ))}
+        </View>
+
         </View>
       </ScrollView>
     </View>
