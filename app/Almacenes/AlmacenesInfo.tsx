@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
 import type { AlmacenesInfoScreenProps } from './types';
-import datos from './datos.json'
-import datosX from '../datos.json'
+import datosA from './datos.json'; import datosS from '../datos.json'
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
 
@@ -18,12 +17,17 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
     }
   }
 
+  //Constantes de inputs
   const [almacen, setAlmacen] = useState('');
   const [query, setQuery] = useState('');
 
-   const [selectedBranch, setSelectedBranch] = useState('1');
-   const [selectedEBranch, setSelectedEBranch] = useState('1');
+  //Constantes de pickers
+  const [selectedBranch, setSelectedBranch] = useState('1');
 
+  //JSONs de datos
+  const [sucursales, setSucursales] = useState(datosS.SUCURSALES);
+
+  //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -79,7 +83,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
-                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              {Object.entries(sucursales).map(([id ,[sucursal, telefono]], index) => (
+                              <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
+                              ))}
                               </Picker></View>
                         </View>
             
@@ -139,10 +145,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <View style={{width:130, height:50}}>
                               <Picker
                               style={[styles.picker, {backgroundColor: "#eee"}]}
-                              selectedValue={selectedEBranch}
-                              onValueChange={(itemValue) => setSelectedEBranch(itemValue)}
+                              selectedValue={selectedBranch}
+                              onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
-                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              {Object.entries(sucursales).map(([id ,[sucursal, telefono]], index) => (
+                              <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
+                              ))}
                               </Picker></View>
                         </View>
             

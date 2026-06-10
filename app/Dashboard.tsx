@@ -141,14 +141,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                               Nombre completo:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {nombre}
-                                          onChangeText = {setNombre}/>
+                                          value = {nombre} onChangeText = {setNombre}/>
                                           <Text style={styles.CardText}>
                                               Teléfono:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {telefono}
-                                          onChangeText = {setTelefono}/>
+                                          value = {telefono} onChangeText = {setTelefono}/>
                                           <Text style={styles.CardText}>
                                               Fecha de nacimiento:
                                           </Text>
@@ -180,15 +178,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                               Email:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {email}
-                                          onChangeText = {setEmail}/>
+                                          value = {email} onChangeText = {setEmail}/>
                                           <Text style={styles.CardText}>
                                               Contraseña:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {contrasena}
-                                          onChangeText = {setContrasena}
-                                          secureTextEntry />
+                                          value = {contrasena} onChangeText = {setContrasena} secureTextEntry />
 
                         <View style={styles.modalhr}/>
                         
@@ -462,7 +457,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: '#2435f0',},
   //---------------
   picker: {
     height: 50,

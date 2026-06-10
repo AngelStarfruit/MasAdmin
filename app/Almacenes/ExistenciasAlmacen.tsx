@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
-import datos from './datos.json'
+import datosS from '../datos.json'; import datosA from './datos.json';
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
@@ -12,8 +12,13 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
    return require('../../assets/B.png');
   }
 
-  const [selectedBranch, setSelectedBranch] = useState('1');
-  const [selectedValue, setSelectedValue] = useState('A');
+  const [selectedBranch, setSelectedBranch] = useState();
+  const [selectedValue, setSelectedValue] = useState();
+
+  //JSONs para datos
+  const [sucursales, setSucursales] = useState(datosS.SUCURSALES)
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES)
+  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN)
 
   return (
     <View style={styles.container}>
@@ -42,7 +47,9 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-                <Picker.Item label="1" value="1" />
+              {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
+                <Picker.Item key={index} label={sucursal} value={sucursal} />
+              ))}
           </Picker>
         <Text style={{ 
           fontSize: 15, 
@@ -54,7 +61,9 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-                <Picker.Item label="A" value="A" />
+              {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
+                <Picker.Item key={index} label={almacen} value={sucursal} />
+              ))}
           </Picker>
         <View style={styles.table}>
               <View style={styles.row}>
@@ -71,12 +80,16 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                       <Text style={styles.headerText}>Precio</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
-                      <View style={styles.cell}><Text>Jabón</Text></View>
-                      <View style={styles.cell}><Text>Zote</Text></View>
-                      <View style={styles.cell}><Text>17</Text></View>
-                      <View style={styles.cell}><Text>29.99</Text></View>
+
+                  {Object.entries(existencias).map(([id, [descripcion, marca, cantidad, precio, almacen]], index) => (
+                      <View key={index} style={styles.row}>
+                      <View style={styles.cell}><Text>{descripcion}</Text></View>
+                      <View style={styles.cell}><Text>{marca}</Text></View>
+                      <View style={styles.cell}><Text>{cantidad}</Text></View>
+                      <View style={styles.cell}><Text>{Number(precio).toFixed(2)}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>
@@ -134,7 +147,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: '#2435f0',},
   //---------------
   picker: {
     height: 50,

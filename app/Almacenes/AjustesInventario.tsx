@@ -126,5 +126,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: '#2435f0',},
 });

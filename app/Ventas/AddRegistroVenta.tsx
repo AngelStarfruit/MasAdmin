@@ -5,7 +5,7 @@ import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
-import ControlVentas from './ControlVentas';
+import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenProps) {
 
@@ -33,6 +33,11 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   //Constantes de JSON
   const [processVenta, setProcessVenta] = useState<RegistroVenta>({});
   const [processAVenta, setProcessAVenta] = useState<RegistroVenta>({});
+  //JSONs de datos
+  const [clientes, setClientes] = useState(datosC.CLIENTES);
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
+  const [productos, setProductos] = useState(datos.LISTA_PRECIOS);
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES);
 
   //Constantes extra
   const total = totalVenta(processVenta)
@@ -94,7 +99,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                         >
-                        <Picker.Item style={styles.pickerItem} label="a" value="a" />
+                        {Object.entries(productos).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
+                        <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
+                        ))}
                         </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
@@ -214,7 +221,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedProvider}
             onValueChange={(itemValue) => setSelectedProvider(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="A" value="A" />
+            {Object.entries(clientes).map(([id, [nombre, telefono, ciudad, estado]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={nombre} value={nombre} />
+            ))}
           </Picker></View>
         </View>
         <View style={styles.row}>
@@ -225,7 +234,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="1" value="1" />
+            {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={telefono} />
+            ))}
           </Picker></View>
         </View>
 
@@ -318,7 +329,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="I" value="I" />
+            {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={almacen} value={almacen} />
+            ))}
           </Picker></View>
         </View>
 

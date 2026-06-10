@@ -5,7 +5,7 @@ import type { AddAjustesInventarioScreenProps, AjusteInventario } from './types'
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, AddElemento, QuitarElemento } from './backend';
-import AjustesInventario from './AjustesInventario';
+import datos from '../datos.json'; import datosA from './datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
 
@@ -33,6 +33,10 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
 
    //JSON para efectuar ajustes de inventario
   const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
+  //JSONs de datos
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES)
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES)
+  const [productos, setProductos] = useState(datos.LISTA_PRECIOS)
 
    //ID
   const [idP, setIdP] = useState(1);
@@ -87,8 +91,10 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         style={styles.picker}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => setSelectedProduct(itemValue)}
-                        >
-                        <Picker.Item style={styles.pickerItem} label="a" value="a" />
+                        >                
+                        {Object.entries(productos).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
+                        <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
+                        ))}
                         </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
@@ -208,7 +214,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="1" value="1" />
+            {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
+            ))}
           </Picker></View>
         </View>
         <View style={[styles.row, {marginBottom:12}]}>
@@ -219,7 +227,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="A" value="A" />
+            {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={almacen} value={almacen} />
+            ))}
           </Picker></View>
         </View>
         <View style={styles.row}>

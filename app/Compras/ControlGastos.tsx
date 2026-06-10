@@ -53,7 +53,7 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                   </View>
 
                   {Object.entries(registrosGastos).slice(-10).map(([id, [fecha, total, proveedor]], index) => (
-                      <View style={styles.row}>
+                      <View key={index} style={styles.row}>
                       <View style={styles.cell}><Text>{fecha}</Text></View>
                       <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
                       <View style={styles.cell}><Text>{proveedor}</Text></View>
@@ -129,5 +129,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: '#2435f0',},
 });

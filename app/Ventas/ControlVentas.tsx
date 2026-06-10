@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Imag
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ControlVentasScreenProps } from './types';
+import datos from './datos.json'
 
 export default function ControlVentas({ navigation }: ControlVentasScreenProps ) {
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
   }
+
+  const [registrosVenta, setRegistrosVenta] = useState(datos.CONTROL_VENTAS)
 
   return (
     <View style={styles.container}>
@@ -47,11 +50,15 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                       <Text style={styles.headerText}>Cliente</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
-                      <View style={styles.cell}><Text>12-01-2023</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
-                      <View style={styles.cell}><Text>Javier Rivera</Text></View>
+
+                {Object.entries(registrosVenta).slice(-10).map(([id, [fecha, total, cliente]], index) => (
+                      <View key={index} style={styles.row}>
+                      <View style={styles.cell}><Text>{fecha}</Text></View>
+                      <View style={styles.cell}><Text>{total}</Text></View>
+                      <View style={styles.cell}><Text>{cliente}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>
@@ -121,5 +128,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold',color: '#2435f0',},
 });

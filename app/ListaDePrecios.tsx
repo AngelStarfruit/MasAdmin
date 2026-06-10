@@ -34,6 +34,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState('1');
+  const [selectedCategory, setSelectedCategory] = useState('A');
 
   //Constantes de modales
   const [NewCategory, setNewCategory] = useState(false);
@@ -46,6 +47,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   //JSON con los datos
   const [listaPrecios, setListaPrecios] = useState(datos.LISTA_PRECIOS)
+  const [listaCategorias, setListaCategorias] = useState(datos.CATEGORIAS)
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
@@ -190,6 +192,21 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <Text style={styles.modalLabel}>Costo:</Text>
                       <TextInput style={{...styles.query, width: 150}}
                       value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
+                    </View>
+                    <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Categoría:</Text>
+                      <View style={{width: 150, height: 50}}>
+                      <Picker
+                        selectedValue={selectedCategory}
+                        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        itemStyle={styles.pickerItem}
+                        >
+                      {Object.entries(listaCategorias).map(([id, descripcion], index) => (
+                      <Picker.Item key={index} label={descripcion} value={descripcion} />
+                      ))}
+                      </Picker>
+                      </View>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Unidad:</Text>
@@ -592,7 +609,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               selectedValue={selectedProduct}
                               onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                               >
-                              <Picker.Item style={styles.pickerItem} label="1" value="1" />
+                              {Object.entries(listaPrecios).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
+                              <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
+                              ))}
                               </Picker></View>
                           </View>
                           <View style={styles.modalRow}>
@@ -645,8 +664,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
               style={styles.picker} itemStyle={styles.pickerItem}
               >
                 <Picker.Item label="Servicios" value="Servicios" />
-                <Picker.Item label="Servicios" value="Gastos" />
+                <Picker.Item label="Gastos" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
+                {Object.entries(listaCategorias).map(([id, descripcion], index) => (
+                  <Picker.Item key={index} label={descripcion} value={descripcion} />
+                ))}
           </Picker>
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
@@ -699,8 +721,19 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={[styles.cell, {flex: 0.5}]}><Text>{unidad}</Text></View>
                 </View>
                 ))}
+          </View>   
+          <View style={styles.hr}/>   
 
-          </View>      
+          <View style={[styles.row, {justifyContent: 'center'}]}>
+            <TouchableHighlight 
+
+                underlayColor={'#ff9797'}
+                onPress={() => {alert("delete???? D-:")}}
+                style={[styles.modalDelete, {width: 150}]}>
+                    <Text style={{fontWeight: 'bold'}}>Borrar Categoría</Text>
+                  </TouchableHighlight>
+          </View>
+
         </View>
       </ScrollView>
     </View>
@@ -790,7 +823,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 190,
+    marginHorizontal: 30, marginVertical: 150,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",

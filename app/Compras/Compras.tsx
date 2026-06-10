@@ -61,7 +61,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <View style={styles.space}>
 
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-          Gastos
+          Compras
           </Text>
           <Text style={{ fontSize: 20}}>
           Seleccione una sección:

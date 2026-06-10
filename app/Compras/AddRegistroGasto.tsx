@@ -5,7 +5,7 @@ import type { AddRegistroGastoScreenProps, RegistroCompra } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { totalCompra, AddGasto, QuitarElemento } from './backend';
-import ControlCompras from './ControlCompras';
+import datosP from './datos.json'; import datos from '../datos.json'
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
 
@@ -24,12 +24,13 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
   //Constantes de pickers
   const [selectedProvider, setSelectedProvider] = useState('A');
-  const [selectedBranch, setSelectedBranch] = useState('1');
   const [selectedGasto, setSelectedGasto] = useState('a');
-  const [selectedStore, setSelectedStore] = useState('I');
 
   //Constantes de JSON
   const [processGasto, setProcessGasto] = useState<RegistroCompra>({})
+  //JSONs de datos
+  const [proveedores, setProveedores] = useState(datosP.PROVEEDORES)
+  const [productos, setProductos] = useState(datos.LISTA_PRECIOS)
 
   //Constantes extras
   const total = totalCompra(processGasto)
@@ -88,7 +89,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                         selectedValue={selectedGasto}
                         onValueChange={(itemValue) => setSelectedGasto(itemValue)}
                         >
-                        <Picker.Item style={styles.pickerItem} label="a" value="a" />
+                        {Object.entries(productos).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
+                        <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
+                        ))}
                         </Picker></View>
                     </View>
       
@@ -196,7 +199,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
             selectedValue={selectedProvider}
             onValueChange={(itemValue) => setSelectedProvider(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="A" value="A" />
+            {Object.entries(proveedores).map(([id, [empresa, telefono, ciudad, estado]], index) => (
+            <Picker.Item style={styles.pickerItem} key={index} label={empresa} value={empresa} />
+            ))}
           </Picker></View>
         </View>
         
