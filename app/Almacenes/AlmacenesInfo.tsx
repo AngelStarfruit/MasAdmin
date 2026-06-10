@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
 import type { AlmacenesInfoScreenProps } from './types';
+import datos from './datos.json'
+import datosX from '../datos.json'
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
 
@@ -320,7 +322,8 @@ const styles = StyleSheet.create({
   table: {
     paddingVertical: 20,
     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
+    marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

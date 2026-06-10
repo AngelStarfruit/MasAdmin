@@ -1,0 +1,36 @@
+{
+  "PROVEEDORES":{
+  "1": [
+    "LALA",
+    "123456789",
+    "Tampico",
+    "Tamaulipas"
+  ],
+  "2": [
+    "BIMBO",
+    "888888888",
+    "Madero",
+    "Tamaulipas"
+  ],
+  "3": [
+    "CFE",
+    "999999999",
+    "Madero",
+    "Tamaulipas"
+  ]
+  },
+  "CONTROL_COMPRAS":{
+  "1": [
+    "2023-01-12",
+    59.99,
+    "LALA"
+  ]
+  },
+  "CONTROL_GASTOS":{
+  "1": [
+    "2025-08-12",
+    256.19,
+    "CFE"
+  ]
+  }
+}

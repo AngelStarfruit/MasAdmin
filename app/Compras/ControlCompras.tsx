@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } 
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
 import { useState } from 'react';
+import datos from './datos.json'
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
 
@@ -10,6 +11,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
    return require('../../assets/B.png');
   }
 
+  const [registrosCompra, setRegistrosCompra] = useState(datos.CONTROL_COMPRAS)
   
   return (
     <View style={styles.container}>
@@ -49,11 +51,15 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                       <Text style={styles.headerText}>Proveedor</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
-                      <View style={styles.cell}><Text>12-01-2023</Text></View>
-                      <View style={styles.cell}><Text>$59.99</Text></View>
-                      <View style={styles.cell}><Text>LALA</Text></View>
+
+                  {Object.entries(registrosCompra).slice(-10).map(([id, [fecha, total, proveedor]], index) => (
+                      <View key={index} style={styles.row}>
+                      <View style={styles.cell}><Text>{fecha}</Text></View>
+                      <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
+                      <View style={styles.cell}><Text>{proveedor}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>

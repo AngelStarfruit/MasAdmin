@@ -1,4 +1,31 @@
 {
+  "USUARIOS":{
+  "1": [
+    "Ángel",
+    "Hernández Castillo",
+    "8334466978",
+    "2005-08-12",
+    "angelhernandezcastillo38@gmail.com",
+    "Legna2005"
+  ],
+  "2": [
+    "Dalila",
+    "Castillo Orellán",
+    "8332028115",
+    "1972-11-08",
+    "dco1972@hotmail.com",
+    "alilad72"
+  ],
+  "3": [
+    "Javier",
+    "Rivera Fernández",
+    "8331559129",
+    "1990-07-20",
+    "javier@gmail.com",
+    "XDDCC"
+  ]
+  },
+  "EVENTOS":{
   "1": [
     "Reunión con cliente",
     "2026-06-02T10:00:00",
@@ -17,4 +44,87 @@
     "Auditorio",
     "Carlos López"
   ]
+  },
+  "SUCURSALES":{
+  "1": [
+    "Altama",
+    "80808080"
+  ],
+  "2": [
+    "Petrolera",
+    "100-1234567"
+  ]
+  },
+  "CATEGORIAS":{
+  "1": "Lacteos",
+  "2": "Carnes frías",
+  "3": "Tortillería",
+  "4": "Granel",
+  "5": "Productos de limpieza"
+  },
+  "LISTA_PRECIOS":{
+  "1": [
+    "Queso",
+    "Caperucita",
+    260.00,
+    "pieza",
+    "producto",
+    [],
+    "1"
+  ],
+  "2": [
+    "Chorizo",
+    "Chimex",
+    23.99,
+    "pieza",
+    "producto",
+    [],
+    "2"
+  ],
+  "3": [
+    "Tortillas de harina",
+    "Tia Rosa",
+    35.00,
+    "pieza",
+    "producto",
+    [],
+    "3"
+  ],
+  "4": [
+    "Nuez",
+    "Verde Valle",
+    0.70,
+    "gramo",
+    "producto",
+    [],
+    "3"
+  ],
+  "5": [
+    "Lavado de coche",
+    "",
+    200.00,
+    "",
+    "servicio",
+    [],
+    ""
+  ],
+  "6": [
+    "Gasto de luz",
+    "",
+    "",
+    "",
+    "gasto",
+    [],
+    ""
+  ],
+  "7": [
+    "Paquete quesadillas",
+    "",
+    319.99,
+    "",
+    "paquete",
+    [["Queso",1],["Chorizo",1],["Tortillas de harina",1]],
+    ""
+  ]
+  }
 }

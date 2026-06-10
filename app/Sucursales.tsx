@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import type { SucursalesScreenProps } from './types';
+import datos from './datos.json';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
@@ -20,10 +21,15 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
     }
   }
 
+  //Inputs
   const [sucursal, setSucursal] = useState('');
   const [telefono, setTelefono] = useState('');
   const [query, setQuery] = useState('');
 
+   //JSON
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
+
+  //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -271,16 +277,22 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <Text style={styles.headerText}>Teléfono</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
+
+                {/* Body - cada registro es una fila */}
+                {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
+                      <View key={index} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
                         onPress={() => setEModalVisible(true)}>
-                        <Text>Altama</Text>
+                        <Text>{sucursal}</Text>
                         </TouchableHighlight>
                         </View> 
-                      <View style={styles.cell}><Text>123-456-7890</Text></View>
+                      <View style={styles.cell}><Text>{telefono}</Text></View>
                 </View>
+                ))}
+
+
           </View>
         
         </View>
@@ -345,7 +357,8 @@ const styles = StyleSheet.create({
   table: {
     paddingVertical: 20,
     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
+    marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

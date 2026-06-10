@@ -1,0 +1,60 @@
+{
+  "ALMACENES":{
+  "1": [
+    "Almacén X",
+    "1"
+  ],
+  "2": [
+    "Almacén 8",
+    "1"
+  ],
+  "3": [
+    "Almacén 67",
+    "2"
+  ]
+  },
+  "EXISTENCIAS_ALMACEN":{
+  "1": [
+    "Nuez",
+    "Valle Verde",
+    3000,
+    0.7,
+    "3"
+  ],
+  "2": [
+    "Queso",
+    "Caperucita",
+    5,
+    260.00,
+    "1"
+  ],
+  "3": [
+    "Chorizo",
+    "Chimex",
+    5,
+    23.33,
+    "1"
+  ],
+  "4": [
+    "Tortillas de harina",
+    "Tia Rosa",
+    5,
+    35.00,
+    "1"
+  ],
+  "5": [
+    "Queso",
+    "Caperucita",
+    9,
+    260.00,
+    "2"
+  ]
+  },
+  "AJUSTES_INVENTARIO":{
+  "1": [
+    "Almacén X",
+    "entrada",
+    "2023-03-03"
+  ]
+  }
+}

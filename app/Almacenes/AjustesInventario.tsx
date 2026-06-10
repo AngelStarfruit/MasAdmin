@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AjustesInventarioScreenProps } from './types';
+import datos from './datos.json'
 
 export default function AjustesInventario({ navigation }: AjustesInventarioScreenProps ) {
 
@@ -10,7 +11,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
    return require('../../assets/B.png');
   }
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [ajustesInventario, setAjustesInventario] = useState(datos.AJUSTES_INVENTARIO);
 
   return (
     <View style={styles.container}>
@@ -47,11 +48,15 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                       <Text style={styles.headerText}>Fecha de ajuste</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
-                      <View style={styles.cell}><Text>Almacen objetos</Text></View>
-                      <View style={[styles.cell, {flex: 0.6}]}><Text>entrada</Text></View>
-                      <View style={styles.cell}><Text>3-03-2023</Text></View>
+
+                  {Object.entries(ajustesInventario).slice(-10).map(([id, [almacenAfectado, operacion, fechaAjuste]], index) => (
+                      <View key={index} style={styles.row}>
+                      <View style={styles.cell}><Text>{almacenAfectado}</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text>{operacion}</Text></View>
+                      <View style={styles.cell}><Text>{fechaAjuste}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>

@@ -1,0 +1,28 @@
+{
+  "CLIENTES":{
+  "1": [
+    "Manuel Hernandez Cruz",
+    "8334404874",
+    "San Juán del Río",
+    "Querétaro"
+  ],
+  "2": [
+    "Dalila Castillo Orellán",
+    "8332028115",
+    "Tampico",
+    "Tamaulipas"
+  ]
+  },
+  "CONTROL_VENTAS":{
+  "1": [
+    "2023-01-12",
+    59.99,
+    "Dalila Castillo Orellán"
+  ],
+  "2": [
+    "2023-01-13",
+    59.99,
+    "Manuel Hernández Cruz"
+  ]
+  }
+}

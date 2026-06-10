@@ -41,7 +41,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   //JSON
-  const [eventos, setEventos] = useState(datos);
+  const [eventos, setEventos] = useState(datos.EVENTOS);
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -447,7 +447,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   table:{
     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
+    marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

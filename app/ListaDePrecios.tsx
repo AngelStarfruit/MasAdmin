@@ -5,6 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
+import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
 
@@ -43,6 +44,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [AlterPaquete, setAlterPaquete] = useState(false);
   const [Confirm, setConfirm] = useState(false);
 
+  //JSON con los datos
+  const [listaPrecios, setListaPrecios] = useState(datos.LISTA_PRECIOS)
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
@@ -642,7 +645,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
               style={styles.picker} itemStyle={styles.pickerItem}
               >
                 <Picker.Item label="Servicios" value="Servicios" />
-                <Picker.Item label="Gastos" value="Gastos" />
+                <Picker.Item label="Servicios" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
           </Picker>
 
@@ -677,18 +680,26 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.headerCell}>
                           <Text style={styles.headerText}>Costo</Text>
                           </View>
+                        <View style={[styles.headerCell, {flex: 0.5}]}>
+                          <Text style={styles.headerText}>Unidad</Text>
+                          </View>
                       </View>
-                      <View style={styles.row}>
+
+                {Object.entries(listaPrecios).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
+                      <View key={index} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
                         onPress={() => setEModalVisible(true)}>
-                        <Text>Jabón</Text>
+                        <Text>{descripcion}</Text>
                         </TouchableHighlight>
                         </View> 
-                        <View style={styles.cell}><Text>ZOTE</Text></View>
-                        <View style={styles.cell}><Text>$29.99</Text></View>
+                        <View style={styles.cell}><Text>{marca}</Text></View>
+                        <View style={styles.cell}><Text>{costo}</Text></View>
+                        <View style={[styles.cell, {flex: 0.5}]}><Text>{unidad}</Text></View>
                 </View>
+                ))}
+
           </View>      
         </View>
       </ScrollView>

@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import { ClientesScreenProps } from './types';
+import datos from './datos.json';
 
 export default function Clientes({ navigation }: ClientesScreenProps ) {
 
@@ -15,12 +16,17 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     }
   }
 
+  //Constatnes inputs
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
   const [ciudad, setCiudad] = useState('');
   const [estado, setEstado] = useState('');
   const [query, setQuery] = useState('');
 
+  //JSON
+  const [clientes, setClientes] = useState(datos.CLIENTES);
+
+  //Constantes modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -281,22 +287,26 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Ciudad</Text>
                   </View>
-                      <View style={[styles.headerCell, {flex: 1.2}]}>
+                      <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Estado</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
+
+                  {Object.entries(clientes).map(([id, [nombre, telefono, ciudad, estado]], index) => (
+                      <View key={index} style={styles.row}>
                       <View style={styles.cellF}>
                           <TouchableHighlight
                           underlayColor={'#ddd'}
                           onPress={() => setEModalVisible(true)}>
-                          <Text>Javier Rivera</Text>
+                          <Text>{nombre}</Text>
                           </TouchableHighlight>
                           </View> 
-                      <View style={styles.cell}><Text>833-456-7890</Text></View>
-                      <View style={[styles.cell, {flex: 0.8}]}><Text>Tampico</Text></View>
-                      <View style={[styles.cell, {flex: 1.2}]}><Text>Tamaulipas</Text></View>
+                      <View style={styles.cell}><Text>{telefono}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text>{ciudad}</Text></View>
+                      <View style={styles.cell}><Text>{estado}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>
@@ -358,7 +368,8 @@ const styles = StyleSheet.create({
   table: {
     paddingVertical: 20,
     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
+    marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

@@ -3,12 +3,15 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } 
 import Constants from 'expo-constants';
 import type { ControlGastosScreenProps } from './types';
 import { useState } from 'react';
+import datos from './datos.json'
 
 export default function ControlGastos({ navigation }: ControlGastosScreenProps) {
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
   }
+
+  const [registrosGastos, setRegistrosGastos] = useState(datos.CONTROL_GASTOS)
 
   return (
     <View style={styles.container}>
@@ -48,11 +51,15 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                       <Text style={styles.headerText}>Proveedor</Text>
                       </View>
                   </View>
+
+                  {Object.entries(registrosGastos).slice(-10).map(([id, [fecha, total, proveedor]], index) => (
                       <View style={styles.row}>
-                      <View style={styles.cell}><Text>12-01-2023</Text></View>
-                      <View style={styles.cell}><Text>$500</Text></View>
-                      <View style={styles.cell}><Text>CFE</Text></View>
+                      <View style={styles.cell}><Text>{fecha}</Text></View>
+                      <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
+                      <View style={styles.cell}><Text>{proveedor}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>

@@ -4,6 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
+import datos from './datos.json'
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
