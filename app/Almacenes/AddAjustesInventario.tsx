@@ -23,9 +23,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [Receive, setReceive] = useState(false);
 
   //Constantes de pickers
-  const [selectedStore, setSelectedStore] = useState('A');
-  const [selectedBranch, setSelectedBranch] = useState('1');
-  const [selectedProduct, setSelectedProduct] = useState('a');
+  const [selectedStore, setSelectedStore] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
 
   //Constantes de inputs

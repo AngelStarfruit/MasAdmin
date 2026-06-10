@@ -22,7 +22,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [query, setQuery] = useState('');
 
   //Constantes de pickers
-  const [selectedBranch, setSelectedBranch] = useState('1');
+  const [selectedBranch, setSelectedBranch] = useState('');
 
   //JSONs de datos
   const [sucursales, setSucursales] = useState(datosS.SUCURSALES);

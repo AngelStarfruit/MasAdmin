@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import type { registerScreenProps } from './types';
+import datos from './datos.json'
 
 export default function Dashboard({navigation}: registerScreenProps ) {
 
@@ -21,6 +22,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
     }
   };
 
+  const [usuarios, setUsuarios] = useState(datos.USUARIOS)
 
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');

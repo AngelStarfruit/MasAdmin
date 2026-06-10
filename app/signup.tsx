@@ -4,11 +4,14 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
+import datos from './datos.json'
 
 export default function Dashboard({navigation}: signupScreenProps ) {
 
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+
+  const [usuarios, setUsuarios] = useState(datos.USUARIOS)
 
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');

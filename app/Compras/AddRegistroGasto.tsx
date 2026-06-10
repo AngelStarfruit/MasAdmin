@@ -23,8 +23,8 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   const [Receive, setReceive] = useState(false);
 
   //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState('A');
-  const [selectedGasto, setSelectedGasto] = useState('a');
+  const [selectedProvider, setSelectedProvider] = useState('');
+  const [selectedGasto, setSelectedGasto] = useState('');
 
   //Constantes de JSON
   const [processGasto, setProcessGasto] = useState<RegistroCompra>({})

@@ -23,10 +23,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [Receive, setReceive] = useState(false);
 
   //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState('A');
-  const [selectedBranch, setSelectedBranch] = useState('1');
-  const [selectedProduct, setSelectedProduct] = useState('a');
-  const [selectedStore, setSelectedStore] = useState('I');
+  const [selectedProvider, setSelectedProvider] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedStore, setSelectedStore] = useState('');
 
   //Constante de input
   const [cantidad, setCantidad] = useState('');

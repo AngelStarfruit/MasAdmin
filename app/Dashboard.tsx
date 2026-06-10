@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
-import { Validar } from './backend';
+import { Validar, NoEmojis } from './backend';
 import type { DashboardScreenProps } from './types';
 import datos from './datos.json';
 
@@ -141,12 +141,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                               Nombre completo:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {nombre} onChangeText = {setNombre}/>
+                                          value = {nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                                           <Text style={styles.CardText}>
                                               Teléfono:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {telefono} onChangeText = {setTelefono}/>
+                                          value = {telefono} onChangeText = {(text) => setTelefono(NoEmojis(text))}/>
                                           <Text style={styles.CardText}>
                                               Fecha de nacimiento:
                                           </Text>
@@ -178,12 +178,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                               Email:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {email} onChangeText = {setEmail}/>
+                                          value = {email} onChangeText = {(text) => setEmail(NoEmojis(text))}/>
                                           <Text style={styles.CardText}>
                                               Contraseña:
                                           </Text>
                                           <TextInput style={styles.input} 
-                                          value = {contrasena} onChangeText = {setContrasena} secureTextEntry />
+                                          value = {contrasena} onChangeText = {(text) => setContrasena(NoEmojis(text))} secureTextEntry />
 
                         <View style={styles.modalhr}/>
                         

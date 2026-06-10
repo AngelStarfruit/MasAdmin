@@ -33,8 +33,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedValue, setSelectedValue] = useState('Servicios');
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
-  const [selectedProduct, setSelectedProduct] = useState('1');
-  const [selectedCategory, setSelectedCategory] = useState('A');
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   //Constantes de modales
   const [NewCategory, setNewCategory] = useState(false);

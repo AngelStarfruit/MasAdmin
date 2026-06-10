@@ -12,8 +12,8 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
    return require('../../assets/B.png');
   }
 
-  const [selectedBranch, setSelectedBranch] = useState();
-  const [selectedValue, setSelectedValue] = useState();
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
 
   //JSONs para datos
   const [sucursales, setSucursales] = useState(datosS.SUCURSALES)
