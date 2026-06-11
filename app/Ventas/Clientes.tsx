@@ -81,7 +81,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.query, width: 200}}
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
@@ -158,7 +158,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.query, width: 200}}
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
@@ -263,17 +263,14 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir cliente</Text>
                   </TouchableHighlight>
-                  <View style={{flexDirection: 'row'}}>
-                      <TextInput style={styles.query}
-                      placeholder="Buscar" placeholderTextColor="#aaa"
-                      value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+
                       <TouchableHighlight
                       underlayColor={'#ddd'}
                       onPress={() => alert("search")}
                       style={{...styles.add, width: 40, padding: 10}}>
                       <Image source={getImage('lupa')} style={styles.lupaImage}/>
                       </TouchableHighlight>
-                      </View>
+                      
                   </View>
 
         <View style={styles.table}>
@@ -297,7 +294,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       <View style={styles.cellF}>
                           <TouchableHighlight
                           underlayColor={'#ddd'}
-                          onPress={() => setEModalVisible(true)}>
+                          onPress={() => {
+                            setNombre(nombre); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
+                            setEModalVisible(true)}}>
                           <Text>{nombre}</Text>
                           </TouchableHighlight>
                           </View> 

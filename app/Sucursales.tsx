@@ -255,17 +255,14 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         style={styles.add}>
             <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
           </TouchableHighlight>
-            <View style={{flexDirection: 'row'}}>
-            <TextInput style={styles.query}
-            placeholder="Buscar" placeholderTextColor="#aaa"
-            value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+
             <TouchableHighlight
             underlayColor={'#f0f1ff'}
             onPress={() => alert("search")}
             style={{...styles.add, width: 40, padding: 10}}>
             <Image source={getImage('lupa')} style={styles.lupaImage}/>
             </TouchableHighlight>
-            </View>
+
           </View>
           
         <View style={styles.table}>
@@ -284,7 +281,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
-                        onPress={() => setEModalVisible(true)}>
+                        onPress={() => {
+                          setSucursal(sucursal);  setTelefono(telefono);
+                          setEModalVisible(true)}}>
                         <Text>{sucursal}</Text>
                         </TouchableHighlight>
                         </View> 

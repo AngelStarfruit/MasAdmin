@@ -27,7 +27,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
-  const [category, setCategory] = useState('');
 
   //Constantes de picker
   const [selectedValue, setSelectedValue] = useState('Servicios');
@@ -37,7 +36,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedCategory, setSelectedCategory] = useState('');
 
   //Constantes de modales
-  const [NewCategory, setNewCategory] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [NewPaquete, setNewPaquete] = useState(false);
@@ -51,8 +49,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
-  //ID
+  //IDs
   const [idP, setIdP] = useState(1);
+
+  //Desabilitar características
+  const [editPaqueteOff, setEditPaqueteOff] = useState(false);
+  const [editMarcaOn, setEditMarcaOn] = useState(false);
+  const [editCostoOn, setEditCostoOn] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -103,55 +106,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
     </View>
 
-    {/* Modal para añadir categorías */}
-            <Modal
-                  animationType="slide"
-                  transparent={true}
-                  visible={NewCategory}
-                  onRequestClose={() => {
-                    setNewCategory(!NewCategory);
-                  }}>
-                  <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 330}]}>
-        
-                    <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
-                      style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
-                      onPress={() => setNewCategory(!NewCategory)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
-                      </TouchableHighlight>
-                    </View>
-        
-                    <View>
-                      <Text style={styles.modalTitle}>Añadir categoría</Text>
-                    </View>
-        
-                    <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Nombre:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
-                      value={category} onChangeText={(text) => setCategory(NoEmojis(text))}/>
-                    </View>
-        
-                    <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <TouchableHighlight
-                      underlayColor={'#82ff92'} style={styles.modalConfirm}
-                        onPress={() => {
-                          const validation = Validar(1,category,'','','');
-                             if (!validation.isValid) {
-                            Alert.alert('Error', validation.message);
-                            return; 
-                            }
-                            setNewCategory(!NewCategory)
-                          }}>
-                        <Text>Añadir registro</Text>
-                      </TouchableHighlight>
-                    </View>
-        
-                  </View>
-                  </View>
-                </Modal>
-
     {/* Modal para añadir elementos */}
             <Modal
                   animationType="slide"
@@ -191,6 +145,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
                       <TextInput style={{...styles.query, width: 150}}
+                      keyboardType='numeric'
                       value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
@@ -297,32 +252,36 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View>
                       <Text style={styles.modalTitle}>Editar elemento</Text>
                       <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
-                        (La unidad y el tipo no se pueden modificar)</Text>
+                        La unidad y el tipo no se pueden modificar</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={[styles.query, {width: 150}]}
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={[styles.query, {width: 150}]}
+                       editable = {editMarcaOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
-                      value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
+                      <TextInput style={[styles.query, {width: 150}]}
+                      editable = {editCostoOn}
+                      keyboardType='numeric'
+                      value={costo} onChangeText={setCosto}/>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                      disabled = {editPaqueteOff}
+                      underlayColor={'#f3fe53'} style={[styles.modalEdit, editPaqueteOff && styles.modalEditOff]}
                         onPress={() => {
                           //-----
                           setPaquete(true)}}>
@@ -336,7 +295,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                        setModalVisible(!modalVisible)}}>
+                        setEModalVisible(!EmodalVisible)}}>
                         <Text>Editar registro</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -682,11 +641,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </TouchableHighlight>
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
-                onPress={() => {
-                  setCategory('');
-                  setNewCategory(true)}}
-                style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir Categoría</Text>
+                onPress={() => alert("Gestion XD")}
+                style={[styles.add , {width: 180}]}>
+                    <Text style={{fontWeight: 'bold'}}>Gestionar categorías</Text>
                   </TouchableHighlight>
                   </View>
                   
@@ -712,7 +669,22 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
-                        onPress={() => setEModalVisible(true)}>
+                        onPress={() => {
+
+                          if (tipo != "paquete"){
+                            setEditPaqueteOff(true)
+                          } else setEditPaqueteOff(false)
+
+                          if (tipo != "producto"){
+                            setEditMarcaOn(false)
+                          } else setEditMarcaOn(true)
+
+                          if (tipo == "gasto"){
+                            setEditCostoOn(false)
+                          } else setEditCostoOn(true)
+
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo))
+                          setEModalVisible(true)}}>
                         <Text>{descripcion}</Text>
                         </TouchableHighlight>
                         </View> 
@@ -722,17 +694,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 </View>
                 ))}
           </View>   
-          <View style={styles.hr}/>   
-
-          <View style={[styles.row, {justifyContent: 'center'}]}>
-            <TouchableHighlight 
-
-                underlayColor={'#ff9797'}
-                onPress={() => {alert("delete???? D-:")}}
-                style={[styles.modalDelete, {width: 150}]}>
-                    <Text style={{fontWeight: 'bold'}}>Borrar Categoría</Text>
-                  </TouchableHighlight>
-          </View>
 
         </View>
       </ScrollView>
@@ -865,6 +826,16 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
+    backgroundColor: '#f3fe53',
+    padding: 10,
+    borderRadius: 20,
+    width: 90,
+    justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
+  modalEditOff: {
+    opacity: 0.6, shadowOpacity: 0.6,
     backgroundColor: '#f3fe53',
     padding: 10,
     borderRadius: 20,

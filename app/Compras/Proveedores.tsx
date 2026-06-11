@@ -263,17 +263,14 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
                   </TouchableHighlight>
-                  <View style={{flexDirection: 'row'}}>
-                  <TextInput style={styles.query}
-                  placeholder="Buscar" placeholderTextColor="#aaa"
-                  value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+
                   <TouchableHighlight
                   underlayColor={'#ddd'}
                   onPress={() => alert("search")}
                   style={{...styles.add, width: 40, padding: 10}}>
                   <Image source={getImage('lupa')} style={styles.lupaImage}/>
                   </TouchableHighlight>
-                  </View>
+
                   </View>
 
         <View style={styles.table}>
@@ -297,7 +294,9 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
-                        onPress={() => setEModalVisible(true)}>
+                        onPress={() => {
+                          setEmpresa(empresa); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
+                          setEModalVisible(true)}}>
                         <Text>{empresa}</Text>
                         </TouchableHighlight>
                         </View> 

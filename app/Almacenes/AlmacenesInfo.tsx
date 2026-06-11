@@ -25,6 +25,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [selectedBranch, setSelectedBranch] = useState('');
 
   //JSONs de datos
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES);
   const [sucursales, setSucursales] = useState(datosS.SUCURSALES);
 
   //Modales
@@ -142,7 +143,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <View style={{width:130, height:50}}>
+                          <View style={{width:180, height:50}}>
                               <Picker
                               style={[styles.picker, {backgroundColor: "#eee"}]}
                               selectedValue={selectedBranch}
@@ -237,17 +238,14 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir almacén</Text>
                   </TouchableHighlight>
-                  <View style={{flexDirection: 'row'}}>
-                    <TextInput style={styles.query}
-                    placeholder="Buscar" placeholderTextColor="#aaa"
-                    value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+
                     <TouchableHighlight
                     underlayColor={'#ddd'}
                     onPress={() => alert("search")}
                     style={{...styles.add, width: 40, padding: 10}}>
                     <Image source={getImage('lupa')} style={styles.lupaImage}/>
                       </TouchableHighlight>
-                      </View>
+  
                   </View>
 
         <View style={styles.table}>
@@ -259,16 +257,22 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       <Text style={styles.headerText}>Sucursal</Text>
                       </View>
                   </View>
-                      <View style={styles.row}>
+
+                  {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
+                      <View key={index} style={styles.row}>
                       <View style={styles.cellF}>
                           <TouchableHighlight
                           underlayColor={'#ddd'}
-                          onPress={() => setEModalVisible(true)}>
-                          <Text>Objetos</Text>
+                          onPress={() => {
+                            setAlmacen(almacen); setSelectedBranch(sucursal);
+                            setEModalVisible(true)}}>
+                          <Text>{almacen}</Text>
                           </TouchableHighlight>
                           </View> 
-                      <View style={styles.cell}><Text>Altama</Text></View>
+                      <View style={styles.cell}><Text>{sucursal}</Text></View>
                 </View>
+                ))}
+
           </View>
         
         </View>

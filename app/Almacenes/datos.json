@@ -2,15 +2,15 @@
   "ALMACENES":{
   "1": [
     "Almacén X",
-    "1"
+    "Altama"
   ],
   "2": [
     "Almacén 8",
-    "1"
+    "Altama"
   ],
   "3": [
     "Almacén 67",
-    "2"
+    "Petrolera"
   ]
   },
   "EXISTENCIAS_ALMACEN":{
