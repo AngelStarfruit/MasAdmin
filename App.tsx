@@ -24,6 +24,7 @@ const ExistenciasAlmacen = lazy(() => import('./app/Almacenes/ExistenciasAlmacen
 const Dashboard = lazy(() => import('./app/Dashboard'));
 
 const ListaDePrecios = lazy(() => import('./app/ListaDePrecios'));
+const Categorias = lazy(() => import('./app/Categorias'));
 
 const Sucursales = lazy(() => import('./app/Sucursales'));
 
@@ -53,6 +54,7 @@ export type RootStackParamList = {
   Dashboard: undefined;
 
   ListaDePrecios: undefined;
+  Categorias: undefined;
 
   Sucursales: undefined;
 
@@ -152,6 +154,9 @@ export default function App() {
         <Stack.Screen 
           name="ListaDePrecios" 
           component={ListaDePrecios}/>
+        <Stack.Screen 
+          name="Categorias" 
+          component={Categorias}/>
 
         </Stack.Navigator>
       </Suspense>

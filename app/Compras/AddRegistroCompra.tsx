@@ -36,7 +36,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [processACompra, setProcessACompra] = useState<RegistroCompra>({})
   //JSONs de datos
   const [proveedores, setProveedores] = useState(datosP.PROVEEDORES);
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
   const [productos, setProductos] = useState(datos.LISTA_PRECIOS);
   const [almacenes, setAlmacenes] = useState(datosA.ALMACENES);
 
@@ -235,9 +235,18 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
-            ))}
+            {Object.values(sucursales || {}).length > 0 ? (
+            Object.values(sucursales).map((sucursal: any, index) => (
+            <Picker.Item 
+              style={styles.pickerItem} 
+              key={index} 
+              label={String(sucursal[0])} 
+              value={String(sucursal[0])} 
+              />
+            ))
+            ) : (
+            <Picker.Item label="Sin sucursales" value="" />
+          )}
           </Picker></View>
         </View>
 

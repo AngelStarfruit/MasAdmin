@@ -25,8 +25,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [selectedBranch, setSelectedBranch] = useState('');
 
   //JSONs de datos
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES);
-  const [sucursales, setSucursales] = useState(datosS.SUCURSALES);
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
+  const [sucursales, setSucursales] = useState(datosS.SUCURSALES || {});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -84,9 +84,18 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
-                              {Object.entries(sucursales).map(([id ,[sucursal, telefono]], index) => (
-                              <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
-                              ))}
+                              {Object.values(sucursales || {}).length > 0 ? (
+                              Object.values(sucursales).map((sucursal: any, index) => (
+                              <Picker.Item 
+                                style={styles.pickerItem} 
+                                key={index} 
+                                label={String(sucursal[0])} 
+                                value={String(sucursal[0])} 
+                              />
+                               ))
+                              ) : (
+                              <Picker.Item label="Sin sucursales" value="" />
+                            )}
                               </Picker></View>
                         </View>
             
@@ -149,10 +158,20 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
-                              {Object.entries(sucursales).map(([id ,[sucursal, telefono]], index) => (
-                              <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
-                              ))}
-                              </Picker></View>
+                              {Object.values(sucursales || {}).length > 0 ? (
+  Object.values(sucursales).map((sucursal: any, index) => (
+    <Picker.Item 
+      style={styles.pickerItem} 
+      key={index} 
+      label={String(sucursal[0])} 
+      value={String(sucursal[0])} 
+    />
+  ))
+) : (
+  <Picker.Item label="Sin sucursales" value="" />
+)}
+                              </Picker>
+                              </View>
                         </View>
             
                         <View style={styles.hr}/>
@@ -233,8 +252,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                 <TouchableHighlight
                 underlayColor={'#ddd'}
                 onPress={() => {
+                  if(Object.keys(sucursales).length > 0){
                   setAlmacen(''); 
-                  setModalVisible(true)}}
+                  setModalVisible(true)
+                  }
+                  else Alert.alert("Error","Registre al menos una sucursal primero")
+                }}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir almacén</Text>
                   </TouchableHighlight>

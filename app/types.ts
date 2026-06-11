@@ -7,6 +7,7 @@ export type registerScreenProps = NativeStackScreenProps<RootStackParamList, 're
 
 export type DashboardScreenProps = NativeStackScreenProps<RootStackParamList, 'Dashboard'>;
 export type ListaDePreciosScreenProps = NativeStackScreenProps<RootStackParamList, 'ListaDePrecios'>;
+export type CategoriasScreenProps = NativeStackScreenProps<RootStackParamList, 'Categorias'>;
 export type SucursalesScreenProps = NativeStackScreenProps<RootStackParamList, 'Sucursales'>;
 
 export type ContenidoPaquete = {[key: number]: [string, number];};

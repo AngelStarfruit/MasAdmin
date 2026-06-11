@@ -234,9 +234,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={telefono} />
-            ))}
+            {Object.values(sucursales || {}).length > 0 ? (
+                Object.values(sucursales).map((sucursal: any, index) => (
+                <Picker.Item 
+                style={styles.pickerItem} 
+                key={index} 
+                label={String(sucursal[0])} 
+                value={String(sucursal[0])} 
+                  />
+              ))
+              ) : (
+              <Picker.Item label="Sin sucursales" value="" />
+              )}
           </Picker></View>
         </View>
 

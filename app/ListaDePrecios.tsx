@@ -641,7 +641,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </TouchableHighlight>
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
-                onPress={() => alert("Gestion XD")}
+                onPress={() => navigation.navigate("Categorias")}
                 style={[styles.add , {width: 180}]}>
                     <Text style={{fontWeight: 'bold'}}>Gestionar categorías</Text>
                   </TouchableHighlight>
