@@ -52,13 +52,20 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                       </View>
                   </View>
 
-                  {Object.entries(registrosGastos).slice(-10).map(([id, [fecha, total, proveedor]], index) => (
-                      <View key={index} style={styles.row}>
+                  {Object.values(registrosGastos || {}).length > 0 ? (
+                  Object.entries(registrosGastos).map(([id, data]: [string, any]) => {
+                  const [fecha, total, proveedor] = data;
+                    return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text>{fecha}</Text></View>
                       <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
                       <View style={styles.cell}><Text>{proveedor}</Text></View>
                 </View>
-                ))}
+                    )
+                })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe un gasto...</Text>
+            )}
 
           </View>
         

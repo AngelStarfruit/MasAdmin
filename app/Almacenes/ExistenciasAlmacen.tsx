@@ -47,9 +47,18 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-              {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
-                <Picker.Item key={index} label={sucursal} value={sucursal} />
-              ))}
+              {Object.values(sucursales || {}).length > 0 ? (
+                Object.values(sucursales).map((sucursal: any, index) => (
+                <Picker.Item 
+                style={styles.pickerItem} 
+                key={index} 
+                label={String(sucursal[0])} 
+                value={String(sucursal[0])} 
+                />
+                ))
+                ) : (
+                <Picker.Item label="-" value="" />
+                )}
           </Picker>
         <Text style={{ 
           fontSize: 15, 

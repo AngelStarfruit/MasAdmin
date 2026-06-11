@@ -369,14 +369,20 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </View>
   
         {/* Body - cada registro es una fila */}
-        {Object.entries(eventos).map(([id, [evento, fechaHora, lugar, contacto]], index) => (
-          <View key={index} style={styles.row}>
+        {Object.values(eventos || {}).length > 0 ? (
+        Object.entries(eventos).map(([id, data]: [string, any]) => {
+          const [evento, fechaHora, lugar, contacto] = data;
+          return (
+          <View key={id} style={styles.row}>
             <View style={styles.cell}><Text>{evento}</Text></View>
             <View style={styles.cell}><Text>{fechaHora}</Text></View>
             <View style={styles.cell}><Text>{lugar}</Text></View>
             <View style={styles.cell}><Text>{contacto}</Text></View>
           </View>
-        ))}
+          )})
+        ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay eventos</Text>
+            )}
         </View>
 
         </View>

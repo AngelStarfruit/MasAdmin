@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AjustesInventarioScreenProps } from './types';
@@ -49,13 +49,20 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                       </View>
                   </View>
 
-                  {Object.entries(ajustesInventario).slice(-10).map(([id, [almacenAfectado, operacion, fechaAjuste]], index) => (
-                      <View key={index} style={styles.row}>
+                  {Object.values(ajustesInventario || {}).length > 0 ? (
+                   Object.entries(ajustesInventario).map(([id, data]: [string, any]) => {
+                    const [almacenAfectado, operacion, fechaAjuste] = data;
+                    return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text>{almacenAfectado}</Text></View>
                       <View style={[styles.cell, {flex: 0.6}]}><Text>{operacion}</Text></View>
                       <View style={styles.cell}><Text>{fechaAjuste}</Text></View>
                 </View>
-                ))}
+                    )
+                })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe un ajuste...</Text>
+            )}
 
           </View>
         

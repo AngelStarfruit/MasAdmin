@@ -27,7 +27,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   const [query, setQuery] = useState('');
 
    //JSON
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -277,28 +277,30 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
                 {/* Body - cada registro es una fila */}
                 {Object.values(sucursales || {}).length > 0 ? (
-                Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
-                <View key={index} style={styles.row}>
+                Object.entries(sucursales).map(([id, data]: [string, any]) => {
+                const [sucursal, telefono] = data;
+                return (
+                <View key={id} style={styles.row}>
                 <View style={styles.cellF}>
                 <TouchableHighlight
                 underlayColor={'#ddd'}
-                onPress={() => {
-                setSucursal(sucursal);
-                setTelefono(telefono);
-                setEModalVisible(true)
-                }}>
-               <Text>{sucursal}</Text>
-              </TouchableHighlight>
-              </View>
-              <View style={styles.cell}>
-                <Text>{telefono}</Text>
+                  onPress={() => {
+                    setSucursal(sucursal);
+                    setTelefono(telefono);
+                    setEModalVisible(true)
+                  }}>
+                  <Text>{sucursal}</Text>
+                  </TouchableHighlight>
+                  </View>
+                  <View style={styles.cell}>
+                  <Text>{telefono}</Text>
+                  </View>
                 </View>
-                </View>
-              ))
+                );
+                })
               ) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay sucursales registradas</Text>
-          )}
-
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay sucursales registradas</Text>
+            )}
 
           </View>
         

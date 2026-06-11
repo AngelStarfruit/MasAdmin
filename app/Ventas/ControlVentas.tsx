@@ -51,13 +51,20 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                       </View>
                   </View>
 
-                {Object.entries(registrosVenta).slice(-10).map(([id, [fecha, total, cliente]], index) => (
-                      <View key={index} style={styles.row}>
+                {Object.values(registrosVenta || {}).length > 0 ? (
+                Object.entries(registrosVenta).map(([id, data]: [string, any]) => {
+                  const [fecha, total, cliente] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text>{fecha}</Text></View>
-                      <View style={styles.cell}><Text>{total}</Text></View>
+                      <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
                       <View style={styles.cell}><Text>{cliente}</Text></View>
                 </View>
-                ))}
+                )
+                 })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe una venta...</Text>
+            )}
 
           </View>
         

@@ -203,8 +203,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
             </TouchableHighlight>
         
         <View style={{marginBottom: 80}}>
-        {Object.entries(categorias).map(([id, categoria], index) => (
-                              <View key={index}>
+            
+        {Object.values(categorias || {}).length > 0 ? (
+        Object.entries(categorias).map(([id, data]: [string, any]) => {
+            const categoria = data;
+             return (
+                              <View key={id}>
                                 <View style={styles.cell}>
                                 <TouchableHighlight
                                 underlayColor={'#eee'}
@@ -216,7 +220,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                 </TouchableHighlight>
                                 </View> 
                         </View>
-                        ))}</View>
+                        );
+                })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay categorías registradas</Text>
+            )}
+                        </View>
         
         </View>
       </ScrollView>

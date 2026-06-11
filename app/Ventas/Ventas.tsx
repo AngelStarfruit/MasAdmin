@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import type { VentasScreenProps } from './types';
+import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Ventas({ navigation }: VentasScreenProps ) {
 
@@ -15,6 +16,12 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
     default: return require('../../assets/$.png');
     }
   }
+
+  //JSONs de datos
+  const clientes = datosC.CLIENTES;
+  const sucursales = datos.SUCURSALES;
+  const productos = datos.LISTA_PRECIOS;
+  const almacenes = datosA.ALMACENES;
 
   return (
     <View style={styles.container}>
@@ -76,7 +83,13 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
           
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => navigation.navigate("ControlVentas")}
+        onPress={() => {
+                  if(Object.keys(clientes).length > 0 && Object.keys(sucursales).length > 0 
+                  && Object.keys(productos).length > 0 && Object.keys(almacenes).length > 0){
+                  navigation.navigate("ControlVentas")
+                  }
+                  else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un cliente, una sucursal, un producto y un almacén")
+                }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de ventas</Text>
           </TouchableHighlight>

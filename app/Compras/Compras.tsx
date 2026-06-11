@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
+import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Compras({ navigation }: ComprasScreenProps ) {
 
@@ -15,6 +16,12 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
     default: return require('../../assets/$.png');
     }
   }
+
+   //JSONs de datos
+  const proveedores = datosP.PROVEEDORES;
+  const sucursales = datos.SUCURSALES;
+  const productos = datos.LISTA_PRECIOS
+  const almacenes = datosA.ALMACENES;
 
   return (
     <View style={styles.container}>
@@ -76,14 +83,25 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
 
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => navigation.navigate("ControlCompras")}
+        onPress={() => {
+          if(Object.keys(proveedores).length > 0 && Object.keys(sucursales).length > 0 
+          && Object.keys(productos).length > 0 && Object.keys(almacenes).length > 0){
+          navigation.navigate("ControlCompras")
+          }
+          else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor, una sucursal, un producto y un almacén")
+        }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de compras</Text>
           </TouchableHighlight>
         
         <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => navigation.navigate("ControlGastos")}
+        onPress={() => {
+          if(Object.keys(proveedores).length > 0 && Object.keys(productos).length > 0){
+          navigation.navigate("ControlGastos")
+          }
+          else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor y un producto")
+        }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de gastos</Text>
           </TouchableHighlight>

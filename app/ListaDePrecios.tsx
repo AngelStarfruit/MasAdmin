@@ -56,6 +56,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [editPaqueteOff, setEditPaqueteOff] = useState(false);
   const [editMarcaOn, setEditMarcaOn] = useState(false);
   const [editCostoOn, setEditCostoOn] = useState(false);
+  const [addCategoryOn, setAddCategoryON] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -152,14 +153,24 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <Text style={styles.modalLabel}>Categoría:</Text>
                       <View style={{width: 150, height: 50}}>
                       <Picker
+                        enabled = {addCategoryOn}
                         selectedValue={selectedCategory}
                         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
                         style={[styles.picker, {backgroundColor: "#eee"}]} 
                         itemStyle={styles.pickerItem}
                         >
-                      {Object.entries(listaCategorias).map(([id, descripcion], index) => (
-                      <Picker.Item key={index} label={descripcion} value={descripcion} />
-                      ))}
+                      {Object.values(listaCategorias || {}).length > 0 ? (
+                     Object.values(listaCategorias).map((categoria: any, id) => (
+                     <Picker.Item 
+                     style={styles.pickerItem} 
+                    key={id} 
+                    label={String(categoria)} 
+                    value={String(categoria)} 
+                    />
+                    ))
+                    ) : (
+                    <Picker.Item label="-" value="" />
+                    )}
                       </Picker>
                       </View>
                     </View>
@@ -209,8 +220,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             setModalVisible(!modalVisible)
                             }
                             else {
+                              if (Object.keys(listaPrecios).length > 0){
                               setNewPaquete(true)
                               setIdP(1); setContenidoPaquete({});
+                              }
+                              else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
                             }
                           }}>
                         <Text>Añadir registro</Text>
@@ -568,9 +582,18 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               selectedValue={selectedProduct}
                               onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                               >
-                              {Object.entries(listaPrecios).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
-                              <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
-                              ))}
+                              {Object.values(listaPrecios || {}).length > 0 ? (
+                                              Object.values(listaPrecios).map((producto: any, index) => (
+                                              <Picker.Item 
+                                              style={styles.pickerItem} 
+                                              key={index} 
+                                              label={String(producto[0])} 
+                                              value={String(producto[0])} 
+                                                />
+                                            ))
+                                            ) : (
+                                            <Picker.Item label="-" value="" />
+                                            )}
                               </Picker></View>
                           </View>
                           <View style={styles.modalRow}>
@@ -625,9 +648,16 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 <Picker.Item label="Servicios" value="Servicios" />
                 <Picker.Item label="Gastos" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
-                {Object.entries(listaCategorias).map(([id, descripcion], index) => (
-                  <Picker.Item key={index} label={descripcion} value={descripcion} />
-                ))}
+                {Object.values(listaCategorias || {}).length > 0 ? (
+                     Object.values(listaCategorias).map((categoria: any, id) => (
+                     <Picker.Item 
+                     style={styles.pickerItem} 
+                    key={id} 
+                    label={String(categoria)} 
+                    value={String(categoria)} 
+                    />
+                    ))
+                    ) : null}
           </Picker>
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
@@ -635,6 +665,10 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
                   setDescripcion(''); setMarca(''); setCosto('');
+                  if (Object.keys(listaCategorias).length > 0){
+                    setAddCategoryON(true)
+                  }
+                  else setAddCategoryON(false)
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
@@ -664,8 +698,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           </View>
                       </View>
 
-                {Object.entries(listaPrecios).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
-                      <View key={index} style={styles.row}>
+                {/* Body - cada registro es una fila */}
+                {Object.values(listaPrecios || {}).length > 0 ? (
+                 Object.entries(listaPrecios).map(([id, data]: [string, any]) => {
+                  const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
@@ -692,7 +730,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.cell}><Text>{costo}</Text></View>
                         <View style={[styles.cell, {flex: 0.5}]}><Text>{unidad}</Text></View>
                 </View>
-                ))}
+                  );
+                  })
+                ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay elementos en esta categoría</Text>
+            )}
           </View>   
 
         </View>

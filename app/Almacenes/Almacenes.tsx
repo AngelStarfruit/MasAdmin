@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { AlmacenesScreenProps } from './types';
+import datos from '../datos.json'; import datosA from './datos.json';
 
 export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
 
@@ -15,6 +16,11 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
     default: return require('../../assets/$.png');
     }
   }
+
+  //JSONs de datos
+  const sucursales = datos.SUCURSALES;
+  const almacenes = datosA.ALMACENES;
+  const productos = datos.LISTA_PRECIOS;
 
   return (
     <View style={styles.container}>
@@ -76,14 +82,24 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
 
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => navigation.navigate("ExistenciasAlmacen")}
+        onPress={() => {
+          if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0){
+          navigation.navigate("ExistenciasAlmacen")
+        }
+        else Alert.alert("Sección no disponible", "Para usar esta función, asegurese de tener al menos una sucursal y un almacén")
+      }}
         style={styles.touch}>
           <Text style={styles.touchText}>Existencias por almacén</Text>
           </TouchableHighlight>
 
           <TouchableHighlight 
         underlayColor={'#0015cd'}
-        onPress={() => navigation.navigate("AjustesInventario")}
+        onPress={() => {
+          if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0 && Object.keys(productos).length > 0){
+          navigation.navigate("AjustesInventario")
+          }
+          else Alert.alert("Sección no disponible", "Para usar esta función, asegurese de tener al menos una sucursal, un almacén y un producto")
+        }}
         style={styles.touch}>
           <Text style={styles.touchText}>Ajustes de inventario</Text>
           </TouchableHighlight>

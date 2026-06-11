@@ -99,9 +99,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                         >
-                        {Object.entries(productos).map(([id, [descripcion, marca, costo, unidad, tipo, contenido, categoría]], index) => (
-                        <Picker.Item style={styles.pickerItem} key={index} label={String(descripcion)} value={descripcion} />
-                        ))}
+                        {Object.values(productos || {}).length > 0 ? (
+                                  Object.values(productos).map((producto: any, index) => (
+                                  <Picker.Item 
+                                  style={styles.pickerItem} 
+                                  key={index} 
+                                  label={String(producto[0])} 
+                                  value={String(producto[0])} 
+                                  />
+                                  ))
+                                  ) : (
+                                  <Picker.Item label="-" value="" />
+                                  )}
                         </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
@@ -244,7 +253,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   />
               ))
               ) : (
-              <Picker.Item label="Sin sucursales" value="" />
+              <Picker.Item label="-" value="" />
               )}
           </Picker></View>
         </View>
