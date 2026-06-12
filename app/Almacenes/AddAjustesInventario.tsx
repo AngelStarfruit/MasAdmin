@@ -34,9 +34,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    //JSON para efectuar ajustes de inventario
   const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
   //JSONs de datos
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES)
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES)
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS)
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {})
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {})
+  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {})
 
    //ID
   const [idP, setIdP] = useState(1);
@@ -236,9 +236,18 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={almacen} value={almacen} />
-            ))}
+            {Object.values(almacenes || {}).length > 0 ? (
+                Object.values(almacenes).map((almacen: any, index) => (
+                <Picker.Item 
+                style={styles.pickerItem} 
+                key={index} 
+                label={String(almacen[0])} 
+                value={String(almacen[0])} 
+                  />
+                  ))
+                  ) : (
+                  <Picker.Item label="-" value="" />
+                )}
           </Picker></View>
         </View>
         <View style={styles.row}>

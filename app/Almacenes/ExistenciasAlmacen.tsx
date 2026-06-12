@@ -16,9 +16,9 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
   const [selectedValue, setSelectedValue] = useState('');
 
   //JSONs para datos
-  const [sucursales, setSucursales] = useState(datosS.SUCURSALES)
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES)
-  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN)
+  const [sucursales, setSucursales] = useState(datosS.SUCURSALES || {})
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {})
+  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN || {})
 
   return (
     <View style={styles.container}>
@@ -70,9 +70,18 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-              {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
-                <Picker.Item key={index} label={almacen} value={sucursal} />
-              ))}
+              {Object.values(almacenes || {}).length > 0 ? (
+                    Object.values(almacenes).map((almacen: any, index) => (
+                    <Picker.Item 
+                    style={styles.pickerItem} 
+                    key={index} 
+                    label={String(almacen[0])} 
+                    value={String(almacen[0])} 
+                    />
+                    ))
+                    ) : (
+                    <Picker.Item label="-" value="" />
+                  )}
           </Picker>
         <View style={styles.table}>
               <View style={styles.row}>
@@ -90,14 +99,22 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                       </View>
                   </View>
 
-                  {Object.entries(existencias).map(([id, [descripcion, marca, cantidad, precio, almacen]], index) => (
-                      <View key={index} style={styles.row}>
+                  {/* Body - cada registro es una fila */}
+                  {Object.values(existencias || {}).length > 0 ? (
+                  Object.entries(existencias).map(([id, data]: [string, any]) => {
+                  const [descripcion, marca, cantidad, precio] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text>{descripcion}</Text></View>
                       <View style={styles.cell}><Text>{marca}</Text></View>
                       <View style={styles.cell}><Text>{cantidad}</Text></View>
                       <View style={styles.cell}><Text>{Number(precio).toFixed(2)}</Text></View>
                 </View>
-                ))}
+                )
+                })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Este almacén esta vacío</Text>
+            )}
 
           </View>
         

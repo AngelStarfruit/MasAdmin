@@ -24,7 +24,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   const [query, setQuery] = useState('');
 
   //JSON
-  const [clientes, setClientes] = useState(datos.CLIENTES);
+  const [clientes, setClientes] = useState(datos.CLIENTES || {});
 
   //Constantes modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -289,8 +289,12 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       </View>
                   </View>
 
-                  {Object.entries(clientes).map(([id, [nombre, telefono, ciudad, estado]], index) => (
-                      <View key={index} style={styles.row}>
+                  {/* Body - cada registro es una fila */}
+                  {Object.values(clientes || {}).length > 0 ? (
+                  Object.entries(clientes).map(([id, data]: [string, any]) => {
+                  const [nombre, telefono, ciudad, estado] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cellF}>
                           <TouchableHighlight
                           underlayColor={'#ddd'}
@@ -304,8 +308,11 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       <View style={[styles.cell, {flex: 0.8}]}><Text>{ciudad}</Text></View>
                       <View style={styles.cell}><Text>{estado}</Text></View>
                 </View>
-                ))}
-
+                  )
+               })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay clientes registrados</Text>
+            )}
           </View>
         
         </View>

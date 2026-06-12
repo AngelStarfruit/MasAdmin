@@ -18,9 +18,9 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
   }
 
   //JSONs de datos
-  const sucursales = datos.SUCURSALES;
-  const almacenes = datosA.ALMACENES;
-  const productos = datos.LISTA_PRECIOS;
+  const sucursales = (datos.SUCURSALES || {});
+  const almacenes = (datosA.ALMACENES || {});
+  const productos = (datos.LISTA_PRECIOS || {});
 
   return (
     <View style={styles.container}>

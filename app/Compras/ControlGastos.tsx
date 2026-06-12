@@ -11,7 +11,7 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
    return require('../../assets/B.png');
   }
 
-  const [registrosGastos, setRegistrosGastos] = useState(datos.CONTROL_GASTOS)
+  const [registrosGastos, setRegistrosGastos] = useState(datos.CONTROL_GASTOS || {})
 
   return (
     <View style={styles.container}>

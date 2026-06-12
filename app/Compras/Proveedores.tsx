@@ -24,7 +24,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   const [query, setQuery] = useState('');
 
   //JSON
-  const [proveedores, setProveedores] = useState(datos.PROVEEDORES);
+  const [proveedores, setProveedores] = useState(datos.PROVEEDORES || {});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -289,8 +289,12 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       </View>
                   </View>
 
-                  {Object.entries(proveedores).map(([id, [empresa, telefono, ciudad, estado]], index) => (
-                      <View key={index} style={styles.row}>
+                  {/* Body - cada registro es una fila */}
+                  {Object.values(proveedores || {}).length > 0 ? (
+                  Object.entries(proveedores).map(([id, data]: [string, any]) => {
+                  const [empresa, telefono, ciudad, estado] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={'#ddd'}
@@ -304,7 +308,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       <View style={[styles.cell, {flex: 0.8}]}><Text>{ciudad}</Text></View>
                       <View style={styles.cell}><Text>{estado}</Text></View>
                 </View>
-                  ))}
+                  )
+                  })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay proveedores registrados</Text>
+            )}
 
 
           </View>

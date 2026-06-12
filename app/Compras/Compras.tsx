@@ -18,10 +18,10 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
   }
 
    //JSONs de datos
-  const proveedores = datosP.PROVEEDORES;
-  const sucursales = datos.SUCURSALES;
-  const productos = datos.LISTA_PRECIOS
-  const almacenes = datosA.ALMACENES;
+  const proveedores = (datosP.PROVEEDORES || {});
+  const sucursales = (datos.SUCURSALES || {});
+  const productos = (datos.LISTA_PRECIOS || {});
+  const almacenes = (datosA.ALMACENES || {});
 
   return (
     <View style={styles.container}>
@@ -100,7 +100,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
           if(Object.keys(proveedores).length > 0 && Object.keys(productos).length > 0){
           navigation.navigate("ControlGastos")
           }
-          else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor y un producto")
+          else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor y un gasto")
         }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de gastos</Text>

@@ -18,10 +18,10 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
   }
 
   //JSONs de datos
-  const clientes = datosC.CLIENTES;
-  const sucursales = datos.SUCURSALES;
-  const productos = datos.LISTA_PRECIOS;
-  const almacenes = datosA.ALMACENES;
+  const clientes = (datosC.CLIENTES || {});
+  const sucursales = (datos.SUCURSALES || {});
+  const productos = (datos.LISTA_PRECIOS || {});
+  const almacenes = (datosA.ALMACENES || {});
 
   return (
     <View style={styles.container}>
@@ -88,7 +88,7 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
                   && Object.keys(productos).length > 0 && Object.keys(almacenes).length > 0){
                   navigation.navigate("ControlVentas")
                   }
-                  else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un cliente, una sucursal, un producto y un almacén")
+                  else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un cliente, una sucursal, un producto y un producto o servicio")
                 }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de ventas</Text>

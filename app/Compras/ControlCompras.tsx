@@ -11,7 +11,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
    return require('../../assets/B.png');
   }
 
-  const [registrosCompra, setRegistrosCompra] = useState(datos.CONTROL_COMPRAS)
+  const [registrosCompra, setRegistrosCompra] = useState(datos.CONTROL_COMPRAS || {})
   
   return (
     <View style={styles.container}>

@@ -11,7 +11,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
    return require('../../assets/B.png');
   }
 
-  const [ajustesInventario, setAjustesInventario] = useState(datos.AJUSTES_INVENTARIO);
+  const [ajustesInventario, setAjustesInventario] = useState(datos.AJUSTES_INVENTARIO || {});
 
   return (
     <View style={styles.container}>

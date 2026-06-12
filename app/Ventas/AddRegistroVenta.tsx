@@ -34,10 +34,10 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   const [processVenta, setProcessVenta] = useState<RegistroVenta>({});
   const [processAVenta, setProcessAVenta] = useState<RegistroVenta>({});
   //JSONs de datos
-  const [clientes, setClientes] = useState(datosC.CLIENTES);
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS);
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES);
+  const [clientes, setClientes] = useState(datosC.CLIENTES || {});
+  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
+  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {});
+  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
 
   //Constantes extra
   const total = totalVenta(processVenta)
@@ -230,9 +230,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedProvider}
             onValueChange={(itemValue) => setSelectedProvider(itemValue)}
           >
-            {Object.entries(clientes).map(([id, [nombre, telefono, ciudad, estado]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={nombre} value={nombre} />
-            ))}
+            {Object.values(clientes || {}).length > 0 ? (
+                Object.values(clientes).map((cliente: any, index) => (
+                <Picker.Item 
+                style={styles.pickerItem} 
+                key={index} 
+                label={String(cliente[0])} 
+                value={String(cliente[0])} 
+                />
+                ))
+                ) : (
+                <Picker.Item label="-" value="" />
+                )}
           </Picker></View>
         </View>
         <View style={styles.row}>
@@ -347,9 +356,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={almacen} value={almacen} />
-            ))}
+            {Object.values(almacenes || {}).length > 0 ? (
+                  Object.values(almacenes).map((almacen: any, index) => (
+                  <Picker.Item 
+                      style={styles.pickerItem} 
+                      key={index} 
+                      label={String(almacen[0])} 
+                      value={String(almacen[0])} 
+                      />
+                      ))
+                      ) : (
+                  <Picker.Item label="-" value="" />
+                  )}
           </Picker></View>
         </View>
 

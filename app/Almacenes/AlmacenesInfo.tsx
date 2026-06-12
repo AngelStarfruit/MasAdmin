@@ -159,17 +159,17 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
                               {Object.values(sucursales || {}).length > 0 ? (
-  Object.values(sucursales).map((sucursal: any, index) => (
-    <Picker.Item 
-      style={styles.pickerItem} 
-      key={index} 
-      label={String(sucursal[0])} 
-      value={String(sucursal[0])} 
-    />
-  ))
-) : (
-  <Picker.Item label="Sin sucursales" value="" />
-)}
+                              Object.values(sucursales).map((sucursal: any, index) => (
+                              <Picker.Item 
+                                style={styles.pickerItem} 
+                                key={index} 
+                                label={String(sucursal[0])} 
+                                value={String(sucursal[0])} 
+                                />
+                                 ))
+                                ) : (
+                                <Picker.Item label="Sin sucursales" value="" />
+                                )}
                               </Picker>
                               </View>
                         </View>
@@ -281,8 +281,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                   </View>
 
-                  {Object.entries(almacenes).map(([id, [almacen, sucursal]], index) => (
-                      <View key={index} style={styles.row}>
+                  {/* Body - cada registro es una fila */}
+                  {Object.values(almacenes || {}).length > 0 ? (
+                  Object.entries(almacenes).map(([id, data]: [string, any]) => {
+                  const [almacen, sucursal] = data;
+                  return(
+                      <View key={id} style={styles.row}>
                       <View style={styles.cellF}>
                           <TouchableHighlight
                           underlayColor={'#ddd'}
@@ -294,8 +298,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           </View> 
                       <View style={styles.cell}><Text>{sucursal}</Text></View>
                 </View>
-                ))}
-
+                  )
+                })
+              ) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay almacenes registrados en esta sucursal</Text>
+            )}
           </View>
         
         </View>

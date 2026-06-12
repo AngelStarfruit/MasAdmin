@@ -11,7 +11,7 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
    return require('../../assets/B.png');
   }
 
-  const [registrosVenta, setRegistrosVenta] = useState(datos.CONTROL_VENTAS)
+  const [registrosVenta, setRegistrosVenta] = useState(datos.CONTROL_VENTAS || {})
 
   return (
     <View style={styles.container}>
