@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
+import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps } from './types';
 import datos from './datos.json';
 
@@ -29,7 +30,11 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   //Constantes modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
+  const [Busqueda, setBusqueda] = useState(false);
   const [Confirm, setConfirm] = useState(false);
+
+  //Constante picker
+  const [selectedCriteria, setSelectedCriteria] = useState('Nombre');
 
   return (
     <View style={styles.container}>
@@ -122,7 +127,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               </View>
             </Modal>
     
-          {/* Modal para editar proveedores */}
+          {/* Modal para editar clientes */}
         <Modal
               animationType="slide"
               transparent={true}
@@ -204,6 +209,73 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               </View>
             </Modal>
       
+      {/* Modal para realizar una búsqueda */}
+                  <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={Busqueda}
+                        onRequestClose={() => {
+                          setBusqueda(!Busqueda);
+                        }}>
+                        <View style={styles.modalOverlay}>
+                        <View style={[styles.modalView, {marginVertical: 290}]}>
+              
+                          <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                            <TouchableHighlight
+                            style={{height: 30, width: 30, alignItems: "flex-end"}}
+                            underlayColor={'#eee'}
+                            onPress={() => setBusqueda(!Busqueda)}>
+                            <Image source={getImage('x')} style={styles.lupaImage}/>
+                            </TouchableHighlight>
+                          </View>
+              
+                          <View>
+                            <Text style={styles.modalTitle}>Buscar cliente</Text>
+                          </View>
+              
+                          <View style={styles.hr}/>
+              
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Criterio:</Text>
+                            <View style={{width: 160, height: 50}}>
+                                  <Picker
+                                  selectedValue={selectedCriteria}
+                                  onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
+                                  style={styles.picker} itemStyle={styles.pickerItem}
+                                  >
+                                  <Picker.Item label="Nombre" value="Nombre" />
+                                  <Picker.Item label="Ciudad" value="Ciudad" />
+                                  <Picker.Item label="Estado" value="Estado" />
+                                  </Picker></View>
+                          </View>
+                          <View style={styles.modalRow}>
+                            <TextInput style={{...styles.query, width: 200}}
+                            value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+                          </View>
+              
+                          <View style={styles.hr}/>
+              
+                          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                            <TouchableHighlight
+                            underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
+                              onPress={() => {
+                                
+                              setBusqueda(!Busqueda)}}>
+                              <Text>Buscar</Text>
+                            </TouchableHighlight>
+                             <TouchableHighlight
+                            underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 160}]}
+                              onPress={() => {
+                                
+                              setBusqueda(!Busqueda)}}>
+                              <Text>Deshacer busqueda</Text>
+                            </TouchableHighlight>
+                          </View>
+              
+                        </View>
+                        </View>
+                      </Modal>
+      
       {/* Modal para confirmar borrado */}
                   <Modal
                         animationType="slide"
@@ -266,7 +338,10 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
                       <TouchableHighlight
                       underlayColor={'#ddd'}
-                      onPress={() => alert("search")}
+                      onPress={() => {
+                        setQuery('')
+                        setBusqueda(true)
+                      }}
                       style={{...styles.add, width: 40, padding: 10}}>
                       <Image source={getImage('lupa')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -462,5 +537,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
+  //---------------
+  picker: {
+    height: 60,
+    marginLeft: 10,
+    flex: 1,
+    backgroundColor: '#eee', color: 'black',
+  
+  },
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
   }
 });

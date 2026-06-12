@@ -26,11 +26,13 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const sucursales: Record<string, any> = datosS.SUCURSALES || {};
 
   //Constantes de pickers
+  const [selectedCriteria, setSelectedCriteria] = useState('Almacén');
   const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
+  const [Busqueda, setBusqueda] = useState(false);
   const [Confirm, setConfirm] = useState(false);
 
   return (
@@ -119,7 +121,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                     </Modal>
             
-                  {/* Modal para editar proveedores */}
+                  {/* Modal para editar almacenes */}
                 <Modal
                       animationType="slide"
                       transparent={true}
@@ -198,6 +200,71 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                       </View>
                     </Modal>
+      {/* Modal para realizar una búsqueda */}
+                  <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={Busqueda}
+                        onRequestClose={() => {
+                          setBusqueda(!Busqueda);
+                        }}>
+                        <View style={styles.modalOverlay}>
+                        <View style={[styles.modalView, {marginVertical: 290}]}>
+              
+                          <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                            <TouchableHighlight
+                            style={{height: 30, width: 30, alignItems: "flex-end"}}
+                            underlayColor={'#eee'}
+                            onPress={() => setBusqueda(!Busqueda)}>
+                            <Image source={getImage('x')} style={styles.lupaImage}/>
+                            </TouchableHighlight>
+                          </View>
+              
+                          <View>
+                            <Text style={styles.modalTitle}>Buscar almacén</Text>
+                          </View>
+              
+                          <View style={styles.hr}/>
+              
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Criterio:</Text>
+                            <View style={{width: 160, height: 50}}>
+                                  <Picker
+                                  selectedValue={selectedCriteria}
+                                  onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
+                                  style={styles.picker} itemStyle={styles.pickerItem}
+                                  >
+                                  <Picker.Item label="Almacén" value="Almacén" />
+                                  <Picker.Item label="Sucursal" value="Sucursal" />
+                                  </Picker></View>
+                          </View>
+                          <View style={styles.modalRow}>
+                            <TextInput style={{...styles.query, width: 150}}
+                            value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
+                          </View>
+              
+                          <View style={styles.hr}/>
+              
+                          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                            <TouchableHighlight
+                            underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
+                              onPress={() => {
+                                
+                              setBusqueda(!Busqueda)}}>
+                              <Text>Buscar</Text>
+                            </TouchableHighlight>
+                             <TouchableHighlight
+                            underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 160}]}
+                              onPress={() => {
+                                
+                              setBusqueda(!Busqueda)}}>
+                              <Text>Deshacer busqueda</Text>
+                            </TouchableHighlight>
+                          </View>
+              
+                        </View>
+                        </View>
+                      </Modal>
       
       {/* Modal para confirmar borrado */}
                               <Modal
@@ -264,7 +331,10 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
                     <TouchableHighlight
                     underlayColor={'#ddd'}
-                    onPress={() => alert("search")}
+                    onPress={() => {
+                      setQuery('')
+                      setBusqueda(true)
+                    }}
                     style={{...styles.add, width: 40, padding: 10}}>
                     <Image source={getImage('lupa')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -274,7 +344,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Almacen</Text>
+                      <Text style={styles.headerText}>Almacén</Text>
                       </View>
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Sucursal</Text>
@@ -458,7 +528,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
     color: 'black',
   },
   pickerItem: {

@@ -77,7 +77,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
     </View>
 
-    {/* Modal para añadir proveedores */}
+    {/* Modal para añadir sucursales */}
             <Modal
                   animationType="slide"
                   transparent={true}
@@ -134,7 +134,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                   </View>
                 </Modal>
         
-              {/* Modal para editar proveedores */}
+              {/* Modal para editar sucursales */}
             <Modal
                   animationType="slide"
                   transparent={true}
@@ -256,12 +256,17 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
             <Text style={{fontWeight: 'bold'}}>Añadir sucursal</Text>
           </TouchableHighlight>
 
-            <TouchableHighlight
-            underlayColor={'#f0f1ff'}
-            onPress={() => alert("search")}
-            style={{...styles.add, width: 40, padding: 10}}>
-            <Image source={getImage('lupa')} style={styles.lupaImage}/>
-            </TouchableHighlight>
+            <View style={styles.row}>
+                          <TextInput style={styles.query}
+                          placeholder="Buscar sucursal" placeholderTextColor="#999"
+                          value={query} onChangeText={setQuery}></TextInput>
+                         <TouchableHighlight
+                            underlayColor={'#ddd'}
+                             onPress={() => alert("search")}
+                            style={{...styles.add, width: 40, padding: 10}}>
+                            <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                            </TouchableHighlight>
+                            </View>
 
           </View>
           

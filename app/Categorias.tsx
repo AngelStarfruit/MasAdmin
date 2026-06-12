@@ -207,6 +207,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
               <View style={styles.row}>
               <TextInput style={styles.query}
+              placeholder="Buscar categoría" placeholderTextColor="#999"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
                 underlayColor={'#ddd'}
