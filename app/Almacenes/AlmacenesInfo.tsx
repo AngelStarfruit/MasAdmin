@@ -21,12 +21,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [almacen, setAlmacen] = useState('');
   const [query, setQuery] = useState('');
 
-  //Constantes de pickers
-  const [selectedBranch, setSelectedBranch] = useState('');
-
   //JSONs de datos
   const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
-  const [sucursales, setSucursales] = useState(datosS.SUCURSALES || {});
+  const sucursales: Record<string, any> = datosS.SUCURSALES || {};
+
+  //Constantes de pickers
+  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);

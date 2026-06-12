@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { AddRegistroGastoScreenProps, RegistroCompra } from './types';
+import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { totalCompra, AddGasto, QuitarElemento } from './backend';
+import { totalGasto, AddGasto, QuitarElemento } from './backend';
 import datosP from './datos.json'; import datos from '../datos.json'
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
@@ -25,20 +25,20 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
-  //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState('');
-  const [selectedGasto, setSelectedGasto] = useState('');
-
   //Constantes de JSON
-  const [processGasto, setProcessGasto] = useState<RegistroCompra>({})
+  const [processGasto, setProcessGasto] = useState<RegistroGasto>({})
   //JSONs de datos
-  const [proveedores, setProveedores] = useState(datosP.PROVEEDORES || {})
+  const proveedores: Record<string, any> = (datosP.PROVEEDORES || {});
   const gastos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "gasto"));
 
+  //Constantes de pickers
+  const [selectedProvider, setSelectedProvider] = useState(proveedores[Object.keys(proveedores)[0]]?.[0] || '');
+  const [selectedGasto, setSelectedGasto] = useState(gastos[Object.keys(gastos)[0]]?.[0] || '');
+
   //Constantes extras
-  const total = totalCompra(processGasto)
+  const total = totalGasto(processGasto)
 
   //ID
   const [idP, setIdP] = useState(1);
@@ -120,7 +120,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     <TouchableHighlight
                     underlayColor={'#82ff92'} style={styles.modalConfirm}
                       onPress={() => {
-                            setProcessGasto(AddGasto(processGasto,idP,selectedGasto))
+                            setProcessGasto(AddGasto(processGasto,idP,String(selectedGasto),Number(costo)))
                             setIdP(idP + 1); 
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>

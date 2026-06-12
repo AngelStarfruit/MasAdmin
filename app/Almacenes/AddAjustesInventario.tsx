@@ -22,23 +22,23 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
-  //Constantes de pickers
-  const [selectedStore, setSelectedStore] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedOperation, setSelectedOperation] = useState('entrada');
-
   //Constantes de inputs
   const [cantidad, setCantidad] = useState('');
 
    //JSON para efectuar ajustes de inventario
   const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
   //JSONs de datos
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {})
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {})
+  const sucursales: Record<string, any> = (datos.SUCURSALES || {})
+  const almacenes: Record<string, any> = (datosA.ALMACENES || {})
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
+
+    //Constantes de pickers
+  const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
+  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
+  const [selectedOperation, setSelectedOperation] = useState('entrada');
+  const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
 
    //ID
   const [idP, setIdP] = useState(1);
@@ -125,7 +125,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         Alert.alert('Error', validation.message);
                         return; 
                       }
-                      setProcessAjusteInventario(AddElemento(processAjusteInventario, idP, selectedProduct, Number(cantidad)))
+                      setProcessAjusteInventario(AddElemento(processAjusteInventario, idP, String(selectedProduct), Number(cantidad)))
                       setIdP(idP + 1); setCantidad('')
                       setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
@@ -225,9 +225,18 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            {Object.entries(sucursales).map(([id, [sucursal, telefono]], index) => (
-            <Picker.Item style={styles.pickerItem} key={index} label={sucursal} value={sucursal} />
-            ))}
+            {Object.values(sucursales || {}).length > 0 ? (
+                Object.values(sucursales).map((sucursal: any, index) => (
+                <Picker.Item 
+                style={styles.pickerItem} 
+                key={index} 
+                label={String(sucursal[0])} 
+                value={String(sucursal[0])} 
+                  />
+                  ))
+                  ) : (
+                  <Picker.Item label="-" value="" />
+                )}
           </Picker></View>
         </View>
         <View style={[styles.row, {marginBottom:12}]}>

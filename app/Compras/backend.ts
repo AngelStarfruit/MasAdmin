@@ -43,30 +43,40 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
-//-----------------------FUNCIONES AddRegistroCompra-----------------------------------------
+//-----------------------FUNCIONES AddRegistroCompra y AddRegistroGasto-----------------------
 //Función para obtener el total de la compra
 export const totalCompra = (data: any) => {
   let total = 0
   const claves = Object.keys(data)
 
     claves.forEach((id) => {
-        total += data[id][2]
+        total += (data[id][2] * data[id][3]);
     });
 
   return total.toFixed(2);
 };
-//Función para agregar un elemento al ajuste
-export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
+export const totalGasto = (data: any) => {
+  let total = 0
+  const claves = Object.keys(data)
+
+    claves.forEach((id) => {
+        total += data[id][1]
+    });
+
+  return total.toFixed(2);
+};
+//Función para agregar un producto al ajuste
+export const AddElemento = (data: any, id: number, elemento: string, marca: string, costo: number, cantidad: number) => {
   return {
     ...data,
-    [id]: [elemento, '', 0,cantidad]
+    [id]: [elemento, marca, costo, cantidad]
   };
 };
-//Función para agregar un elemento al ajuste
-export const AddGasto = (data: any, id: number, elemento: string) => {
+//Función para agregar un gasto al ajuste
+export const AddGasto = (data: any, id: number, elemento: string, costo: number) => {
   return {
     ...data,
-    [id]: [elemento, '']
+    [id]: [elemento, costo]
   };
 };
 //Función para quitar un elemento del ajuste

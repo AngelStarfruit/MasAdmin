@@ -28,13 +28,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
 
-  //Constantes de picker
-  const [selectedValue, setSelectedValue] = useState('Servicios');
-  const [selectedUValue, setSelectedUValue] = useState('pieza');
-  const [selectedTValue, setSelectedTValue] = useState('producto');
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
@@ -44,10 +37,18 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [Confirm, setConfirm] = useState(false);
 
   //JSON con los datos
-  const [listaPrecios, setListaPrecios] = useState(datos.LISTA_PRECIOS)
-  const [listaCategorias, setListaCategorias] = useState(datos.CATEGORIAS)
+  const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
+  const listaCategorias: Record<string, any>  = datos.CATEGORIAS
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
+
+  //Constantes de picker
+  const [selectedValue, setSelectedValue] = useState('Servicios');
+  const [selectedUValue, setSelectedUValue] = useState('pieza');
+  const [selectedTValue, setSelectedTValue] = useState('producto');
+  const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
+  const [selectedCategory, setSelectedCategory] = useState(listaCategorias[Object.keys(listaCategorias)[0]]?.[0] || '');
+
 
   //IDs
   const [idP, setIdP] = useState(1);

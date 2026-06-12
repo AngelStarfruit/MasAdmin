@@ -50,16 +50,16 @@ export const totalVenta = (data: any) => {
   const claves = Object.keys(data)
 
     claves.forEach((id) => {
-        total += data[id][2]
+        total += (data[id][2] * data[id][3]);
     });
 
   return total.toFixed(2);
 };
 //Función para agregar un elemento al ajuste
-export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
+export const AddElemento = (data: any, id: number, elemento: string, marca: string, costo: number, cantidad: number) => {
   return {
     ...data,
-    [id]: [elemento,'',0, cantidad]
+    [id]: [elemento,marca,costo, cantidad]
   };
 };
 //Función para quitar un elemento del ajuste

@@ -12,13 +12,14 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
    return require('../../assets/B.png');
   }
 
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
-
   //JSONs para datos
-  const [sucursales, setSucursales] = useState(datosS.SUCURSALES || {})
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {})
+  const sucursales: Record<string, any> = datosS.SUCURSALES || {}
+  const almacenes: Record<string, any> = datosA.ALMACENES || {}
   const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN || {})
+
+  //Constantes de pickers
+  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
+  const [selectedValue, setSelectedValue] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
 
   return (
     <View style={styles.container}>

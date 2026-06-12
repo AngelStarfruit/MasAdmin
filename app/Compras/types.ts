@@ -9,3 +9,4 @@ export type AddRegistroGastoScreenProps = NativeStackScreenProps<RootStackParamL
 export type ProveedoresScreenProps = NativeStackScreenProps<RootStackParamList, 'Proveedores'>;
 
 export type RegistroCompra = {[key: number]: [string, string, number, number];};
+export type RegistroGasto = {[key: number]: [string, number];};

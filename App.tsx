@@ -163,3 +163,15 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+// En tu archivo principal (App.js)
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs(false); // Asegúrate de ver todos los warnings
+
+// Agrega esto temporalmente en el componente que crashea
+console.log('Llegué aquí antes del crash');
+try {
+  // Tu código que posiblemente crashea
+} catch (error) {
+  console.error('Error capturado:', error);
+}

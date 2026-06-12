@@ -22,12 +22,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [Confirm, setConfirm] = useState(false);
   const [Receive, setReceive] = useState(false);
 
-  //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState('');
-  const [selectedStore, setSelectedStore] = useState('');
-
   //Constante de input
   const [cantidad, setCantidad] = useState('');
 
@@ -35,15 +29,25 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [processCompra, setProcessCompra] = useState<RegistroCompra>({})
   const [processACompra, setProcessACompra] = useState<RegistroCompra>({})
   //JSONs de datos
-  const [proveedores, setProveedores] = useState(datosP.PROVEEDORES || {});
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
+  const proveedores: Record<string, any> = datosP.PROVEEDORES || {};
+  const sucursales: Record<string, any> = datos.SUCURSALES || {}
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
+  const almacenes: Record<string, any> = datosA.ALMACENES || {};
+
+  //Constantes de pickers
+  const [selectedProvider, setSelectedProvider] = useState(proveedores[Object.keys(proveedores)[0]]?.[0] || '');
+  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
+  const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
+    //Valores del picker producto
+    const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
+    const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
+    const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
 
   //Constantes extras
   const total = totalCompra(processCompra)
+  const totalA = totalCompra(processACompra)
 
   //Desabilitar botones
   const [Off, setOff] = useState(false)
@@ -100,7 +104,16 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedProduct}
-                        onValueChange={(itemValue) => setSelectedProduct(itemValue)}
+                        onValueChange={(itemValue) => {
+                          setSelectedProduct(itemValue);
+                        const productoEncontrado = Object.values(productos).find(
+                        (producto: any) => producto[0] === itemValue
+                        );
+                         if (productoEncontrado) {
+                        setProductMarca(productoEncontrado[1]);
+                        setProductCosto(productoEncontrado[2]);
+                         }
+                       }}
                         >
                        {Object.values(productos || {}).length > 0 ? (
                              Object.values(productos).map((producto: any, index) => (
@@ -133,7 +146,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                             Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setProcessCompra(AddElemento(processCompra,idP,selectedProduct,Number(cantidad)))
+                            setProcessCompra(AddElemento(processCompra,idP,String(selectedProduct),String(productMarca),Number(productCosto),Number(cantidad)))
                             setIdP(idP + 1); setCantidad('')
                             setModalVisible(!modalVisible)}}>
                       <Text>Agregar</Text>
@@ -412,7 +425,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
           </View>
 
           <View style={{flexDirection: 'row', justifyContent: 'center',
-            marginTop: 10, marginBottom: 50,}}>
+            marginTop: 10}}>
           <TouchableHighlight
                 underlayColor={'#5460ff'}
                   onPress={() => {
@@ -424,6 +437,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <Text style={styles.buttonText}>Aplicar cambios</Text>
               </TouchableHighlight>
               </View>
+              <Text style={{  fontSize: 25, fontWeight: 'bold', marginTop: 10 , marginBottom: 50}}>
+        Total: {totalA}$
+        </Text>
+
         
         </View>
       </ScrollView>
