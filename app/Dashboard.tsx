@@ -41,7 +41,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   //JSON
-  const [eventos, setEventos] = useState(datos.EVENTOS);
+  const [eventos, setEventos] = useState(datos.EVENTOS || {});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);

@@ -37,7 +37,9 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   //JSONs de datos
   const [proveedores, setProveedores] = useState(datosP.PROVEEDORES || {});
   const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {});
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"));
   const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
 
   //Constantes extras
@@ -94,7 +96,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Elemento:</Text>
-                      <View style={{width:130, height:50}}>
+                      <View style={{width:150, height:50}}>
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedProduct}

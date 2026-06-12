@@ -20,7 +20,9 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
   //JSONs de datos
   const clientes = (datosC.CLIENTES || {});
   const sucursales = (datos.SUCURSALES || {});
-  const productos = (datos.LISTA_PRECIOS || {});
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] != "gasto"));
   const almacenes = (datosA.ALMACENES || {});
 
   return (

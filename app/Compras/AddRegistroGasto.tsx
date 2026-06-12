@@ -17,6 +17,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
    }
   }
 
+  //Constantes de inputs
+  const [costo, setCosto] = useState('');
+
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -30,7 +33,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   const [processGasto, setProcessGasto] = useState<RegistroCompra>({})
   //JSONs de datos
   const [proveedores, setProveedores] = useState(datosP.PROVEEDORES || {})
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {})
+  const gastos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "gasto"));
 
   //Constantes extras
   const total = totalCompra(processGasto)
@@ -65,7 +70,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.modalOverlay}>
-                <View style={[styles.modalView, {marginVertical: 330}]}>
+                <View style={[styles.modalView, {marginVertical: 290}]}>
       
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableHighlight
@@ -83,19 +88,19 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Gasto:</Text>
-                      <View style={{width:130, height:50}}>
+                      <View style={{width:180, height:50}}>
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedGasto}
                         onValueChange={(itemValue) => setSelectedGasto(itemValue)}
                         >
-                        {Object.values(productos || {}).length > 0 ? (
-                              Object.values(productos).map((producto: any, index) => (
+                        {Object.values(gastos || {}).length > 0 ? (
+                              Object.values(gastos).map((gasto: any, index) => (
                               <Picker.Item 
                               style={styles.pickerItem} 
                               key={index} 
-                              label={String(producto[0])} 
-                              value={String(producto[0])} 
+                              label={String(gasto[0])} 
+                              value={String(gasto[0])} 
                               />
                               ))
                               ) : (
@@ -103,6 +108,13 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                               )}
                         </Picker></View>
                     </View>
+                    <View style={styles.modalRow}>
+                                          <Text style={styles.modalLabel}>Costo:</Text>
+                                          <TextInput style={styles.input}
+                                                    value={costo} onChangeText={setCosto}
+                                                    keyboardType='numeric'></TextInput>
+                                        </View>
+                                      <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight

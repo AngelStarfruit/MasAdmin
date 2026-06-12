@@ -11,6 +11,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
   const getImage = (nombre: any) => {
     switch (nombre){
       case 'B': return require('../assets/B.png');
+      case 'lupa': return require('../assets/lupa.png');
       default: return require('../assets/x.png');
    }
   }
@@ -21,6 +22,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
   //Constante de input
   const [category, setCategory] = useState('');
+  const [query, setQuery] = useState('')
 
   //JSONs de datos
   const [categorias, setCategorias] = useState(datos.CATEGORIAS);
@@ -193,6 +195,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
           Seleccione una categoría para editarla.
           </Text>
 
+          <View style={styles.row}>
         <TouchableHighlight 
             underlayColor={'#ddd'}
             onPress={() => {
@@ -201,6 +204,17 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
             style={[styles.add , {width: 160}]}>
             <Text style={{fontWeight: 'bold'}}>Agregar categorías</Text>
             </TouchableHighlight>
+
+              <View style={styles.row}>
+              <TextInput style={styles.query}
+              value={query} onChangeText={setQuery}></TextInput>
+             <TouchableHighlight
+                underlayColor={'#ddd'}
+                 onPress={() => alert("search")}
+                style={{...styles.add, width: 40, padding: 10}}>
+                <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                </TouchableHighlight>
+                </View></View>
         
         <View style={{marginBottom: 80}}>
             
@@ -267,6 +281,12 @@ const styles = StyleSheet.create({
     fontSize: 20, 
     paddingVertical: 5, 
     fontWeight: 'bold',
+  },
+  query: {
+    backgroundColor: 'white', color: 'black',
+    borderWidth: 1, borderColor: 'black', 
+    height: 40, width: 120,
+    marginTop: 10,
   },
    add: {
     backgroundColor: '#eee',

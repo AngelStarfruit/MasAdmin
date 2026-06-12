@@ -36,13 +36,15 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   //JSONs de datos
   const [clientes, setClientes] = useState(datosC.CLIENTES || {});
   const [sucursales, setSucursales] = useState(datos.SUCURSALES || {});
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {});
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] != "gasto"));
   const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
 
   //Constantes extra
   const total = totalVenta(processVenta)
 
-  //Desabilitar botones
+  //Desabilitar
   const [Off, setOff] = useState(false)
 
   //ID
@@ -93,11 +95,13 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Elemento:</Text>
-                      <View style={{width:130, height:50}}>
+                      <View style={{width:180, height:50}}>
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedProduct}
-                        onValueChange={(itemValue) => setSelectedProduct(itemValue)}
+                        onValueChange={
+                          (itemValue) => setSelectedProduct(itemValue)
+                        }
                         >
                         {Object.values(productos || {}).length > 0 ? (
                                   Object.values(productos).map((producto: any, index) => (
@@ -115,7 +119,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Cantidad:</Text>
-                      <TextInput style={styles.input}
+                      <TextInput style={styles.input} 
                                 value={cantidad} onChangeText={setCantidad}
                                 keyboardType='numeric'></TextInput>
                     </View>

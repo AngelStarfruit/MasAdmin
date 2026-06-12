@@ -36,7 +36,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   //JSONs de datos
   const [sucursales, setSucursales] = useState(datos.SUCURSALES || {})
   const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {})
-  const [productos, setProductos] = useState(datos.LISTA_PRECIOS || {})
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"));
 
    //ID
   const [idP, setIdP] = useState(1);
@@ -86,7 +88,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Producto:</Text>
-                      <View style={{width:130, height:50}}>
+                      <View style={{width:150, height:50}}>
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedProduct}

@@ -20,7 +20,12 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
    //JSONs de datos
   const proveedores = (datosP.PROVEEDORES || {});
   const sucursales = (datos.SUCURSALES || {});
-  const productos = (datos.LISTA_PRECIOS || {});
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"));
+  const gastos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "gasto"));
   const almacenes = (datosA.ALMACENES || {});
 
   return (
@@ -97,7 +102,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <TouchableHighlight 
         underlayColor={'#0015cd'}
         onPress={() => {
-          if(Object.keys(proveedores).length > 0 && Object.keys(productos).length > 0){
+          if(Object.keys(proveedores).length > 0 && Object.keys(gastos).length > 0){
           navigation.navigate("ControlGastos")
           }
           else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor y un gasto")

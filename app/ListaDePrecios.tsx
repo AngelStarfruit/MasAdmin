@@ -576,7 +576,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.hr}/>
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Elemento:</Text>
-                            <View style={{width:130, height:50}}>
+                            <View style={{width:150, height:50}}>
                               <Picker
                               style={[styles.picker, {backgroundColor: "#eee"}]}
                               selectedValue={selectedProduct}

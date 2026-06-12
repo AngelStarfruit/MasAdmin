@@ -20,7 +20,9 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
   //JSONs de datos
   const sucursales = (datos.SUCURSALES || {});
   const almacenes = (datosA.ALMACENES || {});
-  const productos = (datos.LISTA_PRECIOS || {});
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"));
 
   return (
     <View style={styles.container}>
