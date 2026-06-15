@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import { Picker } from '@react-native-picker/picker';
-import { ClientesScreenProps } from './types';
+import { ClientesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
 
 export default function Clientes({ navigation }: ClientesScreenProps ) {
@@ -25,7 +25,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   const [query, setQuery] = useState('');
 
   //JSON
-  const [clientes, setClientes] = useState(datos.CLIENTES || {});
+  const [clientes, setClientes] = useState<FormerJSON>(datos.CLIENTES || {});
 
   //Constantes modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -72,7 +72,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                   style={{height: 30, width: 30, alignItems: "flex-end"}}
-                  underlayColor={'#ddd'}
+                  underlayColor={'#eee'}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -258,7 +258,23 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                             <TouchableHighlight
                             underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
-                              onPress={() => {
+                               onPress={() => {
+                          if(query.trim() == ''){
+                            setClientes(datos.CLIENTES)
+                          }
+                          else {
+                            let index = 0
+                            switch(selectedCriteria){
+                            case "Nombre": {index = 0; break}
+                            case "Ciudad": {index = 2; break}
+                            default: {index = 3; break}
+                          }
+                          const filtrado = Object.fromEntries(
+                            Object.entries(datos.CLIENTES || {}).filter(
+                            ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
+                            ));
+                            setClientes(filtrado)
+                          }
                                 
                               setBusqueda(!Busqueda)}}>
                               <Text>Buscar</Text>
@@ -332,7 +348,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       <TouchableHighlight
                       underlayColor={'#ddd'}
                       onPress={() => {
-                        setQuery('')
                         setBusqueda(true)
                       }}
                       style={{...styles.add, width: 40, padding: 10}}>

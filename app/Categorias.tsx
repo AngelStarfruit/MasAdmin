@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { CategoriasScreenProps } from './types';
+import type { CategoriasScreenProps, single } from './types';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
 import datos from './datos.json'; 
@@ -25,7 +25,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
   const [query, setQuery] = useState('')
 
   //JSONs de datos
-  const [categorias, setCategorias] = useState(datos.CATEGORIAS);
+  const [categorias, setCategorias] = useState<single>(datos.CATEGORIAS || {});
 
   return (
     <View style={styles.container}>
@@ -207,11 +207,22 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
               <View style={styles.row}>
               <TextInput style={styles.query}
-              placeholder="Buscar categoría" placeholderTextColor="#999"
+              placeholder="Buscar" placeholderTextColor="#999"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
                 underlayColor={'#ddd'}
-                 onPress={() => alert("search")}
+                 onPress={() => {
+                  if(query.trim() == ''){
+                    setCategorias(datos.CATEGORIAS);
+                  }
+                  else{
+                    const filtrado = Object.fromEntries(
+                      Object.entries(datos.CATEGORIAS || {}).filter(
+                      ([id, data]) => data.toLowerCase().includes(query.toLowerCase())
+                      ));
+                      setCategorias(filtrado)
+                  }
+                }}
                 style={{...styles.add, width: 40, padding: 10}}>
                 <Image source={getImage('lupa')} style={styles.lupaImage}/>
                 </TouchableHighlight>

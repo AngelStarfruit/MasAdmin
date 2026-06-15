@@ -10,3 +10,4 @@ export type ProveedoresScreenProps = NativeStackScreenProps<RootStackParamList, 
 
 export type RegistroCompra = {[key: number]: [string, string, number, number];};
 export type RegistroGasto = {[key: number]: [string, number];};
+export type FormerJSON = Record<string, string[]>;

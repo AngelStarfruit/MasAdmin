@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { NoEmojis, Validar } from './backend';
-import type { SucursalesScreenProps } from './types';
+import type { SucursalesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
@@ -27,7 +27,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   const [query, setQuery] = useState('');
 
    //JSON
-  const [sucursales, setSucursales] = useState(datos.SUCURSALES);
+  const [sucursales, setSucursales] = useState<FormerJSON>(datos.SUCURSALES || {});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -262,7 +262,18 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
                     underlayColor={'#ddd'}
-                   onPress={() => alert("search")}
+                   onPress={() => {
+                    if (query.trim() == ''){
+                      setSucursales(datos.SUCURSALES || {})
+                    }
+                    else {
+                      const filtrado = Object.fromEntries(
+                      Object.entries(datos.SUCURSALES || {}).filter(
+                      ([id, data]) => data[0].toLowerCase().includes(query.toLowerCase())
+                      ));
+                      setSucursales(filtrado)
+                    }
+                   }}
                     style={{...styles.add, width: 40, padding: 10}}>
                     <Image source={getImage('lupa')} style={styles.lupaImage}/>
                    </TouchableHighlight>

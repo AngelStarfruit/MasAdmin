@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
-import type { AlmacenesInfoScreenProps } from './types';
+import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
@@ -22,7 +22,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [query, setQuery] = useState('');
 
   //JSONs de datos
-  const [almacenes, setAlmacenes] = useState(datosA.ALMACENES || {});
+  const [almacenes, setAlmacenes] = useState<FormerJSON>(datosA.ALMACENES || {});
   const sucursales: Record<string, any> = datosS.SUCURSALES || {};
 
   //Constantes de pickers
@@ -249,6 +249,20 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                             <TouchableHighlight
                             underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
                               onPress={() => {
+                          if(query.trim() == ''){
+                            setAlmacenes(datosA.ALMACENES)
+                          }
+                          else {
+                            let index = 0
+                            if(selectedCriteria == "Sucursal"){
+                              index = 1
+                          }
+                          const filtrado = Object.fromEntries(
+                            Object.entries(datosA.ALMACENES || {}).filter(
+                            ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
+                            ));
+                            setAlmacenes(filtrado)
+                          }
                               setBusqueda(!Busqueda)}}>
                               <Text>Buscar</Text>
                             </TouchableHighlight>

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import type { ProveedoresScreenProps } from './types';
+import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
@@ -25,7 +25,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   const [query, setQuery] = useState('');
 
   //JSON
-  const [proveedores, setProveedores] = useState(datos.PROVEEDORES || {});
+  const [proveedores, setProveedores] = useState<FormerJSON>(datos.PROVEEDORES || {});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -235,7 +235,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Criterio:</Text>
+                      <Text style={styles.modalLabel}>Campo:</Text>
                       <View style={{width: 160, height: 50}}>
                             <Picker
                             selectedValue={selectedCriteria}
@@ -248,6 +248,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                             </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
+                      <Text style={styles.modalLabel}>Criterio:</Text>
                       <TextInput style={{...styles.query, width: 150}}
                       value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                     </View>
@@ -258,7 +259,22 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       <TouchableHighlight
                       underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
                         onPress={() => {
-                          
+                          if(query.trim() == ''){
+                            setProveedores(datos.PROVEEDORES)
+                          }
+                          else {
+                            let index = 0
+                            switch(selectedCriteria){
+                            case "Empresa": {index = 0; break}
+                            case "Ciudad": {index = 2; break}
+                            default: {index = 3; break}
+                          }
+                          const filtrado = Object.fromEntries(
+                            Object.entries(datos.PROVEEDORES || {}).filter(
+                            ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
+                            ));
+                            setProveedores(filtrado)
+                          }
                         setBusqueda(!Busqueda)}}>
                         <Text>Buscar</Text>
                       </TouchableHighlight>
