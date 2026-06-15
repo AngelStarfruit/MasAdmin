@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddAjustesInventarioScreenProps, AjusteInventario } from './types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, AddElemento, QuitarElemento } from './backend';
 import datos from '../datos.json'; import datosA from './datos.json';
@@ -30,6 +30,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   //JSONs de datos
   const sucursales: Record<string, any> = (datos.SUCURSALES || {})
   const almacenes: Record<string, any> = (datosA.ALMACENES || {})
+  const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes);
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
@@ -39,6 +40,18 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
   const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
+
+   useEffect(() => {
+  let almacenesFiltrados
+  
+   almacenesFiltrados = Object.fromEntries(
+      Object.entries(datosA.ALMACENES || {}).filter(
+        ([id, data]) => data[1] === selectedBranch
+      )
+    );
+
+  setAlmacenesMostrados(almacenesFiltrados);
+}, [selectedBranch]);
 
    //ID
   const [idP, setIdP] = useState(1);
@@ -219,7 +232,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
 
         <View style={[styles.row, {marginBottom:12}]}>
           <Text style={styles.textRow}>Sucursal:</Text>
-          <View style={{width:150}}>
+          <View style={{width:180}}>
           <Picker
             style={styles.picker}
             selectedValue={selectedBranch}
@@ -241,14 +254,14 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
         </View>
         <View style={[styles.row, {marginBottom:12}]}>
           <Text style={styles.textRow}>Almacén:</Text>
-          <View style={{width:150}}>
+          <View style={{width:180}}>
           <Picker
             style={styles.picker}
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.values(almacenes || {}).length > 0 ? (
-                Object.values(almacenes).map((almacen: any, index) => (
+            {Object.values(almacenesMostrados || {}).length > 0 ? (
+                Object.values(almacenesMostrados).map((almacen: any, index) => (
                 <Picker.Item 
                 style={styles.pickerItem} 
                 key={index} 

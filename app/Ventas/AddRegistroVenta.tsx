@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
@@ -34,6 +34,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] != "gasto"));
   const almacenes: Record<string, any> = datosA.ALMACENES || {};
+  const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
 
   //Constantes de pickers
   const [selectedCustomer, setSelectedCustomer] = useState(clientes[Object.keys(clientes)[0]]?.[0] || '');
@@ -43,6 +44,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
     const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
     const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
+
+    useEffect(() => {
+  let almacenesFiltrados
+  
+   almacenesFiltrados = Object.fromEntries(
+      Object.entries(datosA.ALMACENES || {}).filter(
+        ([id, data]) => data[1] === selectedBranch
+      )
+    );
+
+  setAlmacenesMostrados(almacenesFiltrados);
+}, [selectedBranch]);
 
   //Constantes extra
   const total = totalVenta(processVenta)
@@ -365,14 +378,14 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
         <View style={styles.row}>
           <Text style={styles.textRow}>Almacen afectado:</Text>
-          <View style={{width:150}}>
+          <View style={{width:180}}>
           <Picker
             style={styles.picker}
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.values(almacenes || {}).length > 0 ? (
-                  Object.values(almacenes).map((almacen: any, index) => (
+            {Object.values(almacenesMostrados || {}).length > 0 ? (
+                  Object.values(almacenesMostrados).map((almacen: any, index) => (
                   <Picker.Item 
                       style={styles.pickerItem} 
                       key={index} 

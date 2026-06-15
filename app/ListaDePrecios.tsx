@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento } from './backend';
-import type { ListaDePreciosScreenProps, ContenidoPaquete, FormerJSON } from './types';
+import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {

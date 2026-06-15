@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
 import datosS from '../datos.json'; import datosA from './datos.json';
 
@@ -15,11 +15,32 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
   //JSONs para datos
   const sucursales: Record<string, any> = datosS.SUCURSALES || {}
   const almacenes: Record<string, any> = datosA.ALMACENES || {}
-  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN || {})
+  const existencias: Record<string, any> = datosA.EXISTENCIAS_ALMACEN || {}
+   const [almacenesMostrados, setalmacenesMostrados] = useState(almacenes);
+  const [existenciasMostradas, setExistenciasMostradas] = useState(existencias);
 
   //Constantes de pickers
   const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
   const [selectedValue, setSelectedValue] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
+
+  useEffect(() => {
+  let existenciasFiltradas; let almacenesFiltrados
+  
+   almacenesFiltrados = Object.fromEntries(
+      Object.entries(datosA.ALMACENES || {}).filter(
+        ([id, data]) => data[1] === selectedBranch
+      )
+    );
+
+    existenciasFiltradas = Object.fromEntries(
+      Object.entries(datosA.EXISTENCIAS_ALMACEN || {}).filter(
+        ([id, data]) => data[4] === selectedValue
+      )
+    );
+  
+  setExistenciasMostradas(existenciasFiltradas);
+  setalmacenesMostrados(almacenesFiltrados);
+}, [selectedBranch, selectedValue]);
 
   return (
     <View style={styles.container}>
@@ -71,8 +92,8 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-              {Object.values(almacenes || {}).length > 0 ? (
-                    Object.values(almacenes).map((almacen: any, index) => (
+              {Object.values(almacenesMostrados || {}).length > 0 ? (
+                    Object.values(almacenesMostrados).map((almacen: any, index) => (
                     <Picker.Item 
                     style={styles.pickerItem} 
                     key={index} 
@@ -101,8 +122,8 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                   </View>
 
                   {/* Body - cada registro es una fila */}
-                  {Object.values(existencias || {}).length > 0 ? (
-                  Object.entries(existencias).map(([id, data]: [string, any]) => {
+                  {Object.values(existenciasMostradas || {}).length > 0 ? (
+                  Object.entries(existenciasMostradas).map(([id, data]: [string, any]) => {
                   const [descripcion, marca, cantidad, precio] = data;
                   return(
                       <View key={id} style={styles.row}>

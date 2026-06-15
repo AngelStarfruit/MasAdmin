@@ -19,35 +19,35 @@
     "Valle Verde",
     3000,
     0.7,
-    "3"
+    "Almacén 67"
   ],
   "2": [
     "Queso",
     "Caperucita",
     5,
     260.00,
-    "1"
+    "Almacén X"
   ],
   "3": [
     "Chorizo",
     "Chimex",
     5,
     23.99,
-    "1"
+    "Almacén X"
   ],
   "4": [
     "Tortillas de harina",
     "Tia Rosa",
     5,
     35.00,
-    "1"
+    "Almacén X"
   ],
   "5": [
     "Queso",
     "Caperucita",
     9,
     260.00,
-    "2"
+    "Almacén 8"
   ]
   },
   "AJUSTES_INVENTARIO":{
