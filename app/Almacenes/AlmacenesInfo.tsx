@@ -245,20 +245,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
               
                           <View style={styles.hr}/>
               
-                          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                             <TouchableHighlight
                             underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
                               onPress={() => {
-                                
                               setBusqueda(!Busqueda)}}>
                               <Text>Buscar</Text>
-                            </TouchableHighlight>
-                             <TouchableHighlight
-                            underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 160}]}
-                              onPress={() => {
-                                
-                              setBusqueda(!Busqueda)}}>
-                              <Text>Deshacer busqueda</Text>
                             </TouchableHighlight>
                           </View>
               
@@ -332,7 +324,6 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                     <TouchableHighlight
                     underlayColor={'#ddd'}
                     onPress={() => {
-                      setQuery('')
                       setBusqueda(true)
                     }}
                     style={{...styles.add, width: 40, padding: 10}}>

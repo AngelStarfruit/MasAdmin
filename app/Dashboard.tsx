@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
 import { Validar, NoEmojis } from './backend';
@@ -10,6 +11,7 @@ import datos from './datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
+  //Constantes de inputs
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
@@ -22,6 +24,40 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       setFecha(selectedDate);
     }
   };
+  const [evento, setEvento] = useState('')
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [fechaHora, setFechaHora] = useState(new Date());
+  const [lugar, setLugar] = useState('')
+  const [contacto, setContacto] = useState('')
+  const showDatePicker = () => {
+  setDatePickerVisibility(true);
+};
+const hideDatePicker = () => {
+  setDatePickerVisibility(false);
+};
+const handleConfirm = (date: any) => {
+  setFechaHora(date);
+  hideDatePicker();
+};
+
+    //Constantes de picker
+  const [selectedValue, setSelectedValue] = useState('hoy');
+  const [selectedAValue, setSelectedAValue] = useState('hoyA');
+
+  //JSON
+  const [eventos, setEventos] = useState(datos.EVENTOS || {});
+
+  //Modales
+  const [modalVisible, setModalVisible] = useState(false);
+  const [userModalVisible, setUserModalVisible] = useState(false);
+  const [Confirm, setConfirm] = useState(false);
+  const [modalEvento, setModalEvento] = useState(false);
+  const [modalEditEvento, setModalEditEvento] = useState(false);
+
+  //Constantes de totales
+  const [ventas, setVentas] = useState(1000);
+  const [compras, setCompras] = useState(500);
+  const [gastos, setGastos] = useState(200);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -36,23 +72,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     }
   }
 
-  //Constantes de picker
-  const [selectedValue, setSelectedValue] = useState('hoy');
-  const [selectedAValue, setSelectedAValue] = useState('hoyA');
-
-  //JSON
-  const [eventos, setEventos] = useState(datos.EVENTOS || {});
-
-  //Modales
-  const [modalVisible, setModalVisible] = useState(false);
-  const [userModalVisible, setUserModalVisible] = useState(false);
-  const [Confirm, setConfirm] = useState(false);
-
-  //Constantes de totales
-  const [ventas, setVentas] = useState(1000);
-  const [compras, setCompras] = useState(500);
-  const [gastos, setGastos] = useState(200);
-
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -66,7 +85,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         setModalVisible(!modalVisible);
                       }}>
                       <View style={styles.modalOverlay}>
-                      <View style={styles.modalView}>
+                      <View style={[styles.modalView, {marginVertical: 340}]}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
@@ -245,6 +264,194 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                   </View>
                                   </View>
                                 </Modal>
+    
+    {/* Modal para añadir eventos */}
+        <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalEvento}
+              onRequestClose={() => {
+                setModalEvento(!modalEvento);
+              }}>
+              <View style={styles.modalOverlay}>
+                <KeyboardAvoidingView 
+                            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                            style={{ flex: 1 }}
+                            >  
+                          <ScrollView 
+                               showsVerticalScrollIndicator={false}
+                              keyboardShouldPersistTaps="handled"
+                            >
+              <View style={styles.modalView}>
+    
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                  <TouchableHighlight
+                  style={{height: 30, width: 30, alignItems: "flex-end"}}
+                  underlayColor={'#eee'}
+                  onPress={() => setModalEvento(!modalEvento)}>
+                  <Image source={getImage('x')} style={styles.lupaImage}/>
+                  </TouchableHighlight>
+                </View>
+    
+                <View>
+                  <Text style={styles.modalTitle}>Registrar evento</Text>
+                </View>
+    
+                <View style={styles.hr}/>
+    
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Evento:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={evento} onChangeText={(text) => setEvento(NoEmojis(text))}/>
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Fecha y hora:</Text>
+                  <View style={styles.modalRow}>
+  
+                <TouchableHighlight underlayColor={'white'} onPress={showDatePicker}>
+                <TextInput 
+                style={styles.input}
+                 value={fechaHora.toLocaleString()}
+                editable={false}
+                pointerEvents="none"
+                />
+                </TouchableHighlight>
+              <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="datetime"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              date={fechaHora}
+              />
+              </View>
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Lugar:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={lugar} onChangeText={(text) => setLugar(NoEmojis(text))}/>
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Contacto:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={contacto} onChangeText={(text) => setContacto(NoEmojis(text))}/>
+                </View>
+    
+                <View style={styles.hr}/>
+    
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                  <TouchableHighlight
+                  underlayColor={'#82ff92'} style={styles.modalConfirm}
+                    onPress={() => {
+                      const validation = Validar(3,evento,lugar,contacto,'');
+                            if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                      setModalEvento(!modalEvento)}}>
+                    <Text>Añadir registro</Text>
+                  </TouchableHighlight>
+                </View>
+    
+              </View>
+              </ScrollView>
+              </KeyboardAvoidingView>
+              </View>
+            </Modal>
+    
+    {/* Modal para editar eventos */}
+        <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalEditEvento}
+              onRequestClose={() => {
+                setModalEvento(!modalEditEvento);
+              }}>
+              <View style={styles.modalOverlay}>
+                <KeyboardAvoidingView 
+                            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                            style={{ flex: 1 }}
+                            >  
+                          <ScrollView 
+                               showsVerticalScrollIndicator={false}
+                              keyboardShouldPersistTaps="handled"
+                            >
+              <View style={styles.modalView}>
+    
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                  <TouchableHighlight
+                  style={{height: 30, width: 30, alignItems: "flex-end"}}
+                  underlayColor={'#eee'}
+                  onPress={() => setModalEditEvento(!modalEditEvento)}>
+                  <Image source={getImage('x')} style={styles.lupaImage}/>
+                  </TouchableHighlight>
+                </View>
+    
+                <View>
+                  <Text style={styles.modalTitle}>Editar evento</Text>
+                </View>
+    
+                <View style={styles.hr}/>
+    
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Evento:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={evento} onChangeText={(text) => setEvento(NoEmojis(text))}/>
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Fecha y Hora:</Text>
+                  <TouchableHighlight underlayColor={'white'} onPress={showDatePicker}>
+                <TextInput 
+                style={styles.input}
+                 value={fechaHora.toLocaleString()}
+                editable={false}
+                pointerEvents="none"
+                />
+                </TouchableHighlight>
+              <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="datetime"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              date={fechaHora}
+              />   
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Lugar:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={lugar} onChangeText={(text) => setLugar(NoEmojis(text))}/>
+                </View>
+                <View style={styles.modalRow}>
+                  <Text style={styles.modalLabel}>Contacto:</Text>
+                  <TextInput style={{...styles.input, width: 150}}
+                  value={contacto} onChangeText={(text) => setContacto(NoEmojis(text))}/>
+                </View>
+    
+                <View style={styles.hr}/>
+    
+                <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                              <TouchableHighlight
+                              underlayColor={'#f3fe53'} style={styles.modalEdit}
+                                onPress={() => {
+                                  const validation = Validar(3,evento,lugar,contacto,'');
+                                        if (!validation.isValid) {
+                                        Alert.alert('Error', validation.message);
+                                        return; 
+                                        }
+                                  setModalEditEvento(!modalEditEvento)}}>
+                                <Text>Editar registro</Text>
+                              </TouchableHighlight>
+                              <TouchableHighlight
+                              underlayColor={'#ff9797'} style={styles.modalDelete}
+                                onPress={() => setConfirm(true)}>
+                                <Text>Borrar registro</Text>
+                              </TouchableHighlight>
+                            </View>
+    
+              </View>
+              </ScrollView>
+              </KeyboardAvoidingView>
+              </View>
+            </Modal>
 
     {/* Pantalla */}
     <View style={styles.head}>
@@ -342,11 +549,17 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             Gastos: ${gastos.toFixed(2)}
             </Text>
             <View style={styles.hr}/>
-            <View style={{width: 150}}>
+            
           <Text style={{ fontSize: 25, fontWeight: 'bold', 
             paddingBottom: 10}}>
           Agenda
           </Text>
+           <Text style={{ 
+          fontSize: 15, 
+          paddingVertical: 10,}}>
+          Seleccione un evento para modificarlo.
+          </Text>
+          <View style={[styles.row, {justifyContent: 'space-between'}]}>
           <View style={{width: 150}}>
           <Picker
             selectedValue={selectedAValue}
@@ -358,6 +571,15 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Picker.Item label="Este mes" value="mesA" />
               <Picker.Item label="Este año" value="añoA" />
           </Picker></View>
+          <TouchableHighlight
+                  underlayColor={'#f0f1ff'}
+                  onPress={() => {
+                    setEvento(''); setFechaHora(new Date()); setLugar(''); setContacto('');
+                    setModalEvento(true)}}
+                  style={styles.add}>
+                      <Text style={{fontWeight: 'bold'}}>Registrar evento</Text>
+                    </TouchableHighlight>
+         
           </View>
           <View style={styles.table}>
           {/* Header */}
@@ -369,20 +591,37 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </View>
   
         {/* Body - cada registro es una fila */}
-        {Object.values(eventos || {}).length > 0 ? (
-        Object.entries(eventos).map(([id, data]: [string, any]) => {
-          const [evento, fechaHora, lugar, contacto] = data;
-          return (
-          <View key={id} style={styles.row}>
-            <View style={styles.cell}><Text>{evento}</Text></View>
-            <View style={styles.cell}><Text>{fechaHora}</Text></View>
-            <View style={styles.cell}><Text>{lugar}</Text></View>
-            <View style={styles.cell}><Text>{contacto}</Text></View>
-          </View>
-          )})
-        ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay eventos</Text>
-            )}
+                        {Object.values(eventos || {}).length > 0 ? (
+                        Object.entries(eventos).map(([id, data]: [string, any]) => {
+                        const [evento, fechaHora, lugar, contacto] = data;
+                        return (
+                        <View key={id} style={styles.row}>
+                        <View style={styles.cellF}>
+                        <TouchableHighlight
+                        underlayColor={'#ddd'}
+                          onPress={() => {
+                            setEvento(evento); setFechaHora(new Date(fechaHora));
+                            setLugar(lugar); setContacto(contacto);
+                            setModalEditEvento(true);
+                          }}>
+                          <Text>{evento}</Text>
+                          </TouchableHighlight>
+                          </View>
+                          <View style={styles.cell}>
+                          <Text>{fechaHora}</Text>
+                          </View>
+                          <View style={styles.cell}>
+                          <Text>{lugar}</Text>
+                          </View>
+                          <View style={styles.cell}>
+                          <Text>{contacto}</Text>
+                          </View>
+                        </View>
+                        );
+                        })
+                      ) : (
+                    <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay eventos</Text>
+                    )}
         </View>
 
         </View>
@@ -445,8 +684,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#777', 
     marginVertical: 8,
   },
+  add: {
+    backgroundColor: 'white',
+    height: 40, width: 150,
+    marginTop: 10,
+    padding: 10,
+    borderRadius: 15,
+     elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
   //Tabla estilos
-  table:{
+  table: {
+    paddingVertical: 20,
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
     marginBottom: 80
@@ -454,7 +703,7 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: 'white',
+    backgroundColor: '#e3e5ff',
     borderWidth: 1,
     borderColor: 'black',
   },
@@ -463,7 +712,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'white',
   },
-  headerText: {fontWeight: 'bold', color: '#2435f0',},
+  cellF: {
+    flex: 1, padding: 6,
+    borderWidth: 1,
+    backgroundColor: '#eee',
+  },
+  headerText: {fontWeight: 'bold',},
   //---------------
   picker: {
     height: 50,
@@ -482,7 +736,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 340,
+    marginHorizontal: 30, marginVertical: 200,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",
@@ -524,6 +778,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#62ff77',
     padding: 10,
     borderRadius: 15,
+    width: 135,
+    justifyContent: 'center', alignItems: 'center',
+    elevation: 5,
+    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+  },
+  modalEdit: {
+    backgroundColor: '#f3fe53',
+    padding: 10,
+    borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,

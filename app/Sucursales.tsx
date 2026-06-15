@@ -257,16 +257,16 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           </TouchableHighlight>
 
             <View style={styles.row}>
-                          <TextInput style={styles.query}
-                          placeholder="Buscar sucursal" placeholderTextColor="#999"
-                          value={query} onChangeText={setQuery}></TextInput>
-                         <TouchableHighlight
-                            underlayColor={'#ddd'}
-                             onPress={() => alert("search")}
-                            style={{...styles.add, width: 40, padding: 10}}>
-                            <Image source={getImage('lupa')} style={styles.lupaImage}/>
-                            </TouchableHighlight>
-                            </View>
+                    <TextInput style={styles.query}
+                    placeholder="Buscar sucursal" placeholderTextColor="#999"
+                    value={query} onChangeText={setQuery}></TextInput>
+                    <TouchableHighlight
+                    underlayColor={'#ddd'}
+                   onPress={() => alert("search")}
+                    style={{...styles.add, width: 40, padding: 10}}>
+                    <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                   </TouchableHighlight>
+                    </View>
 
           </View>
           
