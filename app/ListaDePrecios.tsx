@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento } from './backend';
-import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
+import type { ListaDePreciosScreenProps, ContenidoPaquete, FormerJSON } from './types';
 import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
@@ -39,6 +39,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON con los datos
   const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
   const listaCategorias: Record<string, any>  = datos.CATEGORIAS
+  const [elementosMostrados, setElementosMostrados] = useState(listaPrecios);
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
@@ -49,7 +50,37 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [selectedCategory, setSelectedCategory] = useState(listaCategorias[Object.keys(listaCategorias)[0]]?.[0] || '');
 
-
+  useEffect(() => {
+  let filtrados;
+  
+  if (selectedValue === 'Servicios') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] === "servicio"
+      )
+    );
+  } else if (selectedValue === 'Gastos') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] === "gasto"
+      )
+    );
+  } else if (selectedValue === 'Paquetes') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] === "paquete"
+      )
+    );
+  } else {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[6] === selectedValue
+      )
+    );
+  }
+  
+  setElementosMostrados(filtrados);
+}, [selectedValue]);
   //IDs
   const [idP, setIdP] = useState(1);
 
@@ -700,8 +731,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       </View>
 
                 {/* Body - cada registro es una fila */}
-                {Object.values(listaPrecios || {}).length > 0 ? (
-                 Object.entries(listaPrecios).map(([id, data]: [string, any]) => {
+                {Object.values(elementosMostrados || {}).length > 0 ? (
+                 Object.entries(elementosMostrados).map(([id, data]: [string, any]) => {
                   const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria] = data;
                   return(
                       <View key={id} style={styles.row}>

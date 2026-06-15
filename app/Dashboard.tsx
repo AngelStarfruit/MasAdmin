@@ -4,9 +4,9 @@ import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Validar, NoEmojis } from './backend';
-import type { DashboardScreenProps } from './types';
+import type { DashboardScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
@@ -45,8 +45,65 @@ const handleConfirm = (date: any) => {
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   //JSON
-  const [eventos, setEventos] = useState(datos.EVENTOS || {});
+  const eventos: Record<string, any> = datos.EVENTOS
+  const [eventosMostrados, setEventosMostrados] = useState(eventos);
 
+   useEffect(() => {
+  let filtrados;
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  
+  // Fin del día (23:59:59)
+  const finDia = new Date(hoy);
+  finDia.setHours(23, 59, 59, 999);
+  
+  // Fin de semana (domingo)
+  const finSemana = new Date(hoy);
+  finSemana.setDate(hoy.getDate() + (6 - hoy.getDay()));
+  finSemana.setHours(23, 59, 59, 999);
+  
+  // Fin de mes
+  const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+  finMes.setHours(23, 59, 59, 999);
+  
+  // Fin de año
+  const finAnio = new Date(hoy.getFullYear(), 11, 31);
+  finAnio.setHours(23, 59, 59, 999);
+  
+  if (selectedAValue === 'hoyA') {
+    filtrados = Object.fromEntries(
+      Object.entries(eventos || {}).filter(([id, data]) => {
+        const fechaEvento = new Date(data[1]);
+        return fechaEvento >= hoy && fechaEvento <= finDia;
+      })
+    );
+  } else if (selectedAValue === 'semanaA') {
+    filtrados = Object.fromEntries(
+      Object.entries(eventos || {}).filter(([id, data]) => {
+        const fechaEvento = new Date(data[1]);
+        return fechaEvento >= hoy && fechaEvento <= finSemana;
+      })
+    );
+  } else if (selectedAValue === 'mesA') {
+    filtrados = Object.fromEntries(
+      Object.entries(eventos || {}).filter(([id, data]) => {
+        const fechaEvento = new Date(data[1]);
+        return fechaEvento >= hoy && fechaEvento <= finMes;
+      })
+    );
+  } else if (selectedAValue === 'añoA') {
+    filtrados = Object.fromEntries(
+      Object.entries(eventos || {}).filter(([id, data]) => {
+        const fechaEvento = new Date(data[1]);
+        return fechaEvento >= hoy && fechaEvento <= finAnio;
+      })
+    );
+  } else {
+    filtrados = eventos || {};
+  }
+  
+  setEventosMostrados(filtrados);
+}, [selectedAValue]);
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
@@ -560,7 +617,7 @@ const handleConfirm = (date: any) => {
           Seleccione un evento para modificarlo.
           </Text>
           <View style={[styles.row, {justifyContent: 'space-between'}]}>
-          <View style={{width: 150}}>
+          <View style={{width: 180}}>
           <Picker
             selectedValue={selectedAValue}
             onValueChange={(itemValue) => setSelectedAValue(itemValue)}
@@ -591,8 +648,8 @@ const handleConfirm = (date: any) => {
           </View>
   
         {/* Body - cada registro es una fila */}
-                        {Object.values(eventos || {}).length > 0 ? (
-                        Object.entries(eventos).map(([id, data]: [string, any]) => {
+                        {Object.values(eventosMostrados || {}).length > 0 ? (
+                        Object.entries(eventosMostrados).map(([id, data]: [string, any]) => {
                         const [evento, fechaHora, lugar, contacto] = data;
                         return (
                         <View key={id} style={styles.row}>
@@ -608,7 +665,7 @@ const handleConfirm = (date: any) => {
                           </TouchableHighlight>
                           </View>
                           <View style={styles.cell}>
-                          <Text>{fechaHora}</Text>
+                          <Text>{fechaHora.replace('T', ' ')}</Text>
                           </View>
                           <View style={styles.cell}>
                           <Text>{lugar}</Text>

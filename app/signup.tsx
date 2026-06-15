@@ -13,6 +13,8 @@ export default function Dashboard({navigation}: signupScreenProps ) {
 
   const [usuarios, setUsuarios] = useState(datos.USUARIOS)
 
+  const [textVisible, setTextVisible] = useState(0);
+
   const getImage = (nombre: any) => {
    return require('../assets/BL.png');
   }
@@ -66,7 +68,10 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                         navigation.navigate("Dashboard")}}>
                     <Text style={styles.ButtonText}>Iniciar sesión</Text>
                 </TouchableHighlight>
-                <Text style={{textAlign: 'center', marginTop: 30}}
+                <Text style={{textAlign: 'center', marginTop: 30, color: 'red', opacity: textVisible}}>
+                  Correo o contraseña incorrectos
+                </Text>
+                <Text style={{textAlign: 'center'}}
                 >¿Es nuevo?
                     <Text style={styles.LinkText} onPress={() => navigation.navigate("register")}>
                       Registrese</Text>
