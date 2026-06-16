@@ -237,7 +237,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Criterio:</Text>
-                            <View style={{width: 160, height: 50}}>
+                            <View style={{width: 160, height: 55}}>
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}

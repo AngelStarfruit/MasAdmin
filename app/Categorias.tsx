@@ -49,7 +49,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                     setModalVisible(!modalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 330}]}>
+                  <View style={[styles.modalView, {marginVertical: 340}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -98,7 +98,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                     setModalEVisible(!modalEVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 330}]}>
+                  <View style={[styles.modalView, {marginVertical: 340}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -129,7 +129,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               return; 
                                               }
                                           setModalEVisible(!modalEVisible)}}>
-                                        <Text>Editar categoría</Text>
+                                        <Text>Confirmar cambios</Text>
                                       </TouchableHighlight>
                                       <TouchableHighlight
                                       underlayColor={'#ff9797'} style={styles.modalDelete}
@@ -165,7 +165,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                          
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                        <TouchableHighlight
-                                       underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                       underlayColor={'#ddd'} style={styles.modalRegret}
                                          onPress={() => setConfirm(!Confirm)}>
                                          <Text>NO</Text>
                                        </TouchableHighlight>
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 290,
+    marginHorizontal: 30,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: "white",
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3fe53',
     padding: 10,
     borderRadius: 20,
-    width: 90,
+    width: 150,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
     padding: 10,
     borderRadius: 20,
-    width: 90,
+    width: 50,
     justifyContent: 'center', alignItems: 'center',
      elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ff8787',
     padding: 10,
     borderRadius: 20,
-    width: 90,
+    width: 150,
     justifyContent: 'center', alignItems: 'center',
      elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}

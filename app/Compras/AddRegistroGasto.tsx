@@ -88,7 +88,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Gasto:</Text>
-                      <View style={{width:180, height:50}}>
+                      <View style={{width:180, height:55}}>
                         <Picker
                         style={styles.picker}
                         selectedValue={selectedGasto}
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   },
   //------------------
   picker: {
-    height: 50,
+    height: 55,
     marginLeft: 10,
     flex: 1,
     backgroundColor: '#eee', color: 'black',

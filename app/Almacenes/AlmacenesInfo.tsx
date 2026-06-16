@@ -154,7 +154,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         </View>
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Sucursal:</Text>
-                          <View style={{width:180, height:50}}>
+                          <View style={{width:180, height:55}}>
                               <Picker
                               style={[styles.picker, {backgroundColor: "#eee"}]}
                               selectedValue={selectedBranch}
@@ -228,7 +228,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
               
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Criterio:</Text>
-                            <View style={{width: 160, height: 50}}>
+                            <View style={{width: 160, height: 55}}>
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}

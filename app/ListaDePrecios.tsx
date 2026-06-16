@@ -39,6 +39,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON con los datos
   const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
   const listaCategorias: Record<string, any>  = datos.CATEGORIAS
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"));
   const [elementosMostrados, setElementosMostrados] = useState(listaPrecios);
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
@@ -183,7 +186,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Categoría:</Text>
-                      <View style={{width: 150, height: 50}}>
+                      <View style={{width: 150, height: 55}}>
                       <Picker
                         enabled = {addCategoryOn}
                         selectedValue={selectedCategory}
@@ -222,7 +225,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Tipo:</Text>
-                      <View style={{width: 150, height: 50}}>
+                      <View style={{width: 150, height: 55}}>
                       <Picker
                         selectedValue={selectedTValue}
                         onValueChange={(itemValue) => setSelectedTValue(itemValue)}
@@ -328,21 +331,25 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       disabled = {editPaqueteOff}
                       underlayColor={'#f3fe53'} style={[styles.modalEdit, editPaqueteOff && styles.modalEditOff]}
-                        onPress={() => {
-                          //-----
-                          setPaquete(true)}}>
+                        onPress={() =>  setPaquete(true)}>
                         <Text>Editar paquete</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={'#f3fe53'} style={styles.modalEdit}
                         onPress={() => {
-                          const validation = Validar(3,descripcion,marca,costo,'');
+                          let validation = Validar(3,descripcion,marca,costo,'');
+                          if(!editMarcaOn){
+                            validation = Validar(2,descripcion,costo,'','');
+                          }
+                          if(!editCostoOn){
+                            validation = Validar(1,descripcion,'','','');
+                          }
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
                             return; 
                             }
                         setEModalVisible(!EmodalVisible)}}>
-                        <Text>Editar registro</Text>
+                        <Text>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={'#ff9797'} style={styles.modalDelete}
@@ -377,12 +384,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#ddd'} style={[styles.modalRegret , {width: 50}]}
+                      underlayColor={'#ddd'} style={[styles.modalRegret , {height: 50, width: 50}]}
                         onPress={() => setConfirm(!Confirm)}>
                         <Text>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#ff9797'} style={[styles.modalDelete , {width: 50}]}
+                      underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
                         onPress={() => {
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
@@ -591,11 +598,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         setAlterPaquete(!AlterPaquete);
                       }}>
                       <View style={styles.modalOverlay}>
-                      <View style={[styles.modalView, {marginVertical: 300}]}>
+                      <View style={[styles.modalView, {marginVertical: 280}]}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
-                          underlayColor={'#ccc'}
+                           style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={'#eee'}
                           onPress={() => setAlterPaquete(!AlterPaquete)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -608,14 +616,14 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.hr}/>
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Elemento:</Text>
-                            <View style={{width:150, height:50}}>
+                            <View style={{width:150, height:55}}>
                               <Picker
                               style={[styles.picker, {backgroundColor: "#eee"}]}
                               selectedValue={selectedProduct}
                               onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                               >
-                              {Object.values(listaPrecios || {}).length > 0 ? (
-                                              Object.values(listaPrecios).map((producto: any, index) => (
+                              {Object.values(productos || {}).length > 0 ? (
+                                              Object.values(productos).map((producto: any, index) => (
                                               <Picker.Item 
                                               style={styles.pickerItem} 
                                               key={index} 
@@ -672,6 +680,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           paddingVertical: 10,}}>
           Seleccione la descripción de un elemento en la tabla para modificar sus datos.
           </Text>   
+          <View style={{height: 55}}>
           <Picker
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
@@ -690,7 +699,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     />
                     ))
                     ) : null}
-          </Picker>
+          </Picker></View>
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
           <TouchableHighlight 
@@ -714,7 +723,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   </View>
                   
                   <View style={styles.hr}/>
-          <View style={styles.table}>
+          <View style={[styles.table, {marginBottom: 80}]}>
                 <View style={styles.row}>
                         <View style={styles.headerCell}>
                           <Text style={styles.headerText}>Descripción</Text>
@@ -754,6 +763,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           } else setEditCostoOn(true)
 
                           setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo))
+                          setContenidoPaquete(contenidoPaquete); 
                           setEModalVisible(true)}}>
                         <Text>{descripcion}</Text>
                         </TouchableHighlight>
@@ -885,17 +895,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    paddingVertical: 20,
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: '#ccc',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    paddingVertical: 20,
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },

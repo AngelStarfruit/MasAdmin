@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { ControlVentasScreenProps } from './types';

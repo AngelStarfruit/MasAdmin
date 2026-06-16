@@ -495,7 +495,7 @@ const handleConfirm = (date: any) => {
                                         return; 
                                         }
                                   setModalEditEvento(!modalEditEvento)}}>
-                                <Text>Editar registro</Text>
+                                <Text>Confirmar cambios</Text>
                               </TouchableHighlight>
                               <TouchableHighlight
                               underlayColor={'#ff9797'} style={styles.modalDelete}
@@ -579,7 +579,7 @@ const handleConfirm = (date: any) => {
         <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
           Dashboard
           </Text>
-          <View style={{flexDirection:'row'}}>
+          <View style={{flexDirection:'row', height: 55}}>
           <Text style={{ 
           fontSize: 20, 
           paddingTop: 10,}}>
@@ -588,7 +588,7 @@ const handleConfirm = (date: any) => {
           <Picker
             selectedValue={selectedValue}
             onValueChange={(itemValue) => setSelectedValue(itemValue)}
-            style={styles.picker} itemStyle={styles.pickerItem}
+            style={[styles.picker, {height: 55}]} itemStyle={styles.pickerItem}
             >
               <Picker.Item label="Hoy" value="hoy" />
               <Picker.Item label="Esta semana" value="semana" />
@@ -617,7 +617,7 @@ const handleConfirm = (date: any) => {
           Seleccione un evento para modificarlo.
           </Text>
           <View style={[styles.row, {justifyContent: 'space-between'}]}>
-          <View style={{width: 180}}>
+          <View style={{width: 180, height: 55}}>
           <Picker
             selectedValue={selectedAValue}
             onValueChange={(itemValue) => setSelectedAValue(itemValue)}
@@ -665,7 +665,7 @@ const handleConfirm = (date: any) => {
                           </TouchableHighlight>
                           </View>
                           <View style={styles.cell}>
-                          <Text>{fechaHora.replace('T', ' ')}</Text>
+                          <Text>{fechaHora.replace('T', ' ').slice(0, -3)}</Text>
                           </View>
                           <View style={styles.cell}>
                           <Text>{lugar}</Text>
@@ -834,7 +834,7 @@ const styles = StyleSheet.create({
   modalConfirm: {
     backgroundColor: '#62ff77',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
@@ -844,7 +844,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3fe53',
     padding: 10,
     borderRadius: 20,
-    width: 135,
+    width: 150,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
@@ -852,7 +852,7 @@ const styles = StyleSheet.create({
   modalDelete: {
     backgroundColor: '#ff8787',
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
     elevation: 5,

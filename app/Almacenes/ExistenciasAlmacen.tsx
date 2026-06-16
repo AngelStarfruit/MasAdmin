@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   headerText: {fontWeight: 'bold', color: '#2435f0',},
   //---------------
   picker: {
-    height: 50,
+    height: 55,
     marginLeft: 10,
     flex: 1,
     backgroundColor: '#eee',
