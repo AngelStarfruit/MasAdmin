@@ -50,6 +50,13 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
+//-----------------------FUNCIONES Dashboard----------------------------------------------
+// Función para filtrar por rango de fechas
+export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string) => {
+    return Object.values(data || {})
+      .filter((item: any) => item[0] >= fechaInicio && item[0] <= fechaFin)
+      .reduce((sum: number, item: any) => sum + item[1], 0);
+  };
 //-----------------------FUNCIONES ListaDePrecios-----------------------------------------
 //Función para agregar un elemento al ajuste
 export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
