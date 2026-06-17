@@ -5,6 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { Validar, NoEmojis, filtrarPorRango } from './backend';
 import type { DashboardScreenProps } from './types';
 import datos from './datos.json';
@@ -13,6 +14,10 @@ import datosC from './Compras/datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
+  //Usuario registrado
+  const route = useRoute();
+  const usuarioSesion = (route.params as any)?.usuario || [];
+  
   //Constantes de inputs
   const [nombre, setNombre] = useState('');
   const [telefono, setTelefono] = useState('');
@@ -20,6 +25,11 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [showPicker, setShowPicker] = useState(false);
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+
+  const bienvenida = usuarioSesion[6] === 'hombre' 
+  ? `Bienvenido, ${usuarioSesion[0]}` 
+  : `Bienvenida, ${usuarioSesion[0]}`;
+
   const [evento, setEvento] = useState('')
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [fechaHora, setFechaHora] = useState(new Date());
@@ -236,7 +246,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
-                underlayColor={'#ddd'}
+                underlayColor={'#eee'}
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
@@ -285,7 +295,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#ddd'}
+                    underlayColor={'#eee'}
                     onPress={() => setUserModalVisible(!userModalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -519,7 +529,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <TouchableHighlight underlayColor={'white'} onPress={showDatePicker}>
                     <TextInput 
                       style={styles.input}
-                      value={fechaHora.toLocaleString()}
+                      value={usuarioSesion[3]}
                       editable={false}
                       pointerEvents="none"
                     />
@@ -582,10 +592,20 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </View>
           <TouchableHighlight
             underlayColor={"#ddf"}
-            onPress={() => setModalVisible(true)}
+            onPress={() => {
+            setNombre(usuarioSesion[0] + ' ' + usuarioSesion[1]);
+            setTelefono(usuarioSesion[2]);
+            // Crear fecha manualmente
+            const fechaStr = usuarioSesion[3];
+            const partes = fechaStr.split('-');
+            setFecha(new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2])));
+            setEmail(usuarioSesion[4]);
+            setContrasena(usuarioSesion[5]);
+            setModalVisible(true);
+            }}
             style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}>
             <Image source={getImage('config')} style={{width: 30, height: 30, marginLeft: 'auto', marginRight: 20}}/>
-          </TouchableHighlight>
+            </TouchableHighlight>
         </View>
 
         <View style={styles.navigation}>
@@ -623,7 +643,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.scroll}>
           <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#2435f0', paddingBottom: 10}}>
-            Bienvenido, Ángel
+            {bienvenida}
           </Text>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
             Dashboard

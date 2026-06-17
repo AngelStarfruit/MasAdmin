@@ -1,7 +1,9 @@
 //-----------------------FUNCIONES GENERALES-----------------------------------------
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes.
 export const NoEmojis = (texto: string) => {
-  return texto.replace(/[^a-zA-ZáéíóúñÑüÜ0-9\s\.\,\-\_]/g, '');
+  // Solo elimina emojis, permite todo lo demás
+  const emojiRegex = /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}]/gu;
+  return texto.replace(emojiRegex, '');
 };
 // Valida que ningún campo esté vacio.
 export const Validar = (datos: number, A: string, B: string, C: string, D: string) 

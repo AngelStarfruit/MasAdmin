@@ -58,14 +58,29 @@ export default function Dashboard({navigation}: signupScreenProps ) {
             <View style={styles.Card}>
                 <TouchableHighlight
                 underlayColor={"#ff9f9f"} style={styles.Button}
+                // En el onPress del botón "Iniciar sesión"
                 onPress={() => {
-                          const validation = Validar(2,email,contrasena,'','');
-                            if (!validation.isValid) {
-                            Alert.alert('Error', validation.message);
-                                return; 
-                            }
-                            setEmail(''); setContrasena('')
-                        navigation.navigate("Dashboard")}}>
+                const validation = Validar(2, email, contrasena, '', '');
+                  if (!validation.isValid) {
+                  Alert.alert('Error', validation.message);
+                  return;
+                  } else {
+                    const usuarioEncontrado = Object.values(usuarios).find(
+                    (usuario: any) => usuario[4] === email.trim() && usuario[5] === contrasena
+                    );
+    
+                    if (usuarioEncontrado) {
+                    // Envía los datos del usuario a Dashboard
+                    navigation.navigate("Dashboard" as any, { 
+                    usuario: usuarioEncontrado 
+                    });
+                    setEmail('');
+                    setContrasena('');
+                    } else {
+                    setTextVisible(1);
+                    }
+                    }
+                    }}>
                     <Text style={styles.ButtonText}>Iniciar sesión</Text>
                 </TouchableHighlight>
                 <Text style={{textAlign: 'center', marginTop: 30, color: 'red', opacity: textVisible}}>
@@ -142,7 +157,6 @@ const styles = StyleSheet.create({
   input:{
     backgroundColor: '#eee',
     padding: 10,
-    borderRadius: 5,
      marginBottom: 15,
      color: 'black',
   },

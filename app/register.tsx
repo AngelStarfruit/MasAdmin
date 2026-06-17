@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Imag
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend';
 import type { registerScreenProps } from './types';
 import datos from './datos.json'
@@ -10,6 +11,7 @@ import datos from './datos.json'
 export default function Dashboard({navigation}: registerScreenProps ) {
 
   const [nombre, setNombre] = useState('');
+  const [genero, setGenero] = useState('hombre');
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
@@ -60,6 +62,17 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 </Text>
                 <TextInput style={styles.input} 
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
+                  <Text style={styles.CardText}>
+                    Género:
+                </Text>
+                <Picker
+                  selectedValue={genero}
+                  onValueChange={(itemValue) => setGenero(itemValue)}
+                  style={styles.picker} itemStyle={styles.pickerItem}
+                >
+                  <Picker.Item label="Hombre" value="hombre" />
+                  <Picker.Item label="Mujer" value="mujer" />
+                </Picker>
                 <Text style={styles.CardText}>
                     Teléfono:
                 </Text>
@@ -170,7 +183,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   box:{
-    marginVertical: 20,
+    marginVertical: 0,
     flex: 1,
     borderRadius: 20,
     backgroundColor: 'white',
@@ -192,7 +205,6 @@ const styles = StyleSheet.create({
   input:{
     backgroundColor: '#eee',
     padding: 10,
-    borderRadius: 5,
      marginBottom: 15,
      color: 'black'
   },
@@ -200,5 +212,15 @@ const styles = StyleSheet.create({
     color: '#2435f0',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+   picker: {
+    height: 50,
+    marginBottom: 15,
+    flex: 1,
+    backgroundColor: '#eee', color: 'black',
+  },
+  pickerItem: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
