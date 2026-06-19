@@ -26,9 +26,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
 
-  const bienvenida = usuarioSesion[6] === 'hombre' 
-  ? `Bienvenido, ${usuarioSesion[0]}` 
-  : `Bienvenida, ${usuarioSesion[0]}`;
+  const bienvenida = usuarioSesion[1] === 'hombre' 
+  ? `Bienvenido, ${usuarioSesion[0].split(' ')[0]}.` 
+  : `Bienvenida, ${usuarioSesion[0].split(' ')[0]}.`;
 
   const [evento, setEvento] = useState('')
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -593,7 +593,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           <TouchableHighlight
             underlayColor={"#ddf"}
             onPress={() => {
-            setNombre(usuarioSesion[0] + ' ' + usuarioSesion[1]);
+            setNombre(usuarioSesion[0]);
             setTelefono(usuarioSesion[2]);
             // Crear fecha manualmente
             const fechaStr = usuarioSesion[3];

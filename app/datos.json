@@ -1,31 +1,28 @@
 {
   "USUARIOS":{
   "1": [
-    "Ángel",
-    "Hernández Castillo",
+    "Ángel Hernández Castillo",
+    "hombre",
     "8334466978",
     "2005-08-12",
     "angelhernandezcastillo38@gmail.com",
-    "Legna2005",
-    "hombre"
+    "Legna2005"
   ],
   "2": [
-    "Dalila",
-    "Castillo Orellán",
+    "Dalila Castillo Orellán",
+    "mujer",
     "8332028115",
     "1972-11-08",
     "dco1972@hotmail.com",
-    "alilad72",
-    "mujer"
+    "alilad72"
   ],
   "3": [
-    "Javier",
-    "Rivera Fernández",
+    "Javier Rivera Fernández",
+    "hombre",
     "8331559129",
     "1990-07-20",
     "javier@gmail.com",
-    "XDDCC",
-    "hombre"
+    "XDDCC"
   ]
   },
   "EVENTOS":{
