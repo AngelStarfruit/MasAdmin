@@ -2,11 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image,Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
 import datos from './datos.json'
 
 export default function Dashboard({navigation}: signupScreenProps ) {
+
+  // Cuando el usuario inicia sesión:
+  const guardarUsuario = async (usuario: any) => {
+    try {
+      await AsyncStorage.setItem('usuarioSesion', JSON.stringify(usuario));
+    } catch (error) {
+      console.log('Error guardando usuario', error);
+    }
+};
 
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
@@ -70,10 +80,8 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                     );
     
                     if (usuarioEncontrado) {
-                    // Envía los datos del usuario a Dashboard
-                    navigation.navigate("Dashboard" as any, { 
-                    usuario: usuarioEncontrado 
-                    });
+                    guardarUsuario(usuarioEncontrado);
+                    navigation.navigate("Dashboard");
                     setEmail('');
                     setContrasena('');
                     } else {

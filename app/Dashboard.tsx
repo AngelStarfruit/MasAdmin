@@ -4,19 +4,37 @@ import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
-import { useState, useEffect } from 'react';
-import { useRoute } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Validar, NoEmojis, filtrarPorRango } from './backend';
 import type { DashboardScreenProps } from './types';
 import datos from './datos.json';
-import datosV from './Ventas/datos.json'; 
-import datosC from './Compras/datos.json';
+import datosV from './Ventas/datos.json'; import datosC from './Compras/datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
 
-  //Usuario registrado
-  const route = useRoute();
-  const usuarioSesion = (route.params as any)?.usuario || [];
+  const [usuarioSesion, setUsuarioSesion] = useState(['','','','','','','']);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const cargarUsuario = async () => {
+        try {
+          const usuarioGuardado = await AsyncStorage.getItem('usuarioSesion');
+          if (usuarioGuardado) {
+            setUsuarioSesion(JSON.parse(usuarioGuardado));
+          }
+        } catch (error) {
+          console.log('Error cargando usuario', error);
+        }
+      };
+      cargarUsuario();
+    }, [])
+  );
+    const cerrarSesion = async () => {
+    await AsyncStorage.removeItem('usuarioSesion');
+    navigation.navigate("home");
+  };
   
   //Constantes de inputs
   const [nombre, setNombre] = useState('');
@@ -390,7 +408,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   setConfirm(!Confirm);
-                  navigation.navigate("home");
+                  cerrarSesion();
                 }}>
                 <Text>SÍ</Text>
               </TouchableHighlight>
