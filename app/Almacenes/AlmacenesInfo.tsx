@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar, QuitarElemento } from './backend';
+import { NoEmojis, Validar, QuitarElemento, AddAlmacen } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
@@ -115,7 +115,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                   Alert.alert('Error', validation.message);
                                   return; 
                                  }
-                              setModalVisible(!modalVisible)}}>
+                              setAlmacenes(AddAlmacen(almacenes,id,almacen,selectedBranch))
+                              setModalVisible(!modalVisible)
+                              }}>
                             <Text>Añadir registro</Text>
                           </TouchableHighlight>
                         </View>
@@ -301,8 +303,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                         <TouchableHighlight
                                         underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
-                                            const updateTabla = QuitarElemento(almacenes, id);
-                                            setAlmacenes(updateTabla);
+                                            setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
                                             setEModalVisible(!EmodalVisible);
                                           }}>
@@ -331,6 +332,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                 underlayColor={'#ddd'}
                 onPress={() => {
                   if(Object.keys(sucursales).length > 0){
+                  setId(Object.keys(almacenes).length + 1)
                   setAlmacen(''); 
                   setModalVisible(true)
                   }

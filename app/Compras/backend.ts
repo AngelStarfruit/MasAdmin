@@ -84,3 +84,11 @@ export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
 };
+//-----------------------FUNCIONES Proveedores----------------------------------------------
+//Función para agregar un proveedor
+export const AddProveedor = (data: any, id: number, empresa: string, telefono: string, ciudad: string, estado: string) => {
+  return {
+    ...data,
+    [id]: [empresa, telefono, ciudad, estado]
+  };
+};

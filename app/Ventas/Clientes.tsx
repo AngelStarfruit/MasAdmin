@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis, Validar, QuitarElemento } from './backend';
+import { NoEmojis, Validar, QuitarElemento, AddCliente } from './backend';
 import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
@@ -119,7 +119,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           Alert.alert('Error', validation.message);
                           return; 
                           }
-                      setModalVisible(!modalVisible)}}>
+                      setClientes(AddCliente(clientes,id,nombre,telefono,ciudad,estado))
+                      setModalVisible(!modalVisible)
+                      }}>
                     <Text>Añadir registro</Text>
                   </TouchableHighlight>
                 </View>
@@ -314,8 +316,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             <TouchableHighlight
                             underlayColor={'#ff9797'} style={[styles.modalDelete, {width:50}]}
                               onPress={() => {
-                                const updateTabla = QuitarElemento(clientes, id);
-                                setClientes(updateTabla);
+                                setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
                                 setEModalVisible(!EmodalVisible);
                               }}>
@@ -344,6 +345,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                 <TouchableHighlight
                 underlayColor={'#ddd'}
                 onPress={() => {
+                  setId(Object.keys(clientes).length + 1)
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
                 style={styles.add}>

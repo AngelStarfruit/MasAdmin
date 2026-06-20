@@ -63,3 +63,11 @@ export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
 };
+//-----------------------FUNCIONES AlmacenesInfo----------------------------------------------
+//Función para agregar un almacén
+export const AddAlmacen = (data: any, id: number, almacen: string, sucursal: string) => {
+  return {
+    ...data,
+    [id]: [almacen, sucursal]
+  };
+};

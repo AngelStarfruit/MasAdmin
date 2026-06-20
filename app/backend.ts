@@ -59,6 +59,14 @@ export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string
       .filter((item: any) => item[0] >= fechaInicio && item[0] <= fechaFin)
       .reduce((sum: number, item: any) => sum + item[1], 0);
   };
+  //-----------------------FUNCIONES Sucursales----------------------------------------------
+//Función para agregar una sucursal 
+export const AddSucursal = (data: any, id: number, sucursal: string, telefono: string) => {
+  return {
+    ...data,
+    [id]: [sucursal, telefono]
+  };
+};
 //-----------------------FUNCIONES ListaDePrecios y CRUD-----------------------------------
 //Función para agregar un elemento al ajuste
 export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {

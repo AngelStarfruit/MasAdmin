@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar, QuitarElemento } from './backend';
+import { NoEmojis, Validar, QuitarElemento, AddProveedor } from './backend';
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
@@ -118,7 +118,9 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         Alert.alert('Error', validation.message);
                         return; 
                         }
-                  setModalVisible(!modalVisible)}}>
+                  setProveedores(AddProveedor(proveedores,id,empresa,telefono,ciudad,estado))
+                  setModalVisible(!modalVisible)
+                  }}>
                 <Text>Añadir registro</Text>
               </TouchableHighlight>
             </View>
@@ -313,8 +315,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
-                                      const updateTabla = QuitarElemento(proveedores, id);
-                                      setProveedores(updateTabla);
+                                      setProveedores(QuitarElemento(proveedores, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
@@ -344,6 +345,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                 <TouchableHighlight
                 underlayColor={'#ddd'}
                 onPress={() => {
+                  setId(Object.keys(proveedores).length + 1)
                   setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
                   setModalVisible(true)}}
                 style={styles.add}>

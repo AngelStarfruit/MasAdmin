@@ -67,3 +67,11 @@ export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
 };
+  //-----------------------FUNCIONES Clientes----------------------------------------------
+//Función para agregar un cliente
+export const AddCliente = (data: any, id: number, nombre: string, telefono: string, ciudad: string, estado: string,) => {
+  return {
+    ...data,
+    [id]: [nombre, telefono, ciudad, estado]
+  };
+};

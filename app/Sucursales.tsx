@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis, Validar, QuitarElemento } from './backend';
+import { NoEmojis, Validar, QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
 
@@ -128,7 +128,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                               Alert.alert('Error', validation.message);
                               return; 
                               }
-                        setModalVisible(!modalVisible)}}>
+                        setSucursales(AddSucursal(sucursales,id,sucursal,telefono))
+                        setModalVisible(!modalVisible)
+                      }}>
                         <Text>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -225,8 +227,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
-                                      const updateTabla = QuitarElemento(sucursales, id);
-                                      setSucursales(updateTabla);
+                                      setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
@@ -255,6 +256,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <TouchableHighlight
         underlayColor={'#f0f1ff'}
         onPress={() => {
+          setId(Object.keys(sucursales).length + 1)
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
         style={styles.add}>
