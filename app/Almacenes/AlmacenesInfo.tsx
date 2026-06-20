@@ -192,6 +192,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                   Alert.alert('Error', validation.message);
                                   return; 
                                  }
+                              setAlmacenes(AddAlmacen(almacenes,id,almacen,selectedBranch))
                               setEModalVisible(!EmodalVisible)}}>
                             <Text>Editar registro</Text>
                           </TouchableHighlight>

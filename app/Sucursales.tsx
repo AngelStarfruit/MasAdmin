@@ -180,15 +180,17 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                      underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
                         onPress={() => {
                           const validation = Validar(2,sucursal,telefono,'','');
                               if (!validation.isValid) {
                               Alert.alert('Error', validation.message);
                               return; 
                               }
-                        setModalVisible(!modalVisible)}}>
-                        <Text>Editar registro</Text>
+                        setSucursales(AddSucursal(sucursales,id,sucursal,telefono))
+                        setEModalVisible(!EmodalVisible)
+                        }}>
+                        <Text>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={'#ff9797'} style={styles.modalDelete}

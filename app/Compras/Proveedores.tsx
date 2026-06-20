@@ -197,6 +197,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         Alert.alert('Error', validation.message);
                         return; 
                         }
+                  setProveedores(AddProveedor(proveedores,id,empresa,telefono,ciudad,estado))
                   setEModalVisible(!EmodalVisible)}}>
                 <Text>Editar registro</Text>
               </TouchableHighlight>

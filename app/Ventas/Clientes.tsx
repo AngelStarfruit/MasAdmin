@@ -198,6 +198,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           Alert.alert('Error', validation.message);
                           return; 
                           }
+                      setClientes(AddCliente(clientes,id,nombre,telefono,ciudad,estado))
                       setEModalVisible(!EmodalVisible)}}>
                     <Text>Editar registro</Text>
                   </TouchableHighlight>
