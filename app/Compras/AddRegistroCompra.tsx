@@ -313,7 +313,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={[styles.headerCell, {flex: 0.2}]}>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processCompra).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
@@ -415,7 +415,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processACompra).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
@@ -531,7 +531,7 @@ const styles = StyleSheet.create({
   },
   showcase: {
     backgroundColor: '#e3e5ff',
-    minHeight: 250
+    maxHeight: 200, minHeight: 200
   },
   cell: {
     flex: 1, padding: 6,

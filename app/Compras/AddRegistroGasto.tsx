@@ -247,7 +247,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View style={[styles.headerCell, {flex: 0.15}]}>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processGasto).map(([id, [descripcion, costo]], index) => (
                     <View key={index} style={styles.row}>
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
   },
   showcase: {
     backgroundColor: '#e3e5ff',
-    minHeight: 250
+    maxHeight: 200, minWidth: 200
   },
   cell: {
     flex: 1, padding: 6,

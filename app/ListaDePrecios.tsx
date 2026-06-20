@@ -411,7 +411,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setNewPaquete(!NewPaquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 130}]}>
+                  <View style={[styles.modalView, {marginVertical: 160}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -444,7 +444,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
                               </View>
                               </View>
-                              <ScrollView style={styles.showcase}>
+                              <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
                           {Object.entries(contenidoPaquete).map(([id, [descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
@@ -538,7 +538,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
                               </View>
                               </View>
-                              <ScrollView style={styles.showcase}>
+                              <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                                 {Object.entries(contenidoPaquete).map(([id,[descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
@@ -705,7 +705,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
-                  setDescripcion(''); setMarca(''); setCosto('');
+                  setDescripcion(''); setMarca(''); setCosto(''); setIdP(1)
                   if (Object.keys(listaCategorias).length > 0){
                     setAddCategoryON(true)
                   }
@@ -764,6 +764,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                           setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo))
                           setContenidoPaquete(contenidoPaquete); 
+                          setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
                         <Text>{descripcion}</Text>
                         </TouchableHighlight>
@@ -816,7 +817,7 @@ const styles = StyleSheet.create({
   },
   showcase: {
     backgroundColor: '#e3e5ff',
-    minHeight: 250
+    maxHeight: 200, minHeight: 200
   },
   add: {
     backgroundColor: 'white',
