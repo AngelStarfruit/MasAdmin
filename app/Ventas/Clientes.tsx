@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, QuitarElemento } from './backend';
 import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
@@ -35,6 +35,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
   //Constante picker
   const [selectedCriteria, setSelectedCriteria] = useState('Nombre');
+
+  //Otras constantes:
+  const [id, setId] = useState(1)
 
   return (
     <View style={styles.container}>
@@ -304,13 +307,15 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
-                            underlayColor={'#ddd'} style={styles.modalRegret}
+                            underlayColor={'#ddd'} style={[styles.modalRegret, {width:50}]}
                               onPress={() => setConfirm(!Confirm)}>
                               <Text>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                            underlayColor={'#ff9797'} style={styles.modalDelete}
+                            underlayColor={'#ff9797'} style={[styles.modalDelete, {width:50}]}
                               onPress={() => {
+                                const updateTabla = QuitarElemento(clientes, id);
+                                setClientes(updateTabla);
                                 setConfirm(!Confirm);
                                 setEModalVisible(!EmodalVisible);
                               }}>
@@ -382,6 +387,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           <TouchableHighlight
                           underlayColor={'#ddd'}
                           onPress={() => {
+                            setId(Number(id))
                             setNombre(nombre); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
                             setEModalVisible(true)}}>
                           <Text>{nombre}</Text>

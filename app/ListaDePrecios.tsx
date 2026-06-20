@@ -85,6 +85,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   setElementosMostrados(filtrados);
 }, [selectedValue]);
   //IDs
+  const [id, setId] = useState(1);
   const [idP, setIdP] = useState(1);
 
   //Desabilitar características
@@ -391,6 +392,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
                         onPress={() => {
+                          /*const updateTabla = QuitarElemento(sucursales, id);
+                          setListaPrecios(updateTabla);*/
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
                         }}>
@@ -762,6 +765,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             setEditCostoOn(false)
                           } else setEditCostoOn(true)
 
+                          setId(Number(id))
                           setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo))
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)

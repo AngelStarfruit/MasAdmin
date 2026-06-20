@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, QuitarElemento } from './backend';
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
@@ -35,6 +35,9 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
   //Constante de picker
   const [selectedCriteria, setSelectedCriteria] = useState('Empresa');
+
+  //Otras constantes:
+  const [id, setId] = useState(1)
 
   return (
     <View style={styles.container}>
@@ -310,6 +313,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
+                                      const updateTabla = QuitarElemento(proveedores, id);
+                                      setProveedores(updateTabla);
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
@@ -382,6 +387,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         <TouchableHighlight
                         underlayColor={'#ddd'}
                         onPress={() => {
+                          setId(Number(id))
                           setEmpresa(empresa); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
                           setEModalVisible(true)}}>
                         <Text>{empresa}</Text>

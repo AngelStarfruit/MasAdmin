@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, QuitarElemento } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import datos from './datos.json';
 
@@ -33,6 +33,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
+
+  //Otras constantes
+  const [id, setId] = useState(1);
 
   return (
     <View style={styles.container}>
@@ -222,6 +225,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
+                                      const updateTabla = QuitarElemento(sucursales, id);
+                                      setSucursales(updateTabla);
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
@@ -301,8 +306,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                 <TouchableHighlight
                 underlayColor={'#ddd'}
                   onPress={() => {
-                    setSucursal(sucursal);
-                    setTelefono(telefono);
+                    setId(Number(id))
+                    setSucursal(sucursal); setTelefono(telefono);
                     setEModalVisible(true)
                   }}>
                   <Text>{sucursal}</Text>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInpu
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, QuitarElemento } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
@@ -34,6 +34,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Busqueda, setBusqueda] = useState(false);
   const [Confirm, setConfirm] = useState(false);
+
+  //Otras constantes
+  const [id, setId] = useState(1)
 
   return (
     <View style={styles.container}>
@@ -298,6 +301,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                         <TouchableHighlight
                                         underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
+                                            const updateTabla = QuitarElemento(almacenes, id);
+                                            setAlmacenes(updateTabla);
                                             setConfirm(!Confirm);
                                             setEModalVisible(!EmodalVisible);
                                           }}>
@@ -366,6 +371,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <TouchableHighlight
                           underlayColor={'#ddd'}
                           onPress={() => {
+                            setId(Number(id))
                             setAlmacen(almacen); setSelectedBranch(sucursal);
                             setEModalVisible(true)}}>
                           <Text>{almacen}</Text>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import type { CategoriasScreenProps, single } from './types';
 import { useState } from 'react';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, QuitarElemento } from './backend';
 import datos from './datos.json'; 
 
 export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) {
@@ -26,7 +26,11 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
   //JSONs de datos
   const [categorias, setCategorias] = useState<single>(datos.CATEGORIAS || {});
+  const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
 
+  //Otras constantes
+  const [id, setId] = useState(1)
+ 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -172,6 +176,9 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <TouchableHighlight
                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                          onPress={() => {
+                                           const updateTabla = QuitarElemento(categorias, id);
+                                           
+                                           setCategorias(updateTabla);
                                            setConfirm(!Confirm);
                                            setModalEVisible(!modalEVisible);
                                          }}>
@@ -239,6 +246,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                 <TouchableHighlight
                                 underlayColor={'#eee'}
                                 onPress={() => {
+                                  setId(Number(id))
                                     setCategory(categoria)
                                     setModalEVisible(true)
                                   }}>

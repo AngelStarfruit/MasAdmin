@@ -59,7 +59,7 @@ export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string
       .filter((item: any) => item[0] >= fechaInicio && item[0] <= fechaFin)
       .reduce((sum: number, item: any) => sum + item[1], 0);
   };
-//-----------------------FUNCIONES ListaDePrecios-----------------------------------------
+//-----------------------FUNCIONES ListaDePrecios y CRUD-----------------------------------
 //Función para agregar un elemento al ajuste
 export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
   return {
