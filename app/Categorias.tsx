@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import type { CategoriasScreenProps, single } from './types';
 import { useState } from 'react';
-import { NoEmojis, Validar, QuitarElemento } from './backend';
+import { NoEmojis, Validar, AddCategoria, QuitarElemento } from './backend';
 import datos from './datos.json'; 
 
 export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) {
@@ -83,6 +83,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                             Alert.alert('Error', validation.message);
                             return; 
                             }
+                            setCategorias(AddCategoria(categorias,id,category))
                             setModalVisible(!modalVisible)
                           }}>
                         <Text>Añadir registro</Text>
@@ -93,7 +94,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                   </View>
                 </Modal>
     
-    {/* Modal para añadir categorías */}
+    {/* Modal para editar categorías */}
             <Modal
                   animationType="slide"
                   transparent={true}
@@ -132,6 +133,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               Alert.alert('Error', validation.message);
                                               return; 
                                               }
+                                          setCategorias(AddCategoria(categorias,id,category))
                                           setModalEVisible(!modalEVisible)}}>
                                         <Text>Confirmar cambios</Text>
                                       </TouchableHighlight>
@@ -206,6 +208,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
         <TouchableHighlight 
             underlayColor={'#ddd'}
             onPress={() => {
+                setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
             style={[styles.add , {width: 160}]}>

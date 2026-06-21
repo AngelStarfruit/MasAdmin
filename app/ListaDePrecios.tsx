@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect } from 'react';
-import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento } from './backend';
+import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import datos from './datos.json'
 
@@ -27,6 +27,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
+  const [category, setCategory] = useState('');
+  const [unidad, setUnidad] = useState('');
+  const [tipo, setTipo] = useState('')
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,7 +40,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [Confirm, setConfirm] = useState(false);
 
   //JSON con los datos
-  const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
+  let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
   const listaCategorias: Record<string, any>  = datos.CATEGORIAS
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
@@ -252,7 +255,16 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                            if (selectedTValue != 'paquete'){
+                            if (selectedTValue == 'producto'){
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,selectedTValue,contenidoPaquete,selectedCategory))
+                            setModalVisible(!modalVisible)
+                            }
+                            else if (selectedTValue == 'servicio'){
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
+                            setModalVisible(!modalVisible)
+                            }
+                            else if (selectedTValue == 'gasto'){
+                            setElementosMostrados(AddPrecioG(elementosMostrados,id,descripcion,'','','',selectedTValue,contenidoPaquete,''))
                             setModalVisible(!modalVisible)
                             }
                             else {
@@ -349,7 +361,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                        setEModalVisible(!EmodalVisible)}}>
+                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,category))
+                        setEModalVisible(!EmodalVisible)
+                        }}>
                         <Text>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -392,8 +406,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <TouchableHighlight
                       underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
                         onPress={() => {
-                          /*const updateTabla = QuitarElemento(sucursales, id);
-                          setListaPrecios(updateTabla);*/
+                          setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
                         }}>
@@ -487,6 +500,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 150}]}
                         onPress={() => {
                           if(Object.keys(contenidoPaquete).length > 0){
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
                             setNewPaquete(!NewPaquete)
                             setModalVisible(!modalVisible)}
                           else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
@@ -508,7 +522,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     setPaquete(!Paquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 130}]}>
+                  <View style={[styles.modalView, {marginVertical: 160}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -579,13 +593,30 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={styles.hr}/>
 
                     <View style={[styles.row, {justifyContent: 'center'}]}>
-                      <TouchableHighlight
-                      underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
-                        onPress={() =>  {
-                          Alert.alert('Exito', 'Cambios al paquete guardados');
-                        setPaquete(!Paquete)}}>
-                        <Text>Confirmar cambios</Text>
-                      </TouchableHighlight>
+                     <TouchableHighlight
+                    underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
+                    onPress={() => {
+                    // Actualizar en elementosMostrados
+                    const nuevoElementosMostrados = {
+                    ...elementosMostrados,
+                    [id]: [
+                    elementosMostrados[id][0],
+                    elementosMostrados[id][1],
+                    elementosMostrados[id][2],
+                    elementosMostrados[id][3],
+                    elementosMostrados[id][4],
+                    contenidoPaquete,  // Nuevo contenido
+                    elementosMostrados[id][6]
+                    ]
+                    };
+                    setElementosMostrados(nuevoElementosMostrados);
+    
+                    // También actualizar listaPrecios si es necesario
+                    Alert.alert('Exito', 'Cambios al paquete guardados');
+                    setPaquete(!Paquete);
+                    }}>
+                    <Text>Confirmar cambios</Text>
+                    </TouchableHighlight>
                       </View>
         
                   </View>
@@ -708,7 +739,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
           <TouchableHighlight 
                 underlayColor={'#f0f1ff'}
                 onPress={() => {
-                  setDescripcion(''); setMarca(''); setCosto(''); setIdP(1)
+                  setId(Object.keys(listaPrecios).length + 1)
+                  setDescripcion(''); setMarca(''); setCosto(''); setContenidoPaquete({})
                   if (Object.keys(listaCategorias).length > 0){
                     setAddCategoryON(true)
                   }
@@ -766,7 +798,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           } else setEditCostoOn(true)
 
                           setId(Number(id))
-                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo))
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); 
+                          setCategory(String(categoria)); setCategory(categoria); setUnidad(unidad); setTipo(tipo)
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
@@ -774,7 +807,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         </TouchableHighlight>
                         </View> 
                         <View style={styles.cell}><Text>{marca}</Text></View>
-                        <View style={styles.cell}><Text>{costo}</Text></View>
+                        <View style={styles.cell}><Text>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
                         <View style={[styles.cell, {flex: 0.5}]}><Text>{unidad}</Text></View>
                 </View>
                   );

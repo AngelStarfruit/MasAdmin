@@ -59,6 +59,20 @@ export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string
       .filter((item: any) => item[0] >= fechaInicio && item[0] <= fechaFin)
       .reduce((sum: number, item: any) => sum + item[1], 0);
   };
+ //Función para agregar un evento
+export const AddEvento = (data: any, id: number, evento: string, fechaHora: string, lugar: string, contacto: string) => {
+  return {
+    ...data,
+    [id]: [evento, fechaHora, lugar, contacto]
+  };
+};
+
+export const EditarEvento = (data: any, id: number, evento: string, fechaHora: string, lugar: string, contacto: string) => {
+  return {
+    ...data,
+    [id]: [evento, fechaHora, lugar, contacto]
+  };
+};
   //-----------------------FUNCIONES Sucursales----------------------------------------------
 //Función para agregar una sucursal 
 export const AddSucursal = (data: any, id: number, sucursal: string, telefono: string) => {
@@ -67,8 +81,16 @@ export const AddSucursal = (data: any, id: number, sucursal: string, telefono: s
     [id]: [sucursal, telefono]
   };
 };
-//-----------------------FUNCIONES ListaDePrecios y CRUD-----------------------------------
-//Función para agregar un elemento al ajuste
+  //-----------------------FUNCIONES Categorías----------------------------------------------
+//Función para agregar una sucursal 
+export const AddCategoria = (data: any, id: number, categoria: string) => {
+  return {
+    ...data,
+    [id]: categoria
+  };
+};
+//-----------------------FUNCIONES ListaDePrecios--------------------------------------------
+//Función para agregar un elemento en la lista de precios
 export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
   return {
     ...data,
@@ -79,4 +101,18 @@ export const AddElemento = (data: any, id: number, elemento: string, cantidad: n
 export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
+};
+//Función para agregar un elemento al ajuste
+export const AddPrecio = (data: any, id: number, descripcion: string, marca: string, costo: number, unidad: string, tipo: string, contenido: any, categoría: string,) => {
+  return {
+    ...data,
+    [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría]
+  };
+};
+//Función para agregar un elemento gasto en la lista de precios
+export const AddPrecioG = (data: any, id: number, descripcion: string, marca: string, costo: string, unidad: string, tipo: string, contenido: any, categoría: string,) => {
+  return {
+    ...data,
+    [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría]
+  };
 };
