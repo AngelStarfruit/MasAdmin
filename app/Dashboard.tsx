@@ -498,7 +498,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         Alert.alert('Error', validation.message);
                         return; 
                       }
-                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString(), lugar, contacto));
+                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString().slice(0, -3), lugar, contacto));
                       setModalEvento(!modalEvento);
                     }}>
                     <Text>Añadir registro</Text>
@@ -586,7 +586,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         Alert.alert('Error', validation.message);
                         return; 
                       }
-                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString(), lugar, contacto));
+                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString().slice(0, -3), lugar, contacto));
                       setModalEditEvento(!modalEditEvento);
                     }}>
                     <Text>Confirmar cambios</Text>
@@ -793,7 +793,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       </TouchableHighlight>
                     </View>
                     <View style={styles.cell}>
-                      <Text>{fechaHora}</Text>
+                      <Text>{fechaHora.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
                       <Text>{lugar}</Text>
