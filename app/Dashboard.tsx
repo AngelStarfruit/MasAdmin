@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Validar, NoEmojis, filtrarPorRango } from './backend';
+import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento } from './backend';
 import type { DashboardScreenProps } from './types';
 import datos from './datos.json';
 import datosV from './Ventas/datos.json'; import datosC from './Compras/datos.json';
@@ -53,6 +53,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [fechaHora, setFechaHora] = useState(new Date());
   const [lugar, setLugar] = useState('')
   const [contacto, setContacto] = useState('')
+
+  const [id, setId] = useState(0)
   
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -81,9 +83,10 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
-  const [Confirm, setConfirm] = useState(false);
+  const [ConfirmCerradoSesion, setConfirmCerradoSesion] = useState(false);
   const [modalEvento, setModalEvento] = useState(false);
   const [modalEditEvento, setModalEditEvento] = useState(false);
+  const [Confirm, setConfirm] = useState(false);
 
   //Constantes de totales
   const [ventasHoy, setVentasHoy] = useState(0); 
@@ -286,7 +289,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={'#cbcffe'} style={styles.modalOption}
-                onPress={() => setConfirm(true)}>
+                onPress={() => setConfirmCerradoSesion(true)}>
                 <Text>Cerrar sesión</Text>
               </TouchableHighlight>
             </View>
@@ -387,9 +390,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       <Modal
         animationType="slide"
         transparent={true}
-        visible={Confirm}
+        visible={ConfirmCerradoSesion}
         onRequestClose={() => {
-          setConfirm(!Confirm);
+          setConfirmCerradoSesion(!ConfirmCerradoSesion);
         }}>
         <View style={styles.modalOverlay}>
           <View style={[styles.modalView, {marginVertical: 375}]}>
@@ -400,14 +403,14 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <TouchableHighlight
                 underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
-                onPress={() => setConfirm(!Confirm)}>
+                onPress={() => setConfirmCerradoSesion(!ConfirmCerradoSesion)}>
                 <Text>NO</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
-                  setConfirm(!Confirm);
+                  setConfirmCerradoSesion(!ConfirmCerradoSesion);
                   cerrarSesion();
                 }}>
                 <Text>SÍ</Text>
@@ -598,6 +601,44 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         </View>
       </Modal>
 
+      {/* Modal para confirmar borrado */}
+                  <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={Confirm}
+                        onRequestClose={() => {
+                          setConfirm(!Confirm);
+                        }}>
+                        <View style={styles.modalOverlay}>
+                        <View style={[styles.modalView, {marginVertical: 375}]}>
+              
+                          <View>
+                            <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
+                          </View>
+              
+                          <View style={styles.hr}/>
+              
+                          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                            <TouchableHighlight
+                            underlayColor={'#ddd'} style={[styles.modalRegret , {height: 50, width: 50}]}
+                              onPress={() => setConfirm(!Confirm)}>
+                              <Text>NO</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                            underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
+                              onPress={() => {
+                                setEventosMostrados(QuitarElemento(eventosMostrados,id))
+                                setConfirm(!Confirm);
+                                setModalEditEvento(!modalEditEvento);
+                              }}>
+                              <Text>SÍ</Text>
+                            </TouchableHighlight>
+                          </View>
+              
+                        </View>
+                        </View>
+                      </Modal>
+
       {/* Pantalla */}
       <View style={styles.head}>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -728,8 +769,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={styles.row}>
               <View style={styles.headerCell}><Text style={styles.headerText}>Evento</Text></View>
               <View style={styles.headerCell}><Text style={styles.headerText}>Fecha y Hora</Text></View>
-              <View style={styles.headerCell}><Text style={styles.headerText}>Lugar</Text></View>
-              <View style={styles.headerCell}><Text style={styles.headerText}>Contacto</Text></View>
+              <View style={[styles.headerCell, {flex: 0.8}]}><Text style={styles.headerText}>Lugar</Text></View>
+              <View style={[styles.headerCell, {flex: 0.8}]}><Text style={styles.headerText}>Contacto</Text></View>
             </View>
 
             {Object.values(eventosMostrados || {}).length > 0 ? (
@@ -741,10 +782,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       <TouchableHighlight
                         underlayColor={'#ddd'}
                         onPress={() => {
-                          setEvento(evento); 
-                          setFechaHora(new Date(fechaHora));
-                          setLugar(lugar); 
-                          setContacto(contacto);
+                          setId(Number(id))
+                          setEvento(evento); setFechaHora(new Date(fechaHora)); setLugar(lugar); setContacto(contacto);
                           setModalEditEvento(true);
                         }}>
                         <Text>{evento}</Text>
@@ -753,10 +792,10 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     <View style={styles.cell}>
                       <Text>{fechaHora.replace('T', ' ').slice(0, -3)}</Text>
                     </View>
-                    <View style={styles.cell}>
+                    <View style={[styles.cell, {flex: 0.8}]}>
                       <Text>{lugar}</Text>
                     </View>
-                    <View style={styles.cell}>
+                    <View style={[styles.cell, {flex: 0.8}]}>
                       <Text>{contacto}</Text>
                     </View>
                   </View>

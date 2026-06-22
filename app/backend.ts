@@ -66,13 +66,6 @@ export const AddEvento = (data: any, id: number, evento: string, fechaHora: stri
     [id]: [evento, fechaHora, lugar, contacto]
   };
 };
-
-export const EditarEvento = (data: any, id: number, evento: string, fechaHora: string, lugar: string, contacto: string) => {
-  return {
-    ...data,
-    [id]: [evento, fechaHora, lugar, contacto]
-  };
-};
   //-----------------------FUNCIONES Sucursales----------------------------------------------
 //Función para agregar una sucursal 
 export const AddSucursal = (data: any, id: number, sucursal: string, telefono: string) => {
