@@ -26,7 +26,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
   //JSONs de datos
   const [categorias, setCategorias] = useState<single>(datos.CATEGORIAS || {});
-  const listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
+  const [listaPrecios, setListaPrecios] = useState(datos.LISTA_PRECIOS || {});
 
   //Otras constantes
   const [id, setId] = useState(1)
@@ -178,9 +178,20 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <TouchableHighlight
                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
                                          onPress={() => {
-                                           const updateTabla = QuitarElemento(categorias, id);
+                                           // 1. Filtrar productos que NO pertenecen a esta categoría
+                                           const productosFiltrados = Object.fromEntries(
+                                             Object.entries(listaPrecios || {}).filter(
+                                               ([id, data]) => data[6] !== category
+                                             )
+                                           );
                                            
-                                           setCategorias(updateTabla);
+                                           // 2. Actualizar lista de precios (sin los productos de esa categoría)
+                                           setListaPrecios(productosFiltrados as any);
+                                           
+                                           // 3. Eliminar la categoría
+                                           setCategorias(QuitarElemento(categorias, id));
+                                           
+                                           // 4. Cerrar modales
                                            setConfirm(!Confirm);
                                            setModalEVisible(!modalEVisible);
                                          }}>
