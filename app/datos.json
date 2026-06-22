@@ -28,19 +28,19 @@
   "EVENTOS":{
      "1": [
     "Reunión con cliente",
-    "2026-06-28T10:00:00",
+    "28/6/2026 10:00",
     "Oficina principal",
     "Juan Pérez"
   ],
   "2": [
     "Presentación del proyecto",
-    "2026-06-15T15:30:00",
+    "15/6/2026 15:30",
     "Sala de juntas",
     "María García"
   ],
   "3": [
     "Capacitación",
-    "2026-07-10T09:00:00",
+    "10/7/2026 09:00",
     "Auditorio",
     "Carlos López"
   ]

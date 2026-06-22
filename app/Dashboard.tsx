@@ -498,6 +498,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         Alert.alert('Error', validation.message);
                         return; 
                       }
+                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString(), lugar, contacto));
                       setModalEvento(!modalEvento);
                     }}>
                     <Text>Añadir registro</Text>
@@ -550,7 +551,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <TouchableHighlight underlayColor={'white'} onPress={showDatePicker}>
                     <TextInput 
                       style={styles.input}
-                      value={usuarioSesion[3]}
+                      value={fechaHora.toLocaleString()}
                       editable={false}
                       pointerEvents="none"
                     />
@@ -585,6 +586,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         Alert.alert('Error', validation.message);
                         return; 
                       }
+                      setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString(), lugar, contacto));
                       setModalEditEvento(!modalEditEvento);
                     }}>
                     <Text>Confirmar cambios</Text>
@@ -754,6 +756,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <TouchableHighlight
               underlayColor={'#f0f1ff'}
               onPress={() => {
+                setId(Object.keys(eventos).length + 1);
                 setEvento(''); 
                 setFechaHora(new Date()); 
                 setLugar(''); 
@@ -790,7 +793,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       </TouchableHighlight>
                     </View>
                     <View style={styles.cell}>
-                      <Text>{fechaHora.replace('T', ' ').slice(0, -3)}</Text>
+                      <Text>{fechaHora}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
                       <Text>{lugar}</Text>
