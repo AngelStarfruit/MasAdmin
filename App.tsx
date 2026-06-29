@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { lazy, Suspense } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import { ThemeProvider } from './context/ThemeContext';
 
 const Compras = lazy(() => import('./app/Compras/Compras'));
 const ControlCompras = lazy(() => import('./app/Compras/ControlCompras'));
@@ -75,6 +76,7 @@ function LoadingScreen() {
 
 export default function App() {
   return (
+    <ThemeProvider>
     <NavigationContainer>
       <Suspense fallback={<LoadingScreen />}>
         <Stack.Navigator initialRouteName="home"
@@ -161,6 +163,7 @@ export default function App() {
         </Stack.Navigator>
       </Suspense>
     </NavigationContainer>
+    </ThemeProvider>
   );
 }
 

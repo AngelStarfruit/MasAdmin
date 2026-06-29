@@ -4,15 +4,19 @@ import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento } from './backend';
 import type { DashboardScreenProps } from './types';
+import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json';
 import datosV from './Ventas/datos.json'; import datosC from './Compras/datos.json';
 
 export default function Dashboard({navigation}: DashboardScreenProps ) {
+
+  const { theme, toggleTheme, colors } = useTheme();
+  const styles = getStyles(colors);
 
   const [usuarioSesion, setUsuarioSesion] = useState(['','','','','','','']);
 
@@ -70,7 +74,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   //Constantes de picker
   const [selectedValue, setSelectedValue] = useState('hoy');
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
-  const [selectedMode, setSelectedMode] = useState('claro');
 
   //JSON
   const eventos: Record<string, any> = datos.EVENTOS
@@ -238,6 +241,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     }
   }, [selectedValue, ventasHoy, comprasHoy, gastosHoy, ventasSemana, comprasSemana, gastosSemana, ventasMes, comprasMes, gastosMes, ventasAnio, comprasAnio, gastosAnio]);
 
+  
+
   const getImage = (nombre: any) => {
     switch(nombre) {
       case 'C': return require('../assets/C.png');
@@ -280,15 +285,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             
             <View style={styles.modalhr}/>
             
-            <View style={[styles.modalRow, {width: 200, alignSelf: 'center'}]}>
-               <Picker
-              selectedValue={selectedMode}
-              onValueChange={(itemValue) => setSelectedMode(itemValue)}
-              style={[styles.picker, {height: 55, backgroundColor: '#bdc2ff'}]} 
-              itemStyle={styles.pickerItem}>
-              <Picker.Item label="Modo claro" value="claro" />
-              <Picker.Item label="Modo oscuro" value="oscuro" />
-            </Picker>
+            <View style={styles.modalRow}>
+               <TouchableHighlight
+                 underlayColor={'#cbcffe'} style={styles.modalOption}
+                  onPress={toggleTheme}>
+                  <Text>Modo {theme === 'claro' ? 'Oscuro' : 'Claro'}</Text>
+                </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
@@ -512,7 +514,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString().slice(0, -3), lugar, contacto));
                       setModalEvento(!modalEvento);
                     }}>
-                    <Text>Añadir registro</Text>
+                    <Text style={styles.text}>Añadir registro</Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -600,12 +602,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       setEventosMostrados(AddEvento(eventosMostrados, id, evento, fechaHora.toLocaleString().slice(0, -3), lugar, contacto));
                       setModalEditEvento(!modalEditEvento);
                     }}>
-                    <Text>Confirmar cambios</Text>
+                    <Text style={styles.text}>Confirmar cambios</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
                     underlayColor={'#ff9797'} style={styles.modalDelete}
                     onPress={() => setConfirm(true)}>
-                    <Text>Borrar registro</Text>
+                    <Text style={styles.text}>Borrar registro</Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -635,7 +637,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                             <TouchableHighlight
                             underlayColor={'#ddd'} style={[styles.modalRegret , {height: 50, width: 50}]}
                               onPress={() => setConfirm(!Confirm)}>
-                              <Text>NO</Text>
+                              <Text style={styles.text}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                             underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
@@ -644,7 +646,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                 setConfirm(!Confirm);
                                 setModalEditEvento(!modalEditEvento);
                               }}>
-                              <Text>SÍ</Text>
+                              <Text style={styles.text}>SÍ</Text>
                             </TouchableHighlight>
                           </View>
               
@@ -659,7 +661,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <Text style={{
               fontSize:40,
               fontWeight: 'bold',
-              color: '#2435f0',
+              color: colors.primary,
             }}>MasAdmin</Text>
           </View>
           <TouchableHighlight
@@ -714,14 +716,14 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.scroll}>
-          <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#2435f0', paddingBottom: 10}}>
+          <Text style={{ fontSize: 30, fontWeight: 'bold', color: colors.primary, paddingBottom: 10}}>
             {bienvenida}
           </Text>
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', color: colors.text }}>
             Dashboard
           </Text>
           
-            <Text style={{ fontSize: 20, paddingTop: 10,}}>
+            <Text style={{ fontSize: 20, paddingTop: 10, color: colors.text}}>
               Mostrar información de:
             </Text>
             <Picker
@@ -744,10 +746,10 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           
           <View style={styles.hr}/>
           
-          <Text style={{ fontSize: 25, fontWeight: 'bold', paddingBottom: 10}}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', paddingBottom: 10, color: colors.text}}>
             Agenda
           </Text>
-          <Text style={{ fontSize: 15, paddingVertical: 10,}}>
+          <Text style={{ fontSize: 15, paddingVertical: 10, color: colors.text}}>
             Seleccione un evento para modificarlo.
           </Text>
           
@@ -775,7 +777,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 setModalEvento(true);
               }}
               style={styles.add}>
-              <Text style={{fontWeight: 'bold'}}>Registrar evento</Text>
+              <Text style={{fontWeight: 'bold', color: colors.text}}>Registrar evento</Text>
             </TouchableHighlight>
           </View>
           
@@ -800,23 +802,23 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           setEvento(evento); setFechaHora(new Date(fechaHora)); setLugar(lugar); setContacto(contacto);
                           setModalEditEvento(true);
                         }}>
-                        <Text>{evento}</Text>
+                        <Text style={styles.text}>{evento}</Text>
                       </TouchableHighlight>
                     </View>
                     <View style={styles.cell}>
-                      <Text>{fechaHora.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text>
+                      <Text style={styles.text}>{fechaHora.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
-                      <Text>{lugar}</Text>
+                      <Text style={styles.text}>{lugar}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
-                      <Text>{contacto}</Text>
+                      <Text style={styles.text}>{contacto}</Text>
                     </View>
                   </View>
                 );
               })
             ) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay eventos</Text>
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>No hay eventos</Text>
             )}
           </View>
         </View>
@@ -825,18 +827,21 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: "white",
+    backgroundColor: colors.background,
+  },
+  text:{
+    color: colors.text
   },
   head:{
     elevation: 10,
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
   },
@@ -854,11 +859,11 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   input:{
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     padding: 10,
     borderRadius: 5,
     marginBottom: 15,
@@ -867,8 +872,8 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 30, color: '#2435f0',
+    backgroundColor: colors.secondary,
+    fontWeight: 'bold', fontSize: 30, color: colors.primary,
     paddingVertical: 40, marginVertical: 10,
     borderRadius: 20,
     elevation: 5,
@@ -880,7 +885,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   add: {
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
     height: 40, width: 150,
     marginTop: 10,
     padding: 10,
@@ -897,26 +902,28 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
   cellF: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: 'black'},
+  headerText: {fontWeight: 'bold', color: colors.text},
   picker: {
     height: 50,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: 'white', color: 'black',
+    backgroundColor: colors.background, color: colors.text,
   },
   pickerItem: {
     fontSize: 16,
@@ -930,22 +937,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 200,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.background,
     borderRadius: 20,
     padding: 20,
   },
   modalTitle: {
-    color: 'black',
+    color: colors.text,
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
   },
   CardText:{
-    fontSize: 20,  color: 'black',
+    fontSize: 20,  color: colors.text,
   },
   modalhr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   modalRow:{
@@ -955,11 +962,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
-    color: 'black',
+    color: colors.text,
     fontSize: 20, fontWeight: 'bold',
   },
   modalOption: {
-    backgroundColor: '#bdc2ff',
+    backgroundColor: colors.option,
     padding: 10,
     borderRadius: 15,
     width: 200,
@@ -968,7 +975,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -977,7 +984,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 150,
@@ -986,7 +993,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -995,7 +1002,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 15,
     width: 130,
