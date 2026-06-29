@@ -175,3 +175,5 @@ try {
 } catch (error) {
   console.error('Error capturado:', error);
 }
+
+//adb logcat --pid=$(adb shell pidof -s $(adb shell pm list packages | grep -i "masadmin" | cut -d: -f2 | tr -d '\r')) *:S ReactNative:V ReactNativeJS:V AndroidRuntime:E

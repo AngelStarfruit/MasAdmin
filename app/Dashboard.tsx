@@ -70,6 +70,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   //Constantes de picker
   const [selectedValue, setSelectedValue] = useState('hoy');
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
+  const [selectedMode, setSelectedMode] = useState('claro');
 
   //JSON
   const eventos: Record<string, any> = datos.EVENTOS
@@ -263,7 +264,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalView, {marginVertical: 340}]}>
+          <View style={[styles.modalView, {marginVertical: 300}]}>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
@@ -279,6 +280,16 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             
             <View style={styles.modalhr}/>
             
+            <View style={[styles.modalRow, {width: 200, alignSelf: 'center'}]}>
+               <Picker
+              selectedValue={selectedMode}
+              onValueChange={(itemValue) => setSelectedMode(itemValue)}
+              style={[styles.picker, {height: 55, backgroundColor: '#bdc2ff'}]} 
+              itemStyle={styles.pickerItem}>
+              <Picker.Item label="Modo claro" value="claro" />
+              <Picker.Item label="Modo oscuro" value="oscuro" />
+            </Picker>
+            </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={'#cbcffe'} style={styles.modalOption}
@@ -900,7 +911,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#eee',
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: 'black'},
   picker: {
     height: 50,
     marginLeft: 10,
@@ -924,6 +935,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalTitle: {
+    color: 'black',
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
@@ -943,6 +955,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
+    color: 'black',
     fontSize: 20, fontWeight: 'bold',
   },
   modalOption: {

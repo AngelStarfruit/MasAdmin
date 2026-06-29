@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image, Alert, KeyboardAvoidingView, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Image, Alert, KeyboardAvoidingView, Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar } from './backend';
+import { NoEmojis, Validar, AddUsuario } from './backend';
 import type { registerScreenProps } from './types';
 import datos from './datos.json'
 
@@ -26,8 +26,15 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   const [usuarios, setUsuarios] = useState(datos.USUARIOS)
 
-  const getImage = (nombre: any) => {
-   return require('../assets/BL.png');
+  const [id, setId] = useState(Object.keys(usuarios).length + 1)
+
+  const [hidePassword, setHidePassword] = useState(true)
+
+   const getImage = (nombre: any) => {
+    switch(nombre) {
+      case 'B': return require('../assets/BL.png');
+      default: return require('../assets/ojo.png');
+    }
   }
 
   return (
@@ -39,7 +46,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
         underlayColor={"#414ff1"} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Image source={getImage('BL')} style={{ width: 20, height: 20 }} />
+        <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
         </TouchableHighlight>
     </View>
 
@@ -113,9 +120,15 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
-                <TextInput style={styles.input} 
-                  value={contrasena} onChangeText={setContrasena}
-                  secureTextEntry />
+                <View style={styles.row}>
+                  <TextInput style={[styles.input, {width: 280}]}
+                   value={contrasena} onChangeText={setContrasena}
+                  secureTextEntry={hidePassword} />
+                  <TouchableOpacity 
+                  onPress={() => setHidePassword(!hidePassword)}>
+                  <Image source={getImage('ojo')} style={{ width: 20, height: 20, opacity: 0.5 }} />
+                  </TouchableOpacity>
+                  </View>
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
@@ -127,6 +140,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                                 return; 
                             }
                             setNombre(''); setTelefono(''); setEmail(''); setContrasena('')
+                            setUsuarios(AddUsuario(usuarios,id,nombre,genero,telefono,String(fecha),email,contrasena))
                   navigation.navigate("signup");
                 Alert.alert("Éxito", "Usuario registrado con exito")
               }}
@@ -182,6 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 30,
   },
+  row: {flexDirection: 'row',},
   box:{
     marginVertical: 0,
     flex: 1,

@@ -52,6 +52,14 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
+//-----------------------FUNCIONES register----------------------------------------------
+ //Función para agregar un usuario
+export const AddUsuario = (data: any, id: number, nombre: string, genero: string, telefono: string, fecha: string, email: string, contrasena: string) => {
+  return {
+    ...data,
+    [id]: [nombre, genero, telefono, fecha, email, contrasena]
+  };
+};
 //-----------------------FUNCIONES Dashboard----------------------------------------------
 // Función para filtrar por rango de fechas
 export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string) => {

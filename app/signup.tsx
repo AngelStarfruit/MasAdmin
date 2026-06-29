@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Image,Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Image,Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,9 +24,13 @@ export default function Dashboard({navigation}: signupScreenProps ) {
   const [usuarios, setUsuarios] = useState(datos.USUARIOS)
 
   const [textVisible, setTextVisible] = useState(0);
+  const [hidePassword, setHidePassword] = useState(true)
 
   const getImage = (nombre: any) => {
-   return require('../assets/BL.png');
+    switch(nombre) {
+      case 'B': return require('../assets/BL.png');
+      default: return require('../assets/ojo.png');
+    }
   }
 
   return (
@@ -38,7 +42,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
         underlayColor={"#414ff1"} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Image source={getImage('BL')} style={{ width: 20, height: 20 }} />
+        <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
       </TouchableHighlight>
     </View>
 
@@ -61,9 +65,15 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
-                <TextInput style={styles.input}
+                <View style={styles.row}>
+                <TextInput style={[styles.input, {width: 280}]}
                   value={contrasena} onChangeText={setContrasena}
-                 secureTextEntry />
+                 secureTextEntry={hidePassword} />
+                 <TouchableOpacity 
+                  onPress={() => setHidePassword(!hidePassword)}>
+                  <Image source={getImage('ojo')} style={{ width: 20, height: 20, opacity: 0.5 }} />
+                </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
@@ -154,6 +164,10 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 2, width: 0,
     }
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   Card:{
     flex: 1,
