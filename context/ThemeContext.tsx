@@ -19,14 +19,17 @@ const lightColors = {
   card: '#f5f5f5',
   border: '#333333',
   input: '#eeeeee',
+  headerCell: '#7684ff',
+  cellUnderlay: '#dddddd',
   navBackground: '#ffffff',
+  navIconUnderlay: '#ddddff',
   scrollBackground: '#eeeeee',
   modalBackground: '#ffffff',
-  option: '#bdc2ff',
-  confirm: '#62ff77',
-  edit: '#f3fe53',
-  delete: '#ff8787',
-  regret: '#ccc'
+  option: '#bdc2ff', optionUnderlay: '#cbcffe',
+  confirm: '#62ff77', confirmUnderlay: '#90ff9f',
+  edit: '#f3fe53', editUnderlay: '#f7ff80',
+  delete: '#ff8787', deleteUnderlay: '#ff9797',
+  regret: '#ccc', regretUnderlay: '#ddd'
 };
 
 const darkColors = {
@@ -37,14 +40,17 @@ const darkColors = {
   card: '#1e1e1e',
   border: '#cccccc',
   input: '#2a2a2a',
+  headerCell: '#2435f0',
+  cellUnderlay: '#3b3b3b',
   navBackground: '#1a1a1a',
+  navIconUnderlay: '#0a0a4d',
   scrollBackground: '#1a1a1a',
   modalBackground: '#2a2a2a',
-  option: '#1d30ff',
-  confirm: '#00620d',
-  edit: '#8a9400',
-  delete: '#8e0000',
-  regret: '#333'
+  option: '#1d30ff', optionUnderlay: '#4f5eff',
+  confirm: '#00620d', confirmUnderlay: '#1e942d',
+  edit: '#8a9400', editUnderlay: '#bac700',
+  delete: '#8e0000', deleteUnderlay: '#c20000',
+  regret: '#333',  regretUnderlay: '#444'
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);

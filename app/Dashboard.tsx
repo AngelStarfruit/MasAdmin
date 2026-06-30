@@ -273,7 +273,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
-                underlayColor={'#eee'}
+                underlayColor={colors.input}
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
@@ -287,23 +287,23 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             
             <View style={styles.modalRow}>
                <TouchableHighlight
-                 underlayColor={'#cbcffe'} style={styles.modalOption}
+                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
                   onPress={toggleTheme}>
-                  <Text>Modo {theme === 'claro' ? 'Oscuro' : 'Claro'}</Text>
+                  <Text style={styles.text}>Modo {theme === 'claro' ? 'Oscuro' : 'Claro'}</Text>
                 </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
-                underlayColor={'#cbcffe'} style={styles.modalOption}
+                underlayColor={colors.optionUnderlay} style={styles.modalOption}
                 onPress={() => setUserModalVisible(true)}>
-                <Text>Mi cuenta</Text>
+                <Text style={styles.text}>Mi cuenta</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
-                underlayColor={'#cbcffe'} style={styles.modalOption}
+                underlayColor={colors.optionUnderlay} style={styles.modalOption}
                 onPress={() => setConfirmCerradoSesion(true)}>
-                <Text>Cerrar sesión</Text>
+                <Text style={styles.text}>Cerrar sesión</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -329,7 +329,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#eee'}
+                    underlayColor={colors.input}
                     onPress={() => setUserModalVisible(!userModalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -379,7 +379,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
-                    underlayColor={'#90ff9f'} style={[styles.modalConfirm, {width: 160}]}
+                    underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
                     onPress={() => {
                       const validation = Validar(4,nombre,telefono,email,contrasena);
                       if (!validation.isValid) {
@@ -390,7 +390,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       setUserModalVisible(!userModalVisible);
                       Alert.alert('Éxito', 'Los cambios han sido guardados');
                     }}>
-                    <Text>Confirmar cambios</Text>
+                    <Text style={styles.text}>Confirmar cambios</Text>
                   </TouchableHighlight>
                 </View>
               </View>
@@ -415,18 +415,18 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={styles.modalhr}/>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <TouchableHighlight
-                underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                 onPress={() => setConfirmCerradoSesion(!ConfirmCerradoSesion)}>
-                <Text>NO</Text>
+                <Text style={styles.text}>NO</Text>
               </TouchableHighlight>
               <TouchableHighlight
-                underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   setConfirmCerradoSesion(!ConfirmCerradoSesion);
                   cerrarSesion();
                 }}>
-                <Text>SÍ</Text>
+                <Text style={styles.text}>SÍ</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -452,7 +452,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#eee'}
+                    underlayColor={colors.input}
                     onPress={() => setModalEvento(!modalEvento)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -504,7 +504,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                   <TouchableHighlight
-                    underlayColor={'#82ff92'} style={styles.modalConfirm}
+                    underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                     onPress={() => {
                       const validation = Validar(3,evento,lugar,contacto,'');
                       if (!validation.isValid) {
@@ -542,7 +542,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#eee'}
+                    underlayColor={colors.input}
                     onPress={() => setModalEditEvento(!modalEditEvento)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -592,7 +592,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
-                    underlayColor={'#f3fe53'} style={styles.modalEdit}
+                    underlayColor={colors.editUnderlay} style={styles.modalEdit}
                     onPress={() => {
                       const validation = Validar(3,evento,lugar,contacto,'');
                       if (!validation.isValid) {
@@ -605,7 +605,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     <Text style={styles.text}>Confirmar cambios</Text>
                   </TouchableHighlight>
                   <TouchableHighlight
-                    underlayColor={'#ff9797'} style={styles.modalDelete}
+                    underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                     onPress={() => setConfirm(true)}>
                     <Text style={styles.text}>Borrar registro</Text>
                   </TouchableHighlight>
@@ -635,12 +635,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
-                            underlayColor={'#ddd'} style={[styles.modalRegret , {height: 50, width: 50}]}
+                            underlayColor={colors.regretUnderlay} style={[styles.modalRegret , {height: 50, width: 50}]}
                               onPress={() => setConfirm(!Confirm)}>
                               <Text style={styles.text}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                            underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
+                            underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , {height: 50, width: 50}]}
                               onPress={() => {
                                 setEventosMostrados(QuitarElemento(eventosMostrados,id))
                                 setConfirm(!Confirm);
@@ -665,7 +665,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             }}>MasAdmin</Text>
           </View>
           <TouchableHighlight
-            underlayColor={"#ddf"}
+            underlayColor={colors.navIconUnderlay}
             onPress={() => {
             setNombre(usuarioSesion[0]);
             setTelefono(usuarioSesion[2]);
@@ -687,27 +687,27 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <Image source={getImage('D')} style={styles.navIconImage}/>
           </TouchableHighlight>
           <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")}>
             <Image source={getImage('C')} style={styles.navIconImage}/>
           </TouchableHighlight>
           <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Ventas")}>
             <Image source={getImage('V')} style={styles.navIconImage}/>
           </TouchableHighlight>
           <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Sucursales")}>
             <Image source={getImage('S')} style={styles.navIconImage}/>
           </TouchableHighlight>
           <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Almacenes")}>
             <Image source={getImage('A')} style={styles.navIconImage}/>
           </TouchableHighlight>
           <TouchableHighlight
-            underlayColor={"#ddf"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}>
             <Image source={getImage('$')} style={styles.navIconImage}/>
           </TouchableHighlight>
@@ -767,7 +767,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               </Picker>
             </View>
             <TouchableHighlight
-              underlayColor={'#f0f1ff'}
+              underlayColor={colors.input}
               onPress={() => {
                 setId(Object.keys(eventos).length + 1);
                 setEvento(''); 
@@ -796,7 +796,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <View key={id} style={styles.row}>
                     <View style={styles.cellF}>
                       <TouchableHighlight
-                        underlayColor={'#ddd'}
+                        underlayColor={colors.cellUnderlay}
                         onPress={() => {
                           setId(Number(id))
                           setEvento(evento); setFechaHora(new Date(fechaHora)); setLugar(lugar); setContacto(contacto);
@@ -849,7 +849,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, borderRadius: 50 ,
   },
   navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
   },
   navIconImage: {
     width: 20, height: 20,
@@ -902,7 +902,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.headerCell,
     borderWidth: 1,
     borderColor: colors.border,
   },
@@ -918,7 +918,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.input,
     borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: colors.text},
+  headerText: {fontWeight: 'bold', color: 'white'},
   picker: {
     height: 50,
     marginLeft: 10,
