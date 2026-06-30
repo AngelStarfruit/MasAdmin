@@ -6,9 +6,13 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, AddUsuario } from './backend';
 import type { registerScreenProps } from './types';
+import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json'
 
 export default function Dashboard({navigation}: registerScreenProps ) {
+
+  const {colors} = useTheme()
+  const styles = getStyles(colors);
 
   const [nombre, setNombre] = useState('');
   const [genero, setGenero] = useState('hombre');
@@ -39,11 +43,11 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#414ff1"} style={styles.navButton}
+        underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
         <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
@@ -59,7 +63,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
         
             <View style={styles.box}>
                 <Text style={{fontSize: 30, 
-                    fontWeight: 'bold', color: '#2435f0', 
+                    fontWeight: 'bold', color: colors.primary, 
                     textAlign: 'center',}}>
                     Regístrese
                 </Text>
@@ -147,7 +151,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 >
                     <Text style={styles.ButtonText}>Registrarse</Text>
                 </TouchableHighlight>
-                <Text style={{textAlign: 'center', marginTop: 30}}>
+                <Text style={{textAlign: 'center', marginTop: 30, color: colors.text}}>
                   Ya tiene una cuenta? 
                     <Text style={styles.LinkText} onPress={() => navigation.navigate("signup")}>
                       Iniciar sesión</Text>
@@ -161,11 +165,11 @@ export default function Dashboard({navigation}: registerScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#2435f0",
+    backgroundColor: colors.primary,
   },
   navigation: {
     
@@ -177,7 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 25 ,
   },
   Button:{
-    backgroundColor: "#fc8a8a",
+    backgroundColor: colors.enter,
     padding: 15, 
     borderRadius: 25 ,
     width: '50%',
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
-    color: 'black', 
+    color: colors.text, 
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     marginVertical: 0,
     flex: 1,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
     fontWeight: 'bold', 
     paddingVertical: 30, paddingHorizontal: 5,
     elevation: 5,
@@ -215,16 +219,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 10,
   },
   CardText:{
-    fontSize: 20,  color: 'black',
+    fontSize: 20,  color: colors.text,
   },
   input:{
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     padding: 10,
      marginBottom: 15,
-     color: 'black'
+     color: colors.text
   },
   LinkText:{
-    color: '#2435f0',
+    color: colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -232,7 +236,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 15,
     flex: 1,
-    backgroundColor: '#eee', color: 'black',
+    backgroundColor: colors.input, color: colors.text,
   },
   pickerItem: {
     fontSize: 16,

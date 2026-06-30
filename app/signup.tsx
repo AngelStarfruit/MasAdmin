@@ -5,10 +5,13 @@ import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
+import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json'
 
 export default function Dashboard({navigation}: signupScreenProps ) {
 
+  const {colors} = useTheme()
+  const styles = getStyles(colors);
   // Cuando el usuario inicia sesión:
   const guardarUsuario = async (usuario: any) => {
     try {
@@ -35,11 +38,11 @@ export default function Dashboard({navigation}: signupScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#414ff1"} style={styles.navButton}
+        underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
         <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
@@ -51,7 +54,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
         
             <View style={styles.box}>
                 <Text style={{fontSize: 30, 
-                    fontWeight: 'bold', color: '#2435f0', 
+                    fontWeight: 'bold', color: colors.primary, 
                     textAlign: 'center',}}>
                     Inicie sesión
                 </Text>
@@ -77,7 +80,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
-                underlayColor={"#ff9f9f"} style={styles.Button}
+                underlayColor={colors.enterUnderlay} style={styles.Button}
                 // En el onPress del botón "Iniciar sesión"
                 onPress={() => {
                 const validation = Validar(2, email, contrasena, '', '');
@@ -104,7 +107,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
                 <Text style={{textAlign: 'center', marginTop: 30, color: 'red', opacity: textVisible}}>
                   Correo o contraseña incorrectos
                 </Text>
-                <Text style={{textAlign: 'center'}}
+                <Text style={{textAlign: 'center', color: colors.text}}
                 >¿Es nuevo?
                     <Text style={styles.LinkText} onPress={() => navigation.navigate("register")}>
                       Registrese</Text>
@@ -117,11 +120,11 @@ export default function Dashboard({navigation}: signupScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: "#2435f0",
+    backgroundColor: colors.primary,
   },
   navigation: {
     
@@ -133,7 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 25 ,
   },
   Button:{
-    backgroundColor: "#fc8a8a",
+    backgroundColor: colors.enter,
     padding: 15, 
     borderRadius: 25 ,
     width: '70%',
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
-    color: 'black', 
+    color: colors.text, 
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
@@ -156,7 +159,7 @@ const styles = StyleSheet.create({
   box:{
     flex: 1,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
     fontWeight: 'bold', 
     paddingVertical: 30, paddingHorizontal: 5,
     elevation: 5,
@@ -174,16 +177,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20, paddingVertical: 10,
   },
   CardText:{
-    fontSize: 20,  color: 'black',
+    fontSize: 20,  color: colors.text,
   },
   input:{
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     padding: 10,
      marginBottom: 15,
-     color: 'black',
+     color: colors.text,
   },
   LinkText:{
-    color: '#2435f0',
+    color: colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
   },

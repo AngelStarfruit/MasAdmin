@@ -258,7 +258,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       {/* Modal configuración */}
       <Modal
@@ -273,7 +273,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
-                underlayColor={colors.input}
+                underlayColor={colors.scrollBackground}
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
@@ -329,7 +329,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.input}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setUserModalVisible(!userModalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -452,7 +452,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.input}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalEvento(!modalEvento)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -542,7 +542,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.input}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalEditEvento(!modalEditEvento)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                   </TouchableHighlight>
@@ -863,11 +863,10 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   input:{
-    backgroundColor: colors.input,
+    backgroundColor: colors.scrollBackground,
     padding: 10,
-    borderRadius: 5,
     marginBottom: 15,
-    color: 'black',
+    color: colors.text,
   },
   box: {
     flex: 1,
@@ -937,7 +936,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginHorizontal: 30, marginVertical: 200,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: colors.background,
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },

@@ -3,9 +3,12 @@ import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Moda
 import Constants from 'expo-constants';
 import type { homeScreenProps } from './types';
 import { useState } from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Dashboard({navigation}: homeScreenProps ) {
-
+  
+  const {colors} = useTheme()
+  const styles = getStyles(colors);
   const [modalVisible, setModalVisible] = useState(false);
 
   const getImage = (nombre: any) => {
@@ -14,7 +17,7 @@ export default function Dashboard({navigation}: homeScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style='light'  />
 
     {/* Modal para añadir proveedores */}
             <Modal
@@ -64,16 +67,16 @@ export default function Dashboard({navigation}: homeScreenProps ) {
       {/* Pantalla */ }
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#414ff1"} style={styles.navButton}
+        underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => setModalVisible(true)} 
       >
-        <Text style={{color: 'white', fontWeight: 'bold'}}>Acerca de</Text></TouchableHighlight>
+        <Text style={{color: colors.background, fontWeight: 'bold'}}>Acerca de</Text></TouchableHighlight>
     </View>
 
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{ fontSize: 40, fontWeight: 'bold', 
-          color: '#2435f0', paddingBottom: 10, textAlign: 'center',}}>
+          color: colors.primary, paddingBottom: 10, textAlign: 'center',}}>
         ¡Bienvenido a MasAdmin!
         </Text>
 
@@ -81,13 +84,13 @@ export default function Dashboard({navigation}: homeScreenProps ) {
 
         <View style={styles.ButtonRow}>
             <TouchableHighlight
-            underlayColor={"#414ff1"} style={styles.Button}
+            underlayColor={colors.primaryUnderlay} style={styles.Button}
             onPress={() => navigation.navigate("signup")}
             >
                 <Text style={styles.ButtonText}>Acceder</Text>
             </TouchableHighlight>
             <TouchableHighlight
-            underlayColor={"#414ff1"} style={styles.Button}
+            underlayColor={colors.primaryUnderlay} style={styles.Button}
             onPress={() => navigation.navigate("register")}
             >
                 <Text style={styles.ButtonText}>Registrarse</Text>
@@ -100,13 +103,14 @@ export default function Dashboard({navigation}: homeScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
   },
   navigation: {
-    backgroundColor: "#2435f0",
+    backgroundColor: colors.primary,
     flexDirection: 'row', 
     paddingHorizontal: 5, paddingVertical: 10,
     elevation: 5,
@@ -123,20 +127,20 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   Button:{
-    backgroundColor: "#2435f0",
+    backgroundColor: colors.primary,
     padding: 15, 
     borderRadius: 25 ,
     elevation: 5,
     shadowColor: "#000",shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
-    color: 'white', 
+    color: colors.background, 
     fontWeight: 'bold',
     fontSize: 20,
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     paddingHorizontal: 20, paddingVertical: 50,
     justifyContent: 'center',
     textAlignVertical: 'center',
@@ -150,12 +154,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 140,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
   modalTitle: {
-    color: '#2435f0',
+    color: colors.primary,
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
@@ -167,14 +171,14 @@ const styles = StyleSheet.create({
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   modalLabel:{
     fontSize: 20, fontWeight: 'bold',
   },
   modalOK: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 15,
     width: 50,

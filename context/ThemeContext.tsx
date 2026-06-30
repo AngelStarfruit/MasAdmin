@@ -14,7 +14,7 @@ type ThemeContextType = {
 const lightColors = {
   background: '#ffffff',
   text: '#000000',
-  primary: '#2435f0',
+  primary: '#2435f0', primaryUnderlay: '#3a49f3',
   secondary: '#e3e5ff',
   card: '#f5f5f5',
   border: '#333333',
@@ -25,6 +25,7 @@ const lightColors = {
   navIconUnderlay: '#ddddff',
   scrollBackground: '#eeeeee',
   modalBackground: '#ffffff',
+  enter: '#fc8a8a', enterUnderlay: '#ff9f9f',
   option: '#bdc2ff', optionUnderlay: '#cbcffe',
   confirm: '#62ff77', confirmUnderlay: '#90ff9f',
   edit: '#f3fe53', editUnderlay: '#f7ff80',
@@ -35,7 +36,7 @@ const lightColors = {
 const darkColors = {
   background: '#121212',
   text: '#ffffff',
-  primary: '#5c6bff',
+  primary: '#5c6bff', primaryUnderlay: '#6c7bff',
   secondary: '#2a2a3a',
   card: '#1e1e1e',
   border: '#cccccc',
@@ -46,11 +47,12 @@ const darkColors = {
   navIconUnderlay: '#0a0a4d',
   scrollBackground: '#1a1a1a',
   modalBackground: '#2a2a2a',
+  enter: '#730101', enterUnderlay: '#8c0101',
   option: '#1d30ff', optionUnderlay: '#4f5eff',
   confirm: '#00620d', confirmUnderlay: '#1e942d',
   edit: '#8a9400', editUnderlay: '#bac700',
   delete: '#8e0000', deleteUnderlay: '#c20000',
-  regret: '#333',  regretUnderlay: '#444'
+  regret: '#444',  regretUnderlay: '#555'
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);

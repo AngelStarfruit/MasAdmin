@@ -5,9 +5,13 @@ import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, QuitarElemento, AddProveedor } from './backend';
+import { useTheme } from '../../context/ThemeContext';
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
+
+  const { theme, colors } = useTheme();
+  const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -41,11 +45,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")} 
       >
         <Image source={getImage('B')} style={styles.navIconImage}/>
@@ -74,7 +78,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
               style={{height: 30, width: 30, alignItems: "flex-end"}}
-              underlayColor={'#eee'}
+              underlayColor={colors.scrollBackground}
               onPress={() => setModalVisible(!modalVisible)}>
               <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
@@ -111,7 +115,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
               <TouchableHighlight
-              underlayColor={'#82ff92'} style={styles.modalConfirm}
+              underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                 onPress={() => {
                   const validation = Validar(4,empresa,telefono,ciudad,estado);
                         if (!validation.isValid) {
@@ -121,7 +125,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   setProveedores(AddProveedor(proveedores,id,empresa,telefono,ciudad,estado))
                   setModalVisible(!modalVisible)
                   }}>
-                <Text>Añadir registro</Text>
+                <Text style={styles.text}>Añadir registro</Text>
               </TouchableHighlight>
             </View>
 
@@ -153,7 +157,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
               style={{height: 30, width: 30, alignItems: "flex-end"}}
-              underlayColor={'#eee'}
+              underlayColor={colors.scrollBackground}
               onPress={() => setEModalVisible(!EmodalVisible)}>
               <Image source={getImage('x')} style={styles.lupaImage}/>
               </TouchableHighlight>
@@ -199,12 +203,12 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         }
                   setProveedores(AddProveedor(proveedores,id,empresa,telefono,ciudad,estado))
                   setEModalVisible(!EmodalVisible)}}>
-                <Text>Editar registro</Text>
+                <Text style={styles.text}>Editar registro</Text>
               </TouchableHighlight>
               <TouchableHighlight
               underlayColor={'#ff9797'} style={styles.modalDelete}
                 onPress={() => setConfirm(true)}>
-                <Text>Borrar registro</Text>
+                <Text style={styles.text}>Borrar registro</Text>
               </TouchableHighlight>
             </View>
 
@@ -228,7 +232,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setBusqueda(!Busqueda)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -263,7 +267,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
-                      underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
+                      underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 90}]}
                         onPress={() => {
                           if(query.trim() == ''){
                             setProveedores(datos.PROVEEDORES)
@@ -282,7 +286,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                             setProveedores(filtrado)
                           }
                         setBusqueda(!Busqueda)}}>
-                        <Text>Buscar</Text>
+                        <Text style={styles.text}>Buscar</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -309,18 +313,18 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
-                                  underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                     onPress={() => setConfirm(!Confirm)}>
-                                    <Text>NO</Text>
+                                    <Text style={styles.text}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
-                                  underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
                                       setProveedores(QuitarElemento(proveedores, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
-                                    <Text>SÍ</Text>
+                                    <Text style={styles.text}>SÍ</Text>
                                   </TouchableHighlight>
                                 </View>
                     
@@ -332,29 +336,29 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
       <ScrollView>
         <View style={styles.scroll}>
 
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Proveedores
         </Text>
 
         <Text style={{ 
           fontSize: 15, 
-          paddingVertical: 10,}}>
+          paddingVertical: 10, color: colors.text}}>
           Seleccione la empresa de un proveedor en la tabla para modificar sus datos.
           </Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
-                underlayColor={'#ddd'}
+                underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(proveedores).length + 1)
                   setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
                   setModalVisible(true)}}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir proveedor</Text>
+                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir proveedor</Text>
                   </TouchableHighlight>
 
                   <TouchableHighlight
-                  underlayColor={'#ddd'}
+                  underlayColor={colors.input}
                   onPress={() => {
                     setBusqueda(true)
                   }}
@@ -388,17 +392,17 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       <View key={id} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
-                        underlayColor={'#ddd'}
+                        underlayColor={colors.cellUnderlay}
                         onPress={() => {
                           setId(Number(id))
                           setEmpresa(empresa); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
                           setEModalVisible(true)}}>
-                        <Text>{empresa}</Text>
+                        <Text style={styles.text}>{empresa}</Text>
                         </TouchableHighlight>
                         </View> 
-                      <View style={styles.cell}><Text>{telefono}</Text></View>
-                      <View style={[styles.cell, {flex: 0.8}]}><Text>{ciudad}</Text></View>
-                      <View style={styles.cell}><Text>{estado}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{ciudad}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{estado}</Text></View>
                 </View>
                   )
                   })
@@ -415,13 +419,17 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -438,19 +446,11 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
   add: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.background,
     width: 150,
     marginTop: 10,
     padding: 10,
@@ -459,8 +459,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -474,21 +473,23 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.headerCell,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
   cellF: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: 'white'},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -498,7 +499,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 220,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -506,10 +507,11 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   modalRow:{
@@ -519,10 +521,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
+    fontSize: 20, fontWeight: 'bold', color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -531,7 +533,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -540,7 +542,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -549,7 +551,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -562,7 +564,7 @@ const styles = StyleSheet.create({
     height: 60,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee', color: 'black',
+    backgroundColor: colors.scrollBackground, color: colors.text,
   
   },
   pickerItem: {

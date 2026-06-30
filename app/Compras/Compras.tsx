@@ -2,9 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableHighlight, Image, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
+import { useTheme } from '../../context/ThemeContext';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Compras({ navigation }: ComprasScreenProps ) {
+
+   const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -30,11 +34,11 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
       <View style={styles.navigation}>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
         <Image source={getImage('D')} style={styles.navIconImage} /></TouchableHighlight>
@@ -45,25 +49,25 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <Image source={getImage('C')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
         <Image source={getImage('V')} style={styles.navIconImage} /></TouchableHighlight>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
         <Image source={getImage('S')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
         <Image source={getImage('A')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
         <Image source={getImage('$')} style={styles.navIconImage} /></TouchableHighlight>
@@ -72,22 +76,22 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
       
         <View style={styles.space}>
 
-        <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{ fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
           Compras
           </Text>
-          <Text style={{ fontSize: 20}}>
+          <Text style={{ fontSize: 20, color: colors.text}}>
           Seleccione una sección:
           </Text>
 
         <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => navigation.navigate("Proveedores")}
         style={styles.touch}>
           <Text style={styles.touchText}>Proveedores</Text>
           </TouchableHighlight>
 
           <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(proveedores).length > 0 && Object.keys(sucursales).length > 0 
           && Object.keys(productos).length > 0 && Object.keys(almacenes).length > 0){
@@ -100,7 +104,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
           </TouchableHighlight>
         
         <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(proveedores).length > 0 && Object.keys(gastos).length > 0){
           navigation.navigate("ControlGastos")
@@ -117,13 +121,14 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
     elevation: 5,
@@ -133,20 +138,20 @@ const styles = StyleSheet.create({
     padding: 10, borderRadius: 50 ,
   },
   navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
   },
   navIconImage: {
     width: 20, height: 20,
   },
   space: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   touch: {
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#0012a8',
+    backgroundColor: colors.primary,
     marginHorizontal: 80, marginVertical: 40,
     borderRadius: 25,
     justifyContent: 'center',
@@ -155,7 +160,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
   },
   touchText: {
-    color: 'white',
+    color: colors.background,
     fontWeight: 'bold', fontSize: 30,
     textAlign: 'center',
   },

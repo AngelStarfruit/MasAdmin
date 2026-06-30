@@ -2,9 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { AlmacenesScreenProps } from './types';
+import { useTheme } from '../../context/ThemeContext';
 import datos from '../datos.json'; import datosA from './datos.json';
 
 export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
+
+  const { theme, colors } = useTheme();
+  const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -30,25 +34,25 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
       <View style={styles.navigation}>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
         <Image source={getImage('D')} style={styles.navIconImage} /></TouchableHighlight>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
         <Image source={getImage('C')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
         <Image source={getImage('V')} style={styles.navIconImage} /></TouchableHighlight>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
         <Image source={getImage('S')} style={styles.navIconImage} /></TouchableHighlight>
@@ -59,7 +63,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
         <Image source={getImage('A')} style={styles.navIconImage} /></TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
         <Image source={getImage('$')} style={styles.navIconImage} /></TouchableHighlight>
@@ -68,22 +72,22 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
       
         <View style={styles.space}>
 
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', color: colors.text }}>
           Almacenes
           </Text>
-          <Text style={{ fontSize: 20}}>
+          <Text style={{ fontSize: 20, color: colors.text}}>
           Seleccione una sección:
           </Text>
 
         <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => navigation.navigate("AlmacenesInfo")}
         style={styles.touch}>
           <Text style={styles.touchText}>Almacenes</Text>
           </TouchableHighlight>
 
           <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0){
           navigation.navigate("ExistenciasAlmacen")
@@ -95,7 +99,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
           </TouchableHighlight>
 
           <TouchableHighlight 
-        underlayColor={'#0015cd'}
+        underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0 && Object.keys(productos).length > 0){
           navigation.navigate("AjustesInventario")
@@ -112,13 +116,14 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
     elevation: 5,
@@ -128,20 +133,20 @@ const styles = StyleSheet.create({
     padding: 10, borderRadius: 50 ,
   },
   navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
   },
   navIconImage: {
     width: 20, height: 20,
   },
   space: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   touch: {
     flex: 1,
     textAlign: 'center',
-    backgroundColor: '#0012a8',
+    backgroundColor: colors.primary,
     marginVertical: 40, marginHorizontal: 80,
     padding: 20,
     borderRadius: 25,
@@ -151,7 +156,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
   },
   touchText: {
-    color: 'white',
+    color: colors.background,
     fontWeight: 'bold', fontSize: 30,
     textAlign: 'center',
   },
