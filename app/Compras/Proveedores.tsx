@@ -407,7 +407,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   )
                   })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay proveedores registrados</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              No hay proveedores registrados</Text>
             )}
 
 

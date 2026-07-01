@@ -4,9 +4,13 @@ import Constants from 'expo-constants';
 import type { CategoriasScreenProps, single } from './types';
 import { useState } from 'react';
 import { NoEmojis, Validar, AddCategoria, QuitarElemento } from './backend';
+import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json'; 
 
 export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) {
+
+   const { theme, colors } = useTheme();
+  const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
     switch (nombre){
@@ -33,11 +37,11 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
  
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+     <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddd"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}
           >
             <Image source={getImage('B')} style={styles.navIconImage}/>
@@ -58,7 +62,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -76,7 +80,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
-                      underlayColor={'#82ff92'} style={styles.modalConfirm}
+                      underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
                           const validation = Validar(1,category,'','','');
                              if (!validation.isValid) {
@@ -108,7 +112,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalEVisible(!modalEVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -126,7 +130,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                       <TouchableHighlight
-                                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                                      underlayColor={colors.editUnderlay} style={styles.modalEdit}
                                         onPress={() => {
                                           const validation = Validar(1,category,'','','');
                                               if (!validation.isValid) {
@@ -138,7 +142,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                         <Text>Confirmar cambios</Text>
                                       </TouchableHighlight>
                                       <TouchableHighlight
-                                      underlayColor={'#ff9797'} style={styles.modalDelete}
+                                      underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                                         onPress={() => setConfirm(true)}
                                         >
                                         <Text>Borrar categoría</Text>
@@ -171,12 +175,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                          
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                        <TouchableHighlight
-                                       underlayColor={'#ddd'} style={styles.modalRegret}
+                                       underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                          onPress={() => setConfirm(!Confirm)}>
                                          <Text>NO</Text>
                                        </TouchableHighlight>
                                        <TouchableHighlight
-                                       underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                          onPress={() => {
                                            // 1. Filtrar productos que NO pertenecen a esta categoría
                                            const productosFiltrados = Object.fromEntries(
@@ -206,10 +210,10 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
       {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Gestionar categorías
         </Text>
-        <Text style={{ 
+        <Text style={{ color: colors.text,
           fontSize: 15, 
           paddingVertical: 10,}}>
           Seleccione una categoría para editarla.
@@ -217,21 +221,21 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
           <View style={styles.row}>
         <TouchableHighlight 
-            underlayColor={'#ddd'}
+            underlayColor={colors.input}
             onPress={() => {
                 setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
             style={[styles.add , {width: 160}]}>
-            <Text style={{fontWeight: 'bold'}}>Agregar categorías</Text>
+            <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
             </TouchableHighlight>
 
               <View style={styles.row}>
               <TextInput style={styles.query}
-              placeholder="Buscar" placeholderTextColor="#999"
+              placeholder="Buscar" placeholderTextColor="#777"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
-                underlayColor={'#ddd'}
+                underlayColor={colors.input}
                  onPress={() => {
                   if(query.trim() == ''){
                     setCategorias(datos.CATEGORIAS);
@@ -258,20 +262,21 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                               <View key={id}>
                                 <View style={styles.cell}>
                                 <TouchableHighlight
-                                underlayColor={'#eee'}
+                                underlayColor={colors.scrollBackground}
                                 onPress={() => {
                                   setId(Number(id))
                                     setCategory(categoria)
                                     setModalEVisible(true)
                                   }}>
-                                <Text>{categoria}</Text>
+                                <Text style={styles.text}>{categoria}</Text>
                                 </TouchableHighlight>
                                 </View> 
                         </View>
                         );
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay categorías registradas</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              No hay categorías registradas</Text>
             )}
                         </View>
         
@@ -281,13 +286,17 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -304,7 +313,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   row: {
@@ -317,13 +326,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   query: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.input, color: colors.text,  
     height: 40, width: 120,
     marginTop: 10,
   },
    add: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     width: 150,
     marginVertical: 10,
     padding: 10,
@@ -334,8 +342,8 @@ const styles = StyleSheet.create({
   //Tabla estilos
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: 'white',
+    borderWidth: 1, borderColor: colors.border,
+    backgroundColor: colors.background,
   },
   //Modal estilos
   modalOverlay: {
@@ -346,7 +354,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -354,15 +362,15 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   input: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -373,10 +381,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
+    fontSize: 20, fontWeight: 'bold', color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -385,7 +393,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
    modalEdit: {
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 150,
@@ -394,7 +402,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 50,
@@ -403,7 +411,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 150,

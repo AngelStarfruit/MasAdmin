@@ -112,12 +112,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
         
@@ -125,7 +125,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
-                      underlayColor={'#82ff92'} style={styles.modalConfirm}
+                      underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
                           const validation = Validar(2,sucursal,telefono,'','');
                               if (!validation.isValid) {
@@ -171,12 +171,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       value={sucursal} onChangeText={(text) => setSucursal(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Teléfono:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
         
@@ -184,7 +184,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, {width: 150}]}
                         onPress={() => {
                           const validation = Validar(2,sucursal,telefono,'','');
                               if (!validation.isValid) {
@@ -197,7 +197,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                         <Text style={styles.text}>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#ff9797'} style={styles.modalDelete}
+                      underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                         onPress={() => setConfirm(true)}>
                         <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
@@ -226,12 +226,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
-                                  underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                     onPress={() => setConfirm(!Confirm)}>
                                     <Text style={styles.text}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
-                                  underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
@@ -260,7 +260,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
-        underlayColor={colors.input}
+        underlayColor={colors.cellUnderlay}
         onPress={() => {
           setId(Object.keys(sucursales).length + 1)
           setSucursal(''); setTelefono('');
@@ -274,7 +274,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
-                    underlayColor={colors.input}
+                    underlayColor={colors.cellUnderlay}
                    onPress={() => {
                     if (query.trim() == ''){
                       setSucursales(datos.SUCURSALES || {})
@@ -312,7 +312,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                 <View key={id} style={styles.row}>
                 <View style={styles.cellF}>
                 <TouchableHighlight
-                underlayColor={'#ddd'}
+                underlayColor={colors.cellUnderlay}
                   onPress={() => {
                     setId(Number(id))
                     setSucursal(sucursal); setTelefono(telefono);
@@ -374,7 +374,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.input,
     height: 40, width: 150,
     marginTop: 10,
     padding: 10,
@@ -383,7 +383,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query: {
-    backgroundColor: colors.scrollBackground, color: colors.text,  
+    backgroundColor: colors.input, color: colors.text,  
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -437,6 +437,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     height: 2, 
     backgroundColor: '#777', 
     marginBottom: 15,
+  },
+   input: {
+    backgroundColor: colors.scrollBackground, color: colors.text,
+    height: 40, width: 120,
+    marginTop: 10,
   },
   modalRow:{
     flexDirection: 'row', 

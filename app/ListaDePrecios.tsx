@@ -5,9 +5,13 @@ import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
+import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -99,40 +103,40 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
         <Image source={getImage('D')} style={styles.navIconImage} />
       </TouchableHighlight>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
         <Image source={getImage('C')} style={styles.navIconImage} />
       </TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
         <Image source={getImage('V')} style={styles.navIconImage} />
       </TouchableHighlight>
 
       <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
         <Image source={getImage('S')} style={styles.navIconImage} />
       </TouchableHighlight>
 
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
         <Image source={getImage('A')} style={styles.navIconImage} />
@@ -160,7 +164,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -195,7 +199,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         enabled = {addCategoryOn}
                         selectedValue={selectedCategory}
                         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        style={styles.picker}  
                         itemStyle={styles.pickerItem}
                         >
                       {Object.values(listaCategorias || {}).length > 0 ? (
@@ -219,7 +223,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <Picker
                         selectedValue={selectedUValue}
                         onValueChange={(itemValue) => setSelectedUValue(itemValue)}
-                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        style={styles.picker} 
                         itemStyle={styles.pickerItem}
                         >
                       <Picker.Item label="Pieza" value="pieza" />
@@ -233,7 +237,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <Picker
                         selectedValue={selectedTValue}
                         onValueChange={(itemValue) => setSelectedTValue(itemValue)}
-                        style={[styles.picker, {backgroundColor: "#eee"}]} 
+                        style={styles.picker} 
                         itemStyle={styles.pickerItem}
                         >
                       <Picker.Item label="Producto" value="producto" />
@@ -248,7 +252,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
-                      underlayColor={'#82ff92'} style={styles.modalConfirm}
+                      underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
                           const validation = Validar(3,descripcion,marca,costo,'');
                              if (!validation.isValid) {
@@ -275,7 +279,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
                             }
                           }}>
-                        <Text>Añadir registro</Text>
+                        <Text style={styles.text}>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -305,7 +309,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -343,12 +347,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       disabled = {editPaqueteOff}
-                      underlayColor={'#f3fe53'} style={[styles.modalEdit, editPaqueteOff && styles.modalEditOff]}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editPaqueteOff && styles.modalEditOff]}
                         onPress={() =>  setPaquete(true)}>
-                        <Text>Editar paquete</Text>
+                        <Text style={styles.text}>Editar paquete</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#f3fe53'} style={styles.modalEdit}
+                      underlayColor={colors.confirmUnderlay} style={styles.modalEdit}
                         onPress={() => {
                           let validation = Validar(3,descripcion,marca,costo,'');
                           if(!editMarcaOn){
@@ -364,12 +368,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,category))
                         setEModalVisible(!EmodalVisible)
                         }}>
-                        <Text>Confirmar cambios</Text>
+                        <Text style={styles.text}>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#ff9797'} style={styles.modalDelete}
+                      underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                         onPress={() => setConfirm(true)}>
-                        <Text>Borrar registro</Text>
+                        <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -399,18 +403,18 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={'#ddd'} style={[styles.modalRegret , {height: 50, width: 50}]}
+                      underlayColor={colors.regretUnderlay} style={[styles.modalRegret , {height: 50, width: 50}]}
                         onPress={() => setConfirm(!Confirm)}>
-                        <Text>NO</Text>
+                        <Text style={styles.text}>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={'#ff9797'} style={[styles.modalDelete , {height: 50, width: 50}]}
+                      underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , {height: 50, width: 50}]}
                         onPress={() => {
                           setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
                         }}>
-                        <Text>SÍ</Text>
+                        <Text style={styles.text}>SÍ</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -432,7 +436,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setNewPaquete(!NewPaquete)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -451,30 +455,30 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={styles.table}>
                         <View style={styles.row}>
-                        <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                        <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Descripción</Text>
                             </View>
-                            <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
+                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
                           {Object.entries(contenidoPaquete).map(([id, [descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
-                          <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                          <Text>{descripcion}</Text>
+                          <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                          <Text style={styles.text}>{descripcion}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                            <Text>{cantidad}</Text>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                            <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
-                            underlayColor={"#ffa6a6"}
+                            underlayColor={colors.deleteUnderlay}
                             >
                                <Image source={getImage('xr')} style={styles.navIconImage} />
                             </TouchableHighlight>
@@ -486,7 +490,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
-                                    underlayColor={'#5460ff'}
+                                    underlayColor={colors.primaryUnderlay}
                                       onPress={() => setAlterPaquete(true)}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
@@ -497,7 +501,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={[styles.row, {justifyContent: 'center'}]}>
                       <TouchableHighlight
-                      underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 150}]}
+                      underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 150}]}
                         onPress={() => {
                           if(Object.keys(contenidoPaquete).length > 0){
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
@@ -505,7 +509,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             setModalVisible(!modalVisible)}
                           else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
                           }}>
-                        <Text>Añadir paquete</Text>
+                        <Text style={styles.text}>Añadir paquete</Text>
                       </TouchableHighlight>
                       </View>
         
@@ -527,7 +531,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={'#eee'}
+                      underlayColor={colors.scrollBackground}
                       onPress={() => setPaquete(!Paquete)}>
                       <Image source={getImage('x')} style={styles.lupaImage}/>
                       </TouchableHighlight>
@@ -546,31 +550,31 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={styles.table}>
                         <View style={styles.row}>
-                        <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                        <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Descripción</Text>
                             </View>
-                            <View style={[styles.headerCell, {backgroundColor: '#c2c6ff'}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: '#c2c6ff', flex: 0.2}]}>
+                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                                 {Object.entries(contenidoPaquete).map(([id,[descripcion, cantidad]], index) => (
                           <View key={index} style={styles.row}>
-                          <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                          <Text>{descripcion}</Text>
+                          <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                          <Text style={styles.text}>{descripcion}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                            <Text>{cantidad}</Text>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                            <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
-                            underlayColor={"#ffa6a6"}
+                            underlayColor={colors.deleteUnderlay}
                             >
                                <Image source={getImage('xr')} style={styles.navIconImage} />
                             </TouchableHighlight>
@@ -583,7 +587,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
-                                    underlayColor={'#5460ff'}
+                                    underlayColor={colors.primaryUnderlay}
                                       onPress={() => setAlterPaquete(true)}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
@@ -594,7 +598,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
                     <View style={[styles.row, {justifyContent: 'center'}]}>
                      <TouchableHighlight
-                    underlayColor={'#f3fe53'} style={[styles.modalEdit, {width: 150}]}
+                    underlayColor={colors.editUnderlay} style={[styles.modalEdit, {width: 150}]}
                     onPress={() => {
                     // Actualizar en elementosMostrados
                     const nuevoElementosMostrados = {
@@ -615,7 +619,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     Alert.alert('Exito', 'Cambios al paquete guardados');
                     setPaquete(!Paquete);
                     }}>
-                    <Text>Confirmar cambios</Text>
+                    <Text style={styles.text}>Confirmar cambios</Text>
                     </TouchableHighlight>
                       </View>
         
@@ -637,7 +641,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
                            style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={'#eee'}
+                          underlayColor={colors.scrollBackground}
                           onPress={() => setAlterPaquete(!AlterPaquete)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -652,7 +656,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             <Text style={styles.modalLabel}>Elemento:</Text>
                             <View style={{width:150, height:55}}>
                               <Picker
-                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              style={styles.picker}
                               selectedValue={selectedProduct}
                               onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                               >
@@ -680,7 +684,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
             
                         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                           <TouchableHighlight
-                          underlayColor={'#82ff92'} style={styles.modalConfirm}
+                          underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                             onPress={() => {
                               const validation = NumeroValido(cantidad);
                                   if (!validation.isValid) {
@@ -690,7 +694,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct, Number(cantidad)))
                             setIdP(idP + 1); setCantidad('')
                             setAlterPaquete(!AlterPaquete)}}>
-                            <Text>Agregar</Text>
+                            <Text style={styles.text}>Agregar</Text>
                           </TouchableHighlight>
                         </View>
             
@@ -701,15 +705,15 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
       {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
           Lista de precios
         </Text>
-        <Text style={{ 
+        <Text style={{color: colors.text ,
           fontSize: 15, 
           paddingVertical: 10,}}>
           Seleccione una categoría para veer los elementos ubicados en ella.
           </Text>
-        <Text style={{ 
+        <Text style={{ color: colors.text ,
           fontSize: 15, 
           paddingVertical: 10,}}>
           Seleccione la descripción de un elemento en la tabla para modificar sus datos.
@@ -737,7 +741,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
           <TouchableHighlight 
-                underlayColor={'#f0f1ff'}
+                underlayColor={colors.cellUnderlay}
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setContenidoPaquete({})
@@ -747,13 +751,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                   else setAddCategoryON(false)
                   setModalVisible(true)}}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir elemento</Text>
+                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir elemento</Text>
                   </TouchableHighlight>
           <TouchableHighlight 
-                underlayColor={'#f0f1ff'}
+                underlayColor={colors.cellUnderlay}
                 onPress={() => navigation.navigate("Categorias")}
                 style={[styles.add , {width: 180}]}>
-                    <Text style={{fontWeight: 'bold'}}>Gestionar categorías</Text>
+                    <Text style={{fontWeight: 'bold', color: colors.text}}>Gestionar categorías</Text>
                   </TouchableHighlight>
                   </View>
                   
@@ -782,7 +786,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       <View key={id} style={styles.row}>
                         <View style={styles.cellF}>
                         <TouchableHighlight
-                        underlayColor={'#ddd'}
+                        underlayColor={colors.cellUnderlay}
                         onPress={() => {
 
                           if (tipo != "paquete"){
@@ -803,17 +807,18 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
-                        <Text>{descripcion}</Text>
+                        <Text style={styles.text}>{descripcion}</Text>
                         </TouchableHighlight>
                         </View> 
-                        <View style={styles.cell}><Text>{marca}</Text></View>
-                        <View style={styles.cell}><Text>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
-                        <View style={[styles.cell, {flex: 0.5}]}><Text>{unidad}</Text></View>
+                        <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
+                        <View style={styles.cell}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
+                        <View style={[styles.cell, {flex: 0.5}]}><Text style={styles.text}>{unidad}</Text></View>
                 </View>
                   );
                   })
                 ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay elementos en esta categoría</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              No hay elementos en esta categoría</Text>
             )}
           </View>   
 
@@ -823,13 +828,17 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background,
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
     elevation: 5,
@@ -839,7 +848,7 @@ const styles = StyleSheet.create({
     padding: 10, borderRadius: 50 ,
   },
   navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: '#ddf',
+    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
   },
   navIconImage: {
     width: 20, height: 20,
@@ -849,15 +858,15 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   showcase: {
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
   add: {
-    backgroundColor: 'white',
+    backgroundColor: colors.input,
     width: 150,
     marginTop: 10,
     padding: 10,
@@ -866,8 +875,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query:{
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -885,21 +893,23 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.headerCell,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+     borderColor: colors.border,
   },
   cellF: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
+     borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -909,7 +919,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 150,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -917,6 +927,7 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
   modalRow:{
     flexDirection: 'row', 
@@ -926,9 +937,10 @@ const styles = StyleSheet.create({
   },
   modalLabel:{
     fontSize: 20, fontWeight: 'bold',
+    color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -937,7 +949,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -946,7 +958,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 90,
@@ -956,7 +968,7 @@ const styles = StyleSheet.create({
   },
   modalEditOff: {
     opacity: 0.6, shadowOpacity: 0.6,
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 90,
@@ -965,7 +977,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 90,
@@ -974,7 +986,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonRegister: {
-    backgroundColor: '#656fff',
+    backgroundColor: colors.primary,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -983,7 +995,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: colors.background,
     textAlign: 'center',
   },
   //---------------
@@ -991,8 +1003,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: colors.input,
+    color: colors.text,
   },
   pickerItem: {
     fontSize: 16,

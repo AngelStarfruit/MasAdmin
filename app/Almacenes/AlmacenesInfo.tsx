@@ -5,9 +5,13 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, QuitarElemento, AddAlmacen } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
+import { useTheme } from '../../context/ThemeContext';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
+
+  const { theme, colors } = useTheme();
+  const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
   switch(nombre) {
@@ -40,11 +44,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
         <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
@@ -64,7 +68,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={'#eee'}
+                          underlayColor={colors.scrollBackground}
                           onPress={() => setModalVisible(!modalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -85,7 +89,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                            <View style={{width:130, height:50}}>
                               <Picker
-                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              style={styles.picker}
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
@@ -108,7 +112,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                           <TouchableHighlight
-                          underlayColor={'#82ff92'} style={styles.modalConfirm}
+                          underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                             onPress={() => {
                               const validation = Validar(1,almacen,'','','');
                                   if (!validation.isValid) {
@@ -118,7 +122,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               setAlmacenes(AddAlmacen(almacenes,id,almacen,selectedBranch))
                               setModalVisible(!modalVisible)
                               }}>
-                            <Text>Añadir registro</Text>
+                            <Text style={styles.text}>Añadir registro</Text>
                           </TouchableHighlight>
                         </View>
             
@@ -140,7 +144,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={'#eee'}
+                          underlayColor={colors.scrollBackground}
                           onPress={() => setEModalVisible(!EmodalVisible)}>
                           <Image source={getImage('x')} style={styles.lupaImage}/>
                           </TouchableHighlight>
@@ -161,7 +165,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                           <View style={{width:180, height:55}}>
                               <Picker
-                              style={[styles.picker, {backgroundColor: "#eee"}]}
+                              style={styles.picker}
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
@@ -185,7 +189,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                           <TouchableHighlight
-                          underlayColor={'#f3fe53'} style={styles.modalEdit}
+                          underlayColor={colors.editUnderlay} style={styles.modalEdit}
                             onPress={() => {
                               const validation = Validar(1,almacen,'','','');
                                   if (!validation.isValid) {
@@ -194,12 +198,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                  }
                               setAlmacenes(AddAlmacen(almacenes,id,almacen,selectedBranch))
                               setEModalVisible(!EmodalVisible)}}>
-                            <Text>Editar registro</Text>
+                            <Text style={styles.text}>Editar registro</Text>
                           </TouchableHighlight>
                           <TouchableHighlight
-                          underlayColor={'#ff9797'} style={styles.modalDelete}
+                          underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                             onPress={() => setConfirm(true)}>
-                            <Text>Borrar registro</Text>
+                            <Text style={styles.text}>Borrar registro</Text>
                           </TouchableHighlight>
                         </View>
             
@@ -220,7 +224,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
                             style={{height: 30, width: 30, alignItems: "flex-end"}}
-                            underlayColor={'#eee'}
+                            underlayColor={colors.scrollBackground}
                             onPress={() => setBusqueda(!Busqueda)}>
                             <Image source={getImage('x')} style={styles.lupaImage}/>
                             </TouchableHighlight>
@@ -253,7 +257,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
               
                           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                             <TouchableHighlight
-                            underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 90}]}
+                            underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 90}]}
                               onPress={() => {
                           if(query.trim() == ''){
                             setAlmacenes(datosA.ALMACENES)
@@ -270,7 +274,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                             setAlmacenes(filtrado)
                           }
                               setBusqueda(!Busqueda)}}>
-                              <Text>Buscar</Text>
+                              <Text style={styles.text}>Buscar</Text>
                             </TouchableHighlight>
                           </View>
               
@@ -297,18 +301,18 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
                                             setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
                                             setEModalVisible(!EmodalVisible);
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -318,19 +322,19 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text}}>
         Almacenes
         </Text>
 
         <Text style={{ 
           fontSize: 15, 
-          paddingVertical: 10,}}>
+          paddingVertical: 10, color: colors.text}}>
           Seleccione el nombre de un almacén en la tabla para modificar sus datos.
           </Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
-                underlayColor={'#ddd'}
+                underlayColor={colors.input}
                 onPress={() => {
                   if(Object.keys(sucursales).length > 0){
                   setId(Object.keys(almacenes).length + 1)
@@ -340,11 +344,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   else Alert.alert("Error","Registre al menos una sucursal primero")
                 }}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Añadir almacén</Text>
+                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir almacén</Text>
                   </TouchableHighlight>
 
                     <TouchableHighlight
-                    underlayColor={'#ddd'}
+                    underlayColor={colors.input}
                     onPress={() => {
                       setBusqueda(true)
                     }}
@@ -372,20 +376,21 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       <View key={id} style={styles.row}>
                       <View style={styles.cellF}>
                           <TouchableHighlight
-                          underlayColor={'#ddd'}
+                          underlayColor={colors.input}
                           onPress={() => {
                             setId(Number(id))
                             setAlmacen(almacen); setSelectedBranch(sucursal);
                             setEModalVisible(true)}}>
-                          <Text>{almacen}</Text>
+                          <Text style={{color: colors.text}}>{almacen}</Text>
                           </TouchableHighlight>
                           </View> 
-                      <View style={styles.cell}><Text>{sucursal}</Text></View>
+                      <View style={styles.cell}><Text style={{color: colors.text}}>{sucursal}</Text></View>
                 </View>
                   )
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>No hay almacenes registrados en esta sucursal</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              No hay almacenes registrados en esta sucursal</Text>
             )}
           </View>
         
@@ -395,13 +400,17 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -418,19 +427,11 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
    add: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.background,
     height: 40, width: 150,
     marginTop: 10,
     padding: 10,
@@ -439,8 +440,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query: {
-    backgroundColor: 'white', color: 'black', 
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 150,
     marginTop: 10,
   },
@@ -454,21 +454,23 @@ const styles = StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.headerCell,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
   cellF: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold',},
+  headerText: {fontWeight: 'bold', color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -478,7 +480,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -486,10 +488,11 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   modalRow:{
@@ -500,9 +503,10 @@ const styles = StyleSheet.create({
   },
   modalLabel:{
     fontSize: 20, fontWeight: 'bold',
+    color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -511,7 +515,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
-    backgroundColor: '#f3fe53',
+    backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -520,7 +524,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -529,7 +533,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,
@@ -542,8 +546,8 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee',
-    color: 'black',
+    backgroundColor: colors.scrollBackground,
+    color: colors.text,
   },
   pickerItem: {
     fontSize: 16,

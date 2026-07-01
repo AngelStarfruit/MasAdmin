@@ -6,11 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
 export default function Dashboard({navigation}: signupScreenProps ) {
 
-  const {colors} = useTheme()
+  const {theme, colors} = useTheme()
   const styles = getStyles(colors);
   // Cuando el usuario inicia sesión:
   const guardarUsuario = async (usuario: any) => {
@@ -38,7 +39,7 @@ export default function Dashboard({navigation}: signupScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style={theme === 'oscuro' ? 'dark' : 'light'}  />
 
       <View style={styles.navigation}>
         <TouchableHighlight
