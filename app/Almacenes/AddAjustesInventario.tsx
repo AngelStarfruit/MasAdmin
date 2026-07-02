@@ -39,12 +39,15 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
   const [controlAjusteInventario, setControlAjusteInventario] = useState(datosA.AJUSTES_INVENTARIO);
+  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
     //Constantes de pickers
   const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
   const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
-  const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
+  //Valores del picker producto
+  const [selectedProduct, setSelectedProduct] = useState(Object.keys(productos)[0] || '');
+  const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
 
    useEffect(() => {
   let almacenesFiltrados
@@ -56,6 +59,10 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
     );
 
   setAlmacenesMostrados(almacenesFiltrados);
+
+   const primerAlmacen = Object.values(almacenesFiltrados)[0]?.[0] || '';
+  setSelectedStore(primerAlmacen);
+
 }, [selectedBranch]);
 
   //Constantes extra
@@ -110,25 +117,37 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Producto:</Text>
-                      <View style={{width:150, height:55}}>
+                      <View style={{width:200, height:55}}>
                         <Picker
                         style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedProduct}
-                        onValueChange={(itemValue) => setSelectedProduct(itemValue)}
-                        >                
-                        {Object.values(productos || {}).length > 0 ? (
-                              Object.values(productos).map((producto: any, index) => (
-                             <Picker.Item 
-                              style={styles.pickerItem} 
-                              key={index} 
-                              label={String(producto[0])} 
-                              value={String(producto[0])} 
-                              />
-                              ))
-                              ) : (
-                              <Picker.Item label="-" value="" />
-                          )}
-                        </Picker></View>
+                        onValueChange={(itemValue) => {
+                        setSelectedProduct(itemValue);
+                        const productoEncontrado = (productos as any)[itemValue];
+                        if (productoEncontrado) {
+                          setProductMarca(productoEncontrado[1]);
+                        }
+                        }}
+                        >
+                        {Object.entries(productos || {}).length > 0 ? (
+                        Object.entries(productos)
+                        .sort((a, b) => {
+                        const nombreA = String(a[1][0]).toLowerCase();
+                        const nombreB = String(b[1][0]).toLowerCase();
+                        return nombreA.localeCompare(nombreB);
+                        })
+                        .map(([id, producto]: [string, any]) => (
+                        <Picker.Item 
+                        style={styles.pickerItem} 
+                        key={id} 
+                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        value={id}  // ← ID como value
+                        />
+                        ))
+                        ) : (
+                        <Picker.Item label="-" value="" />
+                        )}
+                      </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Cantidad:</Text>
@@ -142,14 +161,25 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
-                        const validation = NumeroValido(cantidad);
-                            if (!validation.isValid) {
-                        Alert.alert('Error', validation.message);
-                        return; 
+                      const validation = NumeroValido(cantidad);
+                      if (!validation.isValid) {
+                      Alert.alert('Error', validation.message);
+                      return;
+                        }
+                      const productoSeleccionado = (productos as any)[selectedProduct];
+                      if (productoSeleccionado) {
+                      setProcessAjusteInventario(AddElemento(
+                      processAjusteInventario,
+                      idP,
+                      String(productoSeleccionado[0]),  // descripción
+                      String(productMarca),  // marca
+                      Number(cantidad)
+                      ));
+                      setIdP(idP + 1);
+                      setCantidad('');
+                      setModalVisible(!modalVisible);
                       }
-                      setProcessAjusteInventario(AddElemento(processAjusteInventario, idP, String(selectedProduct), Number(cantidad)))
-                      setIdP(idP + 1); setCantidad('')
-                      setModalVisible(!modalVisible)}}>
+                      }}>
                       <Text style={styles.text}>Agregar</Text>
                     </TouchableHighlight>
                   </View>
@@ -249,11 +279,17 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            {Object.values(sucursales || {}).length > 0 ? (
-                Object.values(sucursales).map((sucursal: any, index) => (
+            {Object.entries(sucursales || {}).length > 0 ? (
+                Object.entries(sucursales)
+                .sort((a, b) => {
+                        const nombreA = String(a[1][0]).toLowerCase();
+                        const nombreB = String(b[1][0]).toLowerCase();
+                        return nombreA.localeCompare(nombreB);
+                        })
+                .map(([id, sucursal]: [string, any]) => (
                 <Picker.Item 
                 style={styles.pickerItem} 
-                key={index} 
+                key={id} 
                 label={String(sucursal[0])} 
                 value={String(sucursal[0])} 
                   />
@@ -271,18 +307,24 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.values(almacenesMostrados || {}).length > 0 ? (
-                Object.values(almacenesMostrados).map((almacen: any, index) => (
-                <Picker.Item 
-                style={styles.pickerItem} 
-                key={index} 
-                label={String(almacen[0])} 
-                value={String(almacen[0])} 
-                  />
-                  ))
-                  ) : (
-                  <Picker.Item label="-" value="" />
-                )}
+        {Object.entries(almacenesMostrados || {}).length > 0 ? (
+          Object.entries(almacenesMostrados)
+          .sort((a, b) => {
+             const nombreA = String(a[1][0]).toLowerCase();
+            const nombreB = String(b[1][0]).toLowerCase();
+            return nombreA.localeCompare(nombreB);
+          })
+          .map(([id, almacen]: [string, any]) => (
+            <Picker.Item 
+              style={styles.pickerItem} 
+              key={id} 
+              label={String(almacen[0])} 
+              value={String(almacen[0])} 
+            />
+            ))
+            ) : (
+            <Picker.Item label="-" value="" />
+            )}
           </Picker></View>
         </View>
         <View style={styles.row}>
@@ -304,6 +346,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
                   <View style={styles.headerCell}>
+                      <Text style={styles.headerText}>Marca</Text>
+                      </View>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
                   <View style={[styles.headerCell, {flex: 0.15}]}>
@@ -312,10 +357,13 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                   
-                  {Object.entries(processAjusteInventario).map(([id, [descripcion, cantidad]], index) => (
+                  {Object.entries(processAjusteInventario).map(([id, [descripcion, marca, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={styles.cell}>
                         <Text style={styles.text}>{descripcion}</Text>
+                        </View>
+                        <View style={styles.cell}>
+                        <Text style={styles.text}>{marca}</Text>
                         </View>
                         <View style={styles.cell}>
                         <Text style={styles.text}>{cantidad}</Text>
@@ -339,13 +387,13 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   onPress={() => setModalVisible(true)}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   onPress={() => {
                     if(Object.keys(processAjusteInventario).length > 0){
                       setReceive(true);
@@ -403,7 +451,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.option,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -412,7 +460,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: colors.background,
+    color: colors.text,
     textAlign: 'center',
   },
   //Tabla estilos

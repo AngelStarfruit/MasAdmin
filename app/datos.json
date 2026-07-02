@@ -91,6 +91,15 @@
     "Tortillería"
   ],
   "4": [
+    "Tortillas de harina",
+    "Mision",
+    38.00,
+    "pieza",
+    "producto",
+    [],
+    "Tortillería"
+  ],
+  "5": [
     "Nuez",
     "Verde Valle",
     0.70,
@@ -99,7 +108,7 @@
     [],
     "Granel"
   ],
-  "5": [
+  "6": [
     "Lavado de coche",
     "",
     200.00,
@@ -108,7 +117,7 @@
     [],
     ""
   ],
-  "6": [
+  "7": [
     "Gasto de luz",
     "",
     "",
@@ -117,7 +126,16 @@
     [],
     ""
   ],
-  "7": [
+  "8": [
+    "Renta",
+    "",
+    "",
+    "",
+    "gasto",
+    [],
+    ""
+  ],
+  "9": [
     "Paquete quesadillas",
     "",
     319.99,

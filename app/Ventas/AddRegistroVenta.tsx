@@ -40,13 +40,14 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   const almacenes: Record<string, any> = datosA.ALMACENES || {};
   const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
   const [controlVenta, setControlVenta] = useState(datosC.CONTROL_VENTAS);
+  const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
   //Constantes de pickers
   const [selectedCustomer, setSelectedCustomer] = useState(clientes[Object.keys(clientes)[0]]?.[0] || '');
   const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
   const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
   //Valores del picker producto
-    const [selectedProduct, setSelectedProduct] = useState(productos[Object.keys(productos)[0]]?.[0] || '');
+    const [selectedProduct, setSelectedProduct] = useState(Object.keys(productos)[0] || '');
     const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
 
@@ -119,33 +120,37 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Elemento:</Text>
-                      <View style={{width:180, height:55}}>
+                      <View style={{width:200, height:55}}>
                         <Picker
                         style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => {
-                          setSelectedProduct(itemValue);
-                        const productoEncontrado = Object.values(productos).find(
-                        (producto: any) => producto[0] === itemValue
-                        );
-                         if (productoEncontrado) {
-                        setProductMarca(productoEncontrado[1]);
-                        setProductCosto(productoEncontrado[2]);
-                         }
-                       }}
+                        setSelectedProduct(itemValue);
+                        const productoEncontrado = (productos as any)[itemValue]; // ← Acceder por ID
+                        if (productoEncontrado) {
+                          setProductMarca(productoEncontrado[1]);
+                          setProductCosto(productoEncontrado[2]);
+                        }
+                        }}
                         >
-                        {Object.values(productos || {}).length > 0 ? (
-                                  Object.values(productos).map((producto: any, index) => (
-                                  <Picker.Item 
-                                  style={styles.pickerItem} 
-                                  key={index} 
-                                  label={String(producto[0])} 
-                                  value={String(producto[0])} 
-                                  />
-                                  ))
-                                  ) : (
-                                  <Picker.Item label="-" value="" />
-                                  )}
+                        {Object.entries(productos || {}).length > 0 ? (
+                        Object.entries(productos)
+                        .sort((a, b) => {
+                        const nombreA = String(a[1][0]).toLowerCase();
+                        const nombreB = String(b[1][0]).toLowerCase();
+                         return nombreA.localeCompare(nombreB);  
+                        })
+                        .map(([id, producto]: [string, any]) => (
+                        <Picker.Item 
+                        style={styles.pickerItem} 
+                        key={id} 
+                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        value={id}  // ← Usar el ID como value
+                        />
+                        ))
+                        ) : (
+                        <Picker.Item label="-" value="" />
+                         )}
                         </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
@@ -159,15 +164,27 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
-                      onPress={() => {
-                          const validation = NumeroValido(cantidad);
-                            if (!validation.isValid) {
-                            Alert.alert('Error', validation.message);
-                              return; 
-                            }
-                            setProcessVenta(AddElemento(processVenta,idP,String(selectedProduct),String(productMarca),Number(productCosto),Number(cantidad)))
-                            setIdP(idP + 1); setCantidad('')
-                            setModalVisible(!modalVisible)}}>
+                     onPress={() => {
+                    const validation = NumeroValido(cantidad);
+                    if (!validation.isValid) {
+                    Alert.alert('Error', validation.message);
+                    return;
+                    }
+                        const productoSeleccionado = (productos as any)[selectedProduct];
+                        if (productoSeleccionado) {
+                        setProcessVenta(AddElemento(
+                        processVenta,
+                        idP,
+                        String(productoSeleccionado[0]),  // descripción
+                        String(productMarca),  // marca
+                        Number(productCosto),  // costo
+                        Number(cantidad)
+                        ));
+                        setIdP(idP + 1);
+                        setCantidad('');
+                        setModalVisible(!modalVisible);
+                        }
+                      }}>
                       <Text style={styles.text}>Agregar</Text>
                     </TouchableHighlight>
                   </View>
@@ -267,11 +284,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedCustomer}
             onValueChange={(itemValue) => setSelectedCustomer(itemValue)}
           >
-            {Object.values(clientes || {}).length > 0 ? (
-                Object.values(clientes).map((cliente: any, index) => (
+            {Object.entries(clientes || {}).length > 0 ? (
+                Object.entries(clientes)
+                .sort((a, b) => {
+                const nombreA = String(a[1][0]).toLowerCase();
+                const nombreB = String(b[1][0]).toLowerCase();
+                return nombreA.localeCompare(nombreB);
+                })
+                .map(([id, cliente]: [string, any]) => (
                 <Picker.Item 
                 style={styles.pickerItem} 
-                key={index} 
+                key={id} 
                 label={String(cliente[0])} 
                 value={String(cliente[0])} 
                 />
@@ -289,11 +312,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
-            {Object.values(sucursales || {}).length > 0 ? (
-                Object.values(sucursales).map((sucursal: any, index) => (
+            {Object.entries(sucursales || {}).length > 0 ? (
+                Object.entries(sucursales)
+                .sort((a, b) => {
+                const nombreA = String(a[1][0]).toLowerCase();
+                const nombreB = String(b[1][0]).toLowerCase();
+                return nombreA.localeCompare(nombreB);
+                })
+                .map(([id, sucursal]: [string, any]) => (
                 <Picker.Item 
                 style={styles.pickerItem} 
-                key={index} 
+                key={id} 
                 label={String(sucursal[0])} 
                 value={String(sucursal[0])} 
                   />
@@ -355,14 +384,14 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   disabled={Off}
                   onPress={() => setModalVisible(true)}
                   style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   disabled={Off}
                   onPress={() => {
                     if (Object.keys(processVenta).length > 0){
@@ -393,18 +422,24 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            {Object.values(almacenesMostrados || {}).length > 0 ? (
-                  Object.values(almacenesMostrados).map((almacen: any, index) => (
-                  <Picker.Item 
-                      style={styles.pickerItem} 
-                      key={index} 
-                      label={String(almacen[0])} 
-                      value={String(almacen[0])} 
-                      />
-                      ))
-                      ) : (
-                  <Picker.Item label="-" value="" />
-                  )}
+        {Object.entries(almacenesMostrados || {}).length > 0 ? (
+          Object.entries(almacenesMostrados)
+          .sort((a, b) => {
+             const nombreA = String(a[1][0]).toLowerCase();
+            const nombreB = String(b[1][0]).toLowerCase();
+            return nombreA.localeCompare(nombreB);
+          })
+          .map(([id, almacen]: [string, any]) => (
+            <Picker.Item 
+              style={styles.pickerItem} 
+              key={id} 
+              label={String(almacen[0])} 
+              value={String(almacen[0])} 
+            />
+            ))
+            ) : (
+            <Picker.Item label="-" value="" />
+            )}
           </Picker></View>
         </View>
 
@@ -446,7 +481,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <View style={{flexDirection: 'row', justifyContent: 'center',
             marginTop: 10,}}>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   onPress={() => {
                     if(Object.values(processAVenta).length > 0){
                       setReceive(true)
@@ -516,7 +551,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   buttonOff: {
     opacity: 0.8, shadowOpacity: 0.8,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.option,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -525,7 +560,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: colors.background,
+    color: colors.text,
     textAlign: 'center',
   },
   //Tabla estilos
@@ -600,7 +635,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
+    fontSize: 20, fontWeight: 'bold', color: colors.text, 
   },
   modalConfirm: {
     backgroundColor: colors.confirm,

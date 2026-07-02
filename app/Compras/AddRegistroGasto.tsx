@@ -102,11 +102,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                         selectedValue={selectedGasto}
                         onValueChange={(itemValue) => setSelectedGasto(itemValue)}
                         >
-                        {Object.values(gastos || {}).length > 0 ? (
-                              Object.values(gastos).map((gasto: any, index) => (
+                        {Object.entries(gastos || {}).length > 0 ? (
+                              Object.entries(gastos)
+                              .sort((a, b) => {
+                                const nombreA = String(a[1]).toLowerCase();
+                                const nombreB = String(b[1]).toLowerCase();
+                                 return nombreA.localeCompare(nombreB);
+                              })
+                              .map(([id, gasto]: [string, any]) => (
                               <Picker.Item 
                               style={styles.pickerItem} 
-                              key={index} 
+                              key={id} 
                               label={String(gasto[0])} 
                               value={String(gasto[0])} 
                               />
@@ -230,11 +236,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
             selectedValue={selectedProvider}
             onValueChange={(itemValue) => setSelectedProvider(itemValue)}
           >
-            {Object.values(proveedores || {}).length > 0 ? (
-             Object.values(proveedores).map((proveedor: any, index) => (
+            {Object.entries(proveedores || {}).length > 0 ? (
+             Object.entries(proveedores)
+             .sort((a, b) => {
+             const nombreA = String(a[1][0]).toLowerCase();
+            const nombreB = String(b[1][0]).toLowerCase();
+            return nombreA.localeCompare(nombreB);
+          })
+             .map(([id, proveedor]: [string, any]) => (
             <Picker.Item 
                   style={styles.pickerItem} 
-                  key={index} 
+                  key={id} 
                   label={String(proveedor[0])} 
                   value={String(proveedor[0])} 
                   />
@@ -285,13 +297,13 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay} 
+                underlayColor={colors.optionUnderlay} 
                   onPress={() => setModalVisible(true)}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={colors.primaryUnderlay}
+                underlayColor={colors.optionUnderlay}
                   onPress={() => {
                     if (Object.keys(processGasto).length > 0){
                       setReceive(true)
@@ -353,7 +365,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.option,
     borderRadius: 20,
     width: 150,
     padding: 10,
@@ -362,7 +374,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: colors.background,
+    color: colors.text,
     textAlign: 'center',
   },
   //Tabla estilos
