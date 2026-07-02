@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
 import { useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento } from './backend';
+import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento, AddUsuario } from './backend';
 import type { DashboardScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import datos from './datos.json';
@@ -19,22 +19,27 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const styles = getStyles(colors);
 
   const [usuarioSesion, setUsuarioSesion] = useState(['','','','','','','']);
+  const [idUsuario, setIdUsuario] = useState(0);
 
   useFocusEffect(
-    React.useCallback(() => {
-      const cargarUsuario = async () => {
-        try {
-          const usuarioGuardado = await AsyncStorage.getItem('usuarioSesion');
-          if (usuarioGuardado) {
-            setUsuarioSesion(JSON.parse(usuarioGuardado));
-          }
-        } catch (error) {
-          console.log('Error cargando usuario', error);
+  React.useCallback(() => {
+    const cargarUsuario = async () => {
+      try {
+        const usuarioGuardado = await AsyncStorage.getItem('usuarioSesion');
+        const idGuardado = await AsyncStorage.getItem('idUsuario');
+        if (usuarioGuardado) {
+          setUsuarioSesion(JSON.parse(usuarioGuardado));
         }
-      };
-      cargarUsuario();
-    }, [])
-  );
+        if (idGuardado) {
+          setIdUsuario(Number(idGuardado));
+        }
+      } catch (error) {
+        console.log('Error cargando usuario', error);
+      }
+    };
+    cargarUsuario();
+  }, [])
+);
     const cerrarSesion = async () => {
     await AsyncStorage.removeItem('usuarioSesion');
     navigation.navigate("home");
@@ -76,6 +81,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   //JSON
+  const [usuarios, setUsuarios] = useState(datos.USUARIOS);
   const eventos: Record<string, any> = datos.EVENTOS
   const [eventosMostrados, setEventosMostrados] = useState(eventos);
   
@@ -379,19 +385,48 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
-                    underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
-                    onPress={() => {
-                      const validation = Validar(4,nombre,telefono,email,contrasena);
-                      if (!validation.isValid) {
-                        Alert.alert('Error', validation.message);
-                        return; 
-                      }
-                      setModalVisible(!modalVisible);
-                      setUserModalVisible(!userModalVisible);
-                      Alert.alert('Éxito', 'Los cambios han sido guardados');
-                    }}>
-                    <Text style={styles.text}>Confirmar cambios</Text>
-                  </TouchableHighlight>
+  underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
+  onPress={async () => {
+    const validation = Validar(4, nombre, telefono, email, contrasena);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    // 1. Actualizar el JSON de usuarios
+    const usuariosActualizados = AddUsuario(
+      usuarios,
+      idUsuario,
+      nombre,
+      usuarioSesion[1], // género
+      telefono,
+      fecha.toLocaleDateString(),
+      email,
+      contrasena
+    );
+    setUsuarios(usuariosActualizados);
+
+    // 2. Obtener el usuario actualizado
+    const usuarioActualizado = usuariosActualizados[idUsuario];
+    if (usuarioActualizado) {
+      // 3. Actualizar AsyncStorage
+      try {
+        await AsyncStorage.setItem('usuarioSesion', JSON.stringify(usuarioActualizado));
+        await AsyncStorage.setItem('idUsuario', String(idUsuario));
+      } catch (error) {
+        console.log('Error guardando usuario', error);
+      }
+      
+      // 4. Actualizar el estado local
+      setUsuarioSesion(usuarioActualizado);
+    }
+
+    setModalVisible(!modalVisible);
+    setUserModalVisible(!userModalVisible);
+    Alert.alert('Éxito', 'Los cambios han sido guardados');
+  }}>
+  <Text style={styles.text}>Confirmar cambios</Text>
+</TouchableHighlight>
                 </View>
               </View>
             </ScrollView>

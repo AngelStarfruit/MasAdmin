@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { lazy, Suspense } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { ThemeProvider } from './context/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Compras = lazy(() => import('./app/Compras/Compras'));
 const ControlCompras = lazy(() => import('./app/Compras/ControlCompras'));
@@ -68,115 +69,84 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function LoadingScreen() {
   return (
-    <View>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ActivityIndicator size="large" color="#2435f0" />
     </View>
   );
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const usuarioGuardado = await AsyncStorage.getItem('usuarioSesion');
+        if (usuarioGuardado) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.log('Error verificando sesión', error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#2435f0" />
+        <Text style={{ marginTop: 10, color: 'white' }}>Cargando...</Text>
+      </View>
+    );
+  }
+
   return (
     <ThemeProvider>
-    <NavigationContainer>
-      <Suspense fallback={<LoadingScreen />}>
-        <Stack.Navigator initialRouteName="home"
-          screenOptions={{
-            headerShown: false,
-            animation: 'fade',
-          }}>
+      <NavigationContainer>
+        <Suspense fallback={<LoadingScreen />}>
+          <Stack.Navigator 
+            initialRouteName={isAuthenticated ? "Dashboard" : "home"}
+            screenOptions={{
+              headerShown: false,
+              animation: 'fade',
+            }}>
+            <Stack.Screen name="home" component={home} />
+            <Stack.Screen name="signup" component={signup} />
+            <Stack.Screen name="register" component={register} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
 
-         <Stack.Screen 
-            name="home"
-            component={home}/>
+            <Stack.Screen name="Compras" component={Compras} />
+            <Stack.Screen name="ControlCompras" component={ControlCompras} />
+            <Stack.Screen name="ControlGastos" component={ControlGastos} />
+            <Stack.Screen name="AddRegistroCompra" component={AddRegistroCompra} />
+            <Stack.Screen name="AddRegistroGasto" component={AddRegistroGasto} />
+            <Stack.Screen name="Proveedores" component={Proveedores} />
 
-          <Stack.Screen 
-            name="signup"
-            component={signup}/>
-          
-          <Stack.Screen 
-            name="register"
-            component={register}/>
+            <Stack.Screen name="Ventas" component={Ventas} />
+            <Stack.Screen name="ControlVentas" component={ControlVentas} />
+            <Stack.Screen name="AddRegistroVenta" component={AddRegistroVenta} />
+            <Stack.Screen name="Clientes" component={Clientes} />
 
-          <Stack.Screen 
-            name="Dashboard"
-            component={Dashboard}/>
+            <Stack.Screen name="Sucursales" component={Sucursales} />
 
-          <Stack.Screen 
-          name="Compras" 
-          component={Compras} />
-        <Stack.Screen 
-          name="ControlCompras" 
-          component={ControlCompras}/>
-        <Stack.Screen 
-          name="ControlGastos" 
-          component={ControlGastos}/>
-        <Stack.Screen 
-          name="AddRegistroCompra" 
-          component={AddRegistroCompra}/>
-        <Stack.Screen 
-          name="AddRegistroGasto" 
-          component={AddRegistroGasto}/>
-        <Stack.Screen 
-          name="Proveedores" 
-          component={Proveedores}/>
+            <Stack.Screen name="Almacenes" component={Almacenes} />
+            <Stack.Screen name="AjustesInventario" component={AjustesInventario} />
+            <Stack.Screen name="AddAjustesInventario" component={AddAjustesInventario} />
+            <Stack.Screen name="AlmacenesInfo" component={AlmacenesInfo} />
+            <Stack.Screen name="ExistenciasAlmacen" component={ExistenciasAlmacen} />
 
-        <Stack.Screen 
-          name="Ventas" 
-          component={Ventas}/>
-        <Stack.Screen 
-          name="ControlVentas" 
-          component={ControlVentas}/>
-        <Stack.Screen 
-          name="AddRegistroVenta" 
-          component={AddRegistroVenta}/>
-        <Stack.Screen 
-          name="Clientes" 
-          component={Clientes}/>
-
-        <Stack.Screen 
-          name="Sucursales" 
-          component={Sucursales}/>
-
-        <Stack.Screen 
-          name="Almacenes" 
-          component={Almacenes}/>
-        <Stack.Screen 
-          name="AjustesInventario" 
-          component={AjustesInventario}/>
-        <Stack.Screen 
-          name="AddAjustesInventario" 
-          component={AddAjustesInventario}/>
-        <Stack.Screen 
-          name="AlmacenesInfo" 
-          component={AlmacenesInfo}/>
-        <Stack.Screen 
-          name="ExistenciasAlmacen" 
-          component={ExistenciasAlmacen}/>
-
-        <Stack.Screen 
-          name="ListaDePrecios" 
-          component={ListaDePrecios}/>
-        <Stack.Screen 
-          name="Categorias" 
-          component={Categorias}/>
-
-        </Stack.Navigator>
-      </Suspense>
-    </NavigationContainer>
+            <Stack.Screen name="ListaDePrecios" component={ListaDePrecios} />
+            <Stack.Screen name="Categorias" component={Categorias} />
+          </Stack.Navigator>
+        </Suspense>
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
-
-// En tu archivo principal (App.js)
-import { LogBox } from 'react-native';
-LogBox.ignoreAllLogs(false); // Asegúrate de ver todos los warnings
-
-// Agrega esto temporalmente en el componente que crashea
-console.log('Llegué aquí antes del crash');
-try {
-  // Tu código que posiblemente crashea
-} catch (error) {
-  console.error('Error capturado:', error);
-}
-
-//adb logcat --pid=$(adb shell pidof -s $(adb shell pm list packages | grep -i "masadmin" | cut -d: -f2 | tr -d '\r')) *:S ReactNative:V ReactNativeJS:V AndroidRuntime:E
