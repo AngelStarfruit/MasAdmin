@@ -3,9 +3,13 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image} from 're
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import type { AjustesInventarioScreenProps } from './types';
+import { useTheme } from '../../context/ThemeContext';
 import datos from './datos.json'
 
 export default function AjustesInventario({ navigation }: AjustesInventarioScreenProps ) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
@@ -15,11 +19,11 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
         <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
@@ -27,24 +31,24 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
 
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Ajustes de inventario
         </Text>
         <TouchableHighlight 
-                underlayColor={'#ddd'}
+                underlayColor={colors.cellUnderlay}
                 onPress={() => navigation.navigate("AddAjustesInventario")}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold'}}>Realizar ajuste</Text>
+                    <Text style={{fontWeight: 'bold', color: colors.text}}>Realizar ajuste</Text>
                   </TouchableHighlight>
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Almacen afectado</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.6}]}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Operación</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Fecha de ajuste</Text>
                       </View>
                   </View>
@@ -54,9 +58,9 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                     const [almacenAfectado, operacion, fechaAjuste] = data;
                     return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cell}><Text>{almacenAfectado}</Text></View>
-                      <View style={[styles.cell, {flex: 0.6}]}><Text>{operacion}</Text></View>
-                      <View style={styles.cell}><Text>{fechaAjuste}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{almacenAfectado}</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text style={styles.text}>{operacion}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{fechaAjuste.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
                 </View>
                     )
                 })
@@ -72,13 +76,17 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background,
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -95,19 +103,11 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
   add: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     width: 150,
     marginTop: 10,
     padding: 10,
@@ -122,16 +122,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'black',
-  },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: '#2435f0',},
+  headerText: {fontWeight: 'bold', color: colors.primary,},
 });

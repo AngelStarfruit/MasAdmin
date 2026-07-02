@@ -54,9 +54,9 @@ export default function Dashboard({navigation}: homeScreenProps ) {
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
-                      underlayColor={'#ddd'} style={styles.modalOK}
+                      underlayColor={colors.regretUnderlay} style={styles.modalOK}
                         onPress={() => setModalVisible(!modalVisible)}>
-                        <Text>OK</Text>
+                        <Text style={{color: colors.text}}>OK</Text>
                       </TouchableHighlight>
                       </View>
         
@@ -168,6 +168,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     fontSize: 20,
     paddingBottom: 20,
     textAlign: 'justify',
+    color: colors.text
   },
    hr:{
     height: 2, 

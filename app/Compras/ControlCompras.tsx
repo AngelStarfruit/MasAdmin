@@ -3,9 +3,13 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } 
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
 import { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 import datos from './datos.json'
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
@@ -15,11 +19,11 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
   
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddd"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
             <Image source={getImage('B')} style={styles.navIconImage}/>
@@ -28,26 +32,26 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
 
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Control de compras
         </Text>
 
         <TouchableHighlight 
-        underlayColor={'#f0f1ff'}
+        underlayColor={colors.cellUnderlay}
         onPress={() => navigation.navigate("AddRegistroCompra")}
         style={styles.add}>
-            <Text style={{fontWeight: 'bold'}}>Añadir registro de compra</Text>
+            <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir registro de compra</Text>
           </TouchableHighlight>
 
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Fecha</Text>
                       </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Total</Text>
+                  <View style={styles.cell}>
+                      <Text style={styles.headerText}>Total gastado</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Proveedor</Text>
                       </View>
                   </View>
@@ -57,9 +61,9 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                   const [fecha, total, proveedor] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cell}><Text>{fecha}</Text></View>
-                      <View style={styles.cell}><Text>{Number(total).toFixed(2)}</Text></View>
-                      <View style={styles.cell}><Text>{proveedor}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{proveedor}</Text></View>
                 </View>
                 )
                 })
@@ -75,13 +79,17 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -98,19 +106,11 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
-  },
   add: {
-    backgroundColor: '#eee',
+    backgroundColor: colors.input,
     width: 200,
     marginTop: 10,
     padding: 10,
@@ -125,16 +125,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'black',
-  },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: '#2435f0',},
+  headerText: {fontWeight: 'bold', color: colors.primary,},
 });

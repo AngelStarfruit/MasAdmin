@@ -4,10 +4,14 @@ import Constants from 'expo-constants';
 import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
+import { NumeroValido, totalVenta, AddElemento, QuitarElemento, registrar } from './backend';
+import {useTheme} from '../../context/ThemeContext';
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenProps) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
     switch (nombre){
@@ -35,6 +39,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
       ([id, data]) => data[4] != "gasto"));
   const almacenes: Record<string, any> = datosA.ALMACENES || {};
   const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
+  const [controlVenta, setControlVenta] = useState(datosC.CONTROL_VENTAS);
 
   //Constantes de pickers
   const [selectedCustomer, setSelectedCustomer] = useState(clientes[Object.keys(clientes)[0]]?.[0] || '');
@@ -60,6 +65,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   //Constantes extra
   const total = totalVenta(processVenta)
   const totalA = totalVenta(processAVenta)
+  const hoy = new Date();
+  const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
 
   //Desabilitar
   const [Off, setOff] = useState(false)
@@ -69,11 +76,11 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddd"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => {
               if (Object.values(processVenta).length > 0 || Object.values(processAVenta).length > 0){
                 setConfirm(true)
@@ -99,7 +106,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#eee'}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                     </TouchableHighlight>
@@ -114,7 +121,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                       <Text style={styles.modalLabel}>Elemento:</Text>
                       <View style={{width:180, height:55}}>
                         <Picker
-                        style={styles.picker}
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => {
                           setSelectedProduct(itemValue);
@@ -151,7 +158,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
-                    underlayColor={'#82ff92'} style={styles.modalConfirm}
+                    underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
                           const validation = NumeroValido(cantidad);
                             if (!validation.isValid) {
@@ -161,7 +168,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                             setProcessVenta(AddElemento(processVenta,idP,String(selectedProduct),String(productMarca),Number(productCosto),Number(cantidad)))
                             setIdP(idP + 1); setCantidad('')
                             setModalVisible(!modalVisible)}}>
-                      <Text>Agregar</Text>
+                      <Text style={styles.text}>Agregar</Text>
                     </TouchableHighlight>
                   </View>
       
@@ -188,17 +195,19 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
+                                            setIdP(Object.keys(controlVenta).length + 1)
+                                            setControlVenta(registrar(controlVenta,idP,hoyStr,Number(totalA),selectedCustomer))
                                             navigation.navigate("ControlVentas")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -225,17 +234,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlVentas")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -246,7 +255,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
       {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Realizar venta
         </Text>
 
@@ -316,24 +325,24 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     
                     {Object.entries(processVenta).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{descripcion}</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{descripcion}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{marca}</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                    <Text>{Number(costo).toFixed(2)}$</Text>
+                    <View style={[styles.cell, {flex: 0.8}]}>
+                    <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                      <Text>{cantidad}</Text>
+                      <View style={[styles.cell, {flex: 0.8}]}>
+                      <Text style={styles.text}>{cantidad}</Text>
                       </View>
-                      <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.2}]}>
+                      <View style={[styles.cell, {flex: 0.2}]}>
                           <TouchableHighlight
                           style={{height:20, width:20}}
                           onPress={()=> {
                             setProcessVenta(QuitarElemento(processVenta,Number(id)))}}
-                        underlayColor={"#ffa6a6"}
+                        underlayColor={colors.deleteUnderlay}
                         >
                         <Image source={getImage('xr')} style={styles.navIconImage} />
                         </TouchableHighlight>
@@ -346,14 +355,14 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   disabled={Off}
                   onPress={() => setModalVisible(true)}
                   style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   disabled={Off}
                   onPress={() => {
                     if (Object.keys(processVenta).length > 0){
@@ -366,13 +375,13 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <Text style={styles.buttonText}>Enviar</Text>
               </TouchableHighlight>
               </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical:10 }}>
-        Total: {total}$
+        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical:10, color: colors.text }}>
+        Total a ganar: {total}$
         </Text>
 
         <View style={[styles.hr, {marginTop: 15}]}></View>
 
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
         Envios desde el almacén
         </Text>
 
@@ -417,17 +426,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <ScrollView style={styles.showcase}>
                    {Object.entries(processAVenta).map(([id, [descripcion, marca, costo, cantidad]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{descripcion}</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{descripcion}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{marca}</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                    <Text>{Number(costo).toFixed(2)}$</Text>
+                    <View style={[styles.cell, { flex: 0.8}]}>
+                    <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.8}]}>
-                      <Text>{cantidad}</Text>
+                      <View style={[styles.cell, { flex: 0.8}]}>
+                      <Text style={styles.text}>{cantidad}</Text>
                       </View>
                       </View>
                     ))}  
@@ -437,7 +446,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <View style={{flexDirection: 'row', justifyContent: 'center',
             marginTop: 10,}}>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   onPress={() => {
                     if(Object.values(processAVenta).length > 0){
                       setReceive(true)
@@ -447,7 +456,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <Text style={styles.buttonText}>Aplicar cambios</Text>
               </TouchableHighlight>
               </View>
-              <Text style={{  fontSize: 25, fontWeight: 'bold', marginTop:10, marginBottom: 50 }}>
+              <Text style={{  fontSize: 25, fontWeight: 'bold', marginTop:10, marginBottom: 50, color: colors.text }}>
         Total: {totalA}$
         </Text>
         
@@ -457,13 +466,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -480,7 +493,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   row: {
@@ -491,9 +504,10 @@ const styles = StyleSheet.create({
     fontSize: 20, 
     paddingVertical: 5, 
     fontWeight: 'bold',
+    color: colors.text,
   },
   button: {
-    backgroundColor: '#656fff',
+    backgroundColor: colors.primary,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -502,7 +516,7 @@ const styles = StyleSheet.create({
   },
   buttonOff: {
     opacity: 0.8, shadowOpacity: 0.8,
-    backgroundColor: '#656fff',
+    backgroundColor: colors.primary,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -511,7 +525,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: colors.background,
     textAlign: 'center',
   },
   //Tabla estilos
@@ -521,28 +535,30 @@ const styles = StyleSheet.create({
   tableRow: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#c2c6ff', 
+    backgroundColor: colors.headerCell, 
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   showcase: {
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.secondary,
+    borderColor: colors.border,
   },
   headerText: {
     fontWeight: 'bold',
+    color: colors.text,
   },
   //------------------
   picker: {
     height: 55,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee', color: 'black',
+    backgroundColor: colors.input, color: colors.text,
   },
   pickerItem: {
     fontSize: 16,
@@ -557,7 +573,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -565,15 +581,15 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text,
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   input: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -587,7 +603,7 @@ const styles = StyleSheet.create({
     fontSize: 20, fontWeight: 'bold',
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -596,7 +612,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -605,7 +621,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,

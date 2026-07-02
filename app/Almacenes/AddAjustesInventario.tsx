@@ -4,10 +4,14 @@ import Constants from 'expo-constants';
 import type { AddAjustesInventarioScreenProps, AjusteInventario } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, AddElemento, QuitarElemento } from './backend';
+import { NumeroValido, AddElemento, QuitarElemento, registrar } from './backend';
+import { useTheme } from '../../context/ThemeContext';
 import datos from '../datos.json'; import datosA from './datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
     switch (nombre){
@@ -34,6 +38,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
+  const [controlAjusteInventario, setControlAjusteInventario] = useState(datosA.AJUSTES_INVENTARIO);
 
     //Constantes de pickers
   const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
@@ -53,16 +58,20 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   setAlmacenesMostrados(almacenesFiltrados);
 }, [selectedBranch]);
 
+  //Constantes extra
+  const hoy = new Date();
+  const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+
    //ID
   const [idP, setIdP] = useState(1);
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddd"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => {
               if (Object.values(processAjusteInventario).length > 0){
               setConfirm(true)
@@ -88,7 +97,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#eee'}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                     </TouchableHighlight>
@@ -103,7 +112,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                       <Text style={styles.modalLabel}>Producto:</Text>
                       <View style={{width:150, height:55}}>
                         <Picker
-                        style={styles.picker}
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => setSelectedProduct(itemValue)}
                         >                
@@ -131,7 +140,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
-                    underlayColor={'#82ff92'} style={styles.modalConfirm}
+                    underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
                         const validation = NumeroValido(cantidad);
                             if (!validation.isValid) {
@@ -141,7 +150,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                       setProcessAjusteInventario(AddElemento(processAjusteInventario, idP, String(selectedProduct), Number(cantidad)))
                       setIdP(idP + 1); setCantidad('')
                       setModalVisible(!modalVisible)}}>
-                      <Text>Agregar</Text>
+                      <Text style={styles.text}>Agregar</Text>
                     </TouchableHighlight>
                   </View>
       
@@ -168,17 +177,19 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
+                                            setIdP(Object.keys(controlAjusteInventario).length + 1)
+                                            setControlAjusteInventario(registrar(controlAjusteInventario,idP,selectedStore,selectedOperation,hoyStr))
                                             navigation.navigate("AjustesInventario")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -205,17 +216,17 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("AjustesInventario")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -226,7 +237,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
       {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text}}>
         Realizar ajuste
         </Text>
 
@@ -303,19 +314,19 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   
                   {Object.entries(processAjusteInventario).map(([id, [descripcion, cantidad]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                        <Text>{descripcion}</Text>
+                    <View style={styles.cell}>
+                        <Text style={styles.text}>{descripcion}</Text>
                         </View>
-                        <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                        <Text>{cantidad}</Text>
+                        <View style={styles.cell}>
+                        <Text style={styles.text}>{cantidad}</Text>
                         </View>
-                          <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.15}]}>
+                          <View style={[styles.cell, {flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                              onPress={()=> {
                               setProcessAjusteInventario(QuitarElemento(processAjusteInventario, Number(id)))
                             }}
-                             underlayColor={"#ffa6a6"}
+                             underlayColor={colors.deleteUnderlay}
                             >
                             <Image source={getImage('xr')} style={styles.navIconImage} />
                             </TouchableHighlight>
@@ -328,13 +339,13 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   onPress={() => setModalVisible(true)}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   onPress={() => {
                     if(Object.keys(processAjusteInventario).length > 0){
                       setReceive(true);
@@ -351,13 +362,17 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text: {
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -374,7 +389,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   row: {
@@ -385,9 +400,10 @@ const styles = StyleSheet.create({
     fontSize: 20, 
     paddingVertical: 5, 
     fontWeight: 'bold',
+    color: colors.text
   },
   button: {
-    backgroundColor: '#656fff',
+    backgroundColor: colors.primary,
     width: 150,
     padding: 10,
     borderRadius: 20,
@@ -396,7 +412,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: colors.background,
     textAlign: 'center',
   },
   //Tabla estilos
@@ -406,28 +422,29 @@ const styles = StyleSheet.create({
   tableRow: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#c2c6ff', 
+    backgroundColor: colors.headerCell, 
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   showcase: {
-    backgroundColor: '#e3e5ff',
+    backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.secondary,
+    borderColor: colors.border
   },
   headerText: {
-    fontWeight: 'bold',
+    fontWeight: 'bold', color: colors.text
   },
   //------------------
   picker: {
     height: 55,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee', color: 'black',
+    backgroundColor: colors.input, color: colors.text,
   },
   pickerItem: {
     fontSize: 16,
@@ -442,7 +459,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -450,15 +467,15 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   input: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -469,10 +486,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
+    fontSize: 20, fontWeight: 'bold', color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -481,7 +498,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -490,7 +507,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,

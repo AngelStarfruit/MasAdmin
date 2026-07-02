@@ -67,6 +67,13 @@ export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
 };
+//Función para realizar un registro
+export const registrar = (data: any, id: number, fecha: string, total: number, cliente: string) => {
+  return {
+    ...data,
+    [id]: [fecha, total, cliente]
+  };
+};
   //-----------------------FUNCIONES Clientes----------------------------------------------
 //Función para agregar un cliente
 export const AddCliente = (data: any, id: number, nombre: string, telefono: string, ciudad: string, estado: string,) => {

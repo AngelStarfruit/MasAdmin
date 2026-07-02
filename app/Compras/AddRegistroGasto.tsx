@@ -4,10 +4,14 @@ import Constants from 'expo-constants';
 import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { totalGasto, AddGasto, QuitarElemento } from './backend';
-import datosP from './datos.json'; import datos from '../datos.json'
+import { totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
+import { useTheme } from '../../context/ThemeContext';
+import datosP from './datos.json'; import datos from '../datos.json';
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
+
+  const { theme, colors } = useTheme();
+      const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
     switch (nombre){
@@ -32,6 +36,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   const gastos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "gasto"));
+  const [controlGasto, setControlGasto] = useState(datosP.CONTROL_GASTOS);
 
   //Constantes de pickers
   const [selectedProvider, setSelectedProvider] = useState(proveedores[Object.keys(proveedores)[0]]?.[0] || '');
@@ -39,17 +44,20 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
   //Constantes extras
   const total = totalGasto(processGasto)
+  
+  const hoy = new Date();
+  const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
 
   //ID
   const [idP, setIdP] = useState(1);
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
             <TouchableHighlight
-            underlayColor={"#ddd"} style={styles.navIcons}
+            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => {
               if (Object.values(processGasto).length > 0){
               setConfirm(true)
@@ -75,7 +83,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={'#ddd'}
+                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Image source={getImage('x')} style={styles.lupaImage}/>
                     </TouchableHighlight>
@@ -90,7 +98,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                       <Text style={styles.modalLabel}>Gasto:</Text>
                       <View style={{width:180, height:55}}>
                         <Picker
-                        style={styles.picker}
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedGasto}
                         onValueChange={(itemValue) => setSelectedGasto(itemValue)}
                         >
@@ -118,12 +126,12 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
-                    underlayColor={'#82ff92'} style={styles.modalConfirm}
+                    underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
                             setProcessGasto(AddGasto(processGasto,idP,String(selectedGasto),Number(costo)))
                             setIdP(idP + 1); 
                             setModalVisible(!modalVisible)}}>
-                      <Text>Agregar</Text>
+                      <Text style={styles.text}>Agregar</Text>
                     </TouchableHighlight>
                   </View>
       
@@ -150,17 +158,19 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#82ff92'} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
+                                            setIdP(Object.keys(controlGasto).length + 1)
+                                            setControlGasto(registrar(controlGasto,idP,hoyStr,Number(total),selectedProvider))
                                             navigation.navigate("ControlGastos")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -187,17 +197,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={'#ddd'} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text>NO</Text>
+                                          <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={'#ff9797'} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlGastos")
                                           }}>
-                                          <Text>SÍ</Text>
+                                          <Text style={styles.text}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -208,7 +218,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
       {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Registrar gasto
         </Text>
 
@@ -251,18 +261,18 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
                     {Object.entries(processGasto).map(([id, [descripcion, costo]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{descripcion}</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{descripcion}</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff'}]}>
-                    <Text>{Number(costo).toFixed(2)}$</Text>
+                    <View style={styles.cell}>
+                    <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
-                    <View style={[styles.cell, {backgroundColor: '#e3e5ff', flex: 0.15}]}>
+                    <View style={[styles.cell, { flex: 0.15}]}>
                         <TouchableHighlight
                         style={{height:20, width:20}}
                         onPress={()=> {
                           setProcessGasto(QuitarElemento(processGasto,Number(id)))}}
-                        underlayColor={"#ffa6a6"}
+                        underlayColor={colors.deleteUnderlay}
                         >
                         <Image source={getImage('xr')} style={styles.navIconImage} />
                         </TouchableHighlight>
@@ -275,13 +285,13 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
           <View style={styles.row}>
           <TouchableHighlight
-                underlayColor={'#5460ff'} 
+                underlayColor={colors.primaryUnderlay} 
                   onPress={() => setModalVisible(true)}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
-                underlayColor={'#5460ff'}
+                underlayColor={colors.primaryUnderlay}
                   onPress={() => {
                     if (Object.keys(processGasto).length > 0){
                       setReceive(true)
@@ -292,8 +302,8 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <Text style={styles.buttonText}>Confirmar</Text>
               </TouchableHighlight>
               </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10 }}>
-        Total: {total}$
+        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10, color: colors.text }}>
+        Total a gastar: {total}$
         </Text>
         
         </View>
@@ -302,13 +312,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -325,7 +339,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
   },
   row: {
@@ -336,9 +350,10 @@ const styles = StyleSheet.create({
     fontSize: 20, 
     paddingVertical: 5, 
     fontWeight: 'bold',
+    color: colors.text
   },
   button: {
-    backgroundColor: '#656fff',
+    backgroundColor: colors.primary,
     borderRadius: 20,
     width: 150,
     padding: 10,
@@ -347,7 +362,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    color: 'white',
+    color: colors.background,
     textAlign: 'center',
   },
   //Tabla estilos
@@ -357,27 +372,30 @@ const styles = StyleSheet.create({
   tableRow: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: '#c2c6ff', 
+    backgroundColor: colors.headerCell, 
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: colors.border,
   },
   showcase: {
-    backgroundColor: '#e3e5ff',
-    maxHeight: 200, minWidth: 200
+    backgroundColor: colors.secondary,
+    maxHeight: 200, minHeight: 200
   },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
+    backgroundColor: colors.secondary,
+    borderColor: colors.border
   },
   headerText: {
     fontWeight: 'bold',
+    color: colors.text
   },
   //------------------
   picker: {
     height: 55,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee', color: 'black',
+    backgroundColor: colors.input, color: colors.text,
   },
   pickerItem: {
     fontSize: 16,
@@ -392,7 +410,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: "white",
+    backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
@@ -400,15 +418,15 @@ const styles = StyleSheet.create({
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: colors.text
   },
    hr:{
     height: 2, 
-    backgroundColor: '#bbb', 
+    backgroundColor: '#777', 
     marginBottom: 15,
   },
   input: {
-    backgroundColor: 'white', color: 'black',
-    borderWidth: 1, borderColor: 'black', 
+    backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 120,
     marginTop: 10,
   },
@@ -420,9 +438,10 @@ const styles = StyleSheet.create({
   },
   modalLabel:{
     fontSize: 20, fontWeight: 'bold',
+    color: colors.text
   },
   modalConfirm: {
-    backgroundColor: '#62ff77',
+    backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -431,7 +450,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
-    backgroundColor: '#ccc',
+    backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
     width: 130,
@@ -440,7 +459,7 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
-    backgroundColor: '#ff8787',
+    backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
     width: 135,

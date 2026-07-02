@@ -4,9 +4,13 @@ import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 import { useState, useEffect} from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
+import { useTheme } from '../../context/ThemeContext';
 import datosS from '../datos.json'; import datosA from './datos.json';
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
+
+  const { theme, colors } = useTheme();
+    const styles = getStyles(colors);
 
   const getImage = (nombre: any) => {
    return require('../../assets/B.png');
@@ -44,11 +48,11 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
         <TouchableHighlight
-        underlayColor={"#ddf"} style={styles.navIcons}
+        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
         <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
@@ -56,10 +60,10 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
 
       <ScrollView>
         <View style={styles.scroll}>
-        <Text style={{  fontSize: 25, fontWeight: 'bold' }}>
+        <Text style={{  color: colors.text, fontSize: 25, fontWeight: 'bold' }}>
         Existencias por almacén
         </Text>
-        <Text style={{ 
+        <Text style={{ color: colors.text,
           fontSize: 15, 
           paddingVertical: 10,}}>
           Inserte una sucursal
@@ -82,7 +86,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                 <Picker.Item label="-" value="" />
                 )}
           </Picker>
-        <Text style={{ 
+        <Text style={{ color: colors.text,
           fontSize: 15, 
           paddingVertical: 10,}}>
           Inserte un almacén para ver sus existencias
@@ -107,16 +111,16 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
           </Picker>
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Poducto</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Precio</Text>
                       </View>
                   </View>
@@ -127,10 +131,10 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                   const [descripcion, marca, cantidad, precio] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cell}><Text>{descripcion}</Text></View>
-                      <View style={styles.cell}><Text>{marca}</Text></View>
-                      <View style={styles.cell}><Text>{cantidad}</Text></View>
-                      <View style={styles.cell}><Text>{Number(precio).toFixed(2)}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{descripcion}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{cantidad}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{Number(precio).toFixed(2)}</Text></View>
                 </View>
                 )
                 })
@@ -146,13 +150,17 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
   );
 }
 
-const styles = StyleSheet.create({
+const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
+    backgroundColor: colors.background
+  },
+  text:{
+    color: colors.text
   },
   navigation: {
-    backgroundColor: "white",
+    backgroundColor: colors.navBackground,
     flexDirection: 'row',
     paddingHorizontal: 10,
   },
@@ -166,16 +174,8 @@ const styles = StyleSheet.create({
   },
   scroll: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.scrollBackground,
     padding: 18,
-  },
-  box: {
-    flex: 1,
-    textAlign: 'center',
-    backgroundColor: '#e3e5ff',
-    fontWeight: 'bold', fontSize: 20, color: '#2435f0',
-    paddingVertical: 40, marginVertical: 10,
-    borderRadius: 10,
   },
   //Tabla estilos
   table: {
@@ -184,25 +184,20 @@ const styles = StyleSheet.create({
     shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'black',
-  },
   cell: {
     flex: 1, padding: 6,
     borderWidth: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.background,
+    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: '#2435f0',},
+  headerText: {fontWeight: 'bold', color: colors.primary,},
   //---------------
   picker: {
     height: 55,
     marginLeft: 10,
     flex: 1,
-    backgroundColor: '#eee',
-    color: 'black',
+    backgroundColor: colors.input,
+    color: colors.text,
   },
   pickerItem: {
     fontSize: 16,

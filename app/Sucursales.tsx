@@ -413,7 +413,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.input,
      borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: 'white'},
+  headerText: {fontWeight: 'bold', color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,

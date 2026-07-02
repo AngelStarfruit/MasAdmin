@@ -63,6 +63,13 @@ export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
 };
+//Función para realizar un registro
+export const registrar = (data: any, id: number, almacen: string, operacion: string, fecha: string) => {
+  return {
+    ...data,
+    [id]: [almacen, operacion, fecha]
+  };
+};
 //-----------------------FUNCIONES AlmacenesInfo----------------------------------------------
 //Función para agregar un almacén
 export const AddAlmacen = (data: any, id: number, almacen: string, sucursal: string) => {

@@ -55,6 +55,7 @@ export const totalCompra = (data: any) => {
 
   return total.toFixed(2);
 };
+//Función para obtener el total del gasto
 export const totalGasto = (data: any) => {
   let total = 0
   const claves = Object.keys(data)
@@ -83,6 +84,13 @@ export const AddGasto = (data: any, id: number, elemento: string, costo: number)
 export const QuitarElemento = (data: any, id: number) => {
   const newData = { ...data }; delete newData[id];
   return newData;
+};
+//Función para realizar un registro
+export const registrar = (data: any, id: number, fecha: string, total: number, proveedor: string) => {
+  return {
+    ...data,
+    [id]: [fecha, total, proveedor]
+  };
 };
 //-----------------------FUNCIONES Proveedores----------------------------------------------
 //Función para agregar un proveedor
