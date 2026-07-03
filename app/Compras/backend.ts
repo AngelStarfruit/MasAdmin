@@ -43,6 +43,20 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
+//Valida que en los inputs numéricos haya un número positivo válido.
+export const CostoValido = (costo: string): { isValid: boolean; message?: string } => {
+
+    if (!costo.trim()) {
+    return { isValid: false, message: 'Por favor, ingrese un costo.'};
+    }
+    
+    const num = Number(costo);
+    if (isNaN(num) || num <= 0){
+        return { isValid: false, message: 'Entrada no válida.'};
+    }
+
+    return { isValid: true };
+}
 //-----------------------FUNCIONES AddRegistroCompra y AddRegistroGasto-----------------------
 //Función para obtener el total de la compra
 export const totalCompra = (data: any) => {

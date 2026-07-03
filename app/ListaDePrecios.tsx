@@ -6,25 +6,13 @@ import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-  switch(nombre) {
-    case 'C': return require('../assets/C.png');
-    case 'V': return require('../assets/V.png');
-    case 'S': return require('../assets/S.png');
-    case 'D': return require('../assets/D.png');
-    case 'A': return require('../assets/A.png');
-    case '$': return require('../assets/$.png');
-    case 'xr': return require('../assets/xred.png');
-    default: return require('../assets/x.png');
-    }
-  }
 
   //Constantes de inputs
   const [descripcion, setDescripcion] = useState('');
@@ -111,41 +99,41 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={getImage('D')} style={styles.navIconImage} />
+        <Ionicons name="grid-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={getImage('C')} style={styles.navIconImage} />
+        <Ionicons name="cart-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={getImage('V')} style={styles.navIconImage} />
+        <Ionicons name="cash-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Image source={getImage('S')} style={styles.navIconImage} />
+        <Ionicons name="business-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={getImage('A')} style={styles.navIconImage} />
+        <Ionicons name="cube-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
         <TouchableHighlight
         style={styles.navIconsS} 
       >
-        <Image source={getImage('$')} style={styles.navIconImage} />
+        <Ionicons name="pricetag-outline" size={20} color={colors.text} />
       </TouchableHighlight>
 
     </View>
@@ -166,7 +154,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -311,7 +299,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -438,7 +426,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setNewPaquete(!NewPaquete)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -480,7 +468,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={colors.deleteUnderlay}
                             >
-                               <Image source={getImage('xr')} style={styles.navIconImage} />
+                               <Ionicons name="close" size={20} color='red' />
                             </TouchableHighlight>
                             </View>
                           </View>
@@ -533,7 +521,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setPaquete(!Paquete)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -576,7 +564,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={colors.deleteUnderlay}
                             >
-                               <Image source={getImage('xr')} style={styles.navIconImage} />
+                               <Ionicons name="close" size={20} color='red' />
                             </TouchableHighlight>
                             </View>
                           </View>
@@ -643,7 +631,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                            style={{height: 30, width: 30, alignItems: "flex-end"}}
                           underlayColor={colors.scrollBackground}
                           onPress={() => setAlterPaquete(!AlterPaquete)}>
-                          <Image source={getImage('x')} style={styles.lupaImage}/>
+                         <Ionicons name="close" size={20} color={colors.text} />
                           </TouchableHighlight>
                         </View>
             
@@ -706,7 +694,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
-          Lista de precios
+          <Ionicons name="pricetag" size={25} color={colors.text} /> Lista de precios
         </Text>
         <Text style={{color: colors.text ,
           fontSize: 15, 
@@ -849,12 +837,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalVenta, AddElemento, QuitarElemento, registrar } from './backend';
 import {useTheme} from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenProps) {
@@ -13,13 +14,6 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
 
-  const getImage = (nombre: any) => {
-    switch (nombre){
-      case 'B': return require('../../assets/B.png');
-      case 'xr': return require('../../assets/xred.png');
-      default: return require('../../assets/x.png');
-   }
-  }
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
@@ -89,7 +83,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
               else navigation.navigate("ControlVentas")
               }}
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -109,7 +103,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -373,7 +367,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                             setProcessVenta(QuitarElemento(processVenta,Number(id)))}}
                         underlayColor={colors.deleteUnderlay}
                         >
-                        <Image source={getImage('xr')} style={styles.navIconImage} />
+                        <Ionicons name="close" size={20} color='red' />
                         </TouchableHighlight>
                       </View>
                       </View>

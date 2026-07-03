@@ -3,23 +3,13 @@ import { StyleSheet, Text, View, TouchableHighlight, Image, Alert } from 'react-
 import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Compras({ navigation }: ComprasScreenProps ) {
 
    const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-  switch(nombre) {
-    case 'C': return require('../../assets/C.png');
-    case 'V': return require('../../assets/V.png');
-    case 'S': return require('../../assets/S.png');
-    case 'D': return require('../../assets/D.png');
-    case 'A': return require('../../assets/A.png');
-    default: return require('../../assets/$.png');
-    }
-  }
 
    //JSONs de datos
   const proveedores = (datosP.PROVEEDORES || {});
@@ -41,43 +31,43 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={getImage('D')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Image source={getImage('C')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={getImage('V')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Sucursales")} 
       >
-        <Image source={getImage('S')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={getImage('A')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="cube-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Image source={getImage('$')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="pricetag-outline" size={20} color={colors.text} /></TouchableHighlight>
 
     </View>
       
         <View style={styles.space}>
 
         <Text style={{ fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
-          Compras
+         <Ionicons name="cart" size={25} color={colors.text} />  Compras
           </Text>
           <Text style={{ fontSize: 20, color: colors.text}}>
           Seleccione una sección:
@@ -139,9 +129,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
-  },
-  navIconImage: {
-    width: 20, height: 20,
   },
   space: {
     flex: 1,

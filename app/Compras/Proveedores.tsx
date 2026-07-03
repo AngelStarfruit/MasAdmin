@@ -6,20 +6,13 @@ import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, QuitarElemento, AddProveedor } from './backend';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-  switch(nombre) {
-    case 'B': return require('../../assets/B.png');
-    case 'x': return require('../../assets/x.png');
-    default: return require('../../assets/lupa.png');
-    }
-  }
 
   //Constantes de inputs
   const [empresa, setEmpresa] = useState('');
@@ -52,7 +45,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")} 
       >
-        <Image source={getImage('B')} style={styles.navIconImage}/>
+        <Ionicons name="arrow-back" size={25} color={colors.text} />
       </TouchableHighlight>
     </View>
 
@@ -80,7 +73,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               style={{height: 30, width: 30, alignItems: "flex-end"}}
               underlayColor={colors.scrollBackground}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Image source={getImage('x')} style={styles.lupaImage}/>
+              <Ionicons name="close" size={20} color={colors.text} />
               </TouchableHighlight>
             </View>
 
@@ -159,7 +152,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               style={{height: 30, width: 30, alignItems: "flex-end"}}
               underlayColor={colors.scrollBackground}
               onPress={() => setEModalVisible(!EmodalVisible)}>
-              <Image source={getImage('x')} style={styles.lupaImage}/>
+              <Ionicons name="close" size={20} color={colors.text} />
               </TouchableHighlight>
             </View>
 
@@ -234,7 +227,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setBusqueda(!Busqueda)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                     <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -363,7 +356,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                     setBusqueda(true)
                   }}
                   style={{...styles.add, width: 40, padding: 10}}>
-                  <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                  <Ionicons name="search" size={20} color={colors.text} />
                   </TouchableHighlight>
 
                   </View>
@@ -438,12 +431,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

@@ -5,16 +5,13 @@ import Constants from 'expo-constants';
 import { useState, useEffect} from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datosS from '../datos.json'; import datosA from './datos.json';
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-   return require('../../assets/B.png');
-  }
 
   //JSONs para datos
   const sucursales: Record<string, any> = datosS.SUCURSALES || {}
@@ -55,7 +52,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={getImage('B')} style={styles.navIconImage} /></TouchableHighlight>
+        <Ionicons name="arrow-back" size={25} color={colors.text} /></TouchableHighlight>
     </View>
 
       <ScrollView>
@@ -168,9 +165,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
   },
   scroll: {
     flex: 1,

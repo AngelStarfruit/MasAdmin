@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, AddUsuario } from './backend';
 import type { registerScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
 export default function Dashboard({navigation}: registerScreenProps ) {
@@ -34,13 +35,6 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   const [hidePassword, setHidePassword] = useState(true)
 
-   const getImage = (nombre: any) => {
-    switch(nombre) {
-      case 'B': return require('../assets/BL.png');
-      default: return require('../assets/ojo.png');
-    }
-  }
-
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -50,7 +44,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
         underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
+        <Ionicons name="arrow-back" size={25} color={colors.background} />
         </TouchableHighlight>
     </View>
 
@@ -130,7 +124,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                   secureTextEntry={hidePassword} />
                   <TouchableOpacity 
                   onPress={() => setHidePassword(!hidePassword)}>
-                  <Image source={getImage('ojo')} style={{ width: 20, height: 20, opacity: 0.5 }} />
+                  <Ionicons name={hidePassword ? "eye-outline" : "eye-off-outline"} size={20} color="#777" />  
                   </TouchableOpacity>
                   </View>
             </View>

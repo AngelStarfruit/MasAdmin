@@ -6,20 +6,13 @@ import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, AddElemento, QuitarElemento, registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from '../datos.json'; import datosA from './datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddAjustesInventarioScreenProps) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-    switch (nombre){
-      case 'B': return require('../../assets/B.png');
-      case 'xr': return require('../../assets/xred.png');
-      default: return require('../../assets/x.png');
-   }
-  }
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -86,7 +79,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
               else navigation.navigate("AjustesInventario")
             }}
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -106,7 +99,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -376,7 +369,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                             }}
                              underlayColor={colors.deleteUnderlay}
                             >
-                            <Image source={getImage('xr')} style={styles.navIconImage} />
+                            <Ionicons name="close" size={20} color='red' />
                             </TouchableHighlight>
                             </View>
                         </View>
@@ -428,12 +421,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

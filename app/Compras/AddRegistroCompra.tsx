@@ -6,20 +6,13 @@ import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
 
   const { theme, colors } = useTheme();
       const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-    switch (nombre){
-      case 'B': return require('../../assets/B.png');
-      case 'xr': return require('../../assets/xred.png');
-      default: return require('../../assets/x.png');
-   }
-  }
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -90,7 +83,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
               else navigation.navigate("ControlCompras")
             }}
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -110,7 +103,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -377,7 +370,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                           setProcessCompra(QuitarElemento(processCompra,Number(id)))}}
                         underlayColor={colors.deleteUnderlay}
                         >
-                        <Image source={getImage('xr')} style={styles.navIconImage} />
+                        <Ionicons name="close" size={20} color='red' />
                         </TouchableHighlight>
                         </View>
                       </View>
@@ -526,12 +519,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

@@ -4,22 +4,15 @@ import Constants from 'expo-constants';
 import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
+import { CostoValido, totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datosP from './datos.json'; import datos from '../datos.json';
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
 
   const { theme, colors } = useTheme();
       const styles = getStyles(colors);
-
-  const getImage = (nombre: any) => {
-    switch (nombre){
-      case 'B': return require('../../assets/B.png');
-      case 'xr': return require('../../assets/xred.png');
-      default: return require('../../assets/x.png');
-   }
-  }
 
   //Constantes de inputs
   const [costo, setCosto] = useState('');
@@ -65,7 +58,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
               else navigation.navigate("ControlGastos")
             }}
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -85,7 +78,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -134,6 +127,11 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
+                        const validation = CostoValido(costo);
+                      if (!validation.isValid) {
+                      Alert.alert('Error', validation.message);
+                      return;
+                        }
                             setProcessGasto(AddGasto(processGasto,idP,String(selectedGasto),Number(costo)))
                             setIdP(idP + 1); 
                             setModalVisible(!modalVisible)}}>
@@ -286,7 +284,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                           setProcessGasto(QuitarElemento(processGasto,Number(id)))}}
                         underlayColor={colors.deleteUnderlay}
                         >
-                        <Image source={getImage('xr')} style={styles.navIconImage} />
+                        <Ionicons name="close" size={20} color='red' />
                         </TouchableHighlight>
                         </View>
                       </View>
@@ -342,12 +340,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

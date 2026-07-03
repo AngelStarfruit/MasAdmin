@@ -5,6 +5,7 @@ import type { CategoriasScreenProps, single } from './types';
 import { useState } from 'react';
 import { NoEmojis, Validar, AddCategoria, QuitarElemento } from './backend';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'; 
 
 export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) {
@@ -12,13 +13,6 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
    const { theme, colors } = useTheme();
   const styles = getStyles(colors);
 
-  const getImage = (nombre: any) => {
-    switch (nombre){
-      case 'B': return require('../assets/B.png');
-      case 'lupa': return require('../assets/lupa.png');
-      default: return require('../assets/x.png');
-   }
-  }
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEVisible, setModalEVisible] = useState(false);
@@ -44,7 +38,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -64,7 +58,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -114,7 +108,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalEVisible(!modalEVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -249,7 +243,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                   }
                 }}
                 style={{...styles.add, width: 40, padding: 10}}>
-                <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                <Ionicons name="search" size={20} color={colors.text} />
                 </TouchableHighlight>
                 </View></View>
         
@@ -304,12 +298,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

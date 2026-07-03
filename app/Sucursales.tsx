@@ -5,25 +5,13 @@ import { useState } from 'react';
 import { NoEmojis, Validar, QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
    const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-  
-  const getImage = (nombre: any) => {
-  switch(nombre) {
-    case 'C': return require('../assets/C.png');
-    case 'V': return require('../assets/V.png');
-    case 'S': return require('../assets/S.png');
-    case 'D': return require('../assets/D.png');
-    case 'A': return require('../assets/A.png');
-    case '$': return require('../assets/$.png');
-    case 'x': return require('../assets/x.png');
-    default: return require('../assets/lupa.png');
-    }
-  }
 
   //Inputs
   const [sucursal, setSucursal] = useState('');
@@ -51,36 +39,36 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Image source={getImage('D')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")}
       >
-        <Image source={getImage('C')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Image source={getImage('V')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
         style={styles.navIconsS}
       >
-        <Image source={getImage('S')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Image source={getImage('A')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="cube-outline" size={20} color={colors.text} /></TouchableHighlight>
 
         <TouchableHighlight
         underlayColor={colors.navIconUnderlay} style={styles.navIcons}
         onPress={() => navigation.navigate("ListaDePrecios")} 
       >
-        <Image source={getImage('$')} style={styles.navIconImage}/></TouchableHighlight>
+        <Ionicons name="pricetag-outline" size={20} color={colors.text} /></TouchableHighlight>
 
     </View>
 
@@ -100,7 +88,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.input}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -159,7 +147,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.input}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Image source={getImage('x')} style={styles.lupaImage}/>
+                      <Ionicons name="close" size={20} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -248,8 +236,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
     {/*ScrollView*/}
       <ScrollView>
         <View style={styles.scroll}>
+          
         <Text style={{  fontSize: 25, fontWeight: 'bold' ,color: colors.text}}>
-        Sucursales
+        <Ionicons name="business" size={25} color={colors.text} /> Sucursales
         </Text>
 
         <Text style={{ 
@@ -270,7 +259,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           </TouchableHighlight>
 
             <View style={styles.row}>
-                    <TextInput style={[styles.query,{borderWidth: 1 }]}
+                    <TextInput style={styles.query}
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
@@ -288,7 +277,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     }
                    }}
                     style={{...styles.add, width: 40, padding: 10}}>
-                    <Image source={getImage('lupa')} style={styles.lupaImage}/>
+                    <Ionicons name="search" size={20} color={colors.text} />
                    </TouchableHighlight>
                     </View>
 
@@ -361,12 +350,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

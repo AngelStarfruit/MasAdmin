@@ -30,13 +30,6 @@ export default function Dashboard({ navigation }: signupScreenProps) {
   const [textVisible, setTextVisible] = useState(0);
   const [hidePassword, setHidePassword] = useState(true);
 
-  const getImage = (nombre: any) => {
-    switch (nombre) {
-      case 'B': return require('../assets/BL.png');
-      default: return require('../assets/ojo.png');
-    }
-  };
-
   return (
     <View style={styles.container}>
       <StatusBar style={theme === 'oscuro' ? 'dark' : 'light'} />
@@ -47,7 +40,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
           style={styles.navButton}
           onPress={() => navigation.navigate("home")}
         >
-          <Image source={getImage('B')} style={{ width: 20, height: 20 }} />
+          <Ionicons name="arrow-back" size={25} color={colors.background} />
         </TouchableHighlight>
       </View>
 
@@ -84,7 +77,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                 <TouchableOpacity
                   onPress={() => setHidePassword(!hidePassword)}
                 >
-                  <Image source={getImage('ojo')} style={{ width: 20, height: 20, opacity: 0.5 }} />
+                  <Ionicons name={hidePassword ? "eye-outline" : "eye-off-outline"} size={20} color="#777" />  
                 </TouchableOpacity>
               </View>
             </View>

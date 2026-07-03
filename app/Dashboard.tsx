@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento, AddUsuario } from './backend';
 import type { DashboardScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json';
 import datosV from './Ventas/datos.json'; import datosC from './Compras/datos.json';
 
@@ -247,21 +248,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     }
   }, [selectedValue, ventasHoy, comprasHoy, gastosHoy, ventasSemana, comprasSemana, gastosSemana, ventasMes, comprasMes, gastosMes, ventasAnio, comprasAnio, gastosAnio]);
 
-  
-
-  const getImage = (nombre: any) => {
-    switch(nombre) {
-      case 'C': return require('../assets/C.png');
-      case 'V': return require('../assets/V.png');
-      case 'S': return require('../assets/S.png');
-      case 'D': return require('../assets/D.png');
-      case 'A': return require('../assets/A.png');
-      case '$': return require('../assets/$.png');
-      case 'x': return require('../assets/x.png');
-      default: return require('../assets/config.png');
-    }
-  }
-
   return (
     <View style={styles.container}>
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
@@ -281,7 +267,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
                 underlayColor={colors.scrollBackground}
                 onPress={() => setModalVisible(!modalVisible)}>
-                <Image source={getImage('x')} style={styles.lupaImage}/>
+                <Ionicons name="close" size={20} color={colors.text} />
               </TouchableHighlight>
             </View>
             
@@ -295,7 +281,11 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                <TouchableHighlight
                  underlayColor={colors.optionUnderlay} style={styles.modalOption}
                   onPress={toggleTheme}>
-                  <Text style={styles.text}>Modo {theme === 'claro' ? 'Oscuro' : 'Claro'}</Text>
+                  <Text style={styles.text}>Cambiar a modo {theme === 'claro' ? 'oscuro' : 'claro'}{' '}
+                    {theme === 'claro' ? 
+                    <Ionicons name="moon" size={15} color={colors.text} /> : 
+                    <Ionicons name="sunny" size={15} color={colors.text} />}
+                    </Text>
                 </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
@@ -337,7 +327,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setUserModalVisible(!userModalVisible)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -489,7 +479,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalEvento(!modalEvento)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -579,7 +569,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalEditEvento(!modalEditEvento)}>
-                    <Image source={getImage('x')} style={styles.lupaImage}/>
+                    <Ionicons name="close" size={20} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -713,38 +703,38 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             setModalVisible(true);
             }}
             style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}>
-            <Image source={getImage('config')} style={{width: 30, height: 30, marginLeft: 'auto', marginRight: 20}}/>
+            <Ionicons name="settings-outline" size={30} color={colors.text}/>
             </TouchableHighlight>
         </View>
 
         <View style={styles.navigation}>
           <TouchableHighlight style={styles.navIconsS}>
-            <Image source={getImage('D')} style={styles.navIconImage}/>
+            <Ionicons name="grid-outline" size={20} color={colors.text} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")}>
-            <Image source={getImage('C')} style={styles.navIconImage}/>
+            <Ionicons name="cart-outline" size={20} color={colors.text} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Ventas")}>
-            <Image source={getImage('V')} style={styles.navIconImage}/>
+            <Ionicons name="cash-outline" size={20} color={colors.text} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Sucursales")}>
-            <Image source={getImage('S')} style={styles.navIconImage}/>
+            <Ionicons name="business-outline" size={20} color={colors.text} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Almacenes")}>
-            <Image source={getImage('A')} style={styles.navIconImage}/>
+            <Ionicons name="cube-outline" size={20} color={colors.text} />
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}>
-            <Image source={getImage('$')} style={styles.navIconImage}/>
+            <Ionicons name="pricetag-outline" size={20} color={colors.text} />
           </TouchableHighlight>
         </View>
       </View>
@@ -755,7 +745,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             {bienvenida}
           </Text>
           <Text style={{ fontSize: 25, fontWeight: 'bold', color: colors.text }}>
-            Dashboard
+            <Ionicons name="grid" size={25} color={colors.text} /> Dashboard
           </Text>
           
             <Text style={{ fontSize: 20, paddingTop: 10, color: colors.text}}>
@@ -775,6 +765,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           
           {arrayDashboard.map((valor, index) => (
             <Text key={index} style={styles.box}>
+              {index === 0 ? <Ionicons name="cash" size={30} color={colors.primary} /> : 
+              index === 1 ? <Ionicons name="cart" size={30} color={colors.primary} /> : 
+              <Ionicons name="receipt" size={30} color={colors.primary} />}  {' '}
               {index === 0 ? 'Ventas' : index === 1 ? 'Compras' : 'Gastos'}: ${valor.toFixed(2)}
             </Text>
           ))}
@@ -885,12 +878,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIconsS:{
     padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,

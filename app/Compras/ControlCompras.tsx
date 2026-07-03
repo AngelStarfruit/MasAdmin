@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
 import { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
@@ -26,7 +27,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
-            <Image source={getImage('B')} style={styles.navIconImage}/>
+            <Ionicons name="arrow-back" size={25} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -97,12 +98,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
-  },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
   },
   scroll: {
     flex: 1,
