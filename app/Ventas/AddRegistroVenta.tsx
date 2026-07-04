@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalVenta, AddElemento, QuitarElemento, registrar } from './backend';
+import { NumeroValido, totalVenta, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
 import {useTheme} from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
@@ -216,6 +216,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(controlVenta).length + 1)
                                             setControlVenta(registrar(controlVenta,idP,hoyStr,Number(totalA),selectedCustomer))
+                                            afectarAlmacen(existencias, processAVenta, selectedStore, selectedBranch)
                                             navigation.navigate("ControlVentas")
                                           }}>
                                           <Text style={styles.text}>SÍ</Text>

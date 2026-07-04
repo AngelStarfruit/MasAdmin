@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar } from './backend';
+import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
@@ -217,8 +217,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(controlCompra).length + 1)
                                             setControlCompra(registrar(controlCompra,idP,hoyStr,Number(totalA),selectedProvider))
-                                            
-                                            
+                                            afectarAlmacen(existencias, processACompra, selectedStore, selectedBranch)
                                             navigation.navigate("ControlCompras")
                                           }}>
                                           <Text style={styles.text}>SÍ</Text>

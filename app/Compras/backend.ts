@@ -106,6 +106,47 @@ export const registrar = (data: any, id: number, fecha: string, total: number, p
     [id]: [fecha, total, proveedor]
   };
 };
+//Función para afectar el almacen luego de hacer una compra
+export const afectarAlmacen = (dataAlmacen: any, dataCompra: any, almacen: string, sucursal: string) => {
+  // Filtrar existencias del almacén
+  const existenciasAlmacen = Object.values(dataAlmacen || {})
+    .filter((item: any) => item[4] === almacen && item[5] === sucursal);
+  
+  // Crear mapa de productos existentes
+  const mapa = new Map();
+  existenciasAlmacen.forEach((item: any) => {
+    const key = `${item[0]}|${item[1]}`; // descripción|marca
+    mapa.set(key, item);
+  });
+  
+  // Procesar compra
+  Object.values(dataCompra).forEach((producto: any) => {
+    const [descripcion, marca, costo, cantidad] = producto;
+    const key = `${descripcion}|${marca}`;
+    
+    if (mapa.has(key)) {
+      const existente = mapa.get(key);
+      mapa.set(key, [descripcion, marca, existente[2] + cantidad, costo, almacen, sucursal]);
+    } else {
+      mapa.set(key, [descripcion, marca, cantidad, costo, almacen, sucursal]);
+    }
+  });
+  
+  // Reconstruir objeto
+  const resultado: any = {};
+  let id = 1;
+  Object.values(dataAlmacen || {})
+    .filter((item: any) => item[4] !== almacen || item[5] !== sucursal)
+    .forEach((item) => {
+      resultado[id++] = item;
+    });
+  
+  mapa.forEach((producto) => {
+    resultado[id++] = producto;
+  });
+  
+  return resultado;
+};
 //-----------------------FUNCIONES Proveedores----------------------------------------------
 //Función para agregar un proveedor
 export const AddProveedor = (data: any, id: number, empresa: string, telefono: string, ciudad: string, estado: string) => {

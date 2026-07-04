@@ -775,7 +775,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           <View style={styles.hr}/>
           
           <Text style={{ fontSize: 25, fontWeight: 'bold', paddingBottom: 10, color: colors.text}}>
-            Agenda
+            <Ionicons name="calendar" size={25} color={colors.text} /> Agenda
           </Text>
           <Text style={{ fontSize: 15, paddingVertical: 10, color: colors.text}}>
             Seleccione un evento para modificarlo.
