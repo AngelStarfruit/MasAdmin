@@ -54,10 +54,10 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 }
 //-----------------------FUNCIONES register----------------------------------------------
  //Función para agregar un usuario
-export const AddUsuario = (data: any, id: number, nombre: string, genero: string, telefono: string, fecha: string, email: string, contrasena: string) => {
+export const AddUsuario = (data: any, id: number, nombre: string, genero: string, telefono: string, fecha: string, email: string, contrasena: string, empresa: string) => {
   return {
     ...data,
-    [id]: [nombre, genero, telefono, fecha, email, contrasena]
+    [id]: [nombre, genero, telefono, fecha, email, contrasena, empresa]
   };
 };
 //-----------------------FUNCIONES Dashboard----------------------------------------------

@@ -37,14 +37,14 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style={theme === 'oscuro' ? 'dark' : 'light'} />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'} />
 
       <View style={styles.navigation}>
         <TouchableHighlight
         underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Ionicons name="arrow-back" size={25} color={colors.background} />
+        <Ionicons name="arrow-back" size={25} color={colors.text} />
         </TouchableHighlight>
     </View>
 
@@ -138,7 +138,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                                 return; 
                             }
                             setNombre(''); setTelefono(''); setEmail(''); setContrasena('')
-                            setUsuarios(AddUsuario(usuarios,id,nombre,genero,telefono,String(fecha),email,contrasena))
+                            setUsuarios(AddUsuario(usuarios,id,nombre,genero,telefono,String(fecha),email,contrasena,''))
                   navigation.navigate("signup");
                 Alert.alert("Éxito", "Usuario registrado con exito")
               }}
@@ -163,7 +163,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   container:{
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.headerCell,
   },
   navigation: {
     flexDirection: 'row', 

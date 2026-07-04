@@ -53,6 +53,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [showPicker, setShowPicker] = useState(false);
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [empresa, setEmpresa] = useState('');
 
   const bienvenida = usuarioSesion[1] === 'hombre' 
   ? `Bienvenido, ${usuarioSesion[0].split(' ')[0]}.` 
@@ -94,6 +95,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
   const [userModalVisible, setUserModalVisible] = useState(false);
+  const [empresaModalVisible, setEmpresaModalVisible] = useState(false);
   const [ConfirmCerradoSesion, setConfirmCerradoSesion] = useState(false);
   const [modalEvento, setModalEvento] = useState(false);
   const [modalEditEvento, setModalEditEvento] = useState(false);
@@ -261,7 +263,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalView, {marginVertical: 300}]}>
+          <View style={[styles.modalView, {marginVertical: 280}]}>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
@@ -293,6 +295,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
                 onPress={() => setUserModalVisible(true)}>
                 <Text style={styles.text}>Mi cuenta</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.modalRow}>
+              <TouchableHighlight
+                underlayColor={colors.optionUnderlay} style={styles.modalOption}
+                onPress={() => setEmpresaModalVisible(true)}>
+                <Text style={styles.text}>Mi empresa</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
@@ -375,15 +384,15 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
-  underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
-  onPress={async () => {
-    const validation = Validar(4, nombre, telefono, email, contrasena);
-    if (!validation.isValid) {
-      Alert.alert('Error', validation.message);
-      return;
-    }
+                 underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
+                  onPress={async () => {
+                  const validation = Validar(4, nombre, telefono, email, contrasena);
+                  if (!validation.isValid) {
+                  Alert.alert('Error', validation.message);
+                  return;
+                  }
 
-    // 1. Actualizar el JSON de usuarios
+                  // 1. Actualizar el JSON de usuarios
     const usuariosActualizados = AddUsuario(
       usuarios,
       idUsuario,
@@ -392,7 +401,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       telefono,
       fecha.toLocaleDateString(),
       email,
-      contrasena
+      contrasena,
+      empresa
     );
     setUsuarios(usuariosActualizados);
 
@@ -423,6 +433,94 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </KeyboardAvoidingView>
         </View>
       </Modal>
+
+      {/* Modal mi empresa */}
+<Modal
+  animationType="slide"
+  transparent={true}
+  visible={empresaModalVisible}
+  onRequestClose={() => {
+    setEmpresaModalVisible(!empresaModalVisible);
+  }}>
+  <View style={styles.modalOverlay}>
+    <View style={[styles.modalView, {marginVertical: 310}]}>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <TouchableHighlight
+          style={{height: 30, width: 30, alignItems: "flex-end"}}
+          underlayColor={colors.scrollBackground}
+          onPress={() => setEmpresaModalVisible(!empresaModalVisible)}>
+          <Ionicons name="close" size={20} color={colors.text} />
+        </TouchableHighlight>
+      </View>
+      
+      <View>
+        <Text style={styles.modalTitle}>Mi empresa</Text>
+      </View>
+
+      <View style={styles.hr}/>
+
+      <View>
+        <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+          Dele un nombre a su empresa
+        </Text>
+      </View>
+      
+      <View style={styles.modalRow}>
+        <TextInput 
+          style={{...styles.input, width: 250}}
+          value={empresa} 
+          onChangeText={(text) => setEmpresa(NoEmojis(text))}
+        />
+      </View>
+      
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <TouchableHighlight
+          underlayColor={colors.confirmUnderlay} 
+          style={styles.modalConfirm}
+          onPress={async () => {
+            const validation = Validar(1, empresa, '', '', '');
+            if (!validation.isValid) {
+              Alert.alert('Error', validation.message);
+              return;
+            }
+
+            // 1. Actualizar el JSON de usuarios
+            const usuariosActualizados = AddUsuario(
+              usuarios,
+              idUsuario,
+              nombre,
+              usuarioSesion[1], // género
+              telefono,
+              fecha.toLocaleDateString(),
+              email,
+              contrasena,
+              empresa  // ← Nuevo campo
+            );
+            setUsuarios(usuariosActualizados);
+
+            // 2. Obtener el usuario actualizado
+            const usuarioActualizado = usuariosActualizados[idUsuario];
+            if (usuarioActualizado) {
+              // 3. Actualizar AsyncStorage
+              try {
+                await AsyncStorage.setItem('usuarioSesion', JSON.stringify(usuarioActualizado));
+                await AsyncStorage.setItem('idUsuario', String(idUsuario));
+              } catch (error) {
+                console.log('Error guardando usuario', error);
+              }
+              
+              // 4. Actualizar el estado local
+              setUsuarioSesion(usuarioActualizado);
+            }
+            setEmpresaModalVisible(!empresaModalVisible);
+            Alert.alert('Éxito', 'Nombre de empresa guardado');
+          }}>
+          <Text style={styles.text}>Confirmar</Text>
+        </TouchableHighlight>
+      </View>
+    </View>
+  </View>
+</Modal>
 
       {/* Modal para confirmar cerrado de sesión */}
       <Modal
@@ -700,6 +798,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             setFecha(new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2])));
             setEmail(usuarioSesion[4]);
             setContrasena(usuarioSesion[5]);
+            setEmpresa(usuarioSesion[6]);
             setModalVisible(true);
             }}
             style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}>

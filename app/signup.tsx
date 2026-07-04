@@ -32,7 +32,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style={theme === 'oscuro' ? 'dark' : 'light'} />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'} />
 
       <View style={styles.navigation}>
         <TouchableHighlight
@@ -40,7 +40,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
           style={styles.navButton}
           onPress={() => navigation.navigate("home")}
         >
-          <Ionicons name="arrow-back" size={25} color={colors.background} />
+          <Ionicons name="arrow-back" size={25} color={colors.text} />
         </TouchableHighlight>
       </View>
 
@@ -139,7 +139,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.headerCell,
   },
   navigation: {
     flexDirection: 'row',
