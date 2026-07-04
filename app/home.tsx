@@ -113,8 +113,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.primary,
     flexDirection: 'row', 
     paddingHorizontal: 5, paddingVertical: 10,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navButton:{
     padding: 10, 
@@ -130,8 +128,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.primary,
     padding: 15, 
     borderRadius: 25 ,
-    elevation: 5,
-    shadowColor: "#000",shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
     color: colors.background, 

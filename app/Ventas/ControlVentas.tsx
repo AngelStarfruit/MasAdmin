@@ -105,15 +105,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   //Tabla estilos
   table: {
     paddingVertical: 20,
     marginBottom: 80,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   row: {flexDirection: 'row',},
   cell: {

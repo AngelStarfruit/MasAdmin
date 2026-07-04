@@ -12,7 +12,7 @@ import datos from './datos.json'
 
 export default function Dashboard({navigation}: registerScreenProps ) {
 
-  const {colors} = useTheme()
+  const {theme, colors} = useTheme()
   const styles = getStyles(colors);
 
   const [nombre, setNombre] = useState('');
@@ -37,7 +37,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style={theme === 'oscuro' ? 'dark' : 'light'} />
 
       <View style={styles.navigation}>
         <TouchableHighlight
@@ -130,7 +130,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
             </View>
             <View style={styles.Card}>
                 <TouchableHighlight
-                underlayColor={"#ff9f9f"} style={styles.Button}
+                underlayColor={colors.enterUnderlay} style={styles.Button}
                 onPress={() => {
                           const validation = Validar(4,nombre,telefono,email,contrasena);
                             if (!validation.isValid) {
@@ -166,7 +166,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.primary,
   },
   navigation: {
-    
     flexDirection: 'row', 
     paddingHorizontal: 5, paddingVertical: 10,
   },
@@ -180,8 +179,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 25 ,
     width: '50%',
     alignSelf: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   ButtonText:{
     color: colors.text, 
@@ -202,11 +199,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background,
     fontWeight: 'bold', 
     paddingVertical: 30, paddingHorizontal: 5,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: {
-      height: 2, width: 0,
-    }
   },
   Card:{
     flex: 1,

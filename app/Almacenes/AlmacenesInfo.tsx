@@ -412,12 +412,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 50 ,
     marginTop: 20,
   },
-  navIconImage: {
-    width: 20, height: 20,
-  },
-  lupaImage: {
-    width: 15, height: 15,
-  },
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -429,8 +423,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
@@ -440,8 +432,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
     marginBottom: 80
   },
   row: {flexDirection: 'row',},
@@ -504,8 +494,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
     backgroundColor: colors.edit,
@@ -513,8 +501,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -522,8 +508,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -531,8 +515,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   //------------------
   picker: {

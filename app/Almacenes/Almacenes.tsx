@@ -11,17 +11,6 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
 
-  const getImage = (nombre: any) => {
-  switch(nombre) {
-    case 'C': return require('../../assets/C.png');
-    case 'V': return require('../../assets/V.png');
-    case 'S': return require('../../assets/S.png');
-    case 'D': return require('../../assets/D.png');
-    case 'A': return require('../../assets/A.png');
-    default: return require('../../assets/$.png');
-    }
-  }
-
   //JSONs de datos
   const sucursales = (datos.SUCURSALES || {});
   const almacenes = (datosA.ALMACENES || {});
@@ -31,7 +20,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
       <View style={styles.navigation}>
 
       <TouchableHighlight
@@ -127,8 +116,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
     padding: 5,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -150,8 +137,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 10,
-    shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
   },
   touchText: {
     color: colors.background,

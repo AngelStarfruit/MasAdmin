@@ -442,9 +442,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     width: 150,
     marginTop: 10,
     padding: 10,
-    elevation: 5,
     borderRadius: 15,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    elevation: 5,
   },
   query: {
     backgroundColor: colors.scrollBackground, color: colors.text,
@@ -454,8 +453,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
     marginBottom: 80
   },
   row: {flexDirection: 'row',},
@@ -517,8 +514,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
     backgroundColor: colors.edit,
@@ -526,8 +521,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -535,8 +528,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -544,8 +535,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   //---------------
   picker: {

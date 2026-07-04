@@ -324,8 +324,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginVertical: 10,
     padding: 10,
     borderRadius: 15,
-    // elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   //Tabla estilos
   cell: {
@@ -377,8 +375,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
    modalEdit: {
     backgroundColor: colors.edit,
@@ -386,8 +382,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 150,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -395,8 +389,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 50,
     justifyContent: 'center', alignItems: 'center',
-     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -404,8 +396,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 150,
     justifyContent: 'center', alignItems: 'center',
-     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   }
   
 });

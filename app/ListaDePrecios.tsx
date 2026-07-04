@@ -828,9 +828,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
-    padding: 5,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
+    padding: 5
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -853,8 +851,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
-     elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   query:{
     backgroundColor: colors.scrollBackground, color: colors.text,
@@ -869,8 +865,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
-    elevation: 10,
-    shadowColor: "#000", shadowOffset: {height: 4, width: 0,}
+    marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {
@@ -927,8 +922,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -936,8 +929,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
     backgroundColor: colors.edit,
@@ -945,8 +936,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEditOff: {
     opacity: 0.6, shadowOpacity: 0.6,
@@ -955,8 +944,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -964,16 +951,12 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 90,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonRegister: {
     backgroundColor: colors.primary,
     width: 150,
     padding: 10,
     borderRadius: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonText: {
     fontWeight: 'bold',

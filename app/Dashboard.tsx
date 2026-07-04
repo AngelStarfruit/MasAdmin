@@ -680,7 +680,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                       </Modal>
 
       {/* Pantalla */}
-      <View style={styles.head}>
+      <View>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 10}}>
             <Text style={{
@@ -864,10 +864,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   text:{
     color: colors.text
   },
-  head:{
-    elevation: 10,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
-  },
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
@@ -897,8 +893,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     fontWeight: 'bold', fontSize: 30, color: colors.primary,
     paddingVertical: 40, marginVertical: 10,
     borderRadius: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   hr:{
     height: 2, 
@@ -911,13 +905,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   table: {
     paddingVertical: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,},
     marginBottom: 80
   },
   row: {flexDirection: 'row',},
@@ -992,8 +982,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 15,
     width: 200,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
@@ -1001,8 +989,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalEdit: {
     backgroundColor: colors.edit,
@@ -1010,8 +996,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 150,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -1019,8 +1003,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -1028,7 +1010,5 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 15,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
 });

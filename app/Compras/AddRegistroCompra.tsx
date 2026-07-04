@@ -540,8 +540,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 150,
     padding: 10,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonOff: {
     opacity: 0.8, shadowOpacity: 0.8,
@@ -549,8 +547,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     width: 150,
     padding: 10,
     borderRadius: 20,
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   buttonText: {
     fontWeight: 'bold',
@@ -636,8 +632,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalRegret: {
     backgroundColor: colors.regret,
@@ -645,8 +639,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 130,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   },
   modalDelete: {
     backgroundColor: colors.delete,
@@ -654,8 +646,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
     width: 135,
     justifyContent: 'center', alignItems: 'center',
-    elevation: 5,
-    shadowColor: "#000", shadowOffset: {height: 2, width: 0,}
   }
   
 });
