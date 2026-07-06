@@ -5,15 +5,12 @@ import type { ControlGastosScreenProps } from './types';
 import { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datos from './datos.json'
 
 export default function ControlGastos({ navigation }: ControlGastosScreenProps) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const IdEmpresa = useEntId();
 
   const [registrosGastos, setRegistrosGastos] = useState(datos.CONTROL_GASTOS || {})
 

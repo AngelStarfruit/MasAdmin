@@ -4,120 +4,102 @@
     "Sofía Ramírez Delgado",
     "8113456789",
     "Monterrey",
-    "Nuevo León",
-    "11"
+    "Nuevo León"
   ],
   "2": [
     "Diego Morales Sánchez",
     "2224567890",
     "Puebla",
-    "Puebla",
-    "11"
+    "Puebla"
   ],
   "3": [
     "Valeria Hernández Ruiz",
     "4495678901",
     "Aguascalientes",
-    "Aguascalientes",
-    "11"
+    "Aguascalientes"
   ],
   "4": [
     "Jorge Castillo Méndez",
     "6626789012",
     "Hermosillo",
-    "Sonora",
-    "12"
+    "Sonora"
   ],
   "5": [
     "Fernanda López Navarro",
     "6147890123",
     "Chihuahua",
-    "Chihuahua",
-    "12"
+    "Chihuahua"
   ],
   "6": [
     "Ricardo Gómez Salinas",
     "9998901234",
     "Mérida",
-    "Yucatán",
-    "12"
+    "Yucatán"
   ],
   "7": [
     "Paola Martínez Cárdenas",
     "4779012345",
     "León",
-    "Guanajuato",
-    "13"
+    "Guanajuato"
   ],
   "8": [
     "Manuel Hernandez Cruz",
     "8334404874",
     "San Juán del Río",
-    "Querétaro",
-    "13"
+    "Querétaro"
   ],
   "9": [
     "Dalila Castillo Orellán",
     "8332028115",
     "Tampico",
-    "Tamaulipas",
-    "13"
+    "Tamaulipas"
   ]
   },
   "CONTROL_VENTAS":{
     "1": [
     "2026-02-03",
     184.50,
-    "Sofía Ramírez Delgado",
-    "11"
+    "Sofía Ramírez Delgado"
   ],
   "2": [
     "2026-02-08",
     329.99,
-    "Diego Morales Sánchez",
-    "11"
+    "Diego Morales Sánchez"
   ],
   "3": [
     "2026-02-15",
     76.80,
-    "Valeria Hernández Ruiz",
-    "11"
+    "Valeria Hernández Ruiz"
   ],
   "4": [
     "2026-02-21",
     549.90,
-    "Jorge Castillo Méndez",
-    "12"
+    "Jorge Castillo Méndez"
   ],
   "5": [
     "2026-03-01",
     129.75,
-    "Fernanda López Navarro",
-    "12"
+    "Fernanda López Navarro"
   ],
   "6": [
     "2026-03-09",
     899.00,
-    "Ricardo Gómez Salinas",
-    "12"
+    "Ricardo Gómez Salinas"
   ],
   "7": [
     "2026-03-18",
     245.60,
-    "Paola Martínez Cárdenas",
-    "13"
+    "Paola Martínez Cárdenas"
   ],
   "8": [
     "2026-01-12",
     59.99,
-    "Dalila Castillo Orellán",
-    "13"
+    "Dalila Castillo Orellán"
   ],
   "9": [
     "2025-01-13",
     59.99,
-    "Manuel Hernández Cruz",
-    "13"
+    "Manuel Hernández Cruz"
   ]
   }
 }

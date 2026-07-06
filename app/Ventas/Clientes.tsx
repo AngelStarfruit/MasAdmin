@@ -7,15 +7,12 @@ import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datos from './datos.json';
 
 export default function Clientes({ navigation }: ClientesScreenProps ) {
 
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
-
-  const idEmpresa = useEntId()
 
   //Constatnes inputs
   const [nombre, setNombre] = useState('');

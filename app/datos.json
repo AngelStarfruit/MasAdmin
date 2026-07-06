@@ -99,67 +99,58 @@
   "SUCURSALES":{
   "1": [
     "Altama",
-    "80808080",
-    "11"
+    "80808080"
   ],
   "2": [
     "Petrolera",
-    "100-1234567",
-    "11"
+    "100-1234567"
   ],
   "3": [
     "Centro",
-    "101-3456789",
-    "11"
+    "101-3456789"
   ],
   "4": [
     "Las Palmas",
-    "102-4567890",
-    "12"
+    "102-4567890"
   ],
   "5": [
     "Miramar",
-    "103-5678901",
-    "12"
+    "103-5678901"
   ],
   "6": [
     "Universidad",
-    "104-6789012",
-    "12"
+    "104-6789012"
   ],
   "7": [
     "Aeropuerto",
-    "105-7890123",
-    "13"
+    "105-7890123"
   ],
   "8": [
     "Jardines",
-    "106-8901234",
-    "13"
+    "106-8901234"
   ],
   "9": [
     "Madero",
-    "107-9012345",
-    "13"
+    "107-9012345"
   ]
   },
-  "CATEGORIAS":{
-  "1": ["Lácteos", "11"],
-  "2": ["Carnes frías", "11"],
-  "3": ["Tortillería","11"],
-  "4": ["Granel","11"],
-  "5": ["Productos de limpieza","11"],
-  "6": ["Bebidas","12"],
-  "7": ["Panadería","12"],
-  "8": ["Frutas y verduras","12"],
-  "9": ["Botanas","12"],
-  "10": ["Higiene personal","12"],
-  "11": ["Bebidas alcohólicas","13"],
-  "12": ["Congelados","13"],
-  "13": ["Productos enlatados","13"],
-  "14": ["Salsas y condimentos","13"],
-  "15": ["Cereales y granos","13"]
-  },
+  "CATEGORIAS": {
+  "1": "Lácteos",
+  "2": "Carnes frías",
+  "3": "Tortillería",
+  "4": "Granel",
+  "5": "Productos de limpieza",
+  "6": "Bebidas",
+  "7": "Panadería",
+  "8": "Frutas y verduras",
+  "9": "Botanas",
+  "10": "Higiene personal",
+  "11": "Bebidas alcohólicas",
+  "12": "Congelados",
+  "13": "Productos enlatados",
+  "14": "Salsas y condimentos",
+  "15": "Cereales y granos"
+},
   "LISTA_PRECIOS":{
     "1": [
     "Jugo de naranja",
@@ -168,8 +159,7 @@
     "pieza",
     "producto",
     [],
-    "Bebidas",
-    "12"
+    "Bebidas"
   ],
   "2": [
     "Agua mineral",
@@ -178,8 +168,7 @@
     "pieza",
     "producto",
     [],
-    "Bebidas",
-    "12"
+    "Bebidas"
   ],
   "3": [
     "Pan integral",
@@ -188,8 +177,7 @@
     "pieza",
     "producto",
     [],
-    "Panadería",
-    "12"
+    "Panadería"
   ],
   "4": [
     "Cuernito",
@@ -198,8 +186,7 @@
     "pieza",
     "producto",
     [],
-    "Panadería",
-    "12"
+    "Panadería"
   ],
   "5": [
     "Manzana roja",
@@ -208,8 +195,7 @@
     "kilogramo",
     "producto",
     [],
-    "Frutas y verduras",
-    "12"
+    "Frutas y verduras"
   ],
   "6": [
     "Zanahoria",
@@ -218,8 +204,7 @@
     "kilogramo",
     "producto",
     [],
-    "Frutas y verduras",
-    "12"
+    "Frutas y verduras"
   ],
   "7": [
     "Papas fritas",
@@ -228,8 +213,7 @@
     "pieza",
     "producto",
     [],
-    "Botanas",
-    "12"
+    "Botanas"
   ],
   "8": [
     "Cacahuates japoneses",
@@ -238,8 +222,7 @@
     "pieza",
     "producto",
     [],
-    "Botanas",
-    "12"
+    "Botanas"
   ],
   "9": [
     "Shampoo",
@@ -248,8 +231,7 @@
     "pieza",
     "producto",
     [],
-    "Higiene personal",
-    "12"
+    "Higiene personal"
   ],
   "10": [
     "Limpiador",
@@ -258,8 +240,7 @@
     "pieza",
     "producto",
     [],
-    "Productos de limpieza",
-    "11"
+    "Productos de limpieza"
   ],
   "11": [
     "Pizza congelada",
@@ -268,8 +249,7 @@
     "pieza",
     "producto",
     [],
-    "Congelados",
-    "13"
+    "Congelados"
   ],
   "12": [
     "Atún en agua",
@@ -278,8 +258,7 @@
     "pieza",
     "producto",
     [],
-    "Productos enlatados",
-    "13"
+    "Productos enlatados"
   ],
   "13": [
     "Salsa picante",
@@ -288,8 +267,7 @@
     "pieza",
     "producto",
     [],
-    "Salsas y condimentos",
-    "13"
+    "Salsas y condimentos"
   ],
   "14": [
     "Arroz",
@@ -298,8 +276,7 @@
     "kilogramo",
     "producto",
     [],
-    "Cereales y granos",
-    "13"
+    "Cereales y granos"
   ],
   "15": [
     "Queso",
@@ -308,8 +285,7 @@
     "pieza",
     "producto",
     [],
-    "Lácteos",
-    "11"
+    "Lácteos"
   ],
   "16": [
     "Chorizo",
@@ -318,8 +294,7 @@
     "pieza",
     "producto",
     [],
-    "Carnes frías",
-    "11"
+    "Carnes frías"
   ],
   "17": [
     "Tortillas de harina",
@@ -328,8 +303,7 @@
     "pieza",
     "producto",
     [],
-    "Tortillería",
-    "11"
+    "Tortillería"
   ],
   "18": [
     "Tortillas de harina",
@@ -338,8 +312,7 @@
     "pieza",
     "producto",
     [],
-    "Tortillería",
-    "11"
+    "Tortillería"
   ],
   "19": [
     "Nuez",
@@ -348,8 +321,7 @@
     "gramo",
     "producto",
     [],
-    "Granel",
-    "11"
+    "Granel"
   ],
   "20": [
     "Lavado de coche",
@@ -358,8 +330,7 @@
     "",
     "servicio",
     [],
-    "",
-    "13"
+    ""
   ],
   "21": [
     "Paquete quesadillas",
@@ -368,8 +339,7 @@
     "",
     "paquete",
     [["Queso",1],["Chorizo",1],["Tortillas de harina",1]],
-    "",
-    "11"
+    ""
   ]
   }
 }

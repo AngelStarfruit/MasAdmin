@@ -7,15 +7,12 @@ import { NoEmojis, Validar, QuitarElemento, AddAlmacen } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
 export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps ) {
 
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
-
-  const idEmpresa = useEntId()
 
   //Constantes de inputs
   const [almacen, setAlmacen] = useState('');

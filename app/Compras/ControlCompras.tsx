@@ -5,16 +5,13 @@ import type { ControlComprasScreenProps } from './types';
 import { useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datos from './datos.json'
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const idEmpresa = useEntId()
-
+    
   const [registrosCompra, setRegistrosCompra] = useState(datos.CONTROL_COMPRAS || {})
   
   return (

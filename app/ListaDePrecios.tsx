@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import { useTheme } from '../context/ThemeContext';
-import { useEntId } from './hooks/useUserId';
 import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
@@ -14,8 +13,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const idEmpresa = useEntId();
 
   //Constantes de inputs
   const [descripcion, setDescripcion] = useState('');

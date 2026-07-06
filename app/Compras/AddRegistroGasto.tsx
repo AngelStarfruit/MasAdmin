@@ -6,15 +6,12 @@ import { useState } from 'react';
 import { CostoValido, totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datosP from './datos.json'; 
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
 
   const { theme, colors } = useTheme();
       const styles = getStyles(colors);
-
-  const idEmpresa = useEntId();
 
   //Constantes de inputs
   const [costo, setCosto] = useState('');

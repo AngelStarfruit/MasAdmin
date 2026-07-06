@@ -2,13 +2,11 @@
   "ALMACENES":{
     "1": [
     "Almacén Centro A",
-    "Centro",
-    "11"
+    "Centro"
   ],
   "2": [
     "Almacén Palmas Norte",
-    "Las Palmas",
-    "12"
+    "Las Palmas"
   ],
   "3": [
     "Almacén Miramar Sur",
@@ -17,18 +15,15 @@
   ],
   "4": [
     "Almacén Universidad",
-    "Universidad",
-    "12"
+    "Universidad"
   ],
   "5": [
     "Almacén Aero 1",
-    "Aeropuerto",
-    "13"
+    "Aeropuerto"
   ],
   "6": [
     "Almacén Jardines",
-    "Jardines",
-    "13"
+    "Jardines"
   ],
    "7": [
     "Almacén X",
@@ -37,13 +32,11 @@
   ],
   "8": [
     "Almacén 8",
-    "Altama",
-    "11"
+    "Altama"
   ],
   "9": [
     "Almacén 67",
-    "Petrolera",
-    "11"
+    "Petrolera"
   ]
   },
   "EXISTENCIAS_ALMACEN":{
@@ -53,8 +46,7 @@
   40,
   32.50,
   "Almacén Centro A",
-  "Centro",
-  "11"
+  "Centro"
 ],
 "2": [
   "Agua mineral",
@@ -62,8 +54,7 @@
   75,
   24.00,
   "Almacén Palmas Norte",
-  "Las Palmas",
-  "12"
+  "Las Palmas"
 ],
 "3": [
   "Pan integral",
@@ -71,8 +62,7 @@
   28,
   48.90,
   "Almacén Miramar Sur",
-  "Miramar",
-  "12"
+  "Miramar"
 ],
 "4": [
   "Cuernito",
@@ -80,8 +70,7 @@
   60,
   18.50,
   "Almacén Universidad",
-  "Universidad",
-  "12"
+  "Universidad"
 ],
 "5": [
   "Manzana roja",
@@ -89,8 +78,7 @@
   120,
   39.90,
   "Almacén Aero 1",
-  "Aeropuerto",
-  "13"
+  "Aeropuerto"
 ],
 "6": [
   "Zanahoria",
@@ -98,8 +86,7 @@
   180,
   21.00,
   "Almacén Jardines",
-  "Jardines",
-  "13"
+  "Jardines"
 ],
 "7": [
   "Papas fritas",
@@ -107,8 +94,7 @@
   95,
   19.50,
   "Almacén Centro A",
-  "Centro",
-  "11"
+  "Centro"
 ],
 "8": [
   "Shampoo",
@@ -116,8 +102,7 @@
   32,
   129.00,
   "Almacén Palmas Norte",
-  "Las Palmas",
-  "12"
+  "Las Palmas"
 ],
 "9": [
   "Pizza congelada",
@@ -125,8 +110,7 @@
   18,
   119.90,
   "Almacén Miramar Sur",
-  "Miramar",
-  "12"
+  "Miramar"
 ],
 "10": [
   "Arroz",
@@ -134,8 +118,7 @@
   250,
   36.00,
   "Almacén Universidad",
-  "Universidad",
-  "12"
+  "Universidad"
 ],
   "11": [
     "Nuez",
@@ -143,8 +126,7 @@
     3000,
     0.7,
     "Almacén 67",
-    "Petrolera",
-    "11"
+    "Petrolera"
   ],
   "12": [
     "Queso",
@@ -152,8 +134,7 @@
     5,
     260.00,
     "Almacén X",
-    "Altama",
-    "11"
+    "Altama"
   ],
   "13": [
     "Chorizo",
@@ -161,8 +142,7 @@
     5,
     23.99,
     "Almacén X",
-    "Altama",
-    "11"
+    "Altama"
   ],
   "14": [
     "Tortillas de harina",
@@ -170,8 +150,7 @@
     5,
     35.00,
     "Almacén X",
-    "Altama",
-    "11"
+    "Altama"
   ],
   "15": [
     "Queso",
@@ -179,64 +158,54 @@
     9,
     260.00,
     "Almacén 8",
-    "Altama",
-    "11"
+    "Altama"
   ]
   },
   "AJUSTES_INVENTARIO":{
     "1": [
     "Almacén Centro A",
     "entrada",
-    "2026-02-05",
-    "11"
+    "2026-02-05"
   ],
   "2": [
     "Almacén Palmas Norte",
     "salida",
-    "2026-02-08",
-    "12"
+    "2026-02-08"
   ],
   "3": [
     "Almacén Miramar Sur",
     "entrada",
-    "2026-02-14",
-    "12"
+    "2026-02-14"
   ],
   "4": [
     "Almacén Universidad",
     "salida",
-    "2026-02-20",
-    "12"
+    "2026-02-20"
   ],
   "5": [
     "Almacén Aero 1",
     "entrada",
-    "2026-02-27",
-    "13"
+    "2026-02-27"
   ],
   "6": [
     "Almacén Jardines",
     "salida",
-    "2026-03-04",
-    "13"
+    "2026-03-04"
   ],
   "7": [
     "Almacén Centro A",
     "entrada",
-    "2026-03-10",
-    "11"
+    "2026-03-10"
   ],
   "8": [
     "Almacén Miramar Sur",
     "salida",
-    "2026-03-18",
-    "12"
+    "2026-03-18"
   ],
   "9": [
     "Almacén X",
     "entrada",
-    "2025-03-03",
-    "11"
+    "2025-03-03"
   ]
   }
 }

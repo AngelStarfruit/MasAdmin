@@ -5,15 +5,12 @@ import { useState } from 'react';
 import type { AjustesInventarioScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datos from './datos.json'
 
 export default function AjustesInventario({ navigation }: AjustesInventarioScreenProps ) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-  
-  const IdEmpresa = useEntId();
 
   const [ajustesInventario, setAjustesInventario] = useState(datos.AJUSTES_INVENTARIO || {});
 

@@ -6,15 +6,12 @@ import { useState, useEffect} from 'react';
 import type { ExistenciasAlmacenScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import { useEntId } from '../hooks/useUserId';
 import datosS from '../datos.json'; import datosA from './datos.json';
 
 export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScreenProps ) {
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
-
-  const IdEmpresa = useEntId()
 
   //JSONs para datos
   const sucursales: Record<string, any> = datosS.SUCURSALES || {}
