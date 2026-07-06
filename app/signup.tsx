@@ -24,8 +24,9 @@ export default function Dashboard({ navigation }: signupScreenProps) {
     }
   };
 
-  const [email, setEmail] = useState('');
+  const [nombreUsuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
+  const [idEmpresa, setIdEmpresa] = useState('');
   const [usuarios, setUsuarios] = useState<Record<string, any>>(datos.USUARIOS);
   const [textVisible, setTextVisible] = useState(0);
   const [hidePassword, setHidePassword] = useState(true);
@@ -57,12 +58,12 @@ export default function Dashboard({ navigation }: signupScreenProps) {
             </Text>
             <View style={styles.Card}>
               <Text style={styles.CardText}>
-                Email:
+                Nombre de usuario:
               </Text>
               <TextInput
                 style={styles.input}
-                value={email}
-                onChangeText={(text) => setEmail(NoEmojis(text))}
+                value={nombreUsuario}
+                onChangeText={(text) => setNombreUsuario(NoEmojis(text))}
               />
               <Text style={styles.CardText}>
                 Contraseña:
@@ -80,20 +81,29 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                   <Ionicons name={hidePassword ? "eye-outline" : "eye-off-outline"} size={20} color="#777" />  
                 </TouchableOpacity>
               </View>
+              <Text style={styles.CardText}>
+                ID Empresa:
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={idEmpresa}
+                onChangeText={(text) => setIdEmpresa(NoEmojis(text))}
+              />
             </View>
             <View style={styles.Card}>
               <TouchableHighlight
                 underlayColor={colors.enterUnderlay}
                 style={styles.Button}
                 onPress={() => {
-                  const validation = Validar(2, email, contrasena, '', '');
+                  const validation = Validar(3, nombreUsuario, contrasena, idEmpresa, '');
                   if (!validation.isValid) {
                     Alert.alert('Error', validation.message);
                     return;
                   } else {
-                    // Buscar el usuario por email y contraseña
+                    // Buscar el usuario por nombre de usuario y contraseña
                     const usuarioEncontrado = Object.values(usuarios).find(
-                      (usuario: any) => usuario[4] === email.trim() && usuario[5] === contrasena
+                      (usuario: any) => usuario[4] === nombreUsuario.trim() && 
+                      usuario[5] === contrasena && usuario[7] === idEmpresa.trim()
                     );
 
                     if (usuarioEncontrado) {
@@ -108,7 +118,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                       // Guardar usuario e ID
                       guardarUsuario(usuarioEncontrado, id);
                       navigation.navigate("Dashboard");
-                      setEmail('');
+                      setNombreUsuario('');
                       setContrasena('');
                     } else {
                       setTextVisible(1);
@@ -167,7 +177,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     paddingHorizontal: 30,
-    paddingVertical: 120,
+    paddingVertical: 100,
   },
   box: {
     flex: 1,

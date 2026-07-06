@@ -6,12 +6,15 @@ import { NoEmojis, Validar, QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useEntId } from './hooks/useUserId';
 import datos from './datos.json';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
    const { theme, colors } = useTheme();
     const styles = getStyles(colors);
+
+  const idEmpresa = useEntId();
 
   //Inputs
   const [sucursal, setSucursal] = useState('');

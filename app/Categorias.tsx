@@ -1,17 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
-import type { CategoriasScreenProps, single } from './types';
+import { FormerJSON, type CategoriasScreenProps } from './types';
 import { useState } from 'react';
 import { NoEmojis, Validar, AddCategoria, QuitarElemento } from './backend';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useEntId } from './hooks/useUserId';
 import datos from './datos.json'; 
 
 export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) {
 
    const { theme, colors } = useTheme();
   const styles = getStyles(colors);
+
+  const IdEmpresa = useEntId()
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,7 +26,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
   const [query, setQuery] = useState('')
 
   //JSONs de datos
-  const [categorias, setCategorias] = useState<single>(datos.CATEGORIAS || {});
+  const [categorias, setCategorias] = useState<FormerJSON>(datos.CATEGORIAS || {});
   const [listaPrecios, setListaPrecios] = useState(datos.LISTA_PRECIOS || {});
 
   //Otras constantes
@@ -81,7 +84,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                            setCategorias(AddCategoria(categorias,id,category))
+                            setCategorias(AddCategoria(categorias,id,category,IdEmpresa))
                             setModalVisible(!modalVisible)
                           }}>
                         <Text>Añadir registro</Text>
@@ -131,7 +134,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               Alert.alert('Error', validation.message);
                                               return; 
                                               }
-                                          setCategorias(AddCategoria(categorias,id,category))
+                                          setCategorias(AddCategoria(categorias,id,category,IdEmpresa))
                                           setModalEVisible(!modalEVisible)}}>
                                         <Text>Confirmar cambios</Text>
                                       </TouchableHighlight>
@@ -237,9 +240,9 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                   else{
                     const filtrado = Object.fromEntries(
                       Object.entries(datos.CATEGORIAS || {}).filter(
-                      ([id, data]) => data.toLowerCase().includes(query.toLowerCase())
+                      ([id, data]) => data[0].toLowerCase().includes(query.toLowerCase())
                       ));
-                      setCategorias(filtrado)
+                      setCategorias(filtrado);
                   }
                 }}
                 style={{...styles.add, width: 40, padding: 10}}>

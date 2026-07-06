@@ -7,12 +7,15 @@ import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useEntId } from '../hooks/useUserId';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
 
   const { theme, colors } = useTheme();
       const styles = getStyles(colors);
+
+  const idEmpresa = useEntId();
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);

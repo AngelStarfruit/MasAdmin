@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useEntId } from '../hooks/useUserId';
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Compras({ navigation }: ComprasScreenProps ) {
@@ -11,15 +12,14 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
    const { theme, colors } = useTheme();
     const styles = getStyles(colors);
 
+  const idEmpresa = useEntId();
+
    //JSONs de datos
   const proveedores = (datosP.PROVEEDORES || {});
   const sucursales = (datos.SUCURSALES || {});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
-  const gastos = Object.fromEntries(
-  Object.entries(datos.LISTA_PRECIOS || {}).filter(
-      ([id, data]) => data[4] === "gasto"));
   const almacenes = (datosA.ALMACENES || {});
 
   return (
@@ -96,10 +96,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
-          if(Object.keys(proveedores).length > 0 && Object.keys(gastos).length > 0){
           navigation.navigate("ControlGastos")
-          }
-          else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un proveedor y un gasto")
         }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de gastos</Text>

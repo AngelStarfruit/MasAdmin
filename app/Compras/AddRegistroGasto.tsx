@@ -3,19 +3,22 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, T
 import Constants from 'expo-constants';
 import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
 import { CostoValido, totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import datosP from './datos.json'; import datos from '../datos.json';
+import { useEntId } from '../hooks/useUserId';
+import datosP from './datos.json'; 
 
 export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenProps) {
 
   const { theme, colors } = useTheme();
       const styles = getStyles(colors);
 
+  const idEmpresa = useEntId();
+
   //Constantes de inputs
   const [costo, setCosto] = useState('');
+  const [gasto, setGasto] = useState('');
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,15 +28,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   //Constantes de JSON
   const [processGasto, setProcessGasto] = useState<RegistroGasto>({})
   //JSONs de datos
-  const proveedores: Record<string, any> = (datosP.PROVEEDORES || {});
-  const gastos = Object.fromEntries(
-  Object.entries(datos.LISTA_PRECIOS || {}).filter(
-      ([id, data]) => data[4] === "gasto"));
   const [controlGasto, setControlGasto] = useState(datosP.CONTROL_GASTOS);
-
-  //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState(proveedores[Object.keys(proveedores)[0]]?.[0] || '');
-  const [selectedGasto, setSelectedGasto] = useState(gastos[Object.keys(gastos)[0]]?.[0] || '');
 
   //Constantes extras
   const total = totalGasto(processGasto)
@@ -88,33 +83,10 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
       
                   <View style={styles.hr}/>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Gasto:</Text>
-                      <View style={{width:180, height:55}}>
-                        <Picker
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
-                        selectedValue={selectedGasto}
-                        onValueChange={(itemValue) => setSelectedGasto(itemValue)}
-                        >
-                        {Object.entries(gastos || {}).length > 0 ? (
-                              Object.entries(gastos)
-                              .sort((a, b) => {
-                                const nombreA = String(a[1]).toLowerCase();
-                                const nombreB = String(b[1]).toLowerCase();
-                                 return nombreA.localeCompare(nombreB);
-                              })
-                              .map(([id, gasto]: [string, any]) => (
-                              <Picker.Item 
-                              style={styles.pickerItem} 
-                              key={id} 
-                              label={String(gasto[0])} 
-                              value={String(gasto[0])} 
-                              />
-                              ))
-                              ) : (
-                              <Picker.Item label="-" value="" />
-                              )}
-                        </Picker></View>
-                    </View>
+                                          <Text style={styles.modalLabel}>Gasto:</Text>
+                                          <TextInput style={[styles.input, {width: 200}]}
+                                                    value={gasto} onChangeText={setGasto}></TextInput>
+                                        </View>
                     <View style={styles.modalRow}>
                                           <Text style={styles.modalLabel}>Costo:</Text>
                                           <TextInput style={styles.input}
@@ -132,7 +104,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                       Alert.alert('Error', validation.message);
                       return;
                         }
-                            setProcessGasto(AddGasto(processGasto,idP,String(selectedGasto),Number(costo)))
+                            setProcessGasto(AddGasto(processGasto,idP,String(gasto),Number(costo)))
                             setIdP(idP + 1); 
                             setModalVisible(!modalVisible)}}>
                       <Text style={styles.text}>Agregar</Text>
@@ -171,7 +143,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(controlGasto).length + 1)
-                                            setControlGasto(registrar(controlGasto,idP,hoyStr,Number(total),selectedProvider))
+                                            setControlGasto(registrar(controlGasto,idP,hoyStr,Number(total),gasto))
                                             navigation.navigate("ControlGastos")
                                           }}>
                                           <Text style={styles.text}>SÍ</Text>
@@ -225,37 +197,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Registrar gasto
         </Text>
-
-        <View style={[styles.row, {marginBottom: 12}]}>
-          <Text style={styles.textRow}>Proveedor:</Text>
-          <View style={{width:150}}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedProvider}
-            onValueChange={(itemValue) => setSelectedProvider(itemValue)}
-          >
-            {Object.entries(proveedores || {}).length > 0 ? (
-             Object.entries(proveedores)
-             .sort((a, b) => {
-             const nombreA = String(a[1][0]).toLowerCase();
-            const nombreB = String(b[1][0]).toLowerCase();
-            return nombreA.localeCompare(nombreB);
-          })
-             .map(([id, proveedor]: [string, any]) => (
-            <Picker.Item 
-                  style={styles.pickerItem} 
-                  key={id} 
-                  label={String(proveedor[0])} 
-                  value={String(proveedor[0])} 
-                  />
-                  ))
-                  ) : (
-                  <Picker.Item label="-" value="" />
-                  )}
-          </Picker></View>
-        </View>
         
-
         <View style={styles.table}>
               <View style={styles.tableRow}>
                   <View style={styles.headerCell}>

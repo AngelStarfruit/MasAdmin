@@ -1,65 +1,242 @@
 {
   "ALMACENES":{
-   "1": [
-    "Almacén X",
-    "Altama"
+    "1": [
+    "Almacén Centro A",
+    "Centro",
+    "11"
   ],
   "2": [
-    "Almacén 8",
-    "Altama"
+    "Almacén Palmas Norte",
+    "Las Palmas",
+    "12"
   ],
   "3": [
+    "Almacén Miramar Sur",
+    "Miramar",
+    "12"
+  ],
+  "4": [
+    "Almacén Universidad",
+    "Universidad",
+    "12"
+  ],
+  "5": [
+    "Almacén Aero 1",
+    "Aeropuerto",
+    "13"
+  ],
+  "6": [
+    "Almacén Jardines",
+    "Jardines",
+    "13"
+  ],
+   "7": [
+    "Almacén X",
+    "Altama",
+    "11"
+  ],
+  "8": [
+    "Almacén 8",
+    "Altama",
+    "11"
+  ],
+  "9": [
     "Almacén 67",
-    "Petrolera"
+    "Petrolera",
+    "11"
   ]
   },
   "EXISTENCIAS_ALMACEN":{
-  "1": [
+    "1": [
+  "Jugo de naranja",
+  "Del Valle",
+  40,
+  32.50,
+  "Almacén Centro A",
+  "Centro",
+  "11"
+],
+"2": [
+  "Agua mineral",
+  "Topo Chico",
+  75,
+  24.00,
+  "Almacén Palmas Norte",
+  "Las Palmas",
+  "12"
+],
+"3": [
+  "Pan integral",
+  "Bimbo",
+  28,
+  48.90,
+  "Almacén Miramar Sur",
+  "Miramar",
+  "12"
+],
+"4": [
+  "Cuernito",
+  "Tía Rosa",
+  60,
+  18.50,
+  "Almacén Universidad",
+  "Universidad",
+  "12"
+],
+"5": [
+  "Manzana roja",
+  "Del Campo",
+  120,
+  39.90,
+  "Almacén Aero 1",
+  "Aeropuerto",
+  "13"
+],
+"6": [
+  "Zanahoria",
+  "Del Campo",
+  180,
+  21.00,
+  "Almacén Jardines",
+  "Jardines",
+  "13"
+],
+"7": [
+  "Papas fritas",
+  "Sabritas",
+  95,
+  19.50,
+  "Almacén Centro A",
+  "Centro",
+  "11"
+],
+"8": [
+  "Shampoo",
+  "Head & Shoulders",
+  32,
+  129.00,
+  "Almacén Palmas Norte",
+  "Las Palmas",
+  "12"
+],
+"9": [
+  "Pizza congelada",
+  "Great Value",
+  18,
+  119.90,
+  "Almacén Miramar Sur",
+  "Miramar",
+  "12"
+],
+"10": [
+  "Arroz",
+  "Verde Valle",
+  250,
+  36.00,
+  "Almacén Universidad",
+  "Universidad",
+  "12"
+],
+  "11": [
     "Nuez",
     "Valle Verde",
     3000,
     0.7,
     "Almacén 67",
-    "Petrolera"
+    "Petrolera",
+    "11"
   ],
-  "2": [
+  "12": [
     "Queso",
     "Caperucita",
     5,
     260.00,
     "Almacén X",
-    "Altama"
+    "Altama",
+    "11"
   ],
-  "3": [
+  "13": [
     "Chorizo",
     "Chimex",
     5,
     23.99,
     "Almacén X",
-    "Altama"
+    "Altama",
+    "11"
   ],
-  "4": [
+  "14": [
     "Tortillas de harina",
     "Tia Rosa",
     5,
     35.00,
     "Almacén X",
-    "Altama"
+    "Altama",
+    "11"
   ],
-  "5": [
+  "15": [
     "Queso",
     "Caperucita",
     9,
     260.00,
     "Almacén 8",
-    "Altama"
+    "Altama",
+    "11"
   ]
   },
   "AJUSTES_INVENTARIO":{
-  "1": [
+    "1": [
+    "Almacén Centro A",
+    "entrada",
+    "2026-02-05",
+    "11"
+  ],
+  "2": [
+    "Almacén Palmas Norte",
+    "salida",
+    "2026-02-08",
+    "12"
+  ],
+  "3": [
+    "Almacén Miramar Sur",
+    "entrada",
+    "2026-02-14",
+    "12"
+  ],
+  "4": [
+    "Almacén Universidad",
+    "salida",
+    "2026-02-20",
+    "12"
+  ],
+  "5": [
+    "Almacén Aero 1",
+    "entrada",
+    "2026-02-27",
+    "13"
+  ],
+  "6": [
+    "Almacén Jardines",
+    "salida",
+    "2026-03-04",
+    "13"
+  ],
+  "7": [
+    "Almacén Centro A",
+    "entrada",
+    "2026-03-10",
+    "11"
+  ],
+  "8": [
+    "Almacén Miramar Sur",
+    "salida",
+    "2026-03-18",
+    "12"
+  ],
+  "9": [
     "Almacén X",
     "entrada",
-    "2023-03-03"
+    "2025-03-03",
+    "11"
   ]
   }
 }

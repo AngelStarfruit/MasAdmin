@@ -1,36 +1,179 @@
 {
   "PROVEEDORES":{
   "1": [
+    "Sigma Alimentos",
+    "214567890",
+    "Monterrey",
+    "Nuevo León",
+    "11"
+  ],
+  "2": [
+    "Grupo Herdez",
+    "325678901",
+    "Ciudad de México",
+    "Ciudad de México",
+    "11"
+  ],
+  "3": [
+    "Arca Continental",
+    "436789012",
+    "Monterrey",
+    "Nuevo León",
+    "11"
+  ],
+  "4": [
+    "Cemex",
+    "547890123",
+    "Monterrey",
+    "Nuevo León",
+    "12"
+  ],
+  "5": [
+    "Qualtia Alimentos",
+    "658901234",
+    "Saltillo",
+    "Coahuila",
+    "12"
+  ],
+  "6": [
+    "Grupo Modelo",
+    "769012345",
+    "Apan",
+    "Hidalgo",
+    "12"
+  ],
+  "7": [
     "LALA",
     "123456789",
     "Tampico",
-    "Tamaulipas"
+    "Tamaulipas",
+    "13"
   ],
-  "2": [
+  "8": [
     "BIMBO",
     "888888888",
     "Madero",
-    "Tamaulipas"
+    "Tamaulipas",
+    "13"
   ],
-  "3": [
+  "9": [
     "CFE",
     "999999999",
     "Madero",
-    "Tamaulipas"
+    "Tamaulipas",
+    "13"
   ]
   },
   "CONTROL_COMPRAS":{
   "1": [
+    "2026-01-08",
+    145.80,
+    "Sigma Alimentos",
+    "11"
+  ],
+  "2": [
+    "2026-01-15",
+    389.50,
+    "Grupo Herdez",
+    "11"
+  ],
+  "3": [
+    "2026-01-21",
+    87.25,
+    "Arca Continental",
+    "11"
+  ],
+  "4": [
+    "2026-02-02",
+    1299.99,
+    "Cemex",
+    "12"
+  ],
+  "5": [
+    "2026-02-10",
+    564.40,
+    "Qualtia Alimentos",
+    "12"
+  ],
+  "6": [
+    "2026-02-18",
+    215.75,
+    "Grupo Modelo",
+    "12"
+  ],
+  "7": [
+    "2026-03-01",
+    742.30,
+    "Sigma Alimentos",
+    "13"
+  ],
+  "8": [
+    "2026-03-11",
+    98.60,
+    "Grupo Herdez",
+    "13"
+  ],
+  "9": [
     "2023-01-12",
     59.99,
-    "LALA"
+    "LALA",
+    "13"
   ]
   },
   "CONTROL_GASTOS":{
   "1": [
+    "2026-01-05",
+    312.45,
+    "Luz",
+    "11"
+  ],
+  "2": [
+    "2026-01-12",
+    185.90,
+    "Servicio de Internet",
+    "11"
+  ],
+  "3": [
+    "2026-01-19",
+    124.75,
+    "Agua Potable",
+    "11"
+  ],
+  "4": [
+    "2026-01-27",
+    458.20,
+    "Papelería",
+    "12"
+  ],
+  "5": [
+    "2026-02-06",
+    980.00,
+    "Mantenimiento",
+    "12"
+  ],
+  "6": [
+    "2026-02-14",
+    267.35,
+    "Limpieza",
+    "12"
+  ],
+  "7": [
+    "2026-02-23",
+    149.99,
+    "Telefonía",
+    "13"
+  ],
+  "8": [
+    "2026-03-04",
+    695.50,
+    "Publicidad",
+    "13"
+  ],
+  "9": [
     "2025-08-12",
     256.19,
-    "CFE"
+    "Luz",
+    "123"
   ]
   }
 }

@@ -84,10 +84,10 @@ export const AddSucursal = (data: any, id: number, sucursal: string, telefono: s
 };
   //-----------------------FUNCIONES Categorías----------------------------------------------
 //Función para agregar una sucursal 
-export const AddCategoria = (data: any, id: number, categoria: string) => {
+export const AddCategoria = (data: any, id: number, categoria: string, empresaId: string) => {
   return {
     ...data,
-    [id]: categoria
+    [id]: [categoria, empresaId]
   };
 };
 //-----------------------FUNCIONES ListaDePrecios--------------------------------------------

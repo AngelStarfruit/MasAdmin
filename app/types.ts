@@ -12,4 +12,3 @@ export type SucursalesScreenProps = NativeStackScreenProps<RootStackParamList, '
 
 export type ContenidoPaquete = {[key: number]: [string, number];};
 export type FormerJSON = Record<string, string[]>;
-export type single = Record<string, string>;

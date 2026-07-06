@@ -20,7 +20,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [email, setEmail] = useState('');
+  const [nombreUsuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
   const DOnChange = (event: any, selectedDate: any) => {
     setShowPicker(false);
@@ -111,10 +111,10 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                    />
                   )}
                 <Text style={styles.CardText}>
-                    Email:
+                    Nombre de usuario:
                 </Text>
                 <TextInput style={styles.input} 
-                  value={email} onChangeText={(text) => setEmail(NoEmojis(text))}/>
+                  value={nombreUsuario} onChangeText={(text) => setNombreUsuario(NoEmojis(text))}/>
                 <Text style={styles.CardText}>
                     Contraseña:
                 </Text>
@@ -132,15 +132,15 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 <TouchableHighlight
                 underlayColor={colors.enterUnderlay} style={styles.Button}
                 onPress={() => {
-                          const validation = Validar(4,nombre,telefono,email,contrasena);
+                          const validation = Validar(4,nombre,telefono,nombreUsuario,contrasena);
                             if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
                                 return; 
                             }
-                            setNombre(''); setTelefono(''); setEmail(''); setContrasena('')
-                            setUsuarios(AddUsuario(usuarios,id,nombre,genero,telefono,String(fecha),email,contrasena,''))
+                            setNombre(''); setTelefono(''); setNombreUsuario(''); setContrasena('')
+                            setUsuarios(AddUsuario(usuarios,id,nombre,genero,telefono,String(fecha),nombreUsuario,contrasena,''))
                   navigation.navigate("signup");
-                Alert.alert("Éxito", "Usuario registrado con exito")
+                Alert.alert("Éxito", "Usuario registrado con exito. Contactenos para obtener una ID de empresa.")
               }}
                 >
                     <Text style={styles.ButtonText}>Registrarse</Text>

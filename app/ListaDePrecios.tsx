@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { useEntId } from './hooks/useUserId';
 import { Ionicons } from '@expo/vector-icons';
 import datos from './datos.json'
 
@@ -13,6 +14,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
+
+  const idEmpresa = useEntId();
 
   //Constantes de inputs
   const [descripcion, setDescripcion] = useState('');
@@ -216,6 +219,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         >
                       <Picker.Item label="Pieza" value="pieza" />
                       <Picker.Item label="Gramo" value="g" />
+                      <Picker.Item label="Kilogramo" value="kg" />
                       </Picker>
                       </View>
                     </View>
@@ -230,7 +234,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         >
                       <Picker.Item label="Producto" value="producto" />
                       <Picker.Item label="Servicio" value="servicio" />
-                      <Picker.Item label="Gasto" value="gasto" />
                       <Picker.Item label="Paquete" value="paquete" />
                       </Picker>
                       </View>
@@ -713,7 +716,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
               style={styles.picker} itemStyle={styles.pickerItem}
               >
                 <Picker.Item label="Servicios" value="Servicios" />
-                <Picker.Item label="Gastos" value="Gastos" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
                 {Object.values(listaCategorias || {}).length > 0 ? (
                      Object.values(listaCategorias).map((categoria: any, id) => (
@@ -761,7 +763,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         <View style={styles.headerCell}>
                           <Text style={styles.headerText}>Costo</Text>
                           </View>
-                        <View style={[styles.headerCell, {flex: 0.5}]}>
+                        <View style={[styles.headerCell, {flex: 0.8}]}>
                           <Text style={styles.headerText}>Unidad</Text>
                           </View>
                       </View>
@@ -800,7 +802,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                         </View> 
                         <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
                         <View style={styles.cell}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
-                        <View style={[styles.cell, {flex: 0.5}]}><Text style={styles.text}>{unidad}</Text></View>
+                        <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{unidad}</Text></View>
                 </View>
                   );
                   })

@@ -5,147 +5,371 @@
     "hombre",
     "8334466978",
     "2005-08-12",
-    "angelhernandezcastillo38@gmail.com",
+    "angelito",
     "Legna2005",
-    "Empresa A"
+    "Empresa A",
+    "11"
   ],
   "2": [
     "Dalila Castillo Orellán",
     "mujer",
     "8332028115",
     "1972-11-08",
-    "dco1972@hotmail.com",
+    "nena",
     "alilad72",
-    "Empresa B"
+    "Empresa B",
+    "12"
   ],
   "3": [
     "Javier Rivera Fernández",
     "hombre",
     "8331559129",
     "1990-07-20",
-    "javier@gmail.com",
+    "rivfer",
     "XDDCC",
-    "Empresa C"
+    "Empresa C",
+    "13"
   ]
   },
   "EVENTOS":{
-     "1": [
+  "1": [
     "Reunión con cliente",
     "2026-06-28 10:00",
     "Oficina principal",
-    "Juan Pérez"
+    "Juan Pérez",
+    "11"
   ],
   "2": [
     "Presentación del proyecto",
     "2026-07-20 15:30",
     "Sala de juntas",
-    "María García"
+    "María García",
+    "11"
   ],
   "3": [
     "Capacitación",
     "2026-08-12 09:00",
     "Auditorio",
-    "Carlos López"
+    "Carlos López",
+    "11"
+  ],
+  "4": [
+    "Junta de seguimiento",
+    "2026-09-03 09:30",
+    "Sala de conferencias",
+    "Ana Martínez",
+    "12"
+  ],
+  "5": [
+    "Revisión de inventario",
+    "2026-09-08 11:00",
+    "Almacén central",
+    "Luis Hernández",
+    "11"
+  ],
+  "6": [
+    "Capacitación de personal",
+    "2026-09-15 14:00",
+    "Aula de capacitación",
+    "Fernanda Torres",
+    "12"
+  ],
+  "7": [
+    "Planeación mensual",
+    "2026-09-21 10:30",
+    "Oficina administrativa",
+    "Miguel Ramírez",
+    "13"
+  ],
+  "8": [
+    "Auditoría interna",
+    "2026-09-28 08:30",
+    "Departamento de Finanzas",
+    "Patricia Gómez",
+    "13"
+  ],
+  "9": [
+    "Entrega de reconocimientos",
+    "2026-10-05 16:00",
+    "Salón de eventos",
+    "Ricardo Morales",
+    "13"
   ]
   },
   "SUCURSALES":{
   "1": [
     "Altama",
-    "80808080"
+    "80808080",
+    "11"
   ],
   "2": [
     "Petrolera",
-    "100-1234567"
+    "100-1234567",
+    "11"
+  ],
+  "3": [
+    "Centro",
+    "101-3456789",
+    "11"
+  ],
+  "4": [
+    "Las Palmas",
+    "102-4567890",
+    "12"
+  ],
+  "5": [
+    "Miramar",
+    "103-5678901",
+    "12"
+  ],
+  "6": [
+    "Universidad",
+    "104-6789012",
+    "12"
+  ],
+  "7": [
+    "Aeropuerto",
+    "105-7890123",
+    "13"
+  ],
+  "8": [
+    "Jardines",
+    "106-8901234",
+    "13"
+  ],
+  "9": [
+    "Madero",
+    "107-9012345",
+    "13"
   ]
   },
   "CATEGORIAS":{
-  "1": "Lácteos",
-  "2": "Carnes frías",
-  "3": "Tortillería",
-  "4": "Granel",
-  "5": "Productos de limpieza"
+  "1": ["Lácteos", "11"],
+  "2": ["Carnes frías", "11"],
+  "3": ["Tortillería","11"],
+  "4": ["Granel","11"],
+  "5": ["Productos de limpieza","11"],
+  "6": ["Bebidas","12"],
+  "7": ["Panadería","12"],
+  "8": ["Frutas y verduras","12"],
+  "9": ["Botanas","12"],
+  "10": ["Higiene personal","12"],
+  "11": ["Bebidas alcohólicas","13"],
+  "12": ["Congelados","13"],
+  "13": ["Productos enlatados","13"],
+  "14": ["Salsas y condimentos","13"],
+  "15": ["Cereales y granos","13"]
   },
   "LISTA_PRECIOS":{
-  "1": [
+    "1": [
+    "Jugo de naranja",
+    "Del Valle",
+    32.50,
+    "pieza",
+    "producto",
+    [],
+    "Bebidas",
+    "12"
+  ],
+  "2": [
+    "Agua mineral",
+    "Topo Chico",
+    24.00,
+    "pieza",
+    "producto",
+    [],
+    "Bebidas",
+    "12"
+  ],
+  "3": [
+    "Pan integral",
+    "Bimbo",
+    48.90,
+    "pieza",
+    "producto",
+    [],
+    "Panadería",
+    "12"
+  ],
+  "4": [
+    "Cuernito",
+    "Tía Rosa",
+    18.50,
+    "pieza",
+    "producto",
+    [],
+    "Panadería",
+    "12"
+  ],
+  "5": [
+    "Manzana roja",
+    "Del Campo",
+    39.90,
+    "kilogramo",
+    "producto",
+    [],
+    "Frutas y verduras",
+    "12"
+  ],
+  "6": [
+    "Zanahoria",
+    "Del Campo",
+    21.00,
+    "kilogramo",
+    "producto",
+    [],
+    "Frutas y verduras",
+    "12"
+  ],
+  "7": [
+    "Papas fritas",
+    "Sabritas",
+    19.50,
+    "pieza",
+    "producto",
+    [],
+    "Botanas",
+    "12"
+  ],
+  "8": [
+    "Cacahuates japoneses",
+    "Mafer",
+    27.90,
+    "pieza",
+    "producto",
+    [],
+    "Botanas",
+    "12"
+  ],
+  "9": [
+    "Shampoo",
+    "Head & Shoulders",
+    129.00,
+    "pieza",
+    "producto",
+    [],
+    "Higiene personal",
+    "12"
+  ],
+  "10": [
+    "Limpiador",
+    "Fabuloso",
+    42.50,
+    "pieza",
+    "producto",
+    [],
+    "Productos de limpieza",
+    "11"
+  ],
+  "11": [
+    "Pizza congelada",
+    "Great Value",
+    119.90,
+    "pieza",
+    "producto",
+    [],
+    "Congelados",
+    "13"
+  ],
+  "12": [
+    "Atún en agua",
+    "Dolores",
+    31.50,
+    "pieza",
+    "producto",
+    [],
+    "Productos enlatados",
+    "13"
+  ],
+  "13": [
+    "Salsa picante",
+    "Valentina",
+    24.90,
+    "pieza",
+    "producto",
+    [],
+    "Salsas y condimentos",
+    "13"
+  ],
+  "14": [
+    "Arroz",
+    "Verde Valle",
+    36.00,
+    "kilogramo",
+    "producto",
+    [],
+    "Cereales y granos",
+    "13"
+  ],
+  "15": [
     "Queso",
     "Caperucita",
     260.00,
     "pieza",
     "producto",
     [],
-    "Lácteos"
+    "Lácteos",
+    "11"
   ],
-  "2": [
+  "16": [
     "Chorizo",
     "Chimex",
     23.99,
     "pieza",
     "producto",
     [],
-    "Carnes frías"
+    "Carnes frías",
+    "11"
   ],
-  "3": [
+  "17": [
     "Tortillas de harina",
     "Tia Rosa",
     35.00,
     "pieza",
     "producto",
     [],
-    "Tortillería"
+    "Tortillería",
+    "11"
   ],
-  "4": [
+  "18": [
     "Tortillas de harina",
     "Mision",
     38.00,
     "pieza",
     "producto",
     [],
-    "Tortillería"
+    "Tortillería",
+    "11"
   ],
-  "5": [
+  "19": [
     "Nuez",
     "Verde Valle",
     0.70,
     "gramo",
     "producto",
     [],
-    "Granel"
+    "Granel",
+    "11"
   ],
-  "6": [
+  "20": [
     "Lavado de coche",
     "",
     200.00,
     "",
     "servicio",
     [],
-    ""
+    "",
+    "13"
   ],
-  "7": [
-    "Gasto de luz",
-    "",
-    "",
-    "",
-    "gasto",
-    [],
-    ""
-  ],
-  "8": [
-    "Renta",
-    "",
-    "",
-    "",
-    "gasto",
-    [],
-    ""
-  ],
-  "9": [
+  "21": [
     "Paquete quesadillas",
     "",
     319.99,
     "",
     "paquete",
     [["Queso",1],["Chorizo",1],["Tortillas de harina",1]],
-    ""
+    "",
+    "11"
   ]
   }
 }

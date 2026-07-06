@@ -7,12 +7,15 @@ import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar, QuitarElemento, AddProveedor } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useEntId } from '../hooks/useUserId';
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
+
+  const idEmpresa = useEntId()
 
   //Constantes de inputs
   const [empresa, setEmpresa] = useState('');
@@ -366,10 +369,10 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Empresa</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.9}]}>
                       <Text style={styles.headerText}>Teléfono</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.8}]}>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Ciudad</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -393,8 +396,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         <Text style={styles.text}>{empresa}</Text>
                         </TouchableHighlight>
                         </View> 
-                      <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
-                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{ciudad}</Text></View>
+                      <View style={[styles.cell, {flex: 0.9}]}><Text style={styles.text}>{telefono}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{ciudad}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{estado}</Text></View>
                 </View>
                   )
