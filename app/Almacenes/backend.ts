@@ -143,3 +143,126 @@ export const AddAlmacen = (data: any, id: number, almacen: string, sucursal: str
     [id]: [almacen, sucursal]
   };
 };
+/*export const obtenerAlmacenes = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/almacenes`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const agregarAlmacen = async (almacen: string, sucursal: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/almacenes`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ almacen, sucursal }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const editarAlmacen = async (id: number, almacen: string, sucursal: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/almacenes/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ almacen, sucursal }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const eliminarAlmacen = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/almacenes/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+//-----------------------FUNCIONES Ajustes Inventario----------------------------------------------
+//Función para mostrar las compras realizadas
+/*export const obtenerAjustes = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/ajustinv`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/

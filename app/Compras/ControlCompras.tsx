@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+//import { obtenerCompras } from './backend';
+import {useFocusEffect} from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json'
 
 export default function ControlCompras({ navigation }: ControlComprasScreenProps) {
@@ -12,7 +15,38 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
     
-  const [registrosCompra, setRegistrosCompra] = useState(datos.CONTROL_COMPRAS || {})
+  //Constantes JSON
+  //const [registrosCompra, setRegistrosCompra] = useState<Record<string, any>>({});
+  const [Compras, setCompras] = useState(datos.CONTROL_COMPRAS || {})
+
+  const [isLoading, setIsLoading] = useState(false);
+
+   /*useFocusEffect(
+    useCallback(() => {
+      const cargarCompras = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerCompras();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const comprasObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              comprasObj[index + 1] = [item.fecha, item.total, item.proveedor];
+            });
+          }
+          
+          setCompras(comprasObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de las compras');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarCompras();
+    }, [])
+  );*/
   
   return (
     <View style={styles.container}>
@@ -53,8 +87,9 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                       </View>
                   </View>
 
-                  {Object.values(registrosCompra || {}).length > 0 ? (
-                  Object.entries(registrosCompra).map(([id, data]: [string, any]) => {
+                  {!isLoading ? (
+                  Object.values(Compras || {}).length > 0 ? (
+                  Object.entries(Compras).map(([id, data]: [string, any]) => {
                   const [fecha, total, proveedor] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -65,7 +100,10 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                 )
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe una compra...</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>Esperando a que efectúe una compra...</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+                Cargando...</Text>
             )}
 
           </View>

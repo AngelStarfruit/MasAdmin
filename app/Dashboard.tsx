@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -11,6 +11,7 @@ import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento, AddUsuar
 import type { DashboardScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json';
 import datosV from './Ventas/datos.json'; import datosC from './Compras/datos.json';
 
@@ -51,7 +52,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
-  const [email, setEmail] = useState('');
+  const [nombreUsuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [empresa, setEmpresa] = useState('');
 
@@ -373,9 +374,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     }}
                   />
                 )}
-                <Text style={styles.CardText}>Email:</Text>
+                <Text style={styles.CardText}>Nombre de usuario:</Text>
                 <TextInput style={styles.input} 
-                  value={email} onChangeText={(text) => setEmail(NoEmojis(text))}/>
+                  value={nombreUsuario} onChangeText={(text) => setNombreUsuario(NoEmojis(text))}/>
                 <Text style={styles.CardText}>Contraseña:</Text>
                 <TextInput style={styles.input} 
                   value={contrasena} onChangeText={(text) => setContrasena(NoEmojis(text))} secureTextEntry />
@@ -386,47 +387,43 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <TouchableHighlight
                  underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
                   onPress={async () => {
-                  const validation = Validar(4, nombre, telefono, email, contrasena);
+                  const validation = Validar(4, nombre, telefono, nombreUsuario, contrasena);
                   if (!validation.isValid) {
                   Alert.alert('Error', validation.message);
                   return;
                   }
-
                   // 1. Actualizar el JSON de usuarios
-    const usuariosActualizados = AddUsuario(
-      usuarios,
-      idUsuario,
-      nombre,
-      usuarioSesion[1], // género
-      telefono,
-      fecha.toLocaleDateString(),
-      email,
-      contrasena,
-      empresa
-    );
-    setUsuarios(usuariosActualizados);
-
-    // 2. Obtener el usuario actualizado
-    const usuarioActualizado = usuariosActualizados[idUsuario];
-    if (usuarioActualizado) {
-      // 3. Actualizar AsyncStorage
-      try {
-        await AsyncStorage.setItem('usuarioSesion', JSON.stringify(usuarioActualizado));
-        await AsyncStorage.setItem('idUsuario', String(idUsuario));
-      } catch (error) {
-        console.log('Error guardando usuario', error);
-      }
-      
-      // 4. Actualizar el estado local
-      setUsuarioSesion(usuarioActualizado);
-    }
-
-    setModalVisible(!modalVisible);
-    setUserModalVisible(!userModalVisible);
-    Alert.alert('Éxito', 'Los cambios han sido guardados');
-  }}>
-  <Text style={styles.text}>Confirmar cambios</Text>
-</TouchableHighlight>
+                    const usuariosActualizados = AddUsuario(
+                    usuarios,
+                    idUsuario,
+                    nombre,
+                    usuarioSesion[1], // género
+                    telefono,
+                    fecha.toLocaleDateString(),
+                    nombreUsuario,
+                    contrasena,
+                    empresa
+                  );
+                  setUsuarios(usuariosActualizados);
+                  // 2. Obtener el usuario actualizado
+                  const usuarioActualizado = usuariosActualizados[idUsuario];
+                  if (usuarioActualizado) {
+                  // 3. Actualizar AsyncStorage
+                  try {
+                    await AsyncStorage.setItem('usuarioSesion', JSON.stringify(usuarioActualizado));
+                    await AsyncStorage.setItem('idUsuario', String(idUsuario));
+                  } catch (error) {
+                  console.log('Error guardando usuario', error);
+                  }
+                  // 4. Actualizar el estado local
+                  setUsuarioSesion(usuarioActualizado);
+                }
+                setModalVisible(!modalVisible);
+                setUserModalVisible(!userModalVisible);
+                Alert.alert('Éxito', 'Los cambios han sido guardados');
+                }}>
+                <Text style={styles.text}>Confirmar cambios</Text>
+                </TouchableHighlight>
                 </View>
               </View>
             </ScrollView>
@@ -492,7 +489,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               usuarioSesion[1], // género
               telefono,
               fecha.toLocaleDateString(),
-              email,
+              nombreUsuario,
               contrasena,
               empresa  // ← Nuevo campo
             );
@@ -796,7 +793,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             const fechaStr = usuarioSesion[3];
             const partes = fechaStr.split('-');
             setFecha(new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2])));
-            setEmail(usuarioSesion[4]);
+            setNombreUsuario(usuarioSesion[4]);
             setContrasena(usuarioSesion[5]);
             setEmpresa(usuarioSesion[6]);
             setModalVisible(true);
@@ -863,12 +860,14 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
           
           {arrayDashboard.map((valor, index) => (
-            <Text key={index} style={styles.box}>
-              {index === 0 ? <Ionicons name="cash" size={30} color={colors.primary} /> : 
-              index === 1 ? <Ionicons name="cart" size={30} color={colors.primary} /> : 
-              <Ionicons name="receipt" size={30} color={colors.primary} />}  {' '}
+            <View key={index} style={styles.row}>
+              {index === 0 ? <Ionicons name="cash" size={30} color={colors.primary} style={{alignSelf: 'center', marginRight: 10}}/> : 
+              index === 1 ? <Ionicons name="cart" size={30} color={colors.primary} style={{alignSelf: 'center', marginRight: 10}}/> : 
+              <Ionicons name="receipt" size={30} color={colors.primary} style={{alignSelf: 'center', marginRight: 10}}/>} 
+            <Text style={styles.box}>
               {index === 0 ? 'Ventas' : index === 1 ? 'Compras' : 'Gastos'}: ${valor.toFixed(2)}
             </Text>
+            </View>
           ))}
           
           <View style={styles.hr}/>

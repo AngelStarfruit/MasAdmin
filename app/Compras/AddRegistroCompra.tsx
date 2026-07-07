@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datosP from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroCompra({ navigation }: AddRegistroCompraScreenProps) {
@@ -541,11 +542,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10,
   },
   buttonOff: {
-    opacity: 0.8, shadowOpacity: 0.8,
-    backgroundColor: colors.option,
-    width: 150,
-    padding: 10,
-    borderRadius: 20,
+    opacity: 0.8, 
   },
   buttonText: {
     fontWeight: 'bold',

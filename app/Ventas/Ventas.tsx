@@ -3,7 +3,10 @@ import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-n
 import Constants from 'expo-constants';
 import type { VentasScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
+import { useCallback } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {Ionicons} from '@expo/vector-icons';
+
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function Ventas({ navigation }: VentasScreenProps ) {
@@ -12,12 +15,145 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
     const styles = getStyles(colors);
 
   //JSONs de datos
+  //const [clientes, setClientes] = useState<Record<string, any>>({});
   const clientes = (datosC.CLIENTES || {});
+  //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const sucursales = (datos.SUCURSALES || {});
+  //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] != "gasto"));
+  //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
   const almacenes = (datosA.ALMACENES || {});
+
+  /*
+   useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar clientes desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarClientes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerClientes();
+          
+          // Convertir el array de clientes a objeto con índices
+          const clientesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              clientesObj[index + 1] = [item.nombre, item.telefono, item.ciudad, item.estado];
+            });
+          }
+          
+          setClientes(clientesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los clientes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarClientes();
+    }, [])
+  ); 
+
+  // Cargar sucursales desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarSucursales = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerSucursales();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const sucursalesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              sucursalesObj[index + 1] = [item.sucursal, item.telefono];
+            });
+          }
+          
+          setSucursales(sucursalesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las sucursales');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarSucursales();
+    }, [])
+  ); 
+
+  // Cargar precios desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarPrecios = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerPrecios();
+          
+          // Convertir el array de precios a objeto con índices
+          const preciosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              preciosObj[index + 1] = [item.descripcion, item.marca, item.costo, item.unidad, item.tipo, item.contenido, item.categoría];
+            });
+          }
+          
+          setPrecios(preciosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los precios');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarPrecios();
+    }, [])
+  ); 
+
+  // Cargar almacenes desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarAlmacenes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerAlmacenes();
+          
+          // Convertir el array de almacenes a objeto con índices
+          const almacenesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              almacenesObj[index + 1] = [item.almacen, item.sucursal];
+            });
+          }
+
+          setAlmacenes(almacenesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los almacenes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarAlmacenes();
+    }, [])
+  );
+  
+  */
 
   return (
     <View style={styles.container}>

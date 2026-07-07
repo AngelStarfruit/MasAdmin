@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
 import type { ControlGastosScreenProps } from './types';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+//import { obtenerGastos } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json'
 
 export default function ControlGastos({ navigation }: ControlGastosScreenProps) {
@@ -12,7 +14,39 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
 
-  const [registrosGastos, setRegistrosGastos] = useState(datos.CONTROL_GASTOS || {})
+  //Constantes JSON
+  //const Gastos, setGastos] = useState<Record<string, any>>({});
+  const [Gastos, setGastos] = useState(datos.CONTROL_GASTOS || {})
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  /*useFocusEffect(
+    useCallback(() => {
+      const cargarGastos = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerGastos();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const gastosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              gastosObj[index + 1] = [item.fecha, item.total, item.gasto];
+            });
+          }
+          
+          setGastos(gastosObj);
+          setGastosOG(gastosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de los gastos');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarGastos();
+    }, [])
+  );*/
 
   return (
     <View style={styles.container}>
@@ -53,19 +87,23 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                       </View>
                   </View>
 
-                  {Object.values(registrosGastos || {}).length > 0 ? (
-                  Object.entries(registrosGastos).map(([id, data]: [string, any]) => {
-                  const [fecha, total, proveedor] = data;
+                  {!isLoading ? (
+                  Object.values(Gastos || {}).length > 0 ? (
+                  Object.entries(Gastos).map(([id, data]: [string, any]) => {
+                  const [fecha, total, gasto] = data;
                     return(
                       <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{proveedor}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{gasto}</Text></View>
                 </View>
                     )
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe un gasto...</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>Esperando a que efectúe un gasto...</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+                Cargando...</Text>
             )}
 
           </View>

@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert, KeyboardAvoidingView, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
-import { useState, useEffect } from 'react';
-import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento, AddPrecio, AddPrecioG } from './backend';
+import { useState, useEffect, useCallback} from 'react';
+import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento} from './backend'
+import { AddPrecio} from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import { useTheme } from '../context/ThemeContext';
+import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json'
 
 export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps) {
@@ -32,7 +35,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [Confirm, setConfirm] = useState(false);
 
   //JSON con los datos
-  let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS
+  //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
+  const [listaPreciosOG, setListaPreciosOG] = useState<Record<string, any>>({});
+  let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS // <----❌ Eliminar esto
   const listaCategorias: Record<string, any>  = datos.CATEGORIAS
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
@@ -48,9 +53,27 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [selectedCategory, setSelectedCategory] = useState(listaCategorias[Object.keys(listaCategorias)[0]]?.[0] || '');
 
+  /*useFocusEffect(
+  useCallback(() => {
+    const cargarLista = async () => {
+      try {
+        setIsLoading(true);
+        const data = await obtenerPrecios();
+        setListaPrecios(data);
+        setListaPreciosOG(data);
+        setElementosMostrados(data);
+      } catch (error: any) {
+        Alert.alert('Error', error.message || 'No se pudieron cargar los datos');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    cargarLista();
+  }, [])
+  );*/
   useEffect(() => {
   let filtrados;
-  
+  //datos.LISTA_PRECIOS ----> listaPrecios
   if (selectedValue === 'Servicios') {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
@@ -82,12 +105,93 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //IDs
   const [id, setId] = useState(1);
   const [idP, setIdP] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [idEmpresa, setIdEmpresa] = useState('');
 
   //Desabilitar características
   const [editPaqueteOff, setEditPaqueteOff] = useState(false);
   const [editMarcaOn, setEditMarcaOn] = useState(false);
-  const [editCostoOn, setEditCostoOn] = useState(false);
   const [addCategoryOn, setAddCategoryON] = useState(false);
+
+  /*const handleAgregar = async () => {
+  const validation = Validar(3, descripcion, marca, costo, '');
+  if (!validation.isValid) {
+    Alert.alert('Error', validation.message);
+    return;
+  }
+
+  try {
+    const response = await agregarPrecio({
+      descripcion,
+      marca,
+      costo: Number(costo),
+      unidad: selectedUValue,
+      tipo: selectedTValue,
+      categoria: selectedCategory
+    });
+
+    if (response.success) {
+      const data = await obtenerListaPrecios();
+      setListaPrecios(data);
+      setListaPreciosOriginal(data);
+      setModalVisible(false);
+      Alert.alert('Éxito', 'Producto agregado correctamente');
+    }
+  } catch (error: any) {
+    Alert.alert('Error', error.message);
+  }
+}; 
+
+const handleEditar = async () => {
+  let validation = Validar(3, descripcion, marca, costo, '');
+  if (!editMarcaOn) {
+    validation = Validar(2, descripcion, costo, '', '');
+  }
+  if (!editCostoOn) {
+    validation = Validar(1, descripcion, '', '', '');
+  }
+  if (!validation.isValid) {
+    Alert.alert('Error', validation.message);
+    return;
+  }
+
+  try {
+    const response = await editarPrecio(id, {
+      descripcion,
+      marca,
+      costo: Number(costo),
+      unidad,
+      tipo,
+      categoria: category
+    });
+
+    if (response.success) {
+      const data = await obtenerListaPrecios();
+      setListaPrecios(data);
+      setListaPreciosOriginal(data);
+      setEModalVisible(false);
+      Alert.alert('Éxito', 'Producto actualizado correctamente');
+    }
+  } catch (error: any) {
+    Alert.alert('Error', error.message);
+  }
+}; 
+
+const handleEliminar = async () => {
+  try {
+    const response = await eliminarPrecio(id);
+    if (response.success) {
+      const data = await obtenerListaPrecios();
+      setListaPrecios(data);
+      setListaPreciosOriginal(data);
+      setConfirm(false);
+      setEModalVisible(false);
+      Alert.alert('Éxito', 'Producto eliminado correctamente');
+    }
+  } catch (error: any) {
+    Alert.alert('Error', error.message);
+  }
+};*/
 
   return (
     <View style={styles.container}>
@@ -255,10 +359,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
                             setModalVisible(!modalVisible)
                             }
-                            else if (selectedTValue == 'gasto'){
-                            setElementosMostrados(AddPrecioG(elementosMostrados,id,descripcion,'','','',selectedTValue,contenidoPaquete,''))
-                            setModalVisible(!modalVisible)
-                            }
                             else {
                               if (Object.keys(listaPrecios).length > 0){
                               setNewPaquete(true)
@@ -325,7 +425,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
                       <TextInput style={[styles.query, {width: 150}]}
-                      editable = {editCostoOn}
                       keyboardType='numeric'
                       value={costo} onChangeText={setCosto}/>
                     </View>
@@ -345,9 +444,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           let validation = Validar(3,descripcion,marca,costo,'');
                           if(!editMarcaOn){
                             validation = Validar(2,descripcion,costo,'','');
-                          }
-                          if(!editCostoOn){
-                            validation = Validar(1,descripcion,'','','');
                           }
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
@@ -766,7 +862,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                       </View>
 
                 {/* Body - cada registro es una fila */}
-                {Object.values(elementosMostrados || {}).length > 0 ? (
+                {!isLoading ? (
+                Object.values(elementosMostrados || {}).length > 0 ? (
                  Object.entries(elementosMostrados).map(([id, data]: [string, any]) => {
                   const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria] = data;
                   return(
@@ -783,10 +880,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                           if (tipo != "producto"){
                             setEditMarcaOn(false)
                           } else setEditMarcaOn(true)
-
-                          if (tipo == "gasto"){
-                            setEditCostoOn(false)
-                          } else setEditCostoOn(true)
 
                           setId(Number(id))
                           setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); 
@@ -806,6 +899,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
                 ) : (
             <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
               No hay elementos en esta categoría</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
           </View>   
 

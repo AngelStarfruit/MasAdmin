@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
-import { useState } from 'react';
-import { NoEmojis, Validar, QuitarElemento, AddSucursal } from './backend';
+import { useState, useCallback } from 'react';
+import { NoEmojis, Validar} from './backend';
+import { QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json';
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
@@ -19,7 +21,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   const [query, setQuery] = useState('');
 
    //JSON
+   //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const [sucursales, setSucursales] = useState<FormerJSON>(datos.SUCURSALES || {});
+  const [sucursalesOG, setSucursalesOG] = useState<Record<string, any>>({});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -28,6 +32,119 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
   //Otras constantes
   const [id, setId] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [idEmpresa, setIdEmpresa] = useState('');
+
+  /*// Cargar ID de empresa
+  useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar sucursales desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarSucursales = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerSucursales();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const sucursalesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              sucursalesObj[index + 1] = [item.sucursal, item.telefono];
+            });
+          }
+          
+          setSucursales(sucursalesObj);
+          setSucursalesOG(sucursalesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las sucursales');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarSucursales();
+    }, [])
+  );
+
+  const handleAgregar = async () => {
+    const validation = Validar(2, sucursal, telefono, '', '');
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await agregarSucursal(sucursal, telefono);
+      if (response.success) {
+        // Recargar sucursales
+        const data = await obtenerSucursales();
+        const sucursalesObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            sucursalesObj[index + 1] = [item.sucursal, item.telefono];
+          });
+        }
+        setSucursales(sucursalesObj);
+        setSucursalesOG(sucursalesObj);
+        setModalVisible(false);
+        setSucursal('');
+        setTelefono('');
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo agregar la sucursal');
+    }
+  };
+
+  const handleEditar = async () => {
+    const validation = Validar(2, sucursal, telefono, '', '');
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await editarSucursal(id, sucursal, telefono);
+      if (response.success) {
+        // Actualizar localmente
+        const sucursalesActualizadas = { ...sucursales };
+        sucursalesActualizadas[id] = [sucursal, telefono];
+        setSucursales(sucursalesActualizadas);
+        setSucursalesOG(sucursalesActualizadas);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar la sucursal');
+    }
+  };
+
+  const handleEliminar = async () => {
+    try {
+      const response = await eliminarSucursal(id);
+      if (response.success) {
+        const nuevasSucursales = { ...sucursales };
+        delete nuevasSucursales[id];
+        setSucursales(nuevasSucursales);
+        setSucursalesOG(nuevasSucursales);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar la sucursal');
+    }
+  }; */
 
   return (
     <View style={styles.container}>
@@ -294,7 +411,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                   </View>
 
                 {/* Body - cada registro es una fila */}
-                {Object.values(sucursales || {}).length > 0 ? (
+                {!isLoading ? (
+                Object.values(sucursales || {}).length > 0 ? (
                 Object.entries(sucursales).map(([id, data]: [string, any]) => {
                 const [sucursal, telefono] = data;
                 return (
@@ -319,6 +437,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
               ) : (
             <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
               No hay sucursales registradas</Text>
+            )) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
 
           </View>

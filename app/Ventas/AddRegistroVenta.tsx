@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState, useEffect } from 'react';
@@ -7,6 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { NumeroValido, totalVenta, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
 import {useTheme} from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
 
 export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenProps) {
@@ -537,11 +538,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
   },
   buttonOff: {
-    opacity: 0.8, shadowOpacity: 0.8,
-    backgroundColor: colors.option,
-    width: 150,
-    padding: 10,
-    borderRadius: 20,
+    opacity: 0.8,
   },
   buttonText: {
     fontWeight: 'bold',

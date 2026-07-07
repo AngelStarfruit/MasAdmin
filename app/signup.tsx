@@ -7,12 +7,27 @@ import { NoEmojis, Validar } from './backend';
 import type { signupScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json';
 
 export default function Dashboard({ navigation }: signupScreenProps) {
 
+  //const API_URL = 'https://tu-servidor-masadmin.com/api';
+
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
+
+  // Cuando el usuario inicia sesión:
+ /* const guardarUsuario = async (usuario: any, token: string, empresa: any) => {
+    try {
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('usuario', JSON.stringify(usuario));
+      await AsyncStorage.setItem('idUsuario', id);
+      await AsyncStorage.setItem('idEmpresa', usuario[7]);
+    } catch (error) {
+      console.log('Error guardando usuario', error);
+    }
+  };*/
 
   // Cuando el usuario inicia sesión:
   const guardarUsuario = async (usuario: any, id: string) => {
@@ -30,6 +45,60 @@ export default function Dashboard({ navigation }: signupScreenProps) {
   const [usuarios, setUsuarios] = useState<Record<string, any>>(datos.USUARIOS);
   const [textVisible, setTextVisible] = useState(0);
   const [hidePassword, setHidePassword] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  /*const iniciarSesion = async () => {
+  // Validar campos
+  const validation = Validar(3, nombreUsuario, contrasena, idEmpresa, '');
+  if (!validation.isValid) {
+    Alert.alert('Error', validation.message);
+    return;
+  }
+
+  setIsLoading(true);
+  setTextVisible(0);
+
+  try {
+    // Petición al backend de MasAdmin
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        usuario: nombreUsuario.trim(),
+        contrasena: contrasena,
+        idEmpresa: idEmpresa.trim(),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      const usuario = data.usuario;
+      const id = data.id || Object.keys(usuarios).find(key => 
+        JSON.stringify(usuarios[key]) === JSON.stringify(usuario)
+      ) || '1';
+      
+      // Guardar token, usuario, ID e ID empresa
+      await guardarUsuario(usuario, data.token, id);
+      
+      // Navegar al Dashboard
+      navigation.navigate("Dashboard");
+      setNombreUsuario('');
+      setContrasena('');
+      setIdEmpresa('');
+    } else {
+      setTextVisible(1);
+      Alert.alert('Error', data.message || 'Datos incorrectos.');
+    }
+  } catch (error) {
+    console.log('Error de conexión:', error);
+    Alert.alert('Error', 'No se pudo conectar con el servidor');
+  } finally {
+    setIsLoading(false);
+  }
+};*/
 
   return (
     <View style={styles.container}>
@@ -93,8 +162,8 @@ export default function Dashboard({ navigation }: signupScreenProps) {
             <View style={styles.Card}>
               <TouchableHighlight
                 underlayColor={colors.enterUnderlay}
-                style={styles.Button}
-                onPress={() => {
+                style={[styles.Button, isLoading && styles.ButtonDisabled]}
+                onPress={() => { //<-----O simplemente la función iniciar sesión
                   const validation = Validar(3, nombreUsuario, contrasena, idEmpresa, '');
                   if (!validation.isValid) {
                     Alert.alert('Error', validation.message);
@@ -118,13 +187,13 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                       // Guardar usuario e ID
                       guardarUsuario(usuarioEncontrado, id);
                       navigation.navigate("Dashboard");
-                      setNombreUsuario('');
-                      setContrasena('');
+                      setNombreUsuario('');  setContrasena('');  setNombreUsuario('');
                     } else {
                       setTextVisible(1);
                     }
                   }
                 }}
+                disabled={isLoading}
               >
                 <Text style={styles.ButtonText}>Iniciar sesión</Text>
               </TouchableHighlight>
@@ -166,6 +235,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 25,
     width: '70%',
     alignSelf: 'center',
+  },
+  ButtonDisabled: {
+    opacity: 0.6,
   },
   ButtonText: {
     color: colors.text,

@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
-import { NoEmojis, Validar, QuitarElemento, AddCliente } from './backend';
+import { NoEmojis, Validar} from './backend'
+import { QuitarElemento, AddCliente } from './backend';
 import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json';
 
 export default function Clientes({ navigation }: ClientesScreenProps ) {
@@ -22,7 +24,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   const [query, setQuery] = useState('');
 
   //JSON
+ //const [clientes, setClientes] = useState<Record<string, any>>({});
   const [clientes, setClientes] = useState<FormerJSON>(datos.CLIENTES || {});
+  const [clientesOG, setClientesOG] = useState<Record<string, any>>({});
 
   //Constantes modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,8 +37,123 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   //Constante picker
   const [selectedCriteria, setSelectedCriteria] = useState('Nombre');
 
-  //Otras constantes:
-  const [id, setId] = useState(1)
+  //Otras constantes
+  const [id, setId] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [idEmpresa, setIdEmpresa] = useState('');
+
+  //Cargar ID de Empresa
+  /*useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar sucursales desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarClientes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerClientes();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const clientesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              clientesObj[index + 1] = [item.nombre, item.telefono, item.ciudad, item.estado];
+            });
+          }
+          
+          setClientes(clientesObj);
+          setClientesOG(clientesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los clientes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarClientes();
+    }, [])
+  );
+
+  const handleAgregar = async () => {
+    const validation = Validar(4, nombre, telefono, ciudad, estado);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await agregarClientes(nombre, telefono, ciudad, estado);
+      if (response.success) {
+        // Recargar clientes
+        const data = await obtenerClientes();
+        const clientesObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            clientesObj[index + 1] = [item.nombre, item.telefono, item.ciudad, item.estado];
+          });
+        }
+        setClientes(clientesObj);
+        setClientesOG(clientesObj);
+        setModalVisible(false);
+        setNombre('');
+        setTelefono('');
+        setCiudad('');
+        setEstado('')
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo agregar el cliente');
+    }
+  };
+
+  const handleEditar = async () => {
+    const validation = Validar(4, nombre, telefono, ciudad, estado);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await editarCliente(id, nombre, telefono, ciudad, estado);
+      if (response.success) {
+        // Actualizar localmente
+        const clientesActualizados = { ...clientes };
+        clientesActualizados[id] = [nombre, telefono, ciudad, estado];
+        setClientes(clientesActualizados);
+        setProveedores(proveedoresActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el cliente');
+    }
+  };
+
+  const handleEliminar = async () => {
+    try {
+      const response = await eliminarCliente(id);
+      if (response.success) {
+        const nuevosClientes = { ...clientes };
+        delete nuevosClientes[id];
+        setClientes(nuevosClientes);
+        setProveedoresOG(nuevasSucursales);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar el cliente');
+    }
+  };*/
 
   return (
     <View style={styles.container}>
@@ -378,7 +497,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   </View>
 
                   {/* Body - cada registro es una fila */}
-                  {Object.values(clientes || {}).length > 0 ? (
+                  {!isLoading ? (
+                  Object.values(clientes || {}).length > 0 ? (
                   Object.entries(clientes).map(([id, data]: [string, any]) => {
                   const [nombre, telefono, ciudad, estado] = data;
                   return(
@@ -402,6 +522,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               ) : (
             <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
               No hay clientes registrados</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
           </View>
         

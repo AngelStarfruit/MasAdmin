@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//const API_URL = 'https://tu-servidor-masadmin.com/api';
 //-----------------------FUNCIONES GENERALES-----------------------------------------
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes.
 export const NoEmojis = (texto: string) => {
@@ -74,6 +77,96 @@ export const AddEvento = (data: any, id: number, evento: string, fechaHora: stri
     [id]: [evento, fechaHora, lugar, contacto]
   };
 };
+/*export const obtenerEventos = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/recordatorios`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error obteniendo proveedores:', error);
+    throw error;
+  }
+};
+
+export const agregarEvento = async (evento: string, fechaHora: string, lugar: string, contacto: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+
+    const response = await fetch(`${API_URL}/recordatorios`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ evento, fechaHora, lugar, contacto }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error agregando evento:', error);
+    throw error;
+  }
+};
+
+export const editarEvento = async (id: number, evento: string, fechaHora: string, lugar: string, contacto: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+
+    const response = await fetch(`${API_URL}/eventos/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ evento, fechaHora, lugar, contacto }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error editando evento:', error);
+    throw error;
+  }
+};
+
+export const eliminarEvento = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/recordatorios/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error eliminando eventos:', error);
+    throw error;
+  }
+};*/
   //-----------------------FUNCIONES Sucursales----------------------------------------------
 //Función para agregar una sucursal 
 export const AddSucursal = (data: any, id: number, sucursal: string, telefono: string) => {
@@ -82,6 +175,96 @@ export const AddSucursal = (data: any, id: number, sucursal: string, telefono: s
     [id]: [sucursal, telefono]
   };
 };
+/*export const obtenerSucursales = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/sucursales`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error obteniendo sucursales:', error);
+    throw error;
+  }
+};
+
+export const agregarSucursal = async (sucursal: string, telefono: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/sucursales`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sucursal, telefono }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error agregando sucursal:', error);
+    throw error;
+  }
+};
+
+export const editarSucursal = async (id: number, sucursal: string, telefono: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/sucursales/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ sucursal, telefono }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error editando sucursal:', error);
+    throw error;
+  }
+};
+
+export const eliminarSucursal = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/sucursales/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error eliminando sucursal:', error);
+    throw error;
+  }
+};*/
   //-----------------------FUNCIONES Categorías----------------------------------------------
 //Función para agregar una sucursal 
 export const AddCategoria = (data: any, id: number, categoria: string) => {
@@ -90,6 +273,105 @@ export const AddCategoria = (data: any, id: number, categoria: string) => {
     [id]: categoria
   };
 };
+/*export const obtenerCategorias = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/categorias`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    
+    // Convertir array a objeto con índices
+    // Si el servidor devuelve: ["Lácteos", "Carnes frías", ...]
+    if (Array.isArray(data)) {
+      const categoriasObj: Record<string, string> = {};
+      data.forEach((item: string, index: number) => {
+        categoriasObj[index + 1] = item;
+      });
+      return categoriasObj;
+    }
+    
+    return data;
+  } catch (error) {
+    console.log('Error obteniendo categorías:', error);
+    throw error;
+  }
+};
+
+export const agregarCategoria = async (categoria: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/categorias`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ categoria }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error agregando categoría:', error);
+    throw error;
+  }
+};
+
+export const editarCategoria = async (id: number, categoria: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/categorias/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ categoria }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error editando categoría:', error);
+    throw error;
+  }
+};
+
+export const eliminarCategoria = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/categorias/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error eliminando categoría:', error);
+    throw error;
+  }
+};*/ 
 //-----------------------FUNCIONES ListaDePrecios--------------------------------------------
 //Función para agregar un elemento en la lista de precios
 export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
@@ -110,10 +392,93 @@ export const AddPrecio = (data: any, id: number, descripcion: string, marca: str
     [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría]
   };
 };
-//Función para agregar un elemento gasto en la lista de precios
-export const AddPrecioG = (data: any, id: number, descripcion: string, marca: string, costo: string, unidad: string, tipo: string, contenido: any, categoría: string,) => {
-  return {
-    ...data,
-    [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría]
-  };
+/*export const obtenerPrecios = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/productos`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
 };
+
+export const agregarPrecio = async (descripcion: string, marca: string, costo: number, unidad: string, tipo: string, contenido: any, categoría: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/productos`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ descripcion, marca, costo, unidad, tipo, contenido, categoría }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const editarPrecio = async (id: number, descripcion: string, marca: string, costo: number, unidad: string, tipo: string, contenido: any, categoría: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/productos/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ descripcion, marca, costo, unidad, tipo, contenido, categoría }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const eliminarPrecio = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/productos/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/

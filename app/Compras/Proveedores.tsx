@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar, QuitarElemento, AddProveedor } from './backend';
+import { NoEmojis, Validar} from './backend'
+import { QuitarElemento, AddProveedor } from './backend';
+import {useFocusEffect} from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json';
 
 export default function Proveedores({ navigation }: ProveedoresScreenProps) {
@@ -22,7 +25,9 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   const [query, setQuery] = useState('');
 
   //JSON
+  //const [proveedores, setProveedores] = useState<Record<string, any>>({});
   const [proveedores, setProveedores] = useState<FormerJSON>(datos.PROVEEDORES || {});
+  const [proveedoresOG, setProveedoresOG] = useState<Record<string, any>>({});
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,8 +38,123 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
   //Constante de picker
   const [selectedCriteria, setSelectedCriteria] = useState('Empresa');
 
-  //Otras constantes:
-  const [id, setId] = useState(1)
+   //Otras constantes
+  const [id, setId] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [idEmpresa, setIdEmpresa] = useState('');
+
+  //Cargar ID de Empresa
+  /*useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar proveedores desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarProveedores = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerProveedores();
+          
+          // Convertir el array de proveedores a objeto con índices
+          const proveedoresObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              proveedoresObj[index + 1] = [item.empresa, item.telefono, item.ciudad, item.estado];
+            });
+          }
+          
+          setProveedores(proveedoresObj);
+          setProveedoresOG(proveedoresObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los proveedores');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarProveedores();
+    }, [])
+  );
+
+  const handleAgregar = async () => {
+    const validation = Validar(4, empresa, telefono, ciudad, estado);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await agregarProveedores(empresa, telefono, ciudad, estado);
+      if (response.success) {
+        // Recargar proveedores
+        const data = await obtenerProveedores();
+        const proveedoresObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            proveedoresObj[index + 1] = [item.empresa, item.telefono, item.ciudad, item.estado];
+          });
+        }
+        setProveedores(proveedoresObj);
+        setProveedoresOG(proveedoresObj);
+        setModalVisible(false);
+        setEmpresa('');
+        setTelefono('');
+        setCiudad('');
+        setEstado('')
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo agregar el proveedor');
+    }
+  };
+
+  const handleEditar = async () => {
+    const validation = Validar(4, empresa, telefono, ciudad, estado);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await editarProveedor(id, empresa, telefono, ciudad, estado);
+      if (response.success) {
+        // Actualizar localmente
+        const proveedoresActualizados = { ...proveedores };
+        proveedoresActualizados[id] = [empresa, telefono, ciudad, estado];
+        setProveedores(proveedoresActualizados);
+        setProveedores(proveedoresActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el proveedor');
+    }
+  };
+
+  const handleEliminar = async () => {
+    try {
+      const response = await eliminarProveedor(id);
+      if (response.success) {
+        const nuevosProveedores = { ...proveedores };
+        delete nuevosProveedores[id];
+        setProveedores(nuevosProveedores);
+        setProveedoresOG(nuevosProveedores);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar el proveedor');
+    }
+  };*/
 
   return (
     <View style={styles.container}>
@@ -378,7 +498,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   </View>
 
                   {/* Body - cada registro es una fila */}
-                  {Object.values(proveedores || {}).length > 0 ? (
+                  {!isLoading ? (
+                  Object.values(proveedores || {}).length > 0 ? (
                   Object.entries(proveedores).map(([id, data]: [string, any]) => {
                   const [empresa, telefono, ciudad, estado] = data;
                   return(
@@ -402,7 +523,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               ) : (
             <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
               No hay proveedores registrados</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
+
 
 
           </View>

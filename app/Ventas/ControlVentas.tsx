@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
 import Constants from 'expo-constants';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+//import { obtenerVentas } from './backend';
 import type { ControlVentasScreenProps } from './types';
+import {useFocusEffect} from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+
 import datos from './datos.json'
 
 export default function ControlVentas({ navigation }: ControlVentasScreenProps ) {
@@ -12,7 +15,37 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
   const { theme, colors } = useTheme();
   const styles = getStyles(colors);
 
-  const [registrosVenta, setRegistrosVenta] = useState(datos.CONTROL_VENTAS || {})
+  //const [Ventas, setVentas] = useState<Record<string, any>>({});
+  const [Ventas, setVentas] = useState(datos.CONTROL_VENTAS || {})
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  /*useFocusEffect(
+    useCallback(() => {
+      const cargarVentas = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerVentas();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const ventasObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              ventasObj[index + 1] = [item.fecha, item.total, item.cliente];
+            });
+          }
+          
+          setVentas(ventasObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las ventas');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarVentas();
+    }, [])
+  );*/
 
   return (
     <View style={styles.container}>
@@ -52,8 +85,9 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                       </View>
                   </View>
 
-                {Object.values(registrosVenta || {}).length > 0 ? (
-                Object.entries(registrosVenta).map(([id, data]: [string, any]) => {
+                {!isLoading ? (
+                Object.values(Ventas || {}).length > 0 ? (
+                Object.entries(Ventas).map(([id, data]: [string, any]) => {
                   const [fecha, total, cliente] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -64,7 +98,10 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                 )
                  })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center'}}>Esperando a que efectúe una venta...</Text>
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>Esperando a que efectúe una venta...</Text>
+            )) : (
+            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
 
           </View>

@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//const API_URL = 'https://tu-servidor-masadmin.com/api';
 //-----------------------FUNCIONES GENERALES-----------------------------------------  
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes
 export const NoEmojis = (texto: string) => {
@@ -155,3 +158,159 @@ export const AddProveedor = (data: any, id: number, empresa: string, telefono: s
     [id]: [empresa, telefono, ciudad, estado]
   };
 };
+/*export const obtenerProveedores = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/proveedores`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error obteniendo proveedores:', error);
+    throw error;
+  }
+};
+
+export const agregarProveedor = async (empresa: string, telefono: string, ciudad: string, estado: string,) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/proveedores`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ empresa, telefono, ciudad, estado }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error agregando proveedor:', error);
+    throw error;
+  }
+};
+
+export const editarProveedor = async (id: number, empresa: string, telefono: string, ciudad: string, estado: string,) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/proveedor/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ empresa, telefono, ciudad, estado  }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const eliminarProveedor = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/proveedores/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+//-----------------------FUNCIONES Control Compras----------------------------------------------
+//Función para mostrar las compras realizadas
+/*export const obtenerCompras = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/compras`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+//-----------------------FUNCIONES Control Gastos----------------------------------------------
+//Función para mostrar los gastos realizadas
+/*export const obtenerGastos = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/gastos`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/

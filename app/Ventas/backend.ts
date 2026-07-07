@@ -1,4 +1,7 @@
-  //-----------------------FUNCIONES GENERALES-----------------------------------------
+ import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//const API_URL = 'https://tu-servidor-masadmin.com/api';
+ //-----------------------FUNCIONES GENERALES-----------------------------------------
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes
 export const NoEmojis = (texto: string) => {
   return texto.replace(/[^a-zA-ZáéíóúñÑüÜ0-9\s\.\,\-\_]/g, '');
@@ -130,3 +133,126 @@ export const AddCliente = (data: any, id: number, nombre: string, telefono: stri
     [id]: [nombre, telefono, ciudad, estado]
   };
 };
+/*export const obtenerClientes = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/clientes`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const agregarCliente = async (nombre: string, telefono: string, ciudad: string, estado: string,) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/clientes`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nombre, telefono, ciudad, estado }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const editarCliente = async (id: number, nombre: string, telefono: string, ciudad: string, estado: string,) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/clientes/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nombre, telefono, ciudad, estado  }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+
+export const eliminarCliente = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/clientes/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+//-----------------------FUNCIONES Control Ventas----------------------------------------------
+//Función para mostrar las ventas realizadas
+/*export const obtenerVentas = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/cot1`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/

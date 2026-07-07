@@ -19,7 +19,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [query, setQuery] = useState('');
 
   //JSONs de datos
+  //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const [almacenes, setAlmacenes] = useState<FormerJSON>(datosA.ALMACENES || {});
+  const [almacenesOG, setAlmacenesOG] = useState<Record<string, any>>({});
   const sucursales: Record<string, any> = datosS.SUCURSALES || {};
 
   //Constantes de pickers
@@ -33,7 +35,120 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   const [Confirm, setConfirm] = useState(false);
 
   //Otras constantes
-  const [id, setId] = useState(1)
+  const [id, setId] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [idEmpresa, setIdEmpresa] = useState('');
+
+  /*// Cargar ID de empresa
+  useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar almacenes desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarAlmacenes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerAlmacenes();
+          
+          // Convertir el array de almacenes a objeto con índices
+          const almacenesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              almacenesObj[index + 1] = [item.almacen, item.sucursal];
+            });
+          }
+          
+          setAlmacenes(almacenesObj);
+          setAlmacenesOG(almacenesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los almacenes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarAlmacenes();
+    }, [])
+  );
+
+  const handleAgregar = async () => {
+    const validation = Validar(2, almacen, sucursal, '', '');
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await agregarAlmacen(almacen, sucursal);
+      if (response.success) {
+        // Recargar almacenes
+        const data = await obtenerAlmacenes();
+        const almacenesObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            almacenesObj[index + 1] = [item.almacen, item.sucursal];
+          });
+        }
+        setAlmacenes(almacenesObj);
+        setAlmacenesOG(almacenesObj);
+        setModalVisible(false);
+        setAlmacen('');
+        setSucursal('');
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo agregar el almacén');
+    }
+  };
+
+  const handleEditar = async () => {
+    const validation = Validar(2, almacen, sucursal, '', '');
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await editarAlmacen(id, almacen, sucursal);
+      if (response.success) {
+        // Actualizar localmente
+        const almacenesActualizados = { ...almacenes };
+        almacenesActualizados[id] = [almacen, sucursal];
+        setAlmacenes(almacenesActualizados);
+        setAlmacenesOG(almacenesActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el almacén');
+    }
+  };
+
+  const handleEliminar = async () => {
+    try {
+      const response = await eliminarAlmacen(id);
+      if (response.success) {
+        const nuevosAlmacenes = { ...almacenes };
+        delete nuevosAlmacenes[id];
+        setAlmacenes(nuevosAlmacenes);
+        setAlmacenesOG(nuevosAlmacenes);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar el almacén');
+    }
+  }; */
 
   return (
     <View style={styles.container}>
@@ -362,7 +477,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   </View>
 
                   {/* Body - cada registro es una fila */}
-                  {Object.values(almacenes || {}).length > 0 ? (
+                  {!isLoading ? (
+                  Object.values(almacenes || {}).length > 0 ? (
                   Object.entries(almacenes).map(([id, data]: [string, any]) => {
                   const [almacen, sucursal] = data;
                   return(
@@ -384,6 +500,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
               ) : (
             <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
               No hay almacenes registrados en esta sucursal</Text>
+            )) : (
+              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              Cargando...</Text>
             )}
           </View>
         
