@@ -4,6 +4,7 @@ import Constants from 'expo-constants';
 import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NoEmojis, Validar } from './backend';
+//import { obtenerUsuarios } from './backend';
 import type { signupScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -127,6 +128,14 @@ export default function Dashboard({ navigation }: signupScreenProps) {
             </Text>
             <View style={styles.Card}>
               <Text style={styles.CardText}>
+                ID Empresa:
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={idEmpresa}
+                onChangeText={(text) => setIdEmpresa(NoEmojis(text))}
+              />
+              <Text style={styles.CardText}>
                 Nombre de usuario:
               </Text>
               <TextInput
@@ -150,14 +159,6 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                   <Ionicons name={hidePassword ? "eye-outline" : "eye-off-outline"} size={20} color="#777" />  
                 </TouchableOpacity>
               </View>
-              <Text style={styles.CardText}>
-                ID Empresa:
-              </Text>
-              <TextInput
-                style={styles.input}
-                value={idEmpresa}
-                onChangeText={(text) => setIdEmpresa(NoEmojis(text))}
-              />
             </View>
             <View style={styles.Card}>
               <TouchableHighlight
@@ -187,9 +188,10 @@ export default function Dashboard({ navigation }: signupScreenProps) {
                       // Guardar usuario e ID
                       guardarUsuario(usuarioEncontrado, id);
                       navigation.navigate("Dashboard");
-                      setNombreUsuario('');  setContrasena('');  setNombreUsuario('');
+                      setIdEmpresa('');  setContrasena('');  setNombreUsuario('');
                     } else {
                       setTextVisible(1);
+                      setIdEmpresa('');  setContrasena('');  setNombreUsuario('');
                     }
                   }
                 }}

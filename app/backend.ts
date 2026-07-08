@@ -55,6 +55,20 @@ export const NumeroValido = (quantity: string): { isValid: boolean; message?: st
 
     return { isValid: true };
 }
+//Valida que en los inputs numéricos haya un número positivo válido.
+export const CostoValido = (costo: string): { isValid: boolean; message?: string } => {
+
+    if (!costo.trim()) {
+    return { isValid: false, message: 'Por favor, ingrese un costo.'};
+    }
+    
+    const num = Number(costo);
+    if (isNaN(num) || num <= 0){
+        return { isValid: false, message: 'Costo no válido.'};
+    }
+
+    return { isValid: true };
+}
 //-----------------------FUNCIONES register----------------------------------------------
  //Función para agregar un usuario
 export const AddUsuario = (data: any, id: number, nombre: string, genero: string, telefono: string, fecha: string, email: string, contrasena: string, empresa: string) => {
@@ -63,6 +77,75 @@ export const AddUsuario = (data: any, id: number, nombre: string, genero: string
     [id]: [nombre, genero, telefono, fecha, email, contrasena, empresa]
   };
 };
+/*export const obtenerUsuarios = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error obteniendo usuarios:', error);
+    throw error;
+  }
+};
+export const agregarUsuario = async (nombre: string, genero: string, telefono: string, fechaNacimiento: string, nombreUsuario: string, contrasena: string, empresa: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+
+    const response = await fetch(`${API_URL}/usuarios`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nombre, genero, telefono, fechaNacimiento, nombreUsuario, contrasena, empresa }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error agregando usuario:', error);
+    throw error;
+  }
+};
+export const editarUsuario = async (id: number, nombre: string, genero: string, telefono: string, fechaNacimiento: string, nombreUsuario: string, contrasena: string, empresa: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+
+    const response = await fetch(`${API_URL}/usuarios/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ nombre, genero, telefono, fechaNacimiento, nombreUsuario, contrasena, empresa }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error editando evento:', error);
+    throw error;
+  }
+};*/
 //-----------------------FUNCIONES Dashboard----------------------------------------------
 // Función para filtrar por rango de fechas
 export const filtrarPorRango = (data: any, fechaInicio: string, fechaFin: string) => {

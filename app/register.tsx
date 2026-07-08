@@ -4,7 +4,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar, AddUsuario } from './backend';
+import { NoEmojis, Validar } from './backend';
+//import { obtenerUsuarios, agregarUsuario } from './backend';
+import { AddUsuario } from './backend';
 import type { registerScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -22,18 +24,46 @@ export default function Dashboard({navigation}: registerScreenProps ) {
   const [showPicker, setShowPicker] = useState(false);
   const [nombreUsuario, setNombreUsuario] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const DOnChange = (event: any, selectedDate: any) => {
-    setShowPicker(false);
-    if (selectedDate) {
-      setFecha(selectedDate);
-    }
-  };
 
+  //const [usuarios, setUsuarios] = useState<Record<string, any>>({});
   const [usuarios, setUsuarios] = useState(datos.USUARIOS)
+  const [usuariosOG, setUsuariosOG] = useState<Record<string, any>>({});
 
   const [id, setId] = useState(Object.keys(usuarios).length + 1)
 
   const [hidePassword, setHidePassword] = useState(true)
+
+  /*
+  const handleAgregar = async () => {
+    const validation = Validar(4,nombre,telefono,nombreUsuario,contrasena);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+    const empresa = ''
+      const response = await agregarUsuario(nombre,genero,telefono,fecha,nombreUsuario,contrasena,empresa);
+      if (response.success) {
+        // Recargar sucursales
+        const data = await obtenerUsuarios();
+        const usuariosObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            usuariosObj[index + 1] = [item.nombre, item.genero, item.telefono, item.fecha, item.nombreUsuario, item.contrasena, item.empresa];
+          });
+        }
+        setUsuarios(usuariosObj);
+        setUsuariosOG(usuariosObj);
+         setNombre(''); 
+         setTelefono(''); 
+         setNombreUsuario(''); 
+         setContrasena('')
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo registrar el usuario');
+    }
+  };*/
 
   return (
     <View style={styles.container}>

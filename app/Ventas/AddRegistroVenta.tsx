@@ -245,7 +245,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
       {/* Modal para agregar elementos a la venta */}
           <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -345,7 +345,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
       {/* Modal para vender productos */}
                               <Modal
-                                    animationType="slide"
+                                    animationType="fade"
                                     transparent={true}
                                     visible={Receive}
                                     onRequestClose={() => {
@@ -385,7 +385,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
       {/* Modal para confirmar salida */}
                               <Modal
-                                    animationType="slide"
+                                    animationType="fade"
                                     transparent={true}
                                     visible={Confirm}
                                     onRequestClose={() => {
@@ -739,7 +739,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 290,

@@ -299,7 +299,7 @@ export const eliminarAlmacen = async (id: number) => {
       throw new Error('No hay sesión activa');
     }
 
-    const response = await fetch(`${API_URL}/ajustinv`, {
+    const response = await fetch(`${API_URL}/almax, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

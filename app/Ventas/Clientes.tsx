@@ -173,7 +173,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
     {/* Modal para añadir clientes */}
         <Modal
-              animationType="slide"
+              animationType="fade"
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
@@ -252,7 +252,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
           {/* Modal para editar clientes */}
         <Modal
-              animationType="slide"
+              animationType="fade"
               transparent={true}
               visible={EmodalVisible}
               onRequestClose={() => {
@@ -335,7 +335,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
       
       {/* Modal para realizar una búsqueda */}
                   <Modal
-                        animationType="slide"
+                        animationType="fade"
                         transparent={true}
                         visible={Busqueda}
                         onRequestClose={() => {
@@ -411,7 +411,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
       
       {/* Modal para confirmar borrado */}
                   <Modal
-                        animationType="slide"
+                        animationType="fade"
                         transparent={true}
                         visible={Confirm}
                         onRequestClose={() => {
@@ -565,6 +565,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     width: 125, height: 40,
     marginTop: 10,
     padding: 10,
+    borderRadius: 15,
     elevation: 5,
   },
   query: {
@@ -600,7 +601,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 220,

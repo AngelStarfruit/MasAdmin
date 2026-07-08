@@ -82,7 +82,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
       {/* Modal para agregar gastos */}
           <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -140,7 +140,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
       {/* Modal para recibir productos */}
                               <Modal
-                                    animationType="slide"
+                                    animationType="fade"
                                     transparent={true}
                                     visible={Receive}
                                     onRequestClose={() => {
@@ -150,7 +150,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                     <View style={[styles.modalView, {marginVertical: 380}]}>
                           
                                       <View>
-                                        <Text style={styles.modalTitle}>¿Confirmar gasto?</Text>
+                                        <Text style={styles.modalTitle}>¿Confirmar gastos?</Text>
                                       </View>
                           
                                       <View style={styles.hr}/>
@@ -179,7 +179,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
       {/* Modal para confirmar salida */}
                               <Modal
-                                    animationType="slide"
+                                    animationType="fade"
                                     transparent={true}
                                     visible={Confirm}
                                     onRequestClose={() => {
@@ -371,7 +371,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 290,

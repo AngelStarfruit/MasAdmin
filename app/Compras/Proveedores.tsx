@@ -172,7 +172,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
     {/* Modal para añadir proveedores */}
     <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
@@ -251,7 +251,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
       {/* Modal para editar proveedores */}
     <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={EmodalVisible}
           onRequestClose={() => {
@@ -308,7 +308,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <TouchableHighlight
-              underlayColor={'#f3fe53'} style={styles.modalEdit}
+              underlayColor={colors.editUnderlay} style={styles.modalEdit}
                 onPress={() => {
                   const validation = Validar(4,empresa,telefono,ciudad,estado);
                         if (!validation.isValid) {
@@ -320,7 +320,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                 <Text style={styles.text}>Editar registro</Text>
               </TouchableHighlight>
               <TouchableHighlight
-              underlayColor={'#ff9797'} style={styles.modalDelete}
+              underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                 onPress={() => setConfirm(true)}>
                 <Text style={styles.text}>Borrar registro</Text>
               </TouchableHighlight>
@@ -334,7 +334,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
         {/* Modal para realizar una búsqueda */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={Busqueda}
                   onRequestClose={() => {
@@ -410,7 +410,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
       {/* Modal para confirmar borrado */}
                         <Modal
-                              animationType="slide"
+                              animationType="fade"
                               transparent={true}
                               visible={Confirm}
                               onRequestClose={() => {
@@ -604,7 +604,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 220,

@@ -135,7 +135,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
       {/* Modal para añadir categorías */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={modalVisible}
                   onRequestClose={() => {
@@ -185,7 +185,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
     
     {/* Modal para editar categorías */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={modalEVisible}
                   onRequestClose={() => {
@@ -240,7 +240,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
      {/* Modal para confirmar borrado */}
                              <Modal
-                                   animationType="slide"
+                                   animationType="fade"
                                    transparent={true}
                                    visible={Confirm}
                                    onRequestClose={() => {
@@ -429,7 +429,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30,

@@ -166,7 +166,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
     {/* Modal para añadir almacenes */}
                 <Modal
-                      animationType="slide"
+                      animationType="fade"
                       transparent={true}
                       visible={modalVisible}
                       onRequestClose={() => {
@@ -242,7 +242,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                   {/* Modal para editar almacenes */}
                 <Modal
-                      animationType="slide"
+                      animationType="fade"
                       transparent={true}
                       visible={EmodalVisible}
                       onRequestClose={() => {
@@ -322,7 +322,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                     </Modal>
       {/* Modal para realizar una búsqueda */}
                   <Modal
-                        animationType="slide"
+                        animationType="fade"
                         transparent={true}
                         visible={Busqueda}
                         onRequestClose={() => {
@@ -394,7 +394,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
       
       {/* Modal para confirmar borrado */}
                               <Modal
-                                    animationType="slide"
+                                    animationType="fade"
                                     transparent={true}
                                     visible={Confirm}
                                     onRequestClose={() => {
@@ -578,7 +578,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 290,

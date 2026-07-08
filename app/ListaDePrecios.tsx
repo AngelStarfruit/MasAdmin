@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInpu
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect, useCallback} from 'react';
-import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento} from './backend'
+import { NoEmojis, Validar, NumeroValido, CostoValido, AddElemento, QuitarElemento} from './backend'
 //import { obtenerPrecios, agregarPrecio, editarPrecio, eliminarPrecio, obtenerCategorias } from './backend'
 import { AddPrecio } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
@@ -53,6 +53,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
+  const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
+    const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
   const [selectedCategory, setSelectedCategory] = useState(categorias[Object.keys(categorias)[0]]?.[0] || '');
 
   /*useFocusEffect(
@@ -263,7 +265,7 @@ useFocusEffect(
 
     {/* Modal para añadir elementos */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={modalVisible}
                   onRequestClose={() => {
@@ -310,7 +312,7 @@ useFocusEffect(
                         enabled = {addCategoryOn}
                         selectedValue={selectedCategory}
                         onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-                        style={styles.picker}  
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}  
                         itemStyle={styles.pickerItem}
                         >
                       {Object.values(categorias || {}).length > 0 ? (
@@ -334,12 +336,13 @@ useFocusEffect(
                       <Picker
                         selectedValue={selectedUValue}
                         onValueChange={(itemValue) => setSelectedUValue(itemValue)}
-                        style={styles.picker} 
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]} 
                         itemStyle={styles.pickerItem}
                         >
                       <Picker.Item label="Pieza" value="pieza" />
-                      <Picker.Item label="Gramo" value="g" />
-                      <Picker.Item label="Kilogramo" value="kg" />
+                      <Picker.Item label="Gramo" value="gramo" />
+                      <Picker.Item label="Kilogramo" value="kilogramo" />
+                      <Picker.Item label="Metro" value="metro" />
                       </Picker>
                       </View>
                     </View>
@@ -349,7 +352,7 @@ useFocusEffect(
                       <Picker
                         selectedValue={selectedTValue}
                         onValueChange={(itemValue) => setSelectedTValue(itemValue)}
-                        style={styles.picker} 
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]} 
                         itemStyle={styles.pickerItem}
                         >
                       <Picker.Item label="Producto" value="producto" />
@@ -366,8 +369,13 @@ useFocusEffect(
                       underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
                           const validation = Validar(3,descripcion,marca,costo,'');
+                          const validationNum = CostoValido(costo)
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                            if (!validationNum.isValid) {
+                            Alert.alert('Error', validationNum.message);
                             return; 
                             }
                             if (selectedTValue == 'producto'){
@@ -396,7 +404,7 @@ useFocusEffect(
         
               {/* Modal para editar elementos */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={EmodalVisible}
                   onRequestClose={() => {
@@ -458,14 +466,19 @@ useFocusEffect(
                         <Text style={styles.text}>Editar paquete</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={colors.confirmUnderlay} style={styles.modalEdit}
+                      underlayColor={colors.editUnderlay} style={styles.modalEdit}
                         onPress={() => {
+                          const validationNum = CostoValido(costo)
                           let validation = Validar(3,descripcion,marca,costo,'');
                           if(!editMarcaOn){
                             validation = Validar(2,descripcion,costo,'','');
                           }
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                            if (!validationNum.isValid) {
+                            Alert.alert('Error', validationNum.message);
                             return; 
                             }
                         setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,category))
@@ -489,7 +502,7 @@ useFocusEffect(
 
             {/* Modal para confirmar borrado */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={Confirm}
                   onRequestClose={() => {
@@ -527,7 +540,7 @@ useFocusEffect(
 
       {/* Modal para agregar paquete */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={NewPaquete}
                   onRequestClose={() => {
@@ -622,7 +635,7 @@ useFocusEffect(
       
       {/* Modal para editar paquete */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={Paquete}
                   onRequestClose={() => {
@@ -732,7 +745,7 @@ useFocusEffect(
       
       {/* Modal para definir elementos para los paquetes*/}
                 <Modal
-                      animationType="slide"
+                      animationType="fade"
                       transparent={true}
                       visible={AlterPaquete}
                       onRequestClose={() => {
@@ -759,23 +772,36 @@ useFocusEffect(
                             <Text style={styles.modalLabel}>Elemento:</Text>
                             <View style={{width:150, height:55}}>
                               <Picker
-                              style={styles.picker}
-                              selectedValue={selectedProduct}
-                              onValueChange={(itemValue) => setSelectedProduct(itemValue)}
-                              >
-                              {Object.values(productos || {}).length > 0 ? (
-                                              Object.values(productos).map((producto: any, index) => (
-                                              <Picker.Item 
-                                              style={styles.pickerItem} 
-                                              key={index} 
-                                              label={String(producto[0])} 
-                                              value={String(producto[0])} 
-                                                />
-                                            ))
-                                            ) : (
-                                            <Picker.Item label="-" value="" />
-                                            )}
-                              </Picker></View>
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
+                        selectedValue={selectedProduct}
+                        onValueChange={(itemValue) => {
+                        setSelectedProduct(itemValue);
+                        const productoEncontrado = (productos as any)[itemValue]; // ← Acceder por ID
+                        if (productoEncontrado) {
+                          setProductMarca(productoEncontrado[1]);
+                          setProductCosto(productoEncontrado[2]);
+                        }
+                        }}
+                        >
+                        {Object.entries(productos || {}).length > 0 ? (
+                        Object.entries(productos)
+                        .sort((a, b) => {
+                        const nombreA = String(a[1][0]).toLowerCase();
+                        const nombreB = String(b[1][0]).toLowerCase();
+                         return nombreA.localeCompare(nombreB);  
+                        })
+                        .map(([id, producto]: [string, any]) => (
+                        <Picker.Item 
+                        style={styles.pickerItem} 
+                        key={id} 
+                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        value={id}  // ← Usar el ID como value
+                        />
+                        ))
+                        ) : (
+                        <Picker.Item label="-" value="" />
+                         )}
+                        </Picker></View>
                           </View>
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Cantidad:</Text>
@@ -978,8 +1004,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-    marginBottom: 80
+    paddingVertical: 20
   },
   row: {flexDirection: 'row',},
   headerCell: {
@@ -1004,7 +1029,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 150,

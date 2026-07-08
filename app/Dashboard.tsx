@@ -87,7 +87,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
   //JSON
+  //const [usuarios, setUsuarios] = useState<Record<string, any>>({});
   const [usuarios, setUsuarios] = useState(datos.USUARIOS);
+  const [usuariosOG, setUsuariosOG] = useState<Record<string, any>>({});
   //const [eventos, setEventos] = useState<Record<string, any>>({});
   const eventos: Record<string, any> = datos.EVENTOS
   const [eventosOG, setEventosOG] = useState<Record<string, any>>({});
@@ -371,6 +373,47 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     }
   }; 
 
+  const handleEditarU = async () => {
+    const validation = Validar(4, nombre, telefono, nombreUsuario, contrasena);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+    try {
+      const response = await editarUsuario(idUsuario, nombre,genero,telefono,fecha,nombreUsuario,contrasena,empresa);
+      if (response.success) {
+        // Actualizar localmente
+        const usuariosActualizados = { ...usuarios };
+        usuariosActualizados[id] = [nombre,genero,telefono,fecha,nombreUsuario,contrasena,empresa];
+        setUsuarios(usuariosActualizados);
+        setUsuariosOG(usuariosActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el usuario');
+    }
+  };
+  const handleEditarE = async () => {
+    const validation = Validar(1, empresa, '','','');
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+    try {
+      const response = await editarUsuario(idUsuario, nombre,genero,telefono,fecha,nombreUsuario,contrasena,empresa);
+      if (response.success) {
+        // Actualizar localmente
+        const usuariosActualizados = { ...usuarios };
+        usuariosActualizados[id] = [nombre,genero,telefono,fecha,nombreUsuario,contrasena,empresa];
+        setUsuarios(usuariosActualizados);
+        setUsuariosOG(usuariosActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el usuario');
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       const cargarVentas = async () => {
@@ -458,7 +501,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
       {/* Modal configuración */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -519,7 +562,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       
       {/* Modal Mi cuenta */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={userModalVisible}
         onRequestClose={() => {
@@ -634,7 +677,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
       {/* Modal mi empresa */}
 <Modal
-  animationType="slide"
+  animationType="fade"
   transparent={true}
   visible={empresaModalVisible}
   onRequestClose={() => {
@@ -722,7 +765,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
       {/* Modal para confirmar cerrado de sesión */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={ConfirmCerradoSesion}
         onRequestClose={() => {
@@ -756,7 +799,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       
       {/* Modal para añadir eventos */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalEvento}
         onRequestClose={() => {
@@ -846,7 +889,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       
       {/* Modal para editar eventos */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalEditEvento}
         onRequestClose={() => {
@@ -939,7 +982,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
       {/* Modal para confirmar borrado */}
                   <Modal
-                        animationType="slide"
+                        animationType="fade"
                         transparent={true}
                         visible={Confirm}
                         onRequestClose={() => {
@@ -1241,7 +1284,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 200,

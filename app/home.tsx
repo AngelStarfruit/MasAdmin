@@ -21,7 +21,7 @@ export default function Dashboard({navigation}: homeScreenProps ) {
 
     {/* Modal para añadir proveedores */}
             <Modal
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                   visible={modalVisible}
                   onRequestClose={() => {
@@ -144,7 +144,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Modal estilos
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 140,
