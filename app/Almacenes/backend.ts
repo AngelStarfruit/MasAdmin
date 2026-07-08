@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//const API_URL = 'https://tu-servidor-masadmin.com/api'; <--ES UN SECRETO
   //-----------------------FUNCIONES GENERALES-----------------------------------------
   // Elimina cualquier carácter que NO sea letra, número, espacio o signos comunes
 export const NoEmojis = (texto: string) => {
@@ -236,6 +239,58 @@ export const eliminarAlmacen = async (id: number) => {
 //-----------------------FUNCIONES Ajustes Inventario----------------------------------------------
 //Función para mostrar las compras realizadas
 /*export const obtenerAjustes = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const idEmpresa = await AsyncStorage.getItem('idEmpresa');
+    
+    if (!token) {
+      throw new Error('No hay sesión activa');
+    }
+
+    const response = await fetch(`${API_URL}/ajustinv`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 401) {
+      // Token expirado
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
+      throw new Error('Sesión expirada');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+/*export const agregarAjuste = async (almacen: string, operacion: string, fecha: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/ajustinv`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ almacen, operacion, fecha }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
+//-----------------------FUNCIONES Existencias almacen----------------------------------------------
+//Función para mostrar las compras realizadas
+/*export const obtenerExistencias = async () => {
   try {
     const token = await AsyncStorage.getItem('token');
     const idEmpresa = await AsyncStorage.getItem('idEmpresa');

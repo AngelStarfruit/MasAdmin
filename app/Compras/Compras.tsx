@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableHighlight, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
 import { useCallback } from 'react';
 import {useFocusEffect} from '@react-navigation/native';
+//import { obtenerProveedores } from './backend'; import { obtenerAlmacenes } from '../Almacenes/backend';
+//import { obtenerSucursales, obtenerPrecios } from '../backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -26,8 +28,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
   //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
   const almacenes = (datosA.ALMACENES || {});
 
-  /*
-   useFocusEffect(
+  /*useFocusEffect(
     useCallback(() => {
       const cargarEmpresa = async () => {
         try {

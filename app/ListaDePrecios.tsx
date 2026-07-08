@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect, useCallback} from 'react';
 import { NoEmojis, Validar, NumeroValido, AddElemento, QuitarElemento} from './backend'
-import { AddPrecio} from './backend';
+//import { obtenerPrecios, agregarPrecio, editarPrecio, eliminarPrecio, obtenerCategorias } from './backend'
+import { AddPrecio } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { useFocusEffect } from '@react-navigation/native';
@@ -38,7 +39,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const [listaPreciosOG, setListaPreciosOG] = useState<Record<string, any>>({});
   let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS // <----❌ Eliminar esto
-  const listaCategorias: Record<string, any>  = datos.CATEGORIAS
+  //const [categorias, setCategorias] = useState<Record<string, any>>({});
+  const categorias: Record<string, any>  = datos.CATEGORIAS
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
@@ -51,7 +53,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [selectedUValue, setSelectedUValue] = useState('pieza');
   const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
-  const [selectedCategory, setSelectedCategory] = useState(listaCategorias[Object.keys(listaCategorias)[0]]?.[0] || '');
+  const [selectedCategory, setSelectedCategory] = useState(categorias[Object.keys(categorias)[0]]?.[0] || '');
 
   /*useFocusEffect(
   useCallback(() => {
@@ -191,7 +193,24 @@ const handleEliminar = async () => {
   } catch (error: any) {
     Alert.alert('Error', error.message);
   }
-};*/
+};
+
+useFocusEffect(
+    useCallback(() => {
+      const cargarCategorias = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerCategorias();
+          setCategorias(data);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las categorías');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      cargarCategorias();
+    }, [])
+  );*/
 
   return (
     <View style={styles.container}>
@@ -294,8 +313,8 @@ const handleEliminar = async () => {
                         style={styles.picker}  
                         itemStyle={styles.pickerItem}
                         >
-                      {Object.values(listaCategorias || {}).length > 0 ? (
-                     Object.values(listaCategorias).map((categoria: any, id) => (
+                      {Object.values(categorias || {}).length > 0 ? (
+                     Object.values(categorias).map((categoria: any, id) => (
                      <Picker.Item 
                      style={styles.pickerItem} 
                     key={id} 
@@ -810,8 +829,8 @@ const handleEliminar = async () => {
               >
                 <Picker.Item label="Servicios" value="Servicios" />
                 <Picker.Item label="Paquetes" value="Paquetes" />
-                {Object.values(listaCategorias || {}).length > 0 ? (
-                     Object.values(listaCategorias).map((categoria: any, id) => (
+                {Object.values(categorias || {}).length > 0 ? (
+                     Object.values(categorias).map((categoria: any, id) => (
                      <Picker.Item 
                      style={styles.pickerItem} 
                     key={id} 
@@ -828,7 +847,7 @@ const handleEliminar = async () => {
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setContenidoPaquete({})
-                  if (Object.keys(listaCategorias).length > 0){
+                  if (Object.keys(categorias).length > 0){
                     setAddCategoryON(true)
                   }
                   else setAddCategoryON(false)

@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 //import { obtenerVentas } from './backend';
 import type { ControlVentasScreenProps } from './types';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -37,7 +37,7 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
           
           setVentas(ventasObj);
         } catch (error: any) {
-          Alert.alert('Error', error.message || 'No se pudieron cargar las ventas');
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de las ventas');
         } finally {
           setIsLoading(false);
         }

@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
-import { CostoValido, totalGasto, AddGasto, QuitarElemento, registrar } from './backend';
+import { CostoValido, totalGasto, AddGasto, QuitarElemento } from './backend';
+//import { agregarGasto } from './backend';
+import { registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import datosP from './datos.json'; 
@@ -25,7 +27,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
   //Constantes de JSON
   const [processGasto, setProcessGasto] = useState<RegistroGasto>({})
   //JSONs de datos
-  const [controlGasto, setControlGasto] = useState(datosP.CONTROL_GASTOS);
+  //const [Gastos, setGastos] = useState<Record<string, any>>({});
+  const [Gastos, setGastos] = useState(datosP.CONTROL_GASTOS);
+  const [GastosOG, setGastosOG] = useState<Record<string, any>>({});
 
   //Constantes extras
   const total = totalGasto(processGasto)
@@ -35,6 +39,28 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
 
   //ID
   const [idP, setIdP] = useState(1);
+
+  /*const handleAgregar = async () => {
+    try {
+      const response = await agregarGasto();
+      if (response.success) {
+        // Recargar compras
+        const totalNum = Number(total)
+        const data = await obtenerGastos(hoyStr, totalNum, gasto);
+        const comprasObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            comprasObj[index + 1] = [item.hoyStr, item.totalANum, item.gasto];
+          });
+        }
+        setCompras(comprasObj);
+        setComprasOG(comprasObj);
+        setReceive(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo registrar el gasto');
+    }
+  };*/
 
   return (
     <View style={styles.container}>
@@ -139,8 +165,8 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                         underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
-                                            setIdP(Object.keys(controlGasto).length + 1)
-                                            setControlGasto(registrar(controlGasto,idP,hoyStr,Number(total),gasto))
+                                            setIdP(Object.keys(Gastos).length + 1)
+                                            setGastos(registrar(Gastos,idP,hoyStr,Number(total),gasto))
                                             navigation.navigate("ControlGastos")
                                           }}>
                                           <Text style={styles.text}>SÍ</Text>

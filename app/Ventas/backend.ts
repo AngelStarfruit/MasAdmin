@@ -256,3 +256,22 @@ export const eliminarCliente = async (id: number) => {
     throw error;
   }
 };*/
+/*export const agregarVenta = async (fecha: string, total: number, cliente: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/cot1`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fecha, total, cliente }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/

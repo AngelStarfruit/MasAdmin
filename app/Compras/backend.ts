@@ -185,7 +185,7 @@ export const AddProveedor = (data: any, id: number, empresa: string, telefono: s
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log('Error obteniendo proveedores:', error);
+    console.log('Error:', error);
     throw error;
   }
 };
@@ -205,7 +205,7 @@ export const agregarProveedor = async (empresa: string, telefono: string, ciudad
 
     return await response.json();
   } catch (error) {
-    console.log('Error agregando proveedor:', error);
+    console.log('Error:', error);
     throw error;
   }
 };
@@ -281,6 +281,25 @@ export const eliminarProveedor = async (id: number) => {
     throw error;
   }
 };*/
+/*export const agregarCompra = async (fecha: string, total: number, proveedor: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/compras`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fecha, total, proveedor }),
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};*/
 //-----------------------FUNCIONES Control Gastos----------------------------------------------
 //Función para mostrar los gastos realizadas
 /*export const obtenerGastos = async () => {
@@ -309,6 +328,25 @@ export const eliminarProveedor = async (id: number) => {
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
+  }
+};
+export const agregarGasto = async (fecha: string, total: number, gasto: string) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/gastos`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fecha, total, gasto }),
+    });
+
+    return await response.json();
   } catch (error) {
     console.log('Error:', error);
     throw error;

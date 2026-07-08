@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar, QuitarElemento, AddAlmacen } from './backend';
+import { NoEmojis, Validar } from './backend' 
+//import { obtenerAlmacenes, agregarAlmacen, editarAlmacen, eliminarAlmacen } from './backend';
+import { QuitarElemento, AddAlmacen } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';

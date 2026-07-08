@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import type { VentasScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { useCallback } from 'react';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
+//import { obtenerClientes } from './backend'; import { obtenerAlmacenes } from '../Almacenes/backend';
+//import { obtenerSucursales, obtenerPrecios } from '../backend';
 import {Ionicons} from '@expo/vector-icons';
 
 import datosC from './datos.json'; import datos from '../datos.json'; import datosA from '../Almacenes/datos.json';
@@ -220,7 +222,7 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
                   && Object.keys(productos).length > 0 && Object.keys(almacenes).length > 0){
                   navigation.navigate("ControlVentas")
                   }
-                  else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un cliente, una sucursal, un producto y un producto o servicio")
+                  else Alert.alert("Sección no disponible","Para usar esta función, asegurese de tener al menos un cliente, una sucursal, un producto o servicio y un almacén")
                 }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de ventas</Text>

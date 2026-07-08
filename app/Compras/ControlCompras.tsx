@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
 import { useState, useCallback } from 'react';
 //import { obtenerCompras } from './backend';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 

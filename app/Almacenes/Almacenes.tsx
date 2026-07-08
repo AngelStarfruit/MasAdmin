@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableHighlight, Image, Alert} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { AlmacenesScreenProps } from './types';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useCallback } from 'react';
 import {useFocusEffect} from '@react-navigation/native';
+//import { obtenerAlmacenes } from '../Almacenes/backend';
+//import { obtenerSucursales, obtenerPrecios } from '../backend';
 
 import datos from '../datos.json'; import datosA from './datos.json';
 
@@ -24,8 +26,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
 
-  /*
-   useFocusEffect(
+  /* useFocusEffect(
     useCallback(() => {
       const cargarEmpresa = async () => {
         try {

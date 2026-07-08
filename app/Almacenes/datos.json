@@ -44,7 +44,6 @@
   "Jugo de naranja",
   "Del Valle",
   40,
-  32.50,
   "Almacén Centro A",
   "Centro"
 ],
@@ -52,7 +51,6 @@
   "Agua mineral",
   "Topo Chico",
   75,
-  24.00,
   "Almacén Palmas Norte",
   "Las Palmas"
 ],
@@ -60,7 +58,6 @@
   "Pan integral",
   "Bimbo",
   28,
-  48.90,
   "Almacén Miramar Sur",
   "Miramar"
 ],
@@ -68,7 +65,6 @@
   "Cuernito",
   "Tía Rosa",
   60,
-  18.50,
   "Almacén Universidad",
   "Universidad"
 ],
@@ -76,7 +72,6 @@
   "Manzana roja",
   "Del Campo",
   120,
-  39.90,
   "Almacén Aero 1",
   "Aeropuerto"
 ],
@@ -84,7 +79,6 @@
   "Zanahoria",
   "Del Campo",
   180,
-  21.00,
   "Almacén Jardines",
   "Jardines"
 ],
@@ -92,7 +86,6 @@
   "Papas fritas",
   "Sabritas",
   95,
-  19.50,
   "Almacén Centro A",
   "Centro"
 ],
@@ -100,7 +93,6 @@
   "Shampoo",
   "Head & Shoulders",
   32,
-  129.00,
   "Almacén Palmas Norte",
   "Las Palmas"
 ],
@@ -108,7 +100,6 @@
   "Pizza congelada",
   "Great Value",
   18,
-  119.90,
   "Almacén Miramar Sur",
   "Miramar"
 ],
@@ -116,7 +107,6 @@
   "Arroz",
   "Verde Valle",
   250,
-  36.00,
   "Almacén Universidad",
   "Universidad"
 ],
@@ -124,7 +114,6 @@
     "Nuez",
     "Valle Verde",
     3000,
-    0.7,
     "Almacén 67",
     "Petrolera"
   ],
@@ -132,7 +121,6 @@
     "Queso",
     "Caperucita",
     5,
-    260.00,
     "Almacén X",
     "Altama"
   ],
@@ -140,7 +128,6 @@
     "Chorizo",
     "Chimex",
     5,
-    23.99,
     "Almacén X",
     "Altama"
   ],
@@ -148,7 +135,6 @@
     "Tortillas de harina",
     "Tia Rosa",
     5,
-    35.00,
     "Almacén X",
     "Altama"
   ],
@@ -156,7 +142,6 @@
     "Queso",
     "Caperucita",
     9,
-    260.00,
     "Almacén 8",
     "Altama"
   ]

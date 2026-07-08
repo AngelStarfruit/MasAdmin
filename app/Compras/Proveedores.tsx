@@ -4,9 +4,10 @@ import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NoEmojis, Validar} from './backend'
+import { NoEmojis, Validar } from './backend'
+//import { obtenerProveedores, agregarProveedor, editarProveedor, eliminarProveedor } from './backend';
 import { QuitarElemento, AddProveedor } from './backend';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -95,7 +96,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
     }
 
     try {
-      const response = await agregarProveedores(empresa, telefono, ciudad, estado);
+      const response = await agregarProveedor(empresa, telefono, ciudad, estado);
       if (response.success) {
         // Recargar proveedores
         const data = await obtenerProveedores();

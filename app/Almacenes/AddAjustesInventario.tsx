@@ -1,10 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddAjustesInventarioScreenProps, AjusteInventario } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, AddElemento, QuitarElemento, registrar } from './backend';
+import { NumeroValido, AddElemento, QuitarElemento } from './backend' 
+//import { obtenerAlmacenes } from './backend';
+//import { obtenerSucursales, obtenerPrecios } from '../backend';
+//import { agregarAjuste } from './backend';
+import { registrar } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import datos from '../datos.json'; import datosA from './datos.json';
@@ -25,13 +29,18 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    //JSON para efectuar ajustes de inventario
   const [processAjusteInventario, setProcessAjusteInventario] = useState<AjusteInventario>({});
   //JSONs de datos
+  //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const sucursales: Record<string, any> = (datos.SUCURSALES || {})
+  //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
   const almacenes: Record<string, any> = (datosA.ALMACENES || {})
   const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes);
+  //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
-  const [controlAjusteInventario, setControlAjusteInventario] = useState(datosA.AJUSTES_INVENTARIO);
+  //const [Ajustes, setAjustes] = useState<Record<string, any>>({});
+  const [Ajustes, setAjustes] = useState(datosA.AJUSTES_INVENTARIO);
+  const [AjustesOG, setAjustesOG] = useState<Record<string, any>>({});
   const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
     //Constantes de pickers
@@ -65,6 +74,123 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    //ID
   const [idP, setIdP] = useState(1);
 
+  /* useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar sucursales desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarSucursales = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerSucursales();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const sucursalesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              sucursalesObj[index + 1] = [item.sucursal, item.telefono];
+            });
+          }
+          
+          setSucursales(sucursalesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las sucursales');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarSucursales();
+    }, [])
+  ); 
+
+  // Cargar precios desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarPrecios = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerPrecios();
+          
+          // Convertir el array de precios a objeto con índices
+          const preciosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              preciosObj[index + 1] = [item.descripcion, item.marca, item.costo, item.unidad, item.tipo, item.contenido, item.categoría];
+            });
+          }
+          
+          setPrecios(preciosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los precios');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarPrecios();
+    }, [])
+  ); 
+
+  // Cargar almacenes desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarAlmacenes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerAlmacenes();
+          
+          // Convertir el array de almacenes a objeto con índices
+          const almacenesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              almacenesObj[index + 1] = [item.almacen, item.sucursal];
+            });
+          }
+
+          setAlmacenes(almacenesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los almacenes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarAlmacenes();
+    }, [])
+  );
+  const handleAgregar = async () => {
+    try {
+      const response = await agregarAjuste();
+      if (response.success) {
+        // Recargar ajustes
+        const data = await obtenerAjuste(selectedStore, selectedOperation, hoyStr);
+        const ajustesObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            ventasObj[index + 1] = [item.selectedStore, item.selectedOperation, item.hoyStr];
+          });
+        }
+        setAjustes(ajustesObj);
+        setAjustesOG(ajustesObj);
+        setReceive(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo registrar el ajuste de inventario');
+    }
+  };*/
   return (
     <View style={styles.container}>
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
@@ -208,8 +334,8 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                         underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
-                                            setIdP(Object.keys(controlAjusteInventario).length + 1)
-                                            setControlAjusteInventario(registrar(controlAjusteInventario,idP,selectedStore,selectedOperation,hoyStr))
+                                            setIdP(Object.keys(Ajustes).length + 1)
+                                            setAjustes(registrar(Ajustes,idP,selectedStore,selectedOperation,hoyStr))
                                             navigation.navigate("AjustesInventario")
                                           }}>
                                           <Text style={styles.text}>SÍ</Text>

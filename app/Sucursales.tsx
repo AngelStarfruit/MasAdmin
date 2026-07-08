@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Moda
 import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 import { NoEmojis, Validar} from './backend';
+//import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursal } from './backend'
 import { QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
@@ -29,7 +30,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [EmodalVisible, setEModalVisible] = useState(false);
   const [Confirm, setConfirm] = useState(false);
-
   //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);

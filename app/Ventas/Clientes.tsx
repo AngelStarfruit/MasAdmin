@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { useState } from 'react';
-import { NoEmojis, Validar} from './backend'
+import { useState, useCallback } from 'react';
+import { NoEmojis, Validar } from './backend'
+//import { obtenerClientes, agregarCliente, editarCliente, eliminarCliente } from './backend';
 import { QuitarElemento, AddCliente } from './backend';
 import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -94,7 +96,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     }
 
     try {
-      const response = await agregarClientes(nombre, telefono, ciudad, estado);
+      const response = await agregarCliente(nombre, telefono, ciudad, estado);
       if (response.success) {
         // Recargar clientes
         const data = await obtenerClientes();

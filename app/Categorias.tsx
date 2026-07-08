@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { type CategoriasScreenProps, single } from './types';
 import { useState, useCallback } from 'react';
+//import { obtenerCategorias, agregarCategoria, editarCategoria, eliminarCategoria } from './backend';
 import { NoEmojis, Validar} from './backend';
 import { AddCategoria, QuitarElemento } from './backend';
 import { useTheme } from '../context/ThemeContext';

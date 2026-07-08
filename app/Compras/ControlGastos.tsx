@@ -36,7 +36,6 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
           }
           
           setGastos(gastosObj);
-          setGastosOG(gastosObj);
         } catch (error: any) {
           Alert.alert('Error', error.message || 'No se pudieron cargar los registros de los gastos');
         } finally {

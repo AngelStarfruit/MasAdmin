@@ -4,7 +4,11 @@ import Constants from 'expo-constants';
 import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
 import { useState, useEffect, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalCompra, AddElemento, QuitarElemento, registrar, afectarAlmacen } from './backend';
+import { NumeroValido, totalCompra, AddElemento, QuitarElemento } from './backend'
+//import { obtenerProveedores } from './backend'; import { obtenerAlmacenes } from '../Almacenes/backend';
+//import { obtenerSucursales, obtenerPrecios } from '../backend';
+//import { agregarCompra } from './backend';
+import { registrar, afectarAlmacen } from './backend';
 import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -26,15 +30,22 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   //Constantes de JSON
   const [processCompra, setProcessCompra] = useState<RegistroCompra>({})
   const [processACompra, setProcessACompra] = useState<RegistroCompra>({})
+
   //JSONs de datos
+  //const [proveedores, setProveedores] = useState<Record<string, any>>({});
   const proveedores: Record<string, any> = datosP.PROVEEDORES || {};
+  //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const sucursales: Record<string, any> = datos.SUCURSALES || {}
+  //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
+  //const [proveedores, setProveedores] = useState<Record<string, any>>({});
   const almacenes: Record<string, any> = datosA.ALMACENES || {};
   const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
-  const [controlCompra, setControlCompra] = useState(datosP.CONTROL_COMPRAS);
+  //const [Compras, setCompras] = useState<Record<string, any>>({});
+  const [Compras, setCompras] = useState(datosP.CONTROL_COMPRAS);
+  const [ComprasOG, setComprasOG] = useState<Record<string, any>>({});
   const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
   //Constantes de pickers
@@ -69,6 +80,153 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //ID
   const [idP, setIdP] = useState(1);
+
+  /*useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar proveedores desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarProveedores = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerProveedores();
+          
+          // Convertir el array de proveedores a objeto con índices
+          const proveedoresObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              proveedoresObj[index + 1] = [item.empresa, item.telefono, item.ciudad, item.estado];
+            });
+          }
+          
+          setProveedores(proveedoresObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los proveedores');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarProveedores();
+    }, [])
+  ); 
+
+  // Cargar sucursales desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarSucursales = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerSucursales();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const sucursalesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              sucursalesObj[index + 1] = [item.sucursal, item.telefono];
+            });
+          }
+          
+          setSucursales(sucursalesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar las sucursales');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarSucursales();
+    }, [])
+  ); 
+
+  // Cargar precios desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarPrecios = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerPrecios();
+          
+          // Convertir el array de precios a objeto con índices
+          const preciosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              preciosObj[index + 1] = [item.descripcion, item.marca, item.costo, item.unidad, item.tipo, item.contenido, item.categoría];
+            });
+          }
+          
+          setPrecios(preciosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los precios');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarPrecios();
+    }, [])
+  ); 
+
+  // Cargar almacenes desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarAlmacenes = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerAlmacenes();
+          
+          // Convertir el array de almacenes a objeto con índices
+          const almacenesObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              almacenesObj[index + 1] = [item.almacen, item.sucursal];
+            });
+          }
+
+          setAlmacenes(almacenesObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los almacenes');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarAlmacenes();
+    }, [])
+  );
+  const handleAgregar = async () => {
+    try {
+      const response = await agregarCompra();
+      if (response.success) {
+        // Recargar compras
+        const totalANum = Number(totalA)
+        const data = await obtenerCompras(hoyStr, totalANum, selectedProvider);
+        const comprasObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            comprasObj[index + 1] = [item.hoyStr, item.totalANum, item.selectedProvider];
+          });
+        }
+        setCompras(comprasObj);
+        setComprasOG(comprasObj);
+        setReceive(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo registrar la compra');
+    }
+  };*/
 
   return (
     <View style={styles.container}>
@@ -216,8 +374,8 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                         underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
                                           onPress={() => {
                                             setConfirm(!Receive);
-                                            setIdP(Object.keys(controlCompra).length + 1)
-                                            setControlCompra(registrar(controlCompra,idP,hoyStr,Number(totalA),selectedProvider))
+                                            setIdP(Object.keys(Compras).length + 1)
+                                            setCompras(registrar(Compras,idP,hoyStr,Number(totalA),selectedProvider))
                                             afectarAlmacen(existencias, processACompra, selectedStore, selectedBranch)
                                             navigation.navigate("ControlCompras")
                                           }}>

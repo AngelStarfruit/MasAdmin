@@ -4,10 +4,13 @@ import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from '@react-native-picker/picker';
-import React, { useState, useEffect, useCallback, createContext, useContext } from 'react';
-import { useRoute, useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Validar, NoEmojis, filtrarPorRango, AddEvento, QuitarElemento, AddUsuario } from './backend';
+import { Validar, NoEmojis, filtrarPorRango } from './backend';
+//import { obtenerCompras, obtenerGastos } from './Compras/backend'; import { obtenerVentas } from './Ventas/backend';
+//import { obtenerEventos, agregarEvento, editarEvento, eliminarEvento, editarUsuario } from './backend';
+import { AddEvento, QuitarElemento, AddUsuario } from './backend';
 import type { DashboardScreenProps } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -85,13 +88,17 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
   //JSON
   const [usuarios, setUsuarios] = useState(datos.USUARIOS);
+  //const [eventos, setEventos] = useState<Record<string, any>>({});
   const eventos: Record<string, any> = datos.EVENTOS
+  const [eventosOG, setEventosOG] = useState<Record<string, any>>({});
   const [eventosMostrados, setEventosMostrados] = useState(eventos);
-  
   //JSON sumatorias
-  const controlVentas: Record<string, any> = datosV.CONTROL_VENTAS
-  const controlCompras: Record<string, any> = datosC.CONTROL_COMPRAS
-  const controlGastos: Record<string, any> = datosC.CONTROL_GASTOS
+  //const [Ventas, setVentas] = useState<Record<string, any>>({});
+  const Ventas: Record<string, any> = datosV.CONTROL_VENTAS
+  //const [Compras, setCompras] = useState<Record<string, any>>({});
+  const Compras: Record<string, any> = datosC.CONTROL_COMPRAS
+  //const [Gastos, setGastos] = useState<Record<string, any>>({});
+  const Gastos: Record<string, any> = datosC.CONTROL_GASTOS
 
   //Modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -194,30 +201,30 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     const inicioAnioStr = `${hoy.getFullYear()}-01-01`;
     
     // Calcular HOY
-    const totalVHoy = Object.values(controlVentas || {})
+    const totalVHoy = Object.values(Ventas || {})
       .filter((venta: any) => venta[0] === hoyStr)
       .reduce((sum: number, venta: any) => sum + venta[1], 0);
-    const totalCHoy = Object.values(controlCompras || {})
+    const totalCHoy = Object.values(Compras || {})
       .filter((compra: any) => compra[0] === hoyStr)
       .reduce((sum: number, compra: any) => sum + compra[1], 0);
-    const totalGHoy = Object.values(controlGastos || {})
+    const totalGHoy = Object.values(Gastos || {})
       .filter((gasto: any) => gasto[0] === hoyStr)
       .reduce((sum: number, gasto: any) => sum + gasto[1], 0);
     
     // Calcular SEMANA
-    const totalVSemana = filtrarPorRango(controlVentas, inicioSemanaStr, hoyStr);
-    const totalCSemana = filtrarPorRango(controlCompras, inicioSemanaStr, hoyStr);
-    const totalGSemana = filtrarPorRango(controlGastos, inicioSemanaStr, hoyStr);
+    const totalVSemana = filtrarPorRango(Ventas, inicioSemanaStr, hoyStr);
+    const totalCSemana = filtrarPorRango(Compras, inicioSemanaStr, hoyStr);
+    const totalGSemana = filtrarPorRango(Gastos, inicioSemanaStr, hoyStr);
     
     // Calcular MES
-    const totalVMes = filtrarPorRango(controlVentas, inicioMesStr, hoyStr);
-    const totalCMes = filtrarPorRango(controlCompras, inicioMesStr, hoyStr);
-    const totalGMes = filtrarPorRango(controlGastos, inicioMesStr, hoyStr);
+    const totalVMes = filtrarPorRango(Ventas, inicioMesStr, hoyStr);
+    const totalCMes = filtrarPorRango(Compras, inicioMesStr, hoyStr);
+    const totalGMes = filtrarPorRango(Gastos, inicioMesStr, hoyStr);
     
     // Calcular AÑO
-    const totalVAnio = filtrarPorRango(controlVentas, inicioAnioStr, hoyStr);
-    const totalCAnio = filtrarPorRango(controlCompras, inicioAnioStr, hoyStr);
-    const totalGAnio = filtrarPorRango(controlGastos, inicioAnioStr, hoyStr);
+    const totalVAnio = filtrarPorRango(Ventas, inicioAnioStr, hoyStr);
+    const totalCAnio = filtrarPorRango(Compras, inicioAnioStr, hoyStr);
+    const totalGAnio = filtrarPorRango(Gastos, inicioAnioStr, hoyStr);
     
     // GUARDAR TODOS LOS VALORES
     setVentasHoy(totalVHoy);
@@ -236,7 +243,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
     setComprasAnio(totalCAnio);
     setGastosAnio(totalGAnio);
     
-  }, [selectedValue, controlVentas, controlCompras, controlGastos]);
+  }, [selectedValue, Ventas, Compras, Gastos]);
 
   // Efecto para actualizar el array del dashboard
   useEffect(() => {
@@ -250,6 +257,200 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
       setArrayDashboard([ventasAnio, comprasAnio, gastosAnio]);
     }
   }, [selectedValue, ventasHoy, comprasHoy, gastosHoy, ventasSemana, comprasSemana, gastosSemana, ventasMes, comprasMes, gastosMes, ventasAnio, comprasAnio, gastosAnio]);
+
+  /*// Cargar ID de empresa
+  useFocusEffect(
+    useCallback(() => {
+      const cargarEmpresa = async () => {
+        try {
+          const id = await AsyncStorage.getItem('idEmpresa');
+          if (id) setIdEmpresa(id);
+        } catch (error) {
+          console.log('Error cargando empresa', error);
+        }
+      };
+      cargarEmpresa();
+    }, [])
+  );
+
+  // Cargar eventos desde el servidor
+  useFocusEffect(
+    useCallback(() => {
+      const cargarEventos = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerEventos();
+          
+          // Convertir el array de eventos a objeto con índices
+          const eventosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              eventosObj[index + 1] = [item.evento, item.fechaHora, item.lugar, item.contacto];
+            });
+          }
+          
+          setEventos(eventosObj);
+          setEventosOG(eventosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los eventos');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarEventos();
+    }, [])
+  );
+
+  const handleAgregar = async () => {
+    const validation = Validar(4, evento, fechaHora, lugar, contacto);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await agregarEvento(evento, fechaHora, lugar, contacto);
+      if (response.success) {
+        // Recargar eventos
+        const data = await obtenerEventos();
+        const eventosObj: Record<string, any> = {};
+        if (Array.isArray(data)) {
+          data.forEach((item: any, index: number) => {
+            eventosObj[index + 1] = [item.evento, item.fechaHora, item.lugar, item.contacto];
+          });
+        }
+        setEventos(eventosObj);
+        setEventosOG(eventosObj);
+        setModalVisible(false);
+        setEvento('');
+        setFechaHora('');
+        setLugar('');
+        setContacto('');
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo agregar el evento');
+    }
+  };
+
+  const handleEditar = async () => {
+    const validation = Validar(4, evento, fechaHora, lugar, contacto);
+    if (!validation.isValid) {
+      Alert.alert('Error', validation.message);
+      return;
+    }
+
+    try {
+      const response = await editarEvento(id, evento, fechaHora, lugar, contacto);
+      if (response.success) {
+        // Actualizar localmente
+        const eventosActualizados = { ...eventos };
+        eventosActualizados[id] = [evento, fechaHora, lugar, contacto];
+        setEventos(eventosActualizados);
+        setEventosOG(eventosActualizados);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo editar el evento');
+    }
+  };
+
+  const handleEliminar = async () => {
+    try {
+      const response = await eliminarEvento(id);
+      if (response.success) {
+        const nuevosEventos = { ...eventos };
+        delete nuevosEventos[id];
+        setEventos(nuevosEventos);
+        setEventosOG(nuevosEventos);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar el evento');
+    }
+  }; 
+
+  useFocusEffect(
+    useCallback(() => {
+      const cargarVentas = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerVentas();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const ventasObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              ventasObj[index + 1] = [item.fecha, item.total, item.cliente];
+            });
+          }
+          
+          setVentas(ventasObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de las ventas');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarVentas();
+    }, [])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const cargarCompras = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerCompras();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const comprasObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              comprasObj[index + 1] = [item.fecha, item.total, item.proveedor];
+            });
+          }
+          
+          setCompras(comprasObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de las compras');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      cargarCompras();
+    }, [])
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      const cargarGastos = async () => {
+        try {
+          setIsLoading(true);
+          const data = await obtenerGastos();
+          
+          // Convertir el array de sucursales a objeto con índices
+          const gastosObj: Record<string, any> = {};
+          if (Array.isArray(data)) {
+            data.forEach((item: any, index: number) => {
+              gastosObj[index + 1] = [item.fecha, item.total, item.gasto];
+            });
+          }
+          
+          setGastos(gastosObj);
+        } catch (error: any) {
+          Alert.alert('Error', error.message || 'No se pudieron cargar los registros de los gastos');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      cargarGastos();
+    }, [])
+  );
+ */
 
   return (
     <View style={styles.container}>
