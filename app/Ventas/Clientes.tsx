@@ -42,6 +42,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
   //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [AddOff, setAddOff] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
   //Cargar ID de Empresa
@@ -342,7 +343,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           setBusqueda(!Busqueda);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 290}]}>
+                        <View style={[styles.modalView, {marginVertical: 260}]}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
@@ -356,11 +357,16 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           <View>
                             <Text style={styles.modalTitle}>Buscar cliente</Text>
                           </View>
+
+                     <View>
+                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                        Para deshacer la busqueda, deje el criterio en blanco.</Text>
+                    </View>
               
                           <View style={styles.hr}/>
               
                           <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Criterio:</Text>
+                            <Text style={styles.modalLabel}>Campo:</Text>
                             <View style={{width: 160, height: 55}}>
                                   <Picker
                                   selectedValue={selectedCriteria}
@@ -385,6 +391,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                                onPress={() => {
                           if(query.trim() == ''){
                             setClientes(datos.CLIENTES)
+                            setAddOff(false)
                           }
                           else {
                             let index = 0
@@ -398,8 +405,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
                             ));
                             setClientes(filtrado)
+                            setAddOff(true)
                           }
-                                
                               setBusqueda(!Busqueda)}}>
                               <Text style={styles.text}>Buscar</Text>
                             </TouchableHighlight>
@@ -421,6 +428,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                         <View style={[styles.modalView, {marginVertical: 375}]}>
               
                           <View>
+                            
                             <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                           </View>
               
@@ -451,7 +459,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
-        Clientes
+          <Ionicons name="people" size={25} color={colors.text} /> Clientes
         </Text>
 
         <Text style={{ 
@@ -462,12 +470,13 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
+                disabled={AddOff}
                 underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(clientes).length + 1)
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
-                style={styles.add}>
+                style={[styles.add, AddOff && styles.addOff]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir cliente</Text>
                   </TouchableHighlight>
 
@@ -484,10 +493,10 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.9}]}>
                       <Text style={styles.headerText}>Nombre</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.9}]}>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Teléfono</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -505,7 +514,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   const [nombre, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cellF}>
+                      <View style={[styles.cellF, {flex: 0.9}]}>
                           <TouchableHighlight
                           underlayColor={colors.cellUnderlay}
                           onPress={() => {
@@ -515,7 +524,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           <Text style={styles.text}>{nombre}</Text>
                           </TouchableHighlight>
                           </View> 
-                      <View style={[styles.cell, {flex: 0.9}]}><Text style={styles.text}>{telefono}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{ciudad}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{estado}</Text></View>
                 </View>
@@ -568,6 +577,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 15,
     elevation: 5,
   },
+  addOff: { opacity: 0.6},
   query: {
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
@@ -668,7 +678,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   
   },
   pickerItem: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 16, fontWeight: 'bold',
   }
 });

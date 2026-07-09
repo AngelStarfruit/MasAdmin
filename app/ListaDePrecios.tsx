@@ -23,8 +23,6 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
-  const [category, setCategory] = useState('');
-  const [unidad, setUnidad] = useState('');
   const [tipo, setTipo] = useState('')
 
   //Constantes de modales
@@ -49,13 +47,11 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
   //Constantes de picker
-  const [selectedValue, setSelectedValue] = useState('Servicios');
+  const [selectedCategory, setSelectedCategory] = useState('Servicios');
   const [selectedUValue, setSelectedUValue] = useState('pieza');
-  const [selectedTValue, setSelectedTValue] = useState('producto');
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
-  const [selectedCategory, setSelectedCategory] = useState(categorias[Object.keys(categorias)[0]]?.[0] || '');
 
   /*useFocusEffect(
   useCallback(() => {
@@ -78,19 +74,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   useEffect(() => {
   let filtrados;
   //datos.LISTA_PRECIOS ----> listaPrecios
-  if (selectedValue === 'Servicios') {
+  if (selectedCategory === 'Servicios') {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
         ([id, data]) => data[4] === "servicio"
       )
     );
-  } else if (selectedValue === 'Gastos') {
-    filtrados = Object.fromEntries(
-      Object.entries(datos.LISTA_PRECIOS || {}).filter(
-        ([id, data]) => data[4] === "gasto"
-      )
-    );
-  } else if (selectedValue === 'Paquetes') {
+  } else if (selectedCategory === 'Paquetes') {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
         ([id, data]) => data[4] === "paquete"
@@ -99,13 +89,13 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   } else {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
-        ([id, data]) => data[6] === selectedValue
+        ([id, data]) => data[6] === selectedCategory
       )
     );
   }
   
   setElementosMostrados(filtrados);
-}, [selectedValue]);
+}, [selectedCategory]);
   //IDs
   const [id, setId] = useState(1);
   const [idP, setIdP] = useState(1);
@@ -114,8 +104,8 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   //Desabilitar características
   const [editPaqueteOff, setEditPaqueteOff] = useState(false);
-  const [editMarcaOn, setEditMarcaOn] = useState(false);
-  const [addCategoryOn, setAddCategoryON] = useState(false);
+  const [fieldOn, setFieldOn] = useState(true);
+  const [editOn, setEditOn] = useState(true);
 
   /*const handleAgregar = async () => {
   const validation = Validar(3, descripcion, marca, costo, '');
@@ -286,78 +276,44 @@ useFocusEffect(
                     <View>
                       <Text style={styles.modalTitle}>Añadir elemento</Text>
                     </View>
+
+                     <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                        <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
+                        La categoría que se asignará a este producto será {selectedCategory}</Text>
         
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Marca:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
+                      editable={fieldOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={{...styles.query, width: 150}}
+                      <TextInput style={{...styles.input, width: 150}}
                       keyboardType='numeric'
                       value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
-                    </View>
-                    <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Categoría:</Text>
-                      <View style={{width: 150, height: 55}}>
-                      <Picker
-                        enabled = {addCategoryOn}
-                        selectedValue={selectedCategory}
-                        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}  
-                        itemStyle={styles.pickerItem}
-                        >
-                      {Object.values(categorias || {}).length > 0 ? (
-                     Object.values(categorias).map((categoria: any, id) => (
-                     <Picker.Item 
-                     style={styles.pickerItem} 
-                    key={id} 
-                    label={String(categoria)} 
-                    value={String(categoria)} 
-                    />
-                    ))
-                    ) : (
-                    <Picker.Item label="-" value="" />
-                    )}
-                      </Picker>
-                      </View>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Unidad:</Text>
                       <View style={{width: 150, height: 50}}>
                       <Picker
+                        enabled={fieldOn}
                         selectedValue={selectedUValue}
                         onValueChange={(itemValue) => setSelectedUValue(itemValue)}
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]} 
+                        style={[styles.picker, !fieldOn && styles.disable, {backgroundColor: colors.scrollBackground}]} 
                         itemStyle={styles.pickerItem}
                         >
                       <Picker.Item label="Pieza" value="pieza" />
                       <Picker.Item label="Gramo" value="gramo" />
                       <Picker.Item label="Kilogramo" value="kilogramo" />
                       <Picker.Item label="Metro" value="metro" />
-                      </Picker>
-                      </View>
-                    </View>
-                    <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Tipo:</Text>
-                      <View style={{width: 150, height: 55}}>
-                      <Picker
-                        selectedValue={selectedTValue}
-                        onValueChange={(itemValue) => setSelectedTValue(itemValue)}
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]} 
-                        itemStyle={styles.pickerItem}
-                        >
-                      <Picker.Item label="Producto" value="producto" />
-                      <Picker.Item label="Servicio" value="servicio" />
-                      <Picker.Item label="Paquete" value="paquete" />
                       </Picker>
                       </View>
                     </View>
@@ -368,7 +324,10 @@ useFocusEffect(
                       <TouchableHighlight
                       underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
-                          const validation = Validar(3,descripcion,marca,costo,'');
+                          let validation = Validar(3,descripcion,marca,costo,'');
+                          if(!fieldOn){
+                            validation = Validar(2,descripcion,costo,'','');
+                          }
                           const validationNum = CostoValido(costo)
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
@@ -378,20 +337,20 @@ useFocusEffect(
                             Alert.alert('Error', validationNum.message);
                             return; 
                             }
-                            if (selectedTValue == 'producto'){
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,selectedTValue,contenidoPaquete,selectedCategory))
+                            if (selectedCategory == 'Servicios'){
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,''))
                             setModalVisible(!modalVisible)
                             }
-                            else if (selectedTValue == 'servicio'){
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
-                            setModalVisible(!modalVisible)
-                            }
-                            else {
+                            else if (selectedCategory == 'Paquetes'){
                               if (Object.keys(listaPrecios).length > 0){
                               setNewPaquete(true)
                               setIdP(1); setContenidoPaquete({});
                               }
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
+                            }
+                            else{
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,'producto',contenidoPaquete,selectedCategory))
+                            setModalVisible(!modalVisible)
                             }
                           }}>
                         <Text style={styles.text}>Añadir registro</Text>
@@ -419,7 +378,7 @@ useFocusEffect(
                            showsVerticalScrollIndicator={false}
                           keyboardShouldPersistTaps="handled"
                         >
-                  <View style={[styles.modalView, {marginVertical: 210}]}>
+                  <View style={[styles.modalView, {marginVertical: 190}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -433,27 +392,46 @@ useFocusEffect(
                     <View>
                       <Text style={styles.modalTitle}>Editar elemento</Text>
                       <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
-                        La unidad y el tipo no se pueden modificar</Text>
+                        <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
+                        El tipo y la categoría no se pueden modificar</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Descripción:</Text>
-                      <TextInput style={[styles.query, {width: 150}]}
+                      <TextInput style={[styles.input, {width: 150}]}
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Marca:</Text>
-                      <TextInput style={[styles.query, {width: 150}]}
-                       editable = {editMarcaOn}
+                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Marca:</Text>
+                      <TextInput style={[styles.input, !editOn && styles.disable, {width: 150}]}
+                       editable = {editOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={[styles.query, {width: 150}]}
+                      <TextInput style={[styles.input, {width: 150}]}
                       keyboardType='numeric'
                       value={costo} onChangeText={setCosto}/>
+                    </View>
+
+                    <View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Unidad:</Text>
+                      <View style={{width: 150, height: 50}}>
+                      <Picker
+                        enabled = {editOn}
+                        selectedValue={selectedUValue}
+                        onValueChange={(itemValue) => setSelectedUValue(itemValue)}
+                        style={[styles.picker, !editOn && styles.disable, {backgroundColor: colors.scrollBackground}]} 
+                        itemStyle={styles.pickerItem}
+                        >
+                      <Picker.Item label="Pieza" value="pieza" />
+                      <Picker.Item label="Gramo" value="gramo" />
+                      <Picker.Item label="Kilogramo" value="kilogramo" />
+                      <Picker.Item label="Metro" value="metro" />
+                      </Picker>
+                      </View>
                     </View>
         
                     <View style={styles.hr}/>
@@ -461,7 +439,7 @@ useFocusEffect(
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       disabled = {editPaqueteOff}
-                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editPaqueteOff && styles.modalEditOff]}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editPaqueteOff && styles.disable]}
                         onPress={() =>  setPaquete(true)}>
                         <Text style={styles.text}>Editar paquete</Text>
                       </TouchableHighlight>
@@ -470,7 +448,7 @@ useFocusEffect(
                         onPress={() => {
                           const validationNum = CostoValido(costo)
                           let validation = Validar(3,descripcion,marca,costo,'');
-                          if(!editMarcaOn){
+                          if(!editOn){
                             validation = Validar(2,descripcion,costo,'','');
                           }
                              if (!validation.isValid) {
@@ -481,7 +459,7 @@ useFocusEffect(
                             Alert.alert('Error', validationNum.message);
                             return; 
                             }
-                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,category))
+                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,tipo,contenidoPaquete,selectedCategory))
                         setEModalVisible(!EmodalVisible)
                         }}>
                         <Text style={styles.text}>Confirmar cambios</Text>
@@ -519,12 +497,12 @@ useFocusEffect(
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      underlayColor={colors.regretUnderlay} style={[styles.modalRegret , {height: 50, width: 50}]}
+                      underlayColor={colors.regretUnderlay} style={[styles.modalRegret , { width: 50}]}
                         onPress={() => setConfirm(!Confirm)}>
                         <Text style={styles.text}>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , {height: 50, width: 50}]}
+                      underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , { width: 50}]}
                         onPress={() => {
                           setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
@@ -575,16 +553,22 @@ useFocusEffect(
                             <Text style={styles.headerText}>Descripción</Text>
                             </View>
                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
+                            <Text style={styles.headerText}>Marca</Text>
+                              </View>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
                               <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
-                          {Object.entries(contenidoPaquete).map(([id, [descripcion, cantidad]], index) => (
+                          {Object.entries(contenidoPaquete).map(([id, [descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{descripcion}</Text>
+                            </View>
+                          <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                          <Text style={styles.text}>{marca}</Text>
                             </View>
                             <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                             <Text style={styles.text}>{cantidad}</Text>
@@ -606,7 +590,7 @@ useFocusEffect(
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
-                                    underlayColor={colors.primaryUnderlay}
+                                    underlayColor={colors.optionUnderlay}
                                       onPress={() => setAlterPaquete(true)}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
@@ -620,7 +604,7 @@ useFocusEffect(
                       underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 150}]}
                         onPress={() => {
                           if(Object.keys(contenidoPaquete).length > 0){
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'',selectedTValue,contenidoPaquete,''))
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','paquete',contenidoPaquete,''))
                             setNewPaquete(!NewPaquete)
                             setModalVisible(!modalVisible)}
                           else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
@@ -669,6 +653,9 @@ useFocusEffect(
                         <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Descripción</Text>
                             </View>
+                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
+                            <Text style={styles.headerText}>Marca</Text>
+                              </View>
                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
@@ -677,10 +664,13 @@ useFocusEffect(
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
-                                {Object.entries(contenidoPaquete).map(([id,[descripcion, cantidad]], index) => (
+                                {Object.entries(contenidoPaquete).map(([id,[descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{descripcion}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                            <Text style={styles.text}>{marca}</Text>
                             </View>
                             <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                             <Text style={styles.text}>{cantidad}</Text>
@@ -703,7 +693,7 @@ useFocusEffect(
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
-                                    underlayColor={colors.primaryUnderlay}
+                                    underlayColor={colors.optionUnderlay}
                                       onPress={() => setAlterPaquete(true)}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
@@ -795,7 +785,7 @@ useFocusEffect(
                         style={styles.pickerItem} 
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
-                        value={id}  // ← Usar el ID como value
+                        value={String(producto[0]) + '-' + String(producto[1])}  // ← Usar el ID como value
                         />
                         ))
                         ) : (
@@ -805,7 +795,7 @@ useFocusEffect(
                           </View>
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Cantidad:</Text>
-                            <TextInput style={styles.query}
+                            <TextInput style={styles.input}
                                         value={cantidad} onChangeText={setCantidad}
                                         keyboardType='numeric'></TextInput>
                           </View>
@@ -820,7 +810,7 @@ useFocusEffect(
                               Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct, Number(cantidad)))
+                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
                             setIdP(idP + 1); setCantidad('')
                             setAlterPaquete(!AlterPaquete)}}>
                             <Text style={styles.text}>Agregar</Text>
@@ -840,7 +830,7 @@ useFocusEffect(
         <Text style={{color: colors.text ,
           fontSize: 15, 
           paddingVertical: 10,}}>
-          Seleccione una categoría para veer los elementos ubicados en ella.
+          Seleccione una categoría para filtrar los elementos y ver aquellos ubicados en dicha categoría
           </Text>
         <Text style={{ color: colors.text ,
           fontSize: 15, 
@@ -849,8 +839,8 @@ useFocusEffect(
           </Text>   
           <View style={{height: 55}}>
           <Picker
-              selectedValue={selectedValue}
-              onValueChange={(itemValue) => setSelectedValue(itemValue)}
+              selectedValue={selectedCategory}
+              onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
                 <Picker.Item label="Servicios" value="Servicios" />
@@ -873,10 +863,10 @@ useFocusEffect(
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setContenidoPaquete({})
-                  if (Object.keys(categorias).length > 0){
-                    setAddCategoryON(true)
+                  if (selectedCategory == 'Servicios' || selectedCategory == 'Paquetes'){
+                    setFieldOn(false)
                   }
-                  else setAddCategoryON(false)
+                  else setFieldOn(true)
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir elemento</Text>
@@ -923,12 +913,11 @@ useFocusEffect(
                           } else setEditPaqueteOff(false)
 
                           if (tipo != "producto"){
-                            setEditMarcaOn(false)
-                          } else setEditMarcaOn(true)
+                            setEditOn(false);
+                          } else setEditOn(true)
 
                           setId(Number(id))
-                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); 
-                          setCategory(String(categoria)); setCategory(categoria); setUnidad(unidad); setTipo(tipo)
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setSelectedUValue(unidad); setTipo(tipo)
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
@@ -962,9 +951,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background,
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
@@ -992,20 +979,19 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10,
     borderRadius: 15,
   },
-  query:{
+  input:{
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
+  disable: {opacity: 0.6},
    hr:{
     height: 2, 
     backgroundColor: '#777', 
     marginVertical: 8,
   },
   //Tabla estilos
-  table: {
-    paddingVertical: 20
-  },
+  table: {paddingVertical: 20},
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
@@ -1028,11 +1014,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   headerText: {fontWeight: 'bold', color: colors.text},
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 150,
+    marginHorizontal: 30, marginVertical: 180,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
@@ -1076,14 +1061,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     width: 90,
     justifyContent: 'center', alignItems: 'center',
   },
-  modalEditOff: {
-    opacity: 0.6, shadowOpacity: 0.6,
-    backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    width: 90,
-    justifyContent: 'center', alignItems: 'center',
-  },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
@@ -1092,14 +1069,14 @@ const getStyles = (colors: any) => StyleSheet.create({
     justifyContent: 'center', alignItems: 'center',
   },
   buttonRegister: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.option,
     width: 150,
     padding: 10,
     borderRadius: 20,
   },
   buttonText: {
     fontWeight: 'bold',
-    color: colors.background,
+    color: colors.text,
     textAlign: 'center',
   },
   //---------------

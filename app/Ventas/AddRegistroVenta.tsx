@@ -687,7 +687,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text,
   },
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.option,
     width: 150,
     padding: 10,
     borderRadius: 20,

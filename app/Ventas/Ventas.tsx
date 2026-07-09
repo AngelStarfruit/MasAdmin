@@ -208,14 +208,16 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
           Seleccione una sección:
           </Text>
 
-        <TouchableHighlight 
+        <View style={{flex: 1, justifyContent: 'space-around'}}>
+
+        <View style={{height: 150}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => navigation.navigate("Clientes")}
         style={styles.touch}>
           <Text style={styles.touchText}>Clientes</Text>
-          </TouchableHighlight>
+          </TouchableHighlight></View>
           
-          <TouchableHighlight 
+          <View style={{height: 150}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
                   if(Object.keys(clientes).length > 0 && Object.keys(sucursales).length > 0 
@@ -226,7 +228,9 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
                 }}
         style={styles.touch}>
           <Text style={styles.touchText}>Control de ventas</Text>
-          </TouchableHighlight>
+          </TouchableHighlight></View>
+
+          </View>
 
         </View>
       
@@ -260,7 +264,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: colors.primary,
-    margin: 80,
+    marginHorizontal: 60,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

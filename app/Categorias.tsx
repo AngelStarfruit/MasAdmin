@@ -34,6 +34,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
   //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [AddOff, setAddOff] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
   // Cargar categorías desde el servidor
@@ -175,7 +176,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                             setCategorias(AddCategoria(categorias,id,category))
                             setModalVisible(!modalVisible)
                           }}>
-                        <Text>Añadir registro</Text>
+                        <Text style={styles.text}>Añadir registro</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -224,13 +225,13 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               }
                                           setCategorias(AddCategoria(categorias,id,category))
                                           setModalEVisible(!modalEVisible)}}>
-                                        <Text>Confirmar cambios</Text>
+                                        <Text style={styles.text}>Confirmar cambios</Text>
                                       </TouchableHighlight>
                                       <TouchableHighlight
                                       underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                                         onPress={() => setConfirm(true)}
                                         >
-                                        <Text>Borrar categoría</Text>
+                                        <Text style={styles.text}>Borrar categoría</Text>
                                       </TouchableHighlight>
                                     </View>
         
@@ -247,14 +248,17 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                      setConfirm(!Confirm);
                                    }}>
                                    <View style={styles.modalOverlay}>
-                                   <View style={[styles.modalView, {marginVertical: 310}]}>
+                                   <View style={[styles.modalView, {marginVertical: 285}]}>
                          
                                      <View>
                                        <Text style={styles.modalTitle}>¿Eliminar categoría?</Text>
                                      </View>
 
+                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={50} color={colors.text} /></View>
+
                                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
-                                      Esta acción borrará la categoría y todos los productos que se encuentran en ella. Tenga en cuenta que esta acción no se podrá deshacer.</Text>
+                                      Esta acción borrará la categoría y todos los productos que se encuentran en ella. 
+                                      Tenga en cuenta que esta acción no se podrá deshacer.</Text>
                          
                                      <View style={styles.hr}/>
                          
@@ -262,10 +266,10 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <TouchableHighlight
                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                          onPress={() => setConfirm(!Confirm)}>
-                                         <Text>NO</Text>
+                                         <Text style={styles.text}>Cancelar</Text>
                                        </TouchableHighlight>
                                        <TouchableHighlight
-                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 70}]}
                                          onPress={() => {
                                            // 1. Filtrar productos que NO pertenecen a esta categoría
                                            const productosFiltrados = Object.fromEntries(
@@ -284,7 +288,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                            setConfirm(!Confirm);
                                            setModalEVisible(!modalEVisible);
                                          }}>
-                                         <Text>SÍ</Text>
+                                         <Text style={styles.text}>Borrar</Text>
                                        </TouchableHighlight>
                                      </View>
                          
@@ -298,20 +302,20 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Gestionar categorías
         </Text>
-        <Text style={{ color: colors.text,
-          fontSize: 15, 
-          paddingVertical: 10,}}>
-          Seleccione una categoría para editarla.
-          </Text>
+        <Text style={{ color: colors.text, fontSize: 15, paddingVertical: 10,}}>
+          Seleccione una categoría para editarla.</Text>
+        <Text style={{ color: colors.text, fontSize: 15, paddingVertical: 10,}}>
+          Para deshacer una busqueda, deje el criterio en blanco.</Text>
 
           <View style={styles.row}>
         <TouchableHighlight 
-            underlayColor={colors.input}
+            disabled={AddOff}
+            underlayColor={colors.cellUnderlay}
             onPress={() => {
                 setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
-            style={[styles.add , {width: 160}]}>
+            style={[styles.add, AddOff && styles.addOff , {width: 160}]}>
             <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
             </TouchableHighlight>
 
@@ -320,17 +324,19 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
               placeholder="Buscar" placeholderTextColor="#777"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
-                underlayColor={colors.input}
+                underlayColor={colors.cellUnderlay}
                  onPress={() => {
                   if(query.trim() == ''){
                     setCategorias(datos.CATEGORIAS);
+                    setAddOff(false)
                   }
                   else{
                     const filtrado = Object.fromEntries(
                       Object.entries(datos.CATEGORIAS || {}).filter(
-                      ([id, data]) => data[0].toLowerCase().includes(query.toLowerCase())
+                      ([id, data]) => data.toLowerCase().includes(query.toLowerCase())
                       ));
                       setCategorias(filtrado);
+                      setAddOff(true)
                   }
                 }}
                 style={{...styles.add, width: 40, padding: 10}}>
@@ -416,10 +422,12 @@ const getStyles = (colors: any) => StyleSheet.create({
    add: {
     backgroundColor: colors.input,
     width: 150,
-    marginVertical: 10,
-    padding: 10,
+    marginVertical: 10, padding: 10,
     borderRadius: 15,
   },
+   addOff: {
+    opacity: 0.6
+   },
   //Tabla estilos
   cell: {
     flex: 1, padding: 6,
@@ -482,7 +490,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 50,
+    width: 80,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {

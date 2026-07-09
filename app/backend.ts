@@ -457,10 +457,10 @@ export const eliminarCategoria = async (id: number) => {
 };*/ 
 //-----------------------FUNCIONES ListaDePrecios--------------------------------------------
 //Función para agregar un elemento en la lista de precios
-export const AddElemento = (data: any, id: number, elemento: string, cantidad: number) => {
+export const AddElemento = (data: any, id: number, elemento: string, marca: string, cantidad: number) => {
   return {
     ...data,
-    [id]: [elemento, cantidad]
+    [id]: [elemento, marca, cantidad]
   };
 };
 //Función para quitar un elemento del ajuste

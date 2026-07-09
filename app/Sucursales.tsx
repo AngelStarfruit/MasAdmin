@@ -33,6 +33,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [AddOff, setAddOff] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
   /*// Cargar ID de empresa
@@ -321,28 +322,34 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                 setConfirm(!Confirm);
                               }}>
                               <View style={styles.modalOverlay}>
-                              <View style={[styles.modalView, {marginVertical: 375}]}>
+                              <View style={[styles.modalView, {marginVertical: 285}]}>
                     
                                 <View>
                                   <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                                 </View>
+
+                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={50} color={colors.text} /></View>
+
+                                <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                                      Esta acción borrará la sucursal y todos los almacenes que se encuentran en ella. 
+                                      Tenga en cuenta que esta acción no se podrá deshacer.</Text>
                     
                                 <View style={styles.hr}/>
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
-                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 80}]}
                                     onPress={() => setConfirm(!Confirm)}>
-                                    <Text style={styles.text}>NO</Text>
+                                    <Text style={styles.text}>Cancelar</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
-                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 80}]}
                                     onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
-                                    <Text style={styles.text}>SÍ</Text>
+                                    <Text style={styles.text}>Borrar</Text>
                                   </TouchableHighlight>
                                 </View>
                     
@@ -358,20 +365,22 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <Ionicons name="business" size={25} color={colors.text} /> Sucursales
         </Text>
 
-        <Text style={{ 
-          fontSize: 15, 
-          paddingVertical: 10, color: colors.text}}>
+        <Text style={{ fontSize: 15, paddingVertical: 10, color: colors.text}}>
           Seleccione el nombre de una sucursal en la tabla para modificar sus datos.
           </Text>
+        
+        <Text style={{ color: colors.text, fontSize: 15, paddingVertical: 10,}}>
+          Para deshacer una busqueda, deje el criterio en blanco.</Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
+        disabled = {AddOff}
         underlayColor={colors.cellUnderlay}
         onPress={() => {
           setId(Object.keys(sucursales).length + 1)
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
-        style={styles.add}>
+        style={[styles.add, AddOff && styles.addOff]}>
             <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir sucursal</Text>
           </TouchableHighlight>
 
@@ -384,6 +393,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                    onPress={() => {
                     if (query.trim() == ''){
                       setSucursales(datos.SUCURSALES || {})
+                      setAddOff(false)
                     }
                     else {
                       const filtrado = Object.fromEntries(
@@ -391,6 +401,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       ([id, data]) => data[0].toLowerCase().includes(query.toLowerCase())
                       ));
                       setSucursales(filtrado)
+                      setAddOff(true)
                     }
                    }}
                     style={{...styles.add, width: 40, padding: 10}}>
@@ -482,6 +493,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10,
     borderRadius: 15,
   },
+  addOff: {opacity: 0.6},
   query: {
     backgroundColor: colors.input, color: colors.text,  
     height: 40, width: 120,

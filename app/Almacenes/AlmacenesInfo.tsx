@@ -39,6 +39,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [AddOff, setAddOff] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
   /*// Cargar ID de empresa
@@ -347,7 +348,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <View style={styles.hr}/>
               
                           <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Criterio:</Text>
+                            <Text style={styles.modalLabel}>Campo:</Text>
                             <View style={{width: 160, height: 55}}>
                                   <Picker
                                   selectedValue={selectedCriteria}
@@ -371,6 +372,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               onPress={() => {
                           if(query.trim() == ''){
                             setAlmacenes(datosA.ALMACENES)
+                            setAddOff(false)
                           }
                           else {
                             let index = 0
@@ -382,6 +384,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                             ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
                             ));
                             setAlmacenes(filtrado)
+                            setAddOff(true)
                           }
                               setBusqueda(!Busqueda)}}>
                               <Text style={styles.text}>Buscar</Text>
@@ -433,7 +436,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text}}>
-        Almacenes
+        <Ionicons name="cube" size={25} color={colors.text} /> Almacenes
         </Text>
 
         <Text style={{ 
@@ -444,6 +447,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
+                disabled = {AddOff}
                 underlayColor={colors.input}
                 onPress={() => {
                   if(Object.keys(sucursales).length > 0){
@@ -453,7 +457,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   }
                   else Alert.alert("Error","Registre al menos una sucursal primero")
                 }}
-                style={styles.add}>
+                style={[styles.add, AddOff && styles.addOff]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir almacén</Text>
                   </TouchableHighlight>
 
@@ -545,6 +549,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10,
     borderRadius: 15,
   },
+  addOff: {opacity: 0.6},
   query: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 150,

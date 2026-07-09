@@ -999,12 +999,12 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
-                            underlayColor={colors.regretUnderlay} style={[styles.modalRegret , {height: 50, width: 50}]}
+                            underlayColor={colors.regretUnderlay} style={[styles.modalRegret , { width: 50}]}
                               onPress={() => setConfirm(!Confirm)}>
                               <Text style={styles.text}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                            underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , {height: 50, width: 50}]}
+                            underlayColor={colors.deleteUnderlay} style={[styles.modalDelete , { width: 50}]}
                               onPress={() => {
                                 setEventosMostrados(QuitarElemento(eventosMostrados,id))
                                 setConfirm(!Confirm);
@@ -1233,7 +1233,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     textAlign: 'center',
     backgroundColor: colors.secondary,
     fontWeight: 'bold', fontSize: 30, color: colors.primary,
-    paddingVertical: 40, marginVertical: 10,
+    paddingVertical: 30, marginVertical: 10,
     borderRadius: 20,
   },
   hr:{

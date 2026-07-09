@@ -42,6 +42,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
    //Otras constantes
   const [id, setId] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [AddOff, setAddOff] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
   //Cargar ID de Empresa
@@ -341,7 +342,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                     setBusqueda(!Busqueda);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 290}]}>
+                  <View style={[styles.modalView, {marginVertical: 260}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -354,6 +355,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         
                     <View>
                       <Text style={styles.modalTitle}>Buscar proveedor</Text>
+                    </View>
+
+                    <View>
+                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                        Para deshacer la busqueda, deje el criterio en blanco.</Text>
                     </View>
         
                     <View style={styles.hr}/>
@@ -385,6 +391,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         onPress={() => {
                           if(query.trim() == ''){
                             setProveedores(datos.PROVEEDORES)
+                            setAddOff(false)
                           }
                           else {
                             let index = 0
@@ -398,6 +405,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                             ([id, data]) => data[index].toLowerCase().includes(query.toLowerCase())
                             ));
                             setProveedores(filtrado)
+                            setAddOff(true)
                           }
                         setBusqueda(!Busqueda)}}>
                         <Text style={styles.text}>Buscar</Text>
@@ -451,7 +459,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
         <View style={styles.scroll}>
 
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
-        Proveedores
+          <Ionicons name="people" size={25} color={colors.text} /> Proveedores
         </Text>
 
         <Text style={{ 
@@ -462,12 +470,13 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableHighlight
+                disabled={AddOff}
                 underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(proveedores).length + 1)
                   setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
                   setModalVisible(true)}}
-                style={styles.add}>
+                style={[styles.add , AddOff && styles.addOff]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir proveedor</Text>
                   </TouchableHighlight>
 
@@ -484,10 +493,10 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.9}]}>
                       <Text style={styles.headerText}>Empresa</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.9}]}>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Teléfono</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -505,7 +514,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   const [empresa, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
-                        <View style={styles.cellF}>
+                        <View style={[styles.cellF, {flex: 0.9}]}>
                         <TouchableHighlight
                         underlayColor={colors.cellUnderlay}
                         onPress={() => {
@@ -515,7 +524,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         <Text style={styles.text}>{empresa}</Text>
                         </TouchableHighlight>
                         </View> 
-                      <View style={[styles.cell, {flex: 0.9}]}><Text style={styles.text}>{telefono}</Text></View>
+                      <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{ciudad}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{estado}</Text></View>
                 </View>
@@ -566,10 +575,11 @@ const getStyles = (colors: any) => StyleSheet.create({
   add: {
     backgroundColor: colors.background,
     width: 150,
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10, padding: 10, 
     borderRadius: 15,
-    elevation: 5,
+  },
+  addOff: {
+    opacity: 0.6,
   },
   query: {
     backgroundColor: colors.scrollBackground, color: colors.text,
@@ -608,8 +618,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalView: {
     marginHorizontal: 30, marginVertical: 220,
-    flex: 1,
-    justifyContent: 'center',
+    flex: 1, justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
@@ -671,7 +680,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   
   },
   pickerItem: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 16,  fontWeight: 'bold',
   }
 });
