@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInpu
 import Constants from 'expo-constants';
 import { type CategoriasScreenProps, single } from './types';
 import { useState, useCallback } from 'react';
-//import { obtenerCategorias, obtenerPrecios agregarCategoria, editarCategoria, eliminarCategoriaYProductos } from './backend';
+//import { obtenerCategorias, obtenerPrecios agregarCategoria, editarCategoria, eliminarCategoria } from './backend';
 import { NoEmojis, Validar} from './backend';
 import { AddCategoria, QuitarElemento } from './backend';
 import { useTheme } from '../context/ThemeContext';
@@ -81,48 +81,48 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
     }
   };
 
-  const handleEditar = async () => {
-    const validation = Validar(1, category, '', '', '');
-    if (!validation.isValid) {
-      Alert.alert('Error', validation.message);
-      return;
-    }
+ const handleEditar = async () => {
+  const validation = Validar(1, category, '', '', '');
+  if (!validation.isValid) {
+    Alert.alert('Error', validation.message);
+    return;
+  }
 
-    try {
-      const response = await editarCategoria(id, category);
-      if (response.success) {
-        // Actualizar localmente
-        const categoriasActualizadas = { ...categorias };
-        categoriasActualizadas[id] = category;
-        setCategorias(categoriasActualizadas);
-        setCategoriasOG(categoriasActualizadas);
-        setModalEVisible(false);
-        Alert.alert('Éxito', 'Categoría actualizada correctamente');
-      }
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'No se pudo editar la categoría');
-    }
-  };
-
-  const handleEliminar = async () => {
-    try {
-    const response = await eliminarCategoriaYProductos(id, category);
+  try {
+    // Si estás usando API
+    const response = await editarCategoria(id, categoriaOriginal, category);
     if (response.success) {
       // Recargar datos actualizados
       const nuevasCategorias = await obtenerCategorias();
-      const nuevosProductos = await obtenerPrecios();
+      const nuevosProductos = await obtenerListaPrecios();
       
       setCategorias(nuevasCategorias);
-      setListaPrecios(nuevosProductos);
       setCategoriasOG(nuevasCategorias);
+      setListaPrecios(nuevosProductos);
       
-      setConfirm(false);
       setModalEVisible(false);
-      Alert.alert('Éxito', response.message || 'Categoría y productos eliminados');
+      Alert.alert('Éxito', 'Categoría y productos actualizados correctamente');
     }
   } catch (error: any) {
-    Alert.alert('Error', error.message || 'No se pudo eliminar');
+    Alert.alert('Error', error.message || 'No se pudo editar la categoría');
   }
+};
+
+ const handleEliminar = async () => {
+    try {
+      const response = await eliminarCategoria(id);
+      if (response.success) {
+        const nuevasCategorias = { ...categorias };
+        delete nuevasCategorias[id];
+        setCategorias(nuevasCategorias);
+        setCategoriasOriginales(nuevasCategorias);
+        setConfirm(false);
+        setModalEVisible(false);
+        Alert.alert('Éxito', 'Categoría eliminada correctamente');
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar la categoría');
+    }
   }; */
  
   return (
@@ -227,14 +227,25 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               Alert.alert('Error', validation.message);
                                               return; 
                                               }
-                                              setQuery('')
                                           setCategorias(AddCategoria(categorias,id,category))
                                           setModalEVisible(!modalEVisible)}}>
                                         <Text style={styles.text}>Confirmar cambios</Text>
                                       </TouchableHighlight>
                                       <TouchableHighlight
                                       underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
-                                        onPress={() => setConfirm(true)}
+                                        onPress={() => {
+                                          const categoriaEnUso = Object.values(listaPrecios || {}).some(
+                                            (data) => data.length > 6 && data[6] === category
+                                          );
+
+                                         if (categoriaEnUso) {
+                                        Alert.alert(
+                                        'No se puede borrar',
+                                        `Esta categoría tiene productos adentro. Sólo las categorías vacías pueden borrarse.`
+                                        );
+                                        return;
+                                        }
+                                          setConfirm(true)}}
                                         >
                                         <Text style={styles.text}>Borrar categoría</Text>
                                       </TouchableHighlight>
@@ -253,17 +264,11 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                      setConfirm(!Confirm);
                                    }}>
                                    <View style={styles.modalOverlay}>
-                                   <View style={[styles.modalView, {marginVertical: 295}]}>
+                                   <View style={[styles.modalView, {marginVertical: 375}]}>
                          
                                      <View>
                                        <Text style={styles.modalTitle}>¿Eliminar categoría?</Text>
                                      </View>
-
-                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={40} color={colors.text} /></View>
-
-                                     <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
-                                      Esta acción borrará la categoría y todos los productos que se encuentran en ella. 
-                                      Tenga en cuenta que esta acción no se podrá deshacer.</Text>
                          
                                      <View style={styles.hr}/>
                          
@@ -271,29 +276,16 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <TouchableHighlight
                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                          onPress={() => setConfirm(!Confirm)}>
-                                         <Text style={styles.text}>Cancelar</Text>
+                                         <Text style={styles.text}>NO</Text>
                                        </TouchableHighlight>
                                        <TouchableHighlight
-                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 70}]}
+                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                          onPress={() => {
-                                           // 1. Filtrar productos que NO pertenecen a esta categoría
-                                           const productosFiltrados = Object.fromEntries(
-                                             Object.entries(listaPrecios || {}).filter(
-                                               ([id, data]) => data[6] !== category
-                                             )
-                                           );
-                                           
-                                           // 2. Actualizar lista de precios (sin los productos de esa categoría)
-                                           setListaPrecios(productosFiltrados as any);
-                                           
-                                           // 3. Eliminar la categoría
                                            setCategorias(QuitarElemento(categorias, id));
-                                           
-                                           // 4. Cerrar modales
                                            setConfirm(!Confirm);
                                            setModalEVisible(!modalEVisible);
                                          }}>
-                                         <Text style={styles.text}>Borrar</Text>
+                                         <Text style={styles.text}>SI</Text>
                                        </TouchableHighlight>
                                      </View>
                          
@@ -495,7 +487,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 80,
+    width: 50,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {

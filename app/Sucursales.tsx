@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Moda
 import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 import { NoEmojis, Validar} from './backend';
-//import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursalYAlmacenes } from './backend'
+//import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursal } from './backend'
 //import { obtenerAlmacenes } from './Almacenes/backend'
 import { QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
-import datos from './datos.json';
+import datos from './datos.json'; import datosA from './Almacenes/datos.json'
 
 export default function Sucursales({navigation}: SucursalesScreenProps) {
 
@@ -25,6 +25,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
    //JSON
    //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const [sucursales, setSucursales] = useState<FormerJSON>(datos.SUCURSALES || {});
+  //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
+  const [almacenes, setAlmacenes] = useState<FormerJSON>(datosA.ALMACENES || {});
   const [sucursalesOG, setSucursalesOG] = useState<Record<string, any>>({});
 
   //Modales
@@ -134,24 +136,37 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
   const handleEliminar = async () => {
     try {
-    const response = await eliminarSucursalYAlmacenes(id, sucursal);
-    if (response.success) {
-      // Recargar datos actualizados
-      const nuevasSucursales = await obtenerSucursales();
-      const nuevosAlmacenes = await obtenerAlmacenes();
-      
-      setSucursales(nuevasSucursales);
-      setAlmacenes(nuevosAlmacenes);
-      setSucursalesOG(nuevasSucursales);
-      
-      setConfirm(false);
-      setModalEVisible(false);
-      Alert.alert('Éxito', response.message || 'Sucursal y almacenes eliminados');
+      const response = await eliminarSucursal(id);
+      if (response.success) {
+        const nuevasSucursales = { ...sucursales };
+        delete nuevasSucursales[id];
+        setSucursales(nuevasSucursales);
+        setSucursalesOG(nuevasSucursales);
+        setConfirm(false);
+        setEModalVisible(false);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'No se pudo eliminar la sucursal');
     }
-  } catch (error: any) {
-    Alert.alert('Error', error.message || 'No se pudo eliminar');
+  };
+  export const eliminarSucursal = async (id: number) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch(`${API_URL}/sucursales/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log('Error:', error);
+    throw error;
   }
-  }; */
+};*/
 
   return (
     <View style={styles.container}>
@@ -303,7 +318,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                               Alert.alert('Error', validation.message);
                               return; 
                               }
-                              setQuery('')
                         setSucursales(AddSucursal(sucursales,id,sucursal,telefono))
                         setEModalVisible(!EmodalVisible)
                         }}>
@@ -311,7 +325,19 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
-                        onPress={() => setConfirm(true)}>
+                        onPress={() => {
+                          const categoriaEnUso = Object.values(almacenes || {}).some(
+                                            (data) => data.length > 1 && data[1] === sucursal
+                                          );
+
+                                         if (categoriaEnUso) {
+                                        Alert.alert(
+                                        'No se puede borrar',
+                                        `Esta sucursal tiene almacenes adentro. Sólo las sucursales vacías pueden borrarse.`
+                                        );
+                                        return;
+                                        }
+                          setConfirm(true)}}>
                         <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -329,35 +355,28 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                 setConfirm(!Confirm);
                               }}>
                               <View style={styles.modalOverlay}>
-                              <View style={[styles.modalView, {marginVertical: 295}]}>
+                              <View style={[styles.modalView, {marginVertical: 375}]}>
                     
                                 <View>
                                   <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                                 </View>
-
-                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={40} color={colors.text} /></View>
-
-                                <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
-                                      Esta acción borrará la sucursal y todos los almacenes que se encuentran en ella. 
-                                      Tenga en cuenta que esta acción no se podrá deshacer.</Text>
                     
                                 <View style={styles.hr}/>
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
-                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 80}]}
+                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                     onPress={() => setConfirm(!Confirm)}>
-                                    <Text style={styles.text}>Cancelar</Text>
+                                    <Text style={styles.text}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
-                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 80}]}
+                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
-                                      setQuery('')
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
-                                    <Text style={styles.text}>Borrar</Text>
+                                    <Text style={styles.text}>SI</Text>
                                   </TouchableHighlight>
                                 </View>
                     
@@ -595,7 +614,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 130,
+    width: 80,
     justifyContent: 'center', alignItems: 'center',
   },
 });

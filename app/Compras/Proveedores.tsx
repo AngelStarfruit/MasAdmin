@@ -316,7 +316,6 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                         Alert.alert('Error', validation.message);
                         return; 
                         }
-                        setQuery('')
                   setProveedores(AddProveedor(proveedores,id,empresa,telefono,ciudad,estado))
                   setEModalVisible(!EmodalVisible)}}>
                 <Text style={styles.text}>Editar registro</Text>
@@ -443,7 +442,6 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                     onPress={() => {
-                                      setQuery('')
                                       setProveedores(QuitarElemento(proveedores, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);

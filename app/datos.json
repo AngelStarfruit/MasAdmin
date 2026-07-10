@@ -148,7 +148,7 @@
   "11": "Bebidas alcohólicas",
   "12": "Congelados",
   "13": "Productos enlatados",
-  "14": "Salsas y condimentos",
+  "14": "Tecnología",
   "15": "Cereales y granos"
 },
   "LISTA_PRECIOS":{
@@ -159,7 +159,8 @@
     "pieza",
     "producto",
     [],
-    "Bebidas"
+    "Bebidas",
+    "Ninguno"
   ],
   "2": [
     "Agua mineral",
@@ -168,7 +169,8 @@
     "pieza",
     "producto",
     [],
-    "Bebidas"
+    "Bebidas",
+    "Ninguno"
   ],
   "3": [
     "Pan integral",
@@ -177,7 +179,8 @@
     "pieza",
     "producto",
     [],
-    "Panadería"
+    "Panadería",
+    "Ninguno"
   ],
   "4": [
     "Cuernito",
@@ -186,7 +189,8 @@
     "pieza",
     "producto",
     [],
-    "Panadería"
+    "Panadería",
+    "Ninguno"
   ],
   "5": [
     "Manzana roja",
@@ -195,7 +199,8 @@
     "kilogramo",
     "producto",
     [],
-    "Frutas y verduras"
+    "Frutas y verduras",
+    "Ninguno"
   ],
   "6": [
     "Zanahoria",
@@ -204,7 +209,8 @@
     "kilogramo",
     "producto",
     [],
-    "Frutas y verduras"
+    "Frutas y verduras",
+    "Ninguno"
   ],
   "7": [
     "Papas fritas",
@@ -213,7 +219,8 @@
     "pieza",
     "producto",
     [],
-    "Botanas"
+    "Botanas",
+    "Ninguno"
   ],
   "8": [
     "Cacahuates japoneses",
@@ -222,7 +229,8 @@
     "pieza",
     "producto",
     [],
-    "Botanas"
+    "Botanas",
+    "Ninguno"
   ],
   "9": [
     "Shampoo",
@@ -231,7 +239,8 @@
     "pieza",
     "producto",
     [],
-    "Higiene personal"
+    "Higiene personal",
+    "Ninguno"
   ],
   "10": [
     "Limpiador",
@@ -240,7 +249,8 @@
     "pieza",
     "producto",
     [],
-    "Productos de limpieza"
+    "Productos de limpieza",
+    "Ninguno"
   ],
   "11": [
     "Pizza congelada",
@@ -249,7 +259,8 @@
     "pieza",
     "producto",
     [],
-    "Congelados"
+    "Congelados",
+    "Ninguno"
   ],
   "12": [
     "Atún en agua",
@@ -258,16 +269,18 @@
     "pieza",
     "producto",
     [],
-    "Productos enlatados"
+    "Productos enlatados",
+    "Lote"
   ],
   "13": [
-    "Salsa picante",
-    "Valentina",
-    24.90,
+    "Laptop",
+    "Dell",
+    9999.99,
     "pieza",
     "producto",
     [],
-    "Salsas y condimentos"
+    "Tecnología",
+    "Lote"
   ],
   "14": [
     "Arroz",
@@ -276,7 +289,8 @@
     "kilogramo",
     "producto",
     [],
-    "Cereales y granos"
+    "Cereales y granos",
+    "Ninguno"
   ],
   "15": [
     "Queso",
@@ -285,7 +299,8 @@
     "pieza",
     "producto",
     [],
-    "Lácteos"
+    "Lácteos",
+    "Ninguno"
   ],
   "16": [
     "Chorizo",
@@ -294,7 +309,8 @@
     "pieza",
     "producto",
     [],
-    "Carnes frías"
+    "Carnes frías",
+    "Ninguno"
   ],
   "17": [
     "Tortillas de harina",
@@ -303,7 +319,8 @@
     "pieza",
     "producto",
     [],
-    "Tortillería"
+    "Tortillería",
+    "Ninguno"
   ],
   "18": [
     "Tortillas de harina",
@@ -312,7 +329,8 @@
     "pieza",
     "producto",
     [],
-    "Tortillería"
+    "Tortillería",
+    "Ninguno"
   ],
   "19": [
     "Nuez",
@@ -321,7 +339,8 @@
     "gramo",
     "producto",
     [],
-    "Granel"
+    "Granel",
+    "Ninguno"
   ],
   "20": [
     "Lavado de coche",
@@ -330,6 +349,7 @@
     "",
     "servicio",
     [],
+    "",
     ""
   ],
   "21": [
@@ -339,6 +359,7 @@
     "",
     "paquete",
     [["Queso","Caperucita",1],["Chorizo","Chimex",1],["Tortillas de harina","Tía Rosa",1]],
+    "",
     ""
   ]
   }

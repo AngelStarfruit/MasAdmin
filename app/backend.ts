@@ -330,22 +330,21 @@ export const editarSucursal = async (id: number, sucursal: string, telefono: str
   }
 };
 
-export const eliminarSucursalYAlmacenes = async (id: number, sucursal: string) => {
+export const eliminarSucursal = async (id: number) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
-    const response = await fetch(`${API_URL}/sucursales/${id}/almacenes`, {
+    const response = await fetch(`${API_URL}/sucursal/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sucursal }),
     });
 
     return await response.json();
   } catch (error) {
-    console.log('Error eliminando sucursal y almacenes:', error);
+    console.log('Error:', error);
     throw error;
   }
 };*/
@@ -418,7 +417,7 @@ export const agregarCategoria = async (categoria: string) => {
   }
 };
 
-export const editarCategoria = async (id: number, categoria: string) => {
+export const editarCategoria = async (id: number, categoriaVieja: string, categoriaNueva: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
@@ -428,7 +427,11 @@ export const editarCategoria = async (id: number, categoria: string) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ categoria }),
+      body: JSON.stringify({ 
+        categoriaVieja,
+        categoriaNueva,
+        actualizarProductos: true // ← Indica que debe actualizar productos
+      }),
     });
 
     return await response.json();
@@ -438,22 +441,21 @@ export const editarCategoria = async (id: number, categoria: string) => {
   }
 };
 
-export const eliminarCategoriaYProductos = async (id: number, category: string) => {
+export const eliminarCategoria = async (id: number) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
-    const response = await fetch(`${API_URL}/categorias/${id}/productos`, {
+    const response = await fetch(`${API_URL}/categorias/${id}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ category }),
     });
 
     return await response.json();
   } catch (error) {
-    console.log('Error eliminando categoría y productos:', error);
+    console.log('Error eliminando categoría:', error);
     throw error;
   }
 };*/ 
@@ -471,10 +473,10 @@ export const QuitarElemento = (data: any, id: number) => {
   return newData;
 };
 //Función para agregar un elemento al ajuste
-export const AddPrecio = (data: any, id: number, descripcion: string, marca: string, costo: number, unidad: string, tipo: string, contenido: any, categoría: string,) => {
+export const AddPrecio = (data: any, id: number, descripcion: string, marca: string, costo: number, unidad: string, tipo: string, contenido: any, categoría: string, control: string) => {
   return {
     ...data,
-    [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría]
+    [id]: [descripcion, marca, costo, unidad, tipo, contenido, categoría, control]
   };
 };
 /*export const obtenerPrecios = async () => {

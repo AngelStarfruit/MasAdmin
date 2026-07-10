@@ -48,6 +48,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   //Constantes de picker
   const [selectedCategory, setSelectedCategory] = useState('Servicios');
+  const [selectedControl, setSelectedControl] = useState('Ninguno');
   const [unidad, setUnidad] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
@@ -289,7 +290,7 @@ useFocusEffect(
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Marca:</Text>
+                      <Text style={[styles.modalLabel, !fieldOn && styles.disable]}>Marca:</Text>
                       <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
                       editable={fieldOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
@@ -301,10 +302,22 @@ useFocusEffect(
                       value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Unidad:</Text>
+                      <Text style={[styles.modalLabel, !fieldOn && styles.disable]}>Unidad:</Text>
                       <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
                       editable={fieldOn}
                       value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
+                    </View>
+                    <View style={{alignItems:'center'}}>
+                      <Text style={[styles.modalLabel, !fieldOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
+                      <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
+                      enabled={fieldOn}
+                        selectedValue={selectedControl}
+                        onValueChange={(itemValue) => setSelectedControl(itemValue)}
+                        style={[styles.picker, !fieldOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        >
+                        <Picker.Item label="Ninguno" value="Ninguno" />
+                        <Picker.Item label="Lote" value="Lote" />
+                      </Picker></View>
                     </View>
         
                     <View style={styles.hr}/>
@@ -327,7 +340,7 @@ useFocusEffect(
                             return; 
                             }
                             if (selectedCategory == 'Servicios'){
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,''))
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,'',''))
                             setModalVisible(!modalVisible)
                             }
                             else if (selectedCategory == 'Paquetes'){
@@ -338,7 +351,7 @@ useFocusEffect(
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
                             }
                             else{
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,'producto',contenidoPaquete,selectedCategory))
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,'producto',contenidoPaquete,selectedCategory,selectedControl))
                             setModalVisible(!modalVisible)
                             }
                           }}>
@@ -367,7 +380,7 @@ useFocusEffect(
                            showsVerticalScrollIndicator={false}
                           keyboardShouldPersistTaps="handled"
                         >
-                  <View style={[styles.modalView, {marginVertical: 190}]}>
+                  <View style={[styles.modalView, {marginVertical: 150}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -406,10 +419,22 @@ useFocusEffect(
                     </View>
 
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Marca:</Text>
+                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Unidad:</Text>
                       <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
-                      editable={fieldOn}
-                      value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
+                      editable={editOn}
+                      value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
+                    </View>
+                    <View style={{alignItems:'center'}}>
+                      <Text style={[styles.modalLabel, !editOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
+                      <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
+                      enabled={editOn}
+                        selectedValue={selectedControl}
+                        onValueChange={(itemValue) => setSelectedControl(itemValue)}
+                        style={[styles.picker, !editOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        >
+                        <Picker.Item label="Ninguno" value="Ninguno" />
+                        <Picker.Item label="Lote" value="Lote" />
+                      </Picker></View>
                     </View>
         
                     <View style={styles.hr}/>
@@ -425,7 +450,7 @@ useFocusEffect(
                       underlayColor={colors.editUnderlay} style={styles.modalEdit}
                         onPress={() => {
                           const validationNum = CostoValido(costo)
-                          let validation = Validar(3,descripcion,marca,costo,'');
+                          let validation = Validar(4,descripcion,marca,costo,unidad);
                           if(!editOn){
                             validation = Validar(2,descripcion,costo,'','');
                           }
@@ -437,7 +462,7 @@ useFocusEffect(
                             Alert.alert('Error', validationNum.message);
                             return; 
                             }
-                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,selectedCategory))
+                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,selectedCategory,selectedControl))
                         setEModalVisible(!EmodalVisible)
                         }}>
                         <Text style={styles.text}>Confirmar cambios</Text>
@@ -582,7 +607,7 @@ useFocusEffect(
                       underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 150}]}
                         onPress={() => {
                           if(Object.keys(contenidoPaquete).length > 0){
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','paquete',contenidoPaquete,''))
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','paquete',contenidoPaquete,'',''))
                             setNewPaquete(!NewPaquete)
                             setModalVisible(!modalVisible)}
                           else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
@@ -814,7 +839,7 @@ useFocusEffect(
           fontSize: 15, 
           paddingVertical: 10,}}>
           Seleccione la descripción de un elemento en la tabla para modificar sus datos.
-          </Text>   
+          </Text> 
           <View style={{height: 55}}>
           <Picker
               selectedValue={selectedCategory}
@@ -840,7 +865,7 @@ useFocusEffect(
                 underlayColor={colors.cellUnderlay}
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
-                  setDescripcion(''); setMarca(''); setCosto(''); setContenidoPaquete({})
+                  setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setContenidoPaquete({})
                   if (selectedCategory == 'Servicios' || selectedCategory == 'Paquetes'){
                     setFieldOn(false)
                   }
@@ -866,7 +891,7 @@ useFocusEffect(
                         <View style={styles.headerCell}>
                           <Text style={styles.headerText}>Marca</Text>
                           </View>
-                        <View style={styles.headerCell}>
+                        <View style={[styles.headerCell, {flex: 0.8}]}>
                           <Text style={styles.headerText}>Costo</Text>
                           </View>
                         <View style={[styles.headerCell, {flex: 0.8}]}>
@@ -878,7 +903,7 @@ useFocusEffect(
                 {!isLoading ? (
                 Object.values(elementosMostrados || {}).length > 0 ? (
                  Object.entries(elementosMostrados).map(([id, data]: [string, any]) => {
-                  const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria] = data;
+                  const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria, control] = data;
                   return(
                       <View key={id} style={styles.row}>
                         <View style={styles.cellF}>
@@ -895,7 +920,7 @@ useFocusEffect(
                           } else setEditOn(true)
 
                           setId(Number(id))
-                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad); setTipo(tipo)
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad); setTipo(tipo); setSelectedControl(control)
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
@@ -903,7 +928,7 @@ useFocusEffect(
                         </TouchableHighlight>
                         </View> 
                         <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
-                        <View style={styles.cell}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
+                        <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
                         <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{unidad}</Text></View>
                 </View>
                   );
@@ -944,7 +969,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
-    padding: 10,
+    padding: 18,
   },
   showcase: {
     backgroundColor: colors.secondary,
@@ -995,7 +1020,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 20, marginVertical: 180,
+    marginHorizontal: 18, marginVertical: 140,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
