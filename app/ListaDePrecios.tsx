@@ -48,7 +48,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   //Constantes de picker
   const [selectedCategory, setSelectedCategory] = useState('Servicios');
-  const [selectedUValue, setSelectedUValue] = useState('pieza');
+  const [unidad, setUnidad] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
@@ -302,20 +302,9 @@ useFocusEffect(
                     </View>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Unidad:</Text>
-                      <View style={{width: 150, height: 50}}>
-                      <Picker
-                        enabled={fieldOn}
-                        selectedValue={selectedUValue}
-                        onValueChange={(itemValue) => setSelectedUValue(itemValue)}
-                        style={[styles.picker, !fieldOn && styles.disable, {backgroundColor: colors.scrollBackground}]} 
-                        itemStyle={styles.pickerItem}
-                        >
-                      <Picker.Item label="Pieza" value="pieza" />
-                      <Picker.Item label="Gramo" value="gramo" />
-                      <Picker.Item label="Kilogramo" value="kilogramo" />
-                      <Picker.Item label="Metro" value="metro" />
-                      </Picker>
-                      </View>
+                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
+                      editable={fieldOn}
+                      value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -349,7 +338,7 @@ useFocusEffect(
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
                             }
                             else{
-                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,'producto',contenidoPaquete,selectedCategory))
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,'producto',contenidoPaquete,selectedCategory))
                             setModalVisible(!modalVisible)
                             }
                           }}>
@@ -417,21 +406,10 @@ useFocusEffect(
                     </View>
 
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Unidad:</Text>
-                      <View style={{width: 150, height: 50}}>
-                      <Picker
-                        enabled = {editOn}
-                        selectedValue={selectedUValue}
-                        onValueChange={(itemValue) => setSelectedUValue(itemValue)}
-                        style={[styles.picker, !editOn && styles.disable, {backgroundColor: colors.scrollBackground}]} 
-                        itemStyle={styles.pickerItem}
-                        >
-                      <Picker.Item label="Pieza" value="pieza" />
-                      <Picker.Item label="Gramo" value="gramo" />
-                      <Picker.Item label="Kilogramo" value="kilogramo" />
-                      <Picker.Item label="Metro" value="metro" />
-                      </Picker>
-                      </View>
+                      <Text style={styles.modalLabel}>Marca:</Text>
+                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
+                      editable={fieldOn}
+                      value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
         
                     <View style={styles.hr}/>
@@ -459,7 +437,7 @@ useFocusEffect(
                             Alert.alert('Error', validationNum.message);
                             return; 
                             }
-                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),selectedUValue,tipo,contenidoPaquete,selectedCategory))
+                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,selectedCategory))
                         setEModalVisible(!EmodalVisible)
                         }}>
                         <Text style={styles.text}>Confirmar cambios</Text>
@@ -917,7 +895,7 @@ useFocusEffect(
                           } else setEditOn(true)
 
                           setId(Number(id))
-                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setSelectedUValue(unidad); setTipo(tipo)
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad); setTipo(tipo)
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
@@ -966,7 +944,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
-    padding: 18,
+    padding: 10,
   },
   showcase: {
     backgroundColor: colors.secondary,
@@ -1017,7 +995,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 180,
+    marginHorizontal: 20, marginVertical: 180,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

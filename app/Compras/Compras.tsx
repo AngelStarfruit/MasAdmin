@@ -207,15 +207,16 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
           Seleccione una sección:
           </Text>
 
-        <View style={{flex: 1, justifyContent: 'space-around'}}>
-        <View style={{height:150}}><TouchableHighlight 
+        <View style={{flex: 1, justifyContent: 'space-evenly', alignItems: 'center'}}>
+        <View style={{height:150, width: 225}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => navigation.navigate("Proveedores")}
         style={styles.touch}>
-          <Text style={styles.touchText}>Proveedores</Text>
+          <Text style={styles.touchText}>
+            Proveedores</Text>
           </TouchableHighlight></View>
 
-          <View style={{height:150}}><TouchableHighlight 
+          <View style={{height:150, width: 225}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(proveedores).length > 0 && Object.keys(sucursales).length > 0 
@@ -228,7 +229,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
           <Text style={styles.touchText}>Control de compras</Text>
           </TouchableHighlight></View>
         
-         <View style={{height:150}}><TouchableHighlight 
+         <View style={{height:150, width: 225}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
           navigation.navigate("ControlGastos")
@@ -270,7 +271,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: colors.primary,
-    marginHorizontal: 60, 
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

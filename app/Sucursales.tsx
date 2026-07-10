@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Moda
 import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 import { NoEmojis, Validar} from './backend';
-//import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursal } from './backend'
+//import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursalYAlmacenes } from './backend'
+//import { obtenerAlmacenes } from './Almacenes/backend'
 import { QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
 import { useTheme } from '../context/ThemeContext';
@@ -133,18 +134,23 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
   const handleEliminar = async () => {
     try {
-      const response = await eliminarSucursal(id);
-      if (response.success) {
-        const nuevasSucursales = { ...sucursales };
-        delete nuevasSucursales[id];
-        setSucursales(nuevasSucursales);
-        setSucursalesOG(nuevasSucursales);
-        setConfirm(false);
-        setEModalVisible(false);
-      }
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'No se pudo eliminar la sucursal');
+    const response = await eliminarSucursalYAlmacenes(id, sucursal);
+    if (response.success) {
+      // Recargar datos actualizados
+      const nuevasSucursales = await obtenerSucursales();
+      const nuevosAlmacenes = await obtenerAlmacenes();
+      
+      setSucursales(nuevasSucursales);
+      setAlmacenes(nuevosAlmacenes);
+      setSucursalesOG(nuevasSucursales);
+      
+      setConfirm(false);
+      setModalEVisible(false);
+      Alert.alert('Éxito', response.message || 'Sucursal y almacenes eliminados');
     }
+  } catch (error: any) {
+    Alert.alert('Error', error.message || 'No se pudo eliminar');
+  }
   }; */
 
   return (
@@ -297,6 +303,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                               Alert.alert('Error', validation.message);
                               return; 
                               }
+                              setQuery('')
                         setSucursales(AddSucursal(sucursales,id,sucursal,telefono))
                         setEModalVisible(!EmodalVisible)
                         }}>
@@ -322,13 +329,13 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                 setConfirm(!Confirm);
                               }}>
                               <View style={styles.modalOverlay}>
-                              <View style={[styles.modalView, {marginVertical: 285}]}>
+                              <View style={[styles.modalView, {marginVertical: 295}]}>
                     
                                 <View>
                                   <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                                 </View>
 
-                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={50} color={colors.text} /></View>
+                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={40} color={colors.text} /></View>
 
                                 <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
                                       Esta acción borrará la sucursal y todos los almacenes que se encuentran en ella. 
@@ -345,6 +352,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 80}]}
                                     onPress={() => {
+                                      setQuery('')
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
@@ -530,7 +538,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 290,
+    marginHorizontal: 18, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

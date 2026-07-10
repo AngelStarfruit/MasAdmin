@@ -1287,7 +1287,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 200,
+    marginHorizontal: 18, marginVertical: 200,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

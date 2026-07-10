@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInpu
 import Constants from 'expo-constants';
 import { type CategoriasScreenProps, single } from './types';
 import { useState, useCallback } from 'react';
-//import { obtenerCategorias, agregarCategoria, editarCategoria, eliminarCategoria } from './backend';
+//import { obtenerCategorias, obtenerPrecios agregarCategoria, editarCategoria, eliminarCategoriaYProductos } from './backend';
 import { NoEmojis, Validar} from './backend';
 import { AddCategoria, QuitarElemento } from './backend';
 import { useTheme } from '../context/ThemeContext';
@@ -106,19 +106,23 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
   const handleEliminar = async () => {
     try {
-      const response = await eliminarCategoria(id);
-      if (response.success) {
-        const nuevasCategorias = { ...categorias };
-        delete nuevasCategorias[id];
-        setCategorias(nuevasCategorias);
-        setCategoriasOG(nuevasCategorias);
-        setConfirm(false);
-        setModalEVisible(false);
-        Alert.alert('Éxito', 'Categoría eliminada correctamente');
-      }
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'No se pudo eliminar la categoría');
+    const response = await eliminarCategoriaYProductos(id, category);
+    if (response.success) {
+      // Recargar datos actualizados
+      const nuevasCategorias = await obtenerCategorias();
+      const nuevosProductos = await obtenerPrecios();
+      
+      setCategorias(nuevasCategorias);
+      setListaPrecios(nuevosProductos);
+      setCategoriasOG(nuevasCategorias);
+      
+      setConfirm(false);
+      setModalEVisible(false);
+      Alert.alert('Éxito', response.message || 'Categoría y productos eliminados');
     }
+  } catch (error: any) {
+    Alert.alert('Error', error.message || 'No se pudo eliminar');
+  }
   }; */
  
   return (
@@ -223,6 +227,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                               Alert.alert('Error', validation.message);
                                               return; 
                                               }
+                                              setQuery('')
                                           setCategorias(AddCategoria(categorias,id,category))
                                           setModalEVisible(!modalEVisible)}}>
                                         <Text style={styles.text}>Confirmar cambios</Text>
@@ -248,13 +253,13 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                      setConfirm(!Confirm);
                                    }}>
                                    <View style={styles.modalOverlay}>
-                                   <View style={[styles.modalView, {marginVertical: 285}]}>
+                                   <View style={[styles.modalView, {marginVertical: 295}]}>
                          
                                      <View>
                                        <Text style={styles.modalTitle}>¿Eliminar categoría?</Text>
                                      </View>
 
-                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={50} color={colors.text} /></View>
+                                   <View style={{ alignSelf: 'center', opacity: 0.5}}><Ionicons name="warning" size={40} color={colors.text} /></View>
 
                                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
                                       Esta acción borrará la categoría y todos los productos que se encuentran en ella. 
@@ -440,7 +445,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30,
+    marginHorizontal: 18,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

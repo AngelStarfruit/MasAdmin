@@ -307,6 +307,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                   Alert.alert('Error', validation.message);
                                   return; 
                                  }
+                                 setQuery('')
                               setAlmacenes(AddAlmacen(almacenes,id,almacen,selectedBranch))
                               setEModalVisible(!EmodalVisible)}}>
                             <Text style={styles.text}>Editar registro</Text>
@@ -421,6 +422,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                         <TouchableHighlight
                                         underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
                                           onPress={() => {
+                                            setQuery('')
                                             setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
                                             setEModalVisible(!EmodalVisible);
@@ -586,7 +588,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 290,
+    marginHorizontal: 18, marginVertical: 290,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

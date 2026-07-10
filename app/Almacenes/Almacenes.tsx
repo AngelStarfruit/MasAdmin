@@ -177,8 +177,8 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
           Seleccione una sección:
           </Text>
 
-        <View style={{flex: 1, justifyContent: 'space-around'}}>
-        <View style={{height: 150}}>
+        <View style={{flex: 1, justifyContent: 'space-evenly', alignItems: 'center'}}>
+        <View style={{height: 150, width: 225}}>
         <TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => navigation.navigate("AlmacenesInfo")}
@@ -186,7 +186,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
           <Text style={styles.touchText}>Almacenes</Text>
           </TouchableHighlight></View>
 
-        <View style={{height: 150}}><TouchableHighlight 
+        <View style={{height: 150, width: 225}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0){
@@ -198,7 +198,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
           <Text style={styles.touchText}>Existencias por almacén</Text>
           </TouchableHighlight></View>
 
-          <View style={{height: 150}}><TouchableHighlight 
+          <View style={{height: 150, width: 225}}><TouchableHighlight 
         underlayColor={colors.primaryUnderlay}
         onPress={() => {
           if(Object.keys(sucursales).length > 0 && Object.keys(almacenes).length > 0 && Object.keys(productos).length > 0){
@@ -244,7 +244,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: colors.primary,
-    marginHorizontal: 60,
     padding: 20,
     borderRadius: 25,
     justifyContent: 'center',

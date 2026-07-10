@@ -317,6 +317,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           Alert.alert('Error', validation.message);
                           return; 
                           }
+                          setQuery('')
                       setClientes(AddCliente(clientes,id,nombre,telefono,ciudad,estado))
                       setEModalVisible(!EmodalVisible)}}>
                     <Text style={styles.text}>Editar registro</Text>
@@ -443,6 +444,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             <TouchableHighlight
                             underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width:50}]}
                               onPress={() => {
+                                setQuery('')
                                 setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
                                 setEModalVisible(!EmodalVisible);
@@ -614,7 +616,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 30, marginVertical: 220,
+    marginHorizontal: 18, marginVertical: 220,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

@@ -330,21 +330,22 @@ export const editarSucursal = async (id: number, sucursal: string, telefono: str
   }
 };
 
-export const eliminarSucursal = async (id: number) => {
+export const eliminarSucursalYAlmacenes = async (id: number, sucursal: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
-    const response = await fetch(`${API_URL}/sucursales/${id}`, {
+    const response = await fetch(`${API_URL}/sucursales/${id}/almacenes`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ sucursal }),
     });
 
     return await response.json();
   } catch (error) {
-    console.log('Error eliminando sucursal:', error);
+    console.log('Error eliminando sucursal y almacenes:', error);
     throw error;
   }
 };*/
@@ -437,21 +438,22 @@ export const editarCategoria = async (id: number, categoria: string) => {
   }
 };
 
-export const eliminarCategoria = async (id: number) => {
+export const eliminarCategoriaYProductos = async (id: number, category: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
-    const response = await fetch(`${API_URL}/categorias/${id}`, {
+    const response = await fetch(`${API_URL}/categorias/${id}/productos`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ category }),
     });
 
     return await response.json();
   } catch (error) {
-    console.log('Error eliminando categoría:', error);
+    console.log('Error eliminando categoría y productos:', error);
     throw error;
   }
 };*/ 
