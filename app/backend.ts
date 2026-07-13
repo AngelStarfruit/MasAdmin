@@ -310,7 +310,8 @@ export const agregarSucursal = async (sucursal: string, telefono: string) => {
   }
 };
 
-export const editarSucursal = async (id: number, sucursal: string, telefono: string) => {
+// backend.ts
+export const editarSucursal = async (id: number, sucursalVieja: string, sucursalNueva: string, telefono: string) => {
   try {
     const token = await AsyncStorage.getItem('token');
     
@@ -320,7 +321,12 @@ export const editarSucursal = async (id: number, sucursal: string, telefono: str
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sucursal, telefono }),
+      body: JSON.stringify({ 
+        sucursalVieja,
+        sucursalNueva,
+        telefono,
+        actualizarAlmacenes: true // ← Indica que debe actualizar almacenes
+      }),
     });
 
     return await response.json();

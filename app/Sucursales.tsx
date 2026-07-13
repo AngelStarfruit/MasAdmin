@@ -113,26 +113,35 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
   };
 
   const handleEditar = async () => {
-    const validation = Validar(2, sucursal, telefono, '', '');
-    if (!validation.isValid) {
-      Alert.alert('Error', validation.message);
-      return;
-    }
+  const validation = Validar(2, sucursal, telefono, '', '');
+  if (!validation.isValid) {
+    Alert.alert('Error', validation.message);
+    return;
+  }
 
-    try {
-      const response = await editarSucursal(id, sucursal, telefono);
-      if (response.success) {
-        // Actualizar localmente
-        const sucursalesActualizadas = { ...sucursales };
-        sucursalesActualizadas[id] = [sucursal, telefono];
-        setSucursales(sucursalesActualizadas);
-        setSucursalesOG(sucursalesActualizadas);
-        setEModalVisible(false);
-      }
-    } catch (error: any) {
-      Alert.alert('Error', error.message || 'No se pudo editar la sucursal');
+  try {
+    // Guardar la sucursal original antes de editarla
+    const sucursalOriginal = sucursales[id]?.[0] || '';
+
+    const response = await editarSucursal(id, sucursalOriginal, sucursal, telefono);
+    if (response.success) {
+      // Actualizar localmente
+      const sucursalesActualizadas = { ...sucursales };
+      sucursalesActualizadas[id] = [sucursal, telefono];
+      setSucursales(sucursalesActualizadas);
+      setSucursalesOG(sucursalesActualizadas);
+      
+      // También actualizar almacenes si el servidor no lo hace automáticamente o recargar almacenes desde el servidor
+      const almacenesActualizados = await obtenerAlmacenes();
+      setAlmacenes(almacenesActualizados);
+      
+      setEModalVisible(false);
+      Alert.alert('Éxito', `Sucursal "${sucursalOriginal}" actualizada a "${sucursal}" en todos los almacenes`);
     }
-  };
+  } catch (error: any) {
+    Alert.alert('Error', error.message || 'No se pudo editar la sucursal');
+  }
+};
 
   const handleEliminar = async () => {
     try {

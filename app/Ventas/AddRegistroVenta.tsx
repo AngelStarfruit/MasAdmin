@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { AddRegistroVentaScreenProps, RegistroVenta } from './types';
 import { useState, useEffect } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
+import { Validar, NumeroValido, totalVenta, AddElemento, QuitarElemento } from './backend';
 //import { obtenerClientes } from './backend'; import { obtenerAlmacenes } from '../Almacenes/backend';
 //import { obtenerSucursales, obtenerPrecios } from '../backend';
 //import { agregarVenta } from './backend';
@@ -26,6 +26,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
   //Constante de input
   const [cantidad, setCantidad] = useState('');
+  const [nlote, setNlote] = useState('');
 
   //Constantes de JSON
   const [processVenta, setProcessVenta] = useState<RegistroVenta>({});
@@ -36,7 +37,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
   //const [sucursales, setSucursales] = useState<Record<string, any>>({});
   const sucursales: Record<string, any> = datos.SUCURSALES || {};
   //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
-  const productos: Record<string, any> = datos.LISTA_PRECIOS || {};
+  const productos = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] != "no almacenable"));
   //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
   const almacenes: Record<string, any> = datosA.ALMACENES || {};
   const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
@@ -77,6 +80,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
   //ID
   const [idP, setIdP] = useState(1);
+
+  const [fieldOn, setFieldON] = useState(true)
 
   /*useFocusEffect(
     useCallback(() => {
@@ -309,15 +314,31 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                                 value={cantidad} onChangeText={setCantidad}
                                 keyboardType='numeric'></TextInput>
                     </View>
+                    <View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !fieldOn && styles.disabled]}>N° de lote:</Text>
+                      <TextInput style={[styles.input, !fieldOn && styles.disabled]} 
+                      editable={fieldOn}
+                                value={nlote} onChangeText={setNlote}
+                                keyboardType='numeric'></TextInput>
+                    </View>
                   <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                      onPress={() => {
-                    const validation = NumeroValido(cantidad);
-                    if (!validation.isValid) {
-                    Alert.alert('Error', validation.message);
+                      const validation = Validar(2,cantidad,nlote,'','');
+                            if (!validation.isValid) {
+                            Alert.alert('Error', validation.message);
+                            return; 
+                            }
+                    const validationNum1 = NumeroValido(cantidad); const validationNum2 = NumeroValido(nlote);
+                    if (!validationNum1.isValid) {
+                    Alert.alert('Error', validationNum1.message);
+                    return;
+                    }
+                    if (!validationNum2.isValid) {
+                    Alert.alert('Error', validationNum2.message);
                     return;
                     }
                         const productoSeleccionado = (productos as any)[selectedProduct];
@@ -742,7 +763,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 290,
+    marginHorizontal: 18, marginVertical: 260,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
@@ -764,6 +785,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 120,
     marginTop: 10,
+  },
+  disabled: {
+    opacity: 0.6
   },
   modalRow:{
     flexDirection: 'row', 

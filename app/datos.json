@@ -361,6 +361,26 @@
     [["Queso","Caperucita",1],["Chorizo","Chimex",1],["Tortillas de harina","Tía Rosa",1]],
     "",
     ""
+  ],
+  "22": [
+    "Laptop",
+    "Gateway",
+    0,
+    "",
+    "no almacenable",
+    [],
+    "",
+    ""
+  ],
+  "23": [
+    "Equipo de escritorio",
+    "",
+    0,
+    "",
+    "agrupacion",
+    [["Laptop","Gateway",5]],
+    "",
+    ""
   ]
   }
 }

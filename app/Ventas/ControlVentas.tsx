@@ -74,10 +74,10 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
           </TouchableHighlight>
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Fecha</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Total ganado</Text>
                       </View>
                   <View style={styles.cell}>
@@ -91,8 +91,8 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                   const [fecha, total, cliente] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cell}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{cliente}</Text></View>
                 </View>
                 )

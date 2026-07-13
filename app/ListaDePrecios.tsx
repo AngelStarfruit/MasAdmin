@@ -31,6 +31,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [NewPaquete, setNewPaquete] = useState(false);
   const [Paquete, setPaquete] = useState(false);
   const [AlterPaquete, setAlterPaquete] = useState(false);
+  const [AlterAgrupacion, setAlterAgrupacion] = useState(false);
   const [Confirm, setConfirm] = useState(false);
 
   //JSON con los datos
@@ -42,6 +43,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
+  const noAlmacenables = Object.fromEntries(
+  Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "no almacenable"));
   const [elementosMostrados, setElementosMostrados] = useState(listaPrecios);
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
@@ -87,7 +91,19 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
         ([id, data]) => data[4] === "paquete"
       )
     );
-  } else {
+  } else if (selectedCategory === 'No almacenables') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] === "no almacenable"
+      )
+    )
+  }else if (selectedCategory === 'Agrupaciones') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] === "agrupacion"
+      )
+    )
+  }else {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
         ([id, data]) => data[6] === selectedCategory
@@ -104,9 +120,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [idEmpresa, setIdEmpresa] = useState('');
 
   //Desabilitar características
-  const [editPaqueteOff, setEditPaqueteOff] = useState(false);
-  const [fieldOn, setFieldOn] = useState(true);
-  const [editOn, setEditOn] = useState(true);
+  const [editContenidoOff, setEditContenidoOff] = useState(false);
+  const [fieldMOn, setFieldMOn] = useState(true); const [fieldCOn, setFieldCOn] = useState(true); const [fieldUCOn, setFieldUCOn] = useState(true);
+  const [editMOn, setEditMOn] = useState(true);  const [editCOn, setEditCOn] = useState(true); const [editUCOn, setEditUCOn] = useState(true);
 
   /*const handleAgregar = async () => {
   const validation = Validar(3, descripcion, marca, costo, '');
@@ -290,30 +306,31 @@ useFocusEffect(
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !fieldOn && styles.disable]}>Marca:</Text>
-                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
-                      editable={fieldOn}
+                      <Text style={[styles.modalLabel, !fieldMOn && styles.disable]}>Marca:</Text>
+                      <TextInput style={[styles.input, !fieldMOn && styles.disable, { width: 150}]}
+                      editable={fieldMOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={{...styles.input, width: 150}}
+                      <Text style={[styles.modalLabel, !fieldCOn && styles.disable]}>Costo:</Text>
+                      <TextInput style={[styles.input, !fieldCOn && styles.disable, { width: 150}]}
+                      editable={fieldCOn}
                       keyboardType='numeric'
                       value={costo} onChangeText={(text) => setCosto(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !fieldOn && styles.disable]}>Unidad:</Text>
-                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
-                      editable={fieldOn}
+                      <Text style={[styles.modalLabel, !fieldUCOn && styles.disable]}>Unidad:</Text>
+                      <TextInput style={[styles.input, !fieldUCOn && styles.disable, { width: 150}]}
+                      editable={fieldUCOn}
                       value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
                     </View>
                     <View style={{alignItems:'center'}}>
-                      <Text style={[styles.modalLabel, !fieldOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
+                      <Text style={[styles.modalLabel, !fieldUCOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
                       <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
-                      enabled={fieldOn}
+                      enabled={fieldUCOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !fieldOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !fieldUCOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
@@ -326,29 +343,48 @@ useFocusEffect(
                       <TouchableHighlight
                       underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
-                          let validation = Validar(3,descripcion,marca,costo,'');
-                          if(!fieldOn){
+                          let validation = Validar(4,descripcion,marca,costo,unidad);
+                          if (!fieldUCOn && !fieldCOn && !fieldMOn){
+                            validation = Validar(1,descripcion,'','','');
+                          }
+                          else if(!fieldUCOn && !fieldMOn){
                             validation = Validar(2,descripcion,costo,'','');
+                          }
+                          else if(!fieldUCOn && !fieldCOn){
+                            validation = Validar(2,descripcion,marca,'','');
                           }
                           const validationNum = CostoValido(costo)
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                            if (!validationNum.isValid) {
-                            Alert.alert('Error', validationNum.message);
-                            return; 
+                            if (fieldCOn){
+                              if (!validationNum.isValid) {
+                              Alert.alert('Error', validationNum.message);
+                              return; 
+                            }
                             }
                             if (selectedCategory == 'Servicios'){
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,'',''))
                             setModalVisible(!modalVisible)
                             }
                             else if (selectedCategory == 'Paquetes'){
-                              if (Object.keys(listaPrecios).length > 0){
+                              if (Object.keys((productos)).length > 0){
                               setNewPaquete(true)
                               setIdP(1); setContenidoPaquete({});
                               }
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
+                            }
+                            else if (selectedCategory == 'No almacenables'){
+                            setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,0,'','no almacenable',contenidoPaquete,'',''))
+                            setModalVisible(!modalVisible)
+                            }
+                            else if (selectedCategory == 'Agrupaciones'){
+                              if (Object.keys((noAlmacenables)).length > 0){
+                              setNewPaquete(true)
+                              setIdP(1); setContenidoPaquete({});
+                              }
+                              else Alert.alert("Error","Para poder registrar una agrupacion, registre por lo menos un elemento no almacenable para incluir en las agrupaciones")
                             }
                             else{
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,'producto',contenidoPaquete,selectedCategory,selectedControl))
@@ -406,31 +442,32 @@ useFocusEffect(
                       value={descripcion} onChangeText={(text) => setDescripcion(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Marca:</Text>
-                      <TextInput style={[styles.input, !editOn && styles.disable, {width: 150}]}
-                       editable = {editOn}
+                      <Text style={[styles.modalLabel, !editMOn && styles.disable]}>Marca:</Text>
+                      <TextInput style={[styles.input, !editMOn && styles.disable, {width: 150}]}
+                       editable = {editMOn}
                       value={marca} onChangeText={(text) => setMarca(NoEmojis(text))}/>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Costo:</Text>
-                      <TextInput style={[styles.input, {width: 150}]}
+                      <Text style={[styles.modalLabel, !editCOn && styles.disable]}>Costo:</Text>
+                      <TextInput style={[styles.input, !editCOn && styles.disable,, {width: 150}]}
+                      editable={editCOn}
                       keyboardType='numeric'
                       value={costo} onChangeText={setCosto}/>
                     </View>
 
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !editOn && styles.disable]}>Unidad:</Text>
-                      <TextInput style={[styles.input, !fieldOn && styles.disable, { width: 150}]}
-                      editable={editOn}
+                      <Text style={[styles.modalLabel, !editUCOn && styles.disable]}>Unidad:</Text>
+                      <TextInput style={[styles.input, !editUCOn && styles.disable, { width: 150}]}
+                      editable={editUCOn}
                       value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
                     </View>
                     <View style={{alignItems:'center'}}>
-                      <Text style={[styles.modalLabel, !editOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
+                      <Text style={[styles.modalLabel, !editUCOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
                       <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
-                      enabled={editOn}
+                      enabled={editUCOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !editOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !editUCOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
@@ -441,27 +478,35 @@ useFocusEffect(
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
-                      disabled = {editPaqueteOff}
-                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editPaqueteOff && styles.disable]}
-                        onPress={() =>  setPaquete(true)}>
-                        <Text style={styles.text}>Editar paquete</Text>
+                      disabled = {editContenidoOff}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editContenidoOff && styles.disable]}
+                        onPress={() => setPaquete(true)}>
+                        <Text style={styles.text}>Editar contenido</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={colors.editUnderlay} style={styles.modalEdit}
                         onPress={() => {
                           const validationNum = CostoValido(costo)
                           let validation = Validar(4,descripcion,marca,costo,unidad);
-                          if(!editOn){
+                          if(!editUCOn && !editCOn && !editMOn){
+                            validation = Validar(1,descripcion,'','','');
+                          }
+                          else if(!editUCOn && !editMOn){
                             validation = Validar(2,descripcion,costo,'','');
+                          }
+                          else if(!editUCOn && !editCOn){
+                            validation = Validar(2,descripcion,marca,'','');
                           }
                              if (!validation.isValid) {
                             Alert.alert('Error', validation.message);
                             return; 
                             }
-                            if (!validationNum.isValid) {
-                            Alert.alert('Error', validationNum.message);
-                            return; 
-                            }
+                            if (editCOn){
+                              if (!validationNum.isValid) {
+                              Alert.alert('Error', validationNum.message);
+                              return; 
+                              }
+                          }
                         setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,selectedCategory,selectedControl))
                         setEModalVisible(!EmodalVisible)
                         }}>
@@ -528,7 +573,7 @@ useFocusEffect(
                     setNewPaquete(!NewPaquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 160}]}>
+                  <View style={[styles.modalView, {marginHorizontal: 9, marginVertical: 160}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -540,14 +585,14 @@ useFocusEffect(
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Definir paquete</Text>
+                      <Text style={styles.modalTitle}>Definir contenido</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                    <View>
                       <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
-                        Ingrese los productos que contendrá este paquete</Text>
+                        Ingrese los elementos del contenido</Text>
                     </View>
 
                     <View style={styles.table}>
@@ -558,7 +603,7 @@ useFocusEffect(
                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
                               <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
@@ -573,7 +618,7 @@ useFocusEffect(
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
                             <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
@@ -594,7 +639,14 @@ useFocusEffect(
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
-                                      onPress={() => setAlterPaquete(true)}
+                                      onPress={() => {
+                                        if (selectedCategory == 'Paquetes'){
+                                        setAlterPaquete(true)
+                                      }
+                                      else if (selectedCategory == 'Agrupaciones'){
+                                        setAlterAgrupacion(true)
+                                      }
+                                      }}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
                                   </TouchableHighlight>
@@ -629,7 +681,7 @@ useFocusEffect(
                     setPaquete(!Paquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 160}]}>
+                  <View style={[styles.modalView, {marginHorizontal: 9, marginVertical: 160}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -641,14 +693,14 @@ useFocusEffect(
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Editar paquete</Text>
+                      <Text style={styles.modalTitle}>Editar contenido</Text>
                     </View>
         
                     <View style={styles.hr}/>
         
                    <View>
                       <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
-                        Ingrese los productos que contendrá este paquete</Text>
+                        Ingrese los elementos del contenido</Text>
                     </View>
 
                     <View style={styles.table}>
@@ -659,7 +711,7 @@ useFocusEffect(
                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
                               <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
@@ -675,7 +727,7 @@ useFocusEffect(
                             <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                             <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
                             <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
@@ -697,7 +749,14 @@ useFocusEffect(
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
-                                      onPress={() => setAlterPaquete(true)}
+                                      onPress={() => {
+                                        if (selectedCategory == 'Paquetes'){
+                                        setAlterPaquete(true)
+                                      }
+                                      else if (selectedCategory == 'Agrupaciones'){
+                                        setAlterAgrupacion(true)
+                                      }
+                                      }}
                                       style={styles.buttonRegister}>
                                       <Text style={styles.buttonText}>Agregar</Text>
                                   </TouchableHighlight>
@@ -823,6 +882,94 @@ useFocusEffect(
                       </View>
                       </View>
                     </Modal>
+      
+      {/* Modal para definir elementos para las agrupaciones*/}
+                <Modal
+                      animationType="fade"
+                      transparent={true}
+                      visible={AlterAgrupacion}
+                      onRequestClose={() => {
+                        setAlterAgrupacion(!AlterAgrupacion);
+                      }}>
+                      <View style={styles.modalOverlay}>
+                      <View style={[styles.modalView, {marginVertical: 280}]}>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                          <TouchableHighlight
+                           style={{height: 30, width: 30, alignItems: "flex-end"}}
+                          underlayColor={colors.scrollBackground}
+                          onPress={() => setAlterAgrupacion(!AlterAgrupacion)}>
+                         <Ionicons name="close" size={20} color={colors.text} />
+                          </TouchableHighlight>
+                        </View>
+            
+                        <View>
+                          <Text style={styles.modalTitle}>Agregar elementos</Text>
+                        </View>
+            
+                        <View style={styles.hr}/>
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Elemento:</Text>
+                            <View style={{width:150, height:55}}>
+                              <Picker
+                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
+                        selectedValue={selectedProduct}
+                        onValueChange={(itemValue) => {
+                        setSelectedProduct(itemValue);
+                        const productoEncontrado = (productos as any)[itemValue]; // ← Acceder por ID
+                        if (productoEncontrado) {
+                          setProductMarca(productoEncontrado[1]);
+                          setProductCosto(productoEncontrado[2]);
+                        }
+                        }}
+                        >
+                        {Object.entries(noAlmacenables || {}).length > 0 ? (
+                        Object.entries(noAlmacenables)
+                        .sort((a, b) => {
+                        const nombreA = String(a[1][0]).toLowerCase();
+                        const nombreB = String(b[1][0]).toLowerCase();
+                         return nombreA.localeCompare(nombreB);  
+                        })
+                        .map(([id, producto]: [string, any]) => (
+                        <Picker.Item 
+                        style={styles.pickerItem} 
+                        key={id} 
+                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        value={String(producto[0]) + '-' + String(producto[1])}  // ← Usar el ID como value
+                        />
+                        ))
+                        ) : (
+                        <Picker.Item label="-" value="" />
+                         )}
+                        </Picker></View>
+                          </View>
+                          <View style={styles.modalRow}>
+                            <Text style={styles.modalLabel}>Cantidad:</Text>
+                            <TextInput style={styles.input}
+                                        value={cantidad} onChangeText={setCantidad}
+                                        keyboardType='numeric'></TextInput>
+                          </View>
+                        <View style={styles.hr}/>
+            
+                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                          <TouchableHighlight
+                          underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
+                            onPress={() => {
+                              const validation = NumeroValido(cantidad);
+                                  if (!validation.isValid) {
+                              Alert.alert('Error', validation.message);
+                              return; 
+                            }
+                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
+                            setIdP(idP + 1); setCantidad('')
+                            setAlterAgrupacion(!AlterAgrupacion)}}>
+                            <Text style={styles.text}>Agregar</Text>
+                          </TouchableHighlight>
+                        </View>
+            
+                      </View>
+                      </View>
+                    </Modal>
 
       {/*ScrollView*/}
       <ScrollView>
@@ -846,8 +993,10 @@ useFocusEffect(
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-                <Picker.Item label="Servicios" value="Servicios" />
-                <Picker.Item label="Paquetes" value="Paquetes" />
+                <Picker.Item label="SERVICIOS" value="Servicios" />
+                <Picker.Item label="PAQUETES" value="Paquetes" />
+                <Picker.Item label="NO ALMACENABLES" value="No almacenables" />
+                <Picker.Item label="AGRUPACIONES" value="Agrupaciones" />
                 {Object.values(categorias || {}).length > 0 ? (
                      Object.values(categorias).map((categoria: any, id) => (
                      <Picker.Item 
@@ -866,10 +1015,21 @@ useFocusEffect(
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setContenidoPaquete({})
-                  if (selectedCategory == 'Servicios' || selectedCategory == 'Paquetes'){
-                    setFieldOn(false)
+                  if (selectedCategory == 'Servicios'){
+                    setFieldUCOn(false); setFieldCOn(true); setFieldMOn(false);
                   }
-                  else setFieldOn(true)
+                  else if (selectedCategory == 'Paquetes'){
+                    setFieldUCOn(false); setFieldCOn(true); setFieldMOn(false); 
+                  }
+                  else if (selectedCategory == 'No almacenables'){
+                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(true); 
+                  }
+                  else if (selectedCategory == 'Agrupaciones'){
+                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(false); 
+                  }
+                  else {
+                    setFieldUCOn(true); setFieldCOn(true); setFieldMOn(true); 
+                  }
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir elemento</Text>
@@ -911,13 +1071,21 @@ useFocusEffect(
                         underlayColor={colors.cellUnderlay}
                         onPress={() => {
 
-                          if (tipo != "paquete"){
-                            setEditPaqueteOff(true)
-                          } else setEditPaqueteOff(false)
-
-                          if (tipo != "producto"){
-                            setEditOn(false);
-                          } else setEditOn(true)
+                          if (tipo == "producto"){
+                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(true); setEditUCOn(true);
+                          }
+                          else if (tipo == "servicio"){
+                            setEditContenidoOff(true); setEditMOn(false); setEditCOn(true); setEditUCOn(false);
+                          }
+                          else if (tipo == "paquete"){
+                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(true); setEditUCOn(false);
+                          }
+                          else if (tipo == "no almacenable"){
+                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(false); setEditUCOn(false);
+                          }
+                          else{
+                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(false); setEditUCOn(false);
+                          }
 
                           setId(Number(id))
                           setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad); setTipo(tipo); setSelectedControl(control)
@@ -1020,7 +1188,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 140,
+    marginHorizontal: 18, marginVertical: 130,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

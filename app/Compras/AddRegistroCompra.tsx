@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
 import { useState, useEffect, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
-import { NumeroValido, totalCompra, AddElemento, QuitarElemento } from './backend'
+import { Validar, NumeroValido, totalCompra, AddElemento, QuitarElemento } from './backend'
 //import { obtenerProveedores } from './backend'; import { obtenerAlmacenes } from '../Almacenes/backend';
 //import { obtenerSucursales, obtenerPrecios } from '../backend';
 //import { agregarCompra } from './backend';
@@ -26,6 +26,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //Constante de input
   const [cantidad, setCantidad] = useState('');
+  const [nlote, setNlote] = useState('');
 
   //Constantes de JSON
   const [processCompra, setProcessCompra] = useState<RegistroCompra>({})
@@ -80,6 +81,8 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //ID
   const [idP, setIdP] = useState(1);
+
+  const [fieldOn, setFieldON] = useState(true)
 
   /*useFocusEffect(
     useCallback(() => {
@@ -313,17 +316,33 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                 value={cantidad} onChangeText={setCantidad}
                                 keyboardType='numeric'></TextInput>
                     </View>
+                    <View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !fieldOn && styles.disabled]}>N° de lote:</Text>
+                      <TextInput style={[styles.input, !fieldOn && styles.disabled]} 
+                      editable={fieldOn}
+                                value={nlote} onChangeText={setNlote}
+                                keyboardType='numeric'></TextInput>
+                    </View>
                   <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
-                      const validation = NumeroValido(cantidad);
-                      if (!validation.isValid) {
-                      Alert.alert('Error', validation.message);
-                      return;
-                        }
+                       const validation = Validar(2,cantidad,nlote,'','');
+                          if (!validation.isValid) {
+                          Alert.alert('Error', validation.message);
+                          return; 
+                            }
+                          const validationNum1 = NumeroValido(cantidad); const validationNum2 = NumeroValido(nlote);
+                          if (!validationNum1.isValid) {
+                          Alert.alert('Error', validationNum1.message);
+                          return;
+                          }
+                          if (!validationNum2.isValid) {
+                         Alert.alert('Error', validationNum2.message);
+                         return;
+                         }
                       const productoSeleccionado = (productos as any)[selectedProduct];
                       if (productoSeleccionado) {
                       setProcessCompra(AddElemento(
@@ -748,7 +767,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 290,
+    marginHorizontal: 18, marginVertical: 260,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
@@ -770,6 +789,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
+  },
+  disabled: {
+    opacity: 0.6
   },
   modalRow:{
     flexDirection: 'row', 

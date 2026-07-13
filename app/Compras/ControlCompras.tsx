@@ -76,10 +76,10 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
 
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Fecha</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.7}]}>
                       <Text style={styles.headerText}>Total gastado</Text>
                       </View>
                   <View style={styles.cell}>
@@ -93,8 +93,8 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                   const [fecha, total, proveedor] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cell}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
+                      <View style={[styles.cell, {flex: 0.6}]}><Text style={styles.text}>{fecha.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
+                      <View style={[styles.cell, {flex: 0.7}]}><Text style={styles.text}>{Number(total).toFixed(2)}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{proveedor}</Text></View>
                 </View>
                 )
