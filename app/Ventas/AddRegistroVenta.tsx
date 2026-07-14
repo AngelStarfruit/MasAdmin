@@ -349,7 +349,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                         String(productoSeleccionado[0]),  // descripción
                         String(productMarca),  // marca
                         Number(productCosto),  // costo
-                        Number(cantidad)
+                        Number(cantidad),
+                        String(nlote)
                         ));
                         setIdP(idP + 1);
                         setCantidad('');
@@ -516,15 +517,18 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={[styles.headerCell, {flex: 0.65}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.65}]}>
+                  <View style={[styles.headerCell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
+                      </View>
+                  <View style={[styles.headerCell, {flex: 0.65}]}>
+                      <Text style={styles.headerText}>N° Lote</Text>
                       </View>
                   <View style={[styles.headerCell, {flex: 0.15}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
                     
-                    {Object.entries(processVenta).map(([id, [descripcion, marca, costo, cantidad]], index) => (
+                    {Object.entries(processVenta).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={styles.cell}>
                     <Text style={styles.text}>{descripcion}</Text>
@@ -535,8 +539,11 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     <View style={[styles.cell, {flex: 0.65}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, {flex: 0.65}]}>
+                      <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.text}>{cantidad}</Text>
+                      </View>
+                      <View style={[styles.cell, {flex: 0.65}]}>
+                      <Text style={styles.text}>{nlote}</Text>
                       </View>
                       <View style={[styles.cell, {flex: 0.15}]}>
                           <TouchableHighlight
@@ -629,9 +636,12 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={[styles.headerCell , {flex: 0.7}]}>
                       <Text style={styles.headerText}>A retirar</Text>
                       </View>
+                  <View style={[styles.headerCell , {flex: 0.7}]}>
+                      <Text style={styles.headerText}>N° Lote</Text>
+                      </View>
                   </View>
                   <ScrollView style={styles.showcase}>
-                   {Object.entries(processAVenta).map(([id, [descripcion, marca, costo, cantidad]], index) => (
+                   {Object.entries(processAVenta).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={styles.cell}>
                     <Text style={styles.text}>{descripcion}</Text>
@@ -644,6 +654,9 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                       </View>
                       <View style={[styles.cell, { flex: 0.7}]}>
                       <Text style={styles.text}>{cantidad}</Text>
+                      </View>
+                      <View style={[styles.cell, { flex: 0.7}]}>
+                      <Text style={styles.text}>{nlote}</Text>
                       </View>
                       </View>
                     ))}  

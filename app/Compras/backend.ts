@@ -84,10 +84,10 @@ export const totalGasto = (data: any) => {
   return total.toFixed(2);
 };
 //Función para agregar un producto al ajuste
-export const AddElemento = (data: any, id: number, elemento: string, marca: string, costo: number, cantidad: number) => {
+export const AddElemento = (data: any, id: number, elemento: string, marca: string, costo: number, cantidad: number, nlote?: string) => {
   return {
     ...data,
-    [id]: [elemento, marca, costo, cantidad]
+    [id]: [elemento, marca, costo, cantidad, nlote || '']
   };
 };
 //Función para agregar un gasto al ajuste

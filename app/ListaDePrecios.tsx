@@ -344,7 +344,14 @@ useFocusEffect(
                       <View style={{height: 55, width: 150, marginBottom: 5}}><Picker
                       enabled={fieldTOn}
                         selectedValue={selectedType}
-                        onValueChange={(itemValue) => setSelectedType(itemValue)}
+                         onValueChange={(itemValue) => { setSelectedType(itemValue);
+                        if (itemValue === 'servicio' || itemValue === 'paquete') {
+                        setFieldUCOn(false); setFieldMOn(false);
+                        } else {
+                        // Si es "producto", habilitar
+                        setFieldUCOn(true); setFieldMOn(true);
+                        }
+                        }}
                         style={[styles.picker, !fieldTOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
                         >
                         <Picker.Item label="Producto" value="producto" />
@@ -381,17 +388,11 @@ useFocusEffect(
                             }
                             }
                             if (selectedType == 'servicio'){
-                              if (marca != '' || unidad != ''){
-                                Alert.alert('Aviso','Los servicios no tienen marca ni unidad. El servicio se registrará sólo con los datos necesarios.')
-                              }
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,'',''))
                             setModalVisible(!modalVisible)
                             }
                             else if (selectedType == 'paquete'){
                               if (Object.keys((productos)).length > 0){
-                              if (marca != '' || unidad != ''){
-                                Alert.alert('Aviso','Los paquetes no tienen marca ni unidad. El paquete se registrará sólo con los datos necesarios.')
-                              }
                               setNewPaquete(true)
                               setIdP(1); setContenidoPaquete({});
                               }
@@ -536,13 +537,13 @@ useFocusEffect(
                         onPress={() => {
                           const validationNum = CostoValido(costo)
                           let validation = Validar(4,descripcion,marca,costo,unidad);
-                          if(!editUCOn && !editCOn && !editMOn){
+                          if(selectedCategory == 'Agrupaciones'){
                             validation = Validar(1,descripcion,'','','');
                           }
-                          else if(!editUCOn && !editMOn){
+                          else if(selectedType == 'servicio' || selectedType == 'paquete'){
                             validation = Validar(2,descripcion,costo,'','');
                           }
-                          else if(!editUCOn && !editCOn){
+                          else if(selectedCategory == 'No almacenables'){
                             validation = Validar(2,descripcion,marca,'','');
                           }
                              if (!validation.isValid) {
@@ -651,14 +652,17 @@ useFocusEffect(
                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.7}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
+                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
+                            <Text style={styles.headerText}>N° Lote</Text>
+                              </View>
+                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.15}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
-                          {Object.entries(contenidoPaquete).map(([id, [descripcion, marca, cantidad]], index) => (
+                          {Object.entries(contenidoPaquete).map(([id, [descripcion, marca, cantidad, nlote]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{descripcion}</Text>
@@ -666,10 +670,13 @@ useFocusEffect(
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.7}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
+                            <Text style={styles.text}>{nlote}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
@@ -751,7 +758,7 @@ useFocusEffect(
                         Ingrese los elementos del contenido</Text>
                     </View>
 
-                    <View style={styles.table}>
+                    <View style={[styles.table]}>
                         <View style={styles.row}>
                         <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Descripción</Text>
@@ -762,10 +769,10 @@ useFocusEffect(
                             <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.7}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.4}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
                             <Text style={styles.headerText}>N° lote</Text>
                               </View>
-                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
+                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.15}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
@@ -781,10 +788,10 @@ useFocusEffect(
                             <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.7}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.4}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
                             <Text style={styles.text}>{nlote}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
@@ -1280,7 +1287,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
-    padding: 20,
+    padding: 18,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',

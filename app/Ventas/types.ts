@@ -6,5 +6,5 @@ export type ControlVentasScreenProps = NativeStackScreenProps<RootStackParamList
 export type AddRegistroVentaScreenProps = NativeStackScreenProps<RootStackParamList, 'AddRegistroVenta'>;
 export type ClientesScreenProps = NativeStackScreenProps<RootStackParamList, 'Clientes'>;
 
-export type RegistroVenta = {[key: number]: [string, string, number, number];};
+export type RegistroVenta = {[key: number]: [string, string, number, number, string];};
 export type FormerJSON = Record<string, string[]>;
