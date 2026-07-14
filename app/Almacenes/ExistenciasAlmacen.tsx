@@ -220,7 +220,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                   <View style={styles.cell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.5}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
                   </View>
@@ -233,7 +233,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                       <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text style={styles.text}>{descripcion}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{cantidad}</Text></View>
+                      <View style={[styles.cell, {flex: 0.5}]}><Text style={styles.text}>{cantidad}</Text></View>
                 </View>
                 )
                 })

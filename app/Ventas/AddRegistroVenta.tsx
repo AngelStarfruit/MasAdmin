@@ -513,13 +513,13 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.8}]}>
+                  <View style={[styles.headerCell, {flex: 0.65}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.8}]}>
+                  <View style={[styles.headerCell, {flex: 0.65}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.2}]}>
+                  <View style={[styles.headerCell, {flex: 0.15}]}>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
@@ -532,13 +532,13 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     <View style={styles.cell}>
                     <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.8}]}>
+                    <View style={[styles.cell, {flex: 0.65}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, {flex: 0.8}]}>
+                      <View style={[styles.cell, {flex: 0.65}]}>
                       <Text style={styles.text}>{cantidad}</Text>
                       </View>
-                      <View style={[styles.cell, {flex: 0.2}]}>
+                      <View style={[styles.cell, {flex: 0.15}]}>
                           <TouchableHighlight
                           style={{height:20, width:20}}
                           onPress={()=> {
@@ -583,7 +583,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
         <View style={[styles.hr, {marginTop: 15}]}></View>
 
         <Text style={{  fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
-        Envios desde el almacén
+        Retiros del almacén
         </Text>
 
         <View style={styles.row}>
@@ -623,11 +623,11 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={[styles.headerCell , {flex: 0.8}]}>
+                  <View style={[styles.headerCell , {flex: 0.7}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell , {flex: 0.8}]}>
-                      <Text style={styles.headerText}>A recibir</Text>
+                  <View style={[styles.headerCell , {flex: 0.7}]}>
+                      <Text style={styles.headerText}>A retirar</Text>
                       </View>
                   </View>
                   <ScrollView style={styles.showcase}>
@@ -639,10 +639,10 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     <View style={styles.cell}>
                     <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, { flex: 0.8}]}>
+                    <View style={[styles.cell, { flex: 0.7}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, { flex: 0.8}]}>
+                      <View style={[styles.cell, { flex: 0.7}]}>
                       <Text style={styles.text}>{cantidad}</Text>
                       </View>
                       </View>
@@ -724,6 +724,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingTop: 20,
+    marginHorizontal: -18
   },
   tableRow: {flexDirection: 'row',},
   headerCell: {

@@ -77,7 +77,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                   <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.headerText}>Operación</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Fecha de ajuste</Text>
                       </View>
                   </View>
@@ -90,7 +90,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                       <View key={id} style={styles.row}>
                       <View style={styles.cell}><Text style={styles.text}>{almacenAfectado}</Text></View>
                       <View style={[styles.cell, {flex: 0.6}]}><Text style={styles.text}>{operacion}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{fechaAjuste.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{fechaAjuste.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text></View>
                 </View>
                     )
                 })

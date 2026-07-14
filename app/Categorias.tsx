@@ -341,7 +341,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                 </TouchableHighlight>
                 </View></View>
         
-        <View style={{marginBottom: 80}}>
+        <View style={{marginBottom: 80, marginHorizontal: 27}}>
             
         {!isLoading ? (
         Object.values(categorias || {}).length > 0 ? (

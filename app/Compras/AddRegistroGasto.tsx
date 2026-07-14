@@ -226,7 +226,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.5}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
                   <View style={[styles.headerCell, {flex: 0.15}]}>
@@ -239,7 +239,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     <View style={styles.cell}>
                     <Text style={styles.text}>{descripcion}</Text>
                     </View>
-                    <View style={styles.cell}>
+                    <View style={[styles.cell, { flex: 0.5}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
                     <View style={[styles.cell, { flex: 0.15}]}>
@@ -335,6 +335,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingTop: 20,
+    marginHorizontal: 18
   },
   tableRow: {flexDirection: 'row',},
   headerCell: {

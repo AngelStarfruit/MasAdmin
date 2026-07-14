@@ -558,7 +558,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
-    marginBottom: 80
+    marginHorizontal: 18, marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

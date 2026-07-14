@@ -486,7 +486,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={[styles.headerCell, {flex: 0.5}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
                   <View style={[styles.headerCell, {flex: 0.15}]}>
@@ -503,7 +503,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         <View style={styles.cell}>
                         <Text style={styles.text}>{marca}</Text>
                         </View>
-                        <View style={styles.cell}>
+                        <View style={[styles.cell, {flex: 0.5}]}>
                         <Text style={styles.text}>{cantidad}</Text>
                         </View>
                           <View style={[styles.cell, {flex: 0.15}]}>

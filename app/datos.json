@@ -149,7 +149,8 @@
   "12": "Congelados",
   "13": "Productos enlatados",
   "14": "Tecnología",
-  "15": "Cereales y granos"
+  "15": "Cereales y granos",
+  "16": "Servicio social"
 },
   "LISTA_PRECIOS":{
     "1": [
@@ -349,7 +350,7 @@
     "",
     "servicio",
     [],
-    "",
+    "Servicio social",
     ""
   ],
   "21": [
@@ -358,8 +359,8 @@
     319.99,
     "",
     "paquete",
-    [["Queso","Caperucita",1],["Chorizo","Chimex",1],["Tortillas de harina","Tía Rosa",1]],
-    "",
+    [["Queso","Caperucita",1,""],["Chorizo","Chimex",1,""],["Tortillas de harina","Tía Rosa",1,""]],
+    "Tortillería",
     ""
   ],
   "22": [
@@ -381,6 +382,16 @@
     [["Laptop","Gateway",5]],
     "",
     ""
+  ],
+  "24": [
+    "Ramen",
+    "Buldak",
+    45.00,
+    "pieza",
+    "producto",
+    [],
+    "",
+    "Ninguno"
   ]
   }
 }

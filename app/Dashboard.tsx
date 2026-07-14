@@ -1154,8 +1154,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           <View style={styles.table}>
             <View style={styles.row}>
               <View style={styles.headerCell}><Text style={styles.headerText}>Evento</Text></View>
-              <View style={styles.headerCell}><Text style={styles.headerText}>Fecha y Hora</Text></View>
-              <View style={[styles.headerCell, {flex: 0.8}]}><Text style={styles.headerText}>Lugar</Text></View>
+              <View style={[styles.headerCell, {flex: 0.9}]}><Text style={styles.headerText}>Fecha y Hora</Text></View>
+              <View style={styles.headerCell}><Text style={styles.headerText}>Lugar</Text></View>
               <View style={[styles.headerCell, {flex: 0.8}]}><Text style={styles.headerText}>Contacto</Text></View>
             </View>
 
@@ -1175,10 +1175,10 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                         <Text style={styles.text}>{evento}</Text>
                       </TouchableHighlight>
                     </View>
-                    <View style={styles.cell}>
+                    <View style={[styles.cell, {flex: 0.9}]}>
                       <Text style={styles.text}>{fechaHora.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.8}]}>
+                    <View style={styles.cell}>
                       <Text style={styles.text}>{lugar}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
@@ -1249,8 +1249,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 15,
   },
   table: {
-    paddingVertical: 20,
-    marginBottom: 80
+    paddingVertical: 20, 
+    marginHorizontal: -9, marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {

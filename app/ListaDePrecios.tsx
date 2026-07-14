@@ -23,7 +23,9 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [marca, setMarca] = useState('');
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
-  const [tipo, setTipo] = useState('')
+  const [unidad, setUnidad] = useState('');
+
+   const [nlote, setNlote] = useState('');
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,9 +53,10 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
 
   //Constantes de picker
-  const [selectedCategory, setSelectedCategory] = useState('Servicios');
+  const [selectedCategory, setSelectedCategory] = useState('Sin categoria');
+  const [selectedECategory, setSelectedECategory] = useState('');
   const [selectedControl, setSelectedControl] = useState('Ninguno');
-  const [unidad, setUnidad] = useState('');
+  const [selectedType, setSelectedType] = useState('producto')
   const [selectedProduct, setSelectedProduct] = useState(listaPrecios[Object.keys(listaPrecios)[0]]?.[0] || '');
   const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
@@ -79,19 +82,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   useEffect(() => {
   let filtrados;
   //datos.LISTA_PRECIOS ----> listaPrecios
-  if (selectedCategory === 'Servicios') {
-    filtrados = Object.fromEntries(
-      Object.entries(datos.LISTA_PRECIOS || {}).filter(
-        ([id, data]) => data[4] === "servicio"
-      )
-    );
-  } else if (selectedCategory === 'Paquetes') {
-    filtrados = Object.fromEntries(
-      Object.entries(datos.LISTA_PRECIOS || {}).filter(
-        ([id, data]) => data[4] === "paquete"
-      )
-    );
-  } else if (selectedCategory === 'No almacenables') {
+  if (selectedCategory === 'No almacenables') {
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
         ([id, data]) => data[4] === "no almacenable"
@@ -101,6 +92,12 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
     filtrados = Object.fromEntries(
       Object.entries(datos.LISTA_PRECIOS || {}).filter(
         ([id, data]) => data[4] === "agrupacion"
+      )
+    )
+  }else if (selectedCategory === 'Sin categoria') {
+    filtrados = Object.fromEntries(
+      Object.entries(datos.LISTA_PRECIOS || {}).filter(
+        ([id, data]) => data[4] != "no almacenable" && data[4] != "agrupacion" && data[6] === ""
       )
     )
   }else {
@@ -121,8 +118,14 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
 
   //Desabilitar características
   const [editContenidoOff, setEditContenidoOff] = useState(false);
-  const [fieldMOn, setFieldMOn] = useState(true); const [fieldCOn, setFieldCOn] = useState(true); const [fieldUCOn, setFieldUCOn] = useState(true);
-  const [editMOn, setEditMOn] = useState(true);  const [editCOn, setEditCOn] = useState(true); const [editUCOn, setEditUCOn] = useState(true);
+
+  const [fieldMOn, setFieldMOn] = useState(true); const [fieldCOn, setFieldCOn] = useState(true); 
+  const [fieldUCOn, setFieldUCOn] = useState(true); const [fieldTOn, setFieldTOn] = useState(true);
+
+  const [editMOn, setEditMOn] = useState(true);  const [editCOn, setEditCOn] = useState(true); 
+  const [editUCOn, setEditUCOn] = useState(true); const [editCatOn, setEditCatOn] = useState(true); 
+
+  const [fieldLOn, setFieldLOn] = useState(true);
 
   /*const handleAgregar = async () => {
   const validation = Validar(3, descripcion, marca, costo, '');
@@ -324,9 +327,9 @@ useFocusEffect(
                       editable={fieldUCOn}
                       value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
                     </View>
-                    <View style={{alignItems:'center'}}>
+                    <View style={styles.modalRow}>
                       <Text style={[styles.modalLabel, !fieldUCOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
-                      <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
+                      <View style={{height: 55, width: 150, marginBottom: 5}}><Picker
                       enabled={fieldUCOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
@@ -334,6 +337,19 @@ useFocusEffect(
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
+                      </Picker></View>
+                      </View>
+                      <View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !fieldTOn && styles.disable]}>Tipo:</Text>
+                      <View style={{height: 55, width: 150, marginBottom: 5}}><Picker
+                      enabled={fieldTOn}
+                        selectedValue={selectedType}
+                        onValueChange={(itemValue) => setSelectedType(itemValue)}
+                        style={[styles.picker, !fieldTOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        >
+                        <Picker.Item label="Producto" value="producto" />
+                        <Picker.Item label="Servicio" value="servicio" />
+                        <Picker.Item label="Paquete" value="paquete" />
                       </Picker></View>
                     </View>
         
@@ -344,13 +360,13 @@ useFocusEffect(
                       underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                         onPress={() => {
                           let validation = Validar(4,descripcion,marca,costo,unidad);
-                          if (!fieldUCOn && !fieldCOn && !fieldMOn){
+                          if (selectedCategory == 'Agrupaciones'){
                             validation = Validar(1,descripcion,'','','');
                           }
-                          else if(!fieldUCOn && !fieldMOn){
+                          else if(selectedType == 'servicio' || selectedType == 'paquete'){
                             validation = Validar(2,descripcion,costo,'','');
                           }
-                          else if(!fieldUCOn && !fieldCOn){
+                          else if(selectedCategory == 'No almacenables'){
                             validation = Validar(2,descripcion,marca,'','');
                           }
                           const validationNum = CostoValido(costo)
@@ -364,12 +380,18 @@ useFocusEffect(
                               return; 
                             }
                             }
-                            if (selectedCategory == 'Servicios'){
+                            if (selectedType == 'servicio'){
+                              if (marca != '' || unidad != ''){
+                                Alert.alert('Aviso','Los servicios no tienen marca ni unidad. El servicio se registrará sólo con los datos necesarios.')
+                              }
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','servicio',contenidoPaquete,'',''))
                             setModalVisible(!modalVisible)
                             }
-                            else if (selectedCategory == 'Paquetes'){
+                            else if (selectedType == 'paquete'){
                               if (Object.keys((productos)).length > 0){
+                              if (marca != '' || unidad != ''){
+                                Alert.alert('Aviso','Los paquetes no tienen marca ni unidad. El paquete se registrará sólo con los datos necesarios.')
+                              }
                               setNewPaquete(true)
                               setIdP(1); setContenidoPaquete({});
                               }
@@ -416,7 +438,7 @@ useFocusEffect(
                            showsVerticalScrollIndicator={false}
                           keyboardShouldPersistTaps="handled"
                         >
-                  <View style={[styles.modalView, {marginVertical: 150}]}>
+                  <View style={[styles.modalView, {marginVertical: 130}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -431,7 +453,7 @@ useFocusEffect(
                       <Text style={styles.modalTitle}>Editar elemento</Text>
                       <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
                         <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
-                        El tipo y la categoría no se pueden modificar</Text>
+                        El tipo de registro no se puede modificar</Text>
                     </View>
         
                     <View style={styles.hr}/>
@@ -461,9 +483,9 @@ useFocusEffect(
                       editable={editUCOn}
                       value={unidad} onChangeText={(text) => setUnidad(NoEmojis(text))}/>
                     </View>
-                    <View style={{alignItems:'center'}}>
+                    <View style={styles.modalRow}>
                       <Text style={[styles.modalLabel, !editUCOn && styles.disable ,{marginBottom: 15}]}>Control adicional:</Text>
-                      <View style={{height: 55, width: 150, marginBottom: 15}}><Picker
+                      <View style={{height: 55, width: 150, marginBottom: 5}}><Picker
                       enabled={editUCOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
@@ -471,6 +493,32 @@ useFocusEffect(
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
+                      </Picker></View>
+                    </View><View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !editCatOn && styles.disable ,{marginBottom: 15}]}>Categoría:</Text>
+                      <View style={{height: 55, width: 200, marginBottom: 5}}><Picker
+                      enabled={editCatOn}
+                        selectedValue={selectedECategory}
+                        onValueChange={(itemValue) => setSelectedECategory(itemValue)}
+                        style={[styles.picker, !editCatOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        >
+                       <Picker.Item label="(Sin categoría)" value="" />
+                        {Object.values(categorias || {}).length > 0 ? (
+                        Object.values(categorias)
+                        .sort((a, b) => {
+                        const nombreA = String(a).toLowerCase();
+                        const nombreB = String(b).toLowerCase();
+                        return nombreA.localeCompare(nombreB);
+                        })
+                        .map((categoria: any, id) => (
+                      <Picker.Item 
+                       style={styles.pickerItem} 
+                        key={id} 
+                        label={String(categoria)} 
+                        value={String(categoria)} 
+                        />
+                        ))
+                        ) : null}
                       </Picker></View>
                     </View>
         
@@ -507,7 +555,7 @@ useFocusEffect(
                               return; 
                               }
                           }
-                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,tipo,contenidoPaquete,selectedCategory,selectedControl))
+                        setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,marca,Number(costo),unidad,selectedType,contenidoPaquete,selectedECategory,selectedControl))
                         setEModalVisible(!EmodalVisible)
                         }}>
                         <Text style={styles.text}>Confirmar cambios</Text>
@@ -640,10 +688,10 @@ useFocusEffect(
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
                                       onPress={() => {
-                                        if (selectedCategory == 'Paquetes'){
+                                        if (selectedType == 'paquete'){
                                         setAlterPaquete(true)
                                       }
-                                      else if (selectedCategory == 'Agrupaciones'){
+                                      else if (selectedType == 'agrupacion'){
                                         setAlterAgrupacion(true)
                                       }
                                       }}
@@ -681,7 +729,7 @@ useFocusEffect(
                     setPaquete(!Paquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginHorizontal: 9, marginVertical: 160}]}>
+                  <View style={[styles.modalView, {marginHorizontal: 0, marginVertical: 160}]}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -711,15 +759,18 @@ useFocusEffect(
                              <View style={[styles.headerCell, {backgroundColor: colors.headerCell}]}>
                             <Text style={styles.headerText}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.6}]}>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.7}]}>
                             <Text style={styles.headerText}>Cantidad</Text>
+                              </View>
+                            <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.4}]}>
+                            <Text style={styles.headerText}>N° lote</Text>
                               </View>
                               <View style={[styles.headerCell, {backgroundColor: colors.headerCell, flex: 0.2}]}>
                               </View>
                               </View>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
-                                {Object.entries(contenidoPaquete).map(([id,[descripcion, marca, cantidad]], index) => (
+                                {Object.entries(contenidoPaquete).map(([id,[descripcion, marca, cantidad, nlote]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                           <Text style={styles.text}>{descripcion}</Text>
@@ -727,8 +778,11 @@ useFocusEffect(
                             <View style={[styles.cell, {backgroundColor: colors.secondary}]}>
                             <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.6}]}>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.7}]}>
                             <Text style={styles.text}>{cantidad}</Text>
+                            </View>
+                            <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.4}]}>
+                            <Text style={styles.text}>{nlote}</Text>
                             </View>
                             <View style={[styles.cell, {backgroundColor: colors.secondary, flex: 0.2}]}>
                             <TouchableHighlight
@@ -750,10 +804,11 @@ useFocusEffect(
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
                                       onPress={() => {
-                                        if (selectedCategory == 'Paquetes'){
+                                        setCantidad(''); setNlote('');
+                                        if (selectedType == 'paquete'){
                                         setAlterPaquete(true)
                                       }
-                                      else if (selectedCategory == 'Agrupaciones'){
+                                      else if (selectedType == 'agrupacion'){
                                         setAlterAgrupacion(true)
                                       }
                                       }}
@@ -804,7 +859,7 @@ useFocusEffect(
                         setAlterPaquete(!AlterPaquete);
                       }}>
                       <View style={styles.modalOverlay}>
-                      <View style={[styles.modalView, {marginVertical: 280}]}>
+                      <View style={[styles.modalView, {marginVertical: 260}]}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
@@ -822,7 +877,7 @@ useFocusEffect(
                         <View style={styles.hr}/>
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Elemento:</Text>
-                            <View style={{width:150, height:55}}>
+                            <View style={{width:200, height:55}}>
                               <Picker
                         style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
                         selectedValue={selectedProduct}
@@ -832,6 +887,12 @@ useFocusEffect(
                         if (productoEncontrado) {
                           setProductMarca(productoEncontrado[1]);
                           setProductCosto(productoEncontrado[2]);
+                          const esLote = productoEncontrado[7] === 'Lote';
+                          setFieldLOn(esLote);
+                        // Si es lote, limpiar o mantener el campo
+                          if (!esLote) {
+                          setNlote(''); // Limpiar si no es lote
+                          }
                         }
                         }}
                         >
@@ -847,7 +908,7 @@ useFocusEffect(
                         style={styles.pickerItem} 
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
-                        value={String(producto[0]) + '-' + String(producto[1])}  // ← Usar el ID como value
+                        value={id}  // ← Usar el ID como value
                         />
                         ))
                         ) : (
@@ -861,19 +922,36 @@ useFocusEffect(
                                         value={cantidad} onChangeText={setCantidad}
                                         keyboardType='numeric'></TextInput>
                           </View>
+                          <View style={styles.modalRow}>
+                      <Text style={[styles.modalLabel, !fieldLOn && styles.disable]}>N° de lote:</Text>
+                      <TextInput style={[styles.input, !fieldLOn && styles.disable]} 
+                      editable={fieldLOn}
+                                value={nlote} onChangeText={setNlote}
+                                keyboardType='numeric'></TextInput>
+                    </View>
                         <View style={styles.hr}/>
             
                         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                           <TouchableHighlight
                           underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                             onPress={() => {
-                              const validation = NumeroValido(cantidad);
-                                  if (!validation.isValid) {
-                              Alert.alert('Error', validation.message);
+                              const validation1 = NumeroValido(cantidad);  const validation2 = NumeroValido(nlote);
+                                  if (!validation1.isValid) {
+                              Alert.alert('Error', validation1.message);
                               return; 
                             }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
-                            setIdP(idP + 1); setCantidad('')
+                            if (fieldLOn){
+                             if (!validation2.isValid) {
+                              Alert.alert('Error', validation2.message);
+                              return; 
+                            }}
+                            const productoSeleccionado = (productos as any)[selectedProduct];
+                            if (!productoSeleccionado) {
+                            Alert.alert('Error', 'Producto no encontrado');
+                                return;
+                            }
+                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, productoSeleccionado[0], productoSeleccionado[1], Number(cantidad), nlote))
+                            setIdP(idP + 1); 
                             setAlterPaquete(!AlterPaquete)}}>
                             <Text style={styles.text}>Agregar</Text>
                           </TouchableHighlight>
@@ -960,8 +1038,8 @@ useFocusEffect(
                               Alert.alert('Error', validation.message);
                               return; 
                             }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
-                            setIdP(idP + 1); setCantidad('')
+                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad),''))
+                            setIdP(idP + 1); 
                             setAlterAgrupacion(!AlterAgrupacion)}}>
                             <Text style={styles.text}>Agregar</Text>
                           </TouchableHighlight>
@@ -977,14 +1055,10 @@ useFocusEffect(
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
           <Ionicons name="pricetag" size={25} color={colors.text} /> Lista de precios
         </Text>
-        <Text style={{color: colors.text ,
-          fontSize: 15, 
-          paddingVertical: 10,}}>
+        <Text style={{color: colors.text , fontSize: 15, paddingVertical: 10,}}>
           Seleccione una categoría para filtrar los elementos y ver aquellos ubicados en dicha categoría
           </Text>
-        <Text style={{ color: colors.text ,
-          fontSize: 15, 
-          paddingVertical: 10,}}>
+        <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 10,}}>
           Seleccione la descripción de un elemento en la tabla para modificar sus datos.
           </Text> 
           <View style={{height: 55}}>
@@ -993,20 +1067,25 @@ useFocusEffect(
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
               style={styles.picker} itemStyle={styles.pickerItem}
               >
-                <Picker.Item label="SERVICIOS" value="Servicios" />
-                <Picker.Item label="PAQUETES" value="Paquetes" />
-                <Picker.Item label="NO ALMACENABLES" value="No almacenables" />
-                <Picker.Item label="AGRUPACIONES" value="Agrupaciones" />
-                {Object.values(categorias || {}).length > 0 ? (
-                     Object.values(categorias).map((categoria: any, id) => (
-                     <Picker.Item 
-                     style={styles.pickerItem} 
+                <Picker.Item label="REGISTROS SIN CLASIFICAR" value="Sin categoria" />
+                 {Object.values(categorias || {}).length > 0 ? (
+                  Object.values(categorias)
+                  .sort((a, b) => {
+                  const nombreA = String(a).toLowerCase();
+                  const nombreB = String(b).toLowerCase();
+                  return nombreA.localeCompare(nombreB);
+                  })
+                  .map((categoria: any, id) => (
+                  <Picker.Item 
+                    style={styles.pickerItem} 
                     key={id} 
                     label={String(categoria)} 
                     value={String(categoria)} 
                     />
-                    ))
+                      ))
                     ) : null}
+                <Picker.Item label="NO ALMACENABLES" value="No almacenables" />
+                <Picker.Item label="AGRUPACIONES" value="Agrupaciones" />
           </Picker></View>
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
@@ -1015,20 +1094,14 @@ useFocusEffect(
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setContenidoPaquete({})
-                  if (selectedCategory == 'Servicios'){
-                    setFieldUCOn(false); setFieldCOn(true); setFieldMOn(false);
-                  }
-                  else if (selectedCategory == 'Paquetes'){
-                    setFieldUCOn(false); setFieldCOn(true); setFieldMOn(false); 
-                  }
-                  else if (selectedCategory == 'No almacenables'){
-                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(true); 
+                  if (selectedCategory == 'No almacenables'){
+                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(true); setFieldTOn(false)
                   }
                   else if (selectedCategory == 'Agrupaciones'){
-                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(false); 
+                    setFieldUCOn(false); setFieldCOn(false); setFieldMOn(false); setFieldTOn(false)
                   }
                   else {
-                    setFieldUCOn(true); setFieldCOn(true); setFieldMOn(true); 
+                    setFieldUCOn(true); setFieldCOn(true); setFieldMOn(true); setFieldTOn(true)
                   }
                   setModalVisible(true)}}
                 style={styles.add}>
@@ -1043,6 +1116,11 @@ useFocusEffect(
                   </View>
                   
                   <View style={styles.hr}/>
+                  <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 5,}}>
+          <Ionicons name="pricetag-outline" size={18} color={colors.text} /> PRODUCTOS {'   '}
+           <Ionicons name="construct-outline" size={18} color={colors.text} /> SERVICIOS {'   '}
+            <Ionicons name="cube-outline" size={18} color={colors.text} /> PAQUETES
+          </Text> 
           <View style={[styles.table, {marginBottom: 80}]}>
                 <View style={styles.row}>
                         <View style={styles.headerCell}>
@@ -1056,6 +1134,8 @@ useFocusEffect(
                           </View>
                         <View style={[styles.headerCell, {flex: 0.8}]}>
                           <Text style={styles.headerText}>Unidad</Text>
+                          </View>
+                          <View style={[styles.headerCell, {flex: 0.2}]}>
                           </View>
                       </View>
 
@@ -1072,23 +1152,24 @@ useFocusEffect(
                         onPress={() => {
 
                           if (tipo == "producto"){
-                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(true); setEditUCOn(true);
+                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(true); setEditUCOn(true); setEditCatOn(true);
                           }
                           else if (tipo == "servicio"){
-                            setEditContenidoOff(true); setEditMOn(false); setEditCOn(true); setEditUCOn(false);
+                            setEditContenidoOff(true); setEditMOn(false); setEditCOn(true); setEditUCOn(false); setEditCatOn(true);
                           }
                           else if (tipo == "paquete"){
-                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(true); setEditUCOn(false);
+                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(true); setEditUCOn(false); setEditCatOn(true);
                           }
                           else if (tipo == "no almacenable"){
-                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(false); setEditUCOn(false);
+                            setEditContenidoOff(true); setEditMOn(true); setEditCOn(false); setEditUCOn(false); setEditCatOn(false);
                           }
                           else{
-                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(false); setEditUCOn(false);
+                            setEditContenidoOff(false); setEditMOn(false); setEditCOn(false); setEditUCOn(false); setEditCatOn(false);
                           }
 
                           setId(Number(id))
-                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad); setTipo(tipo); setSelectedControl(control)
+                          setDescripcion(String(descripcion)); setMarca(String(marca)); setCosto(String(costo)); setUnidad(unidad);
+                          setSelectedType(tipo); setSelectedECategory(selectedCategory); setSelectedControl(control)
                           setContenidoPaquete(contenidoPaquete); 
                           setIdP(contenidoPaquete.length)
                           setEModalVisible(true)}}>
@@ -1098,6 +1179,12 @@ useFocusEffect(
                         <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
                         <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
                         <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{unidad}</Text></View>
+                        <View style={[styles.cell, {flex: 0.2}]}>
+                          {tipo === "producto" ? <Ionicons name="pricetag-outline" size={18} color={colors.text} />
+                          : tipo == "servicio" ? <Ionicons name="construct-outline" size={18} color={colors.text} />
+                          : tipo == "paquete" ? <Ionicons name="cube-outline" size={18} color={colors.text} /> 
+                          :<Text style={styles.text}></Text> }
+                        </View>
                 </View>
                   );
                   })
@@ -1162,7 +1249,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginVertical: 8,
   },
   //Tabla estilos
-  table: {paddingVertical: 20},
+  table: {paddingVertical: 20, marginHorizontal: -9},
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
@@ -1188,7 +1275,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 130,
+    marginHorizontal: 18, marginVertical: 110,
     flex: 1,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,

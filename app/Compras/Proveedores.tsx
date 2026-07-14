@@ -493,7 +493,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
         <View style={styles.table}>
               <View style={styles.row}>
-                  <View style={[styles.headerCell, {flex: 0.9}]}>
+                  <View style={styles.headerCell}>
                       <Text style={styles.headerText}>Empresa</Text>
                       </View>
                   <View style={styles.headerCell}>
@@ -514,7 +514,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   const [empresa, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
-                        <View style={[styles.cellF, {flex: 0.9}]}>
+                        <View style={styles.cellF}>
                         <TouchableHighlight
                         underlayColor={colors.cellUnderlay}
                         onPress={() => {
@@ -589,7 +589,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     paddingVertical: 20,
-    marginBottom: 80
+    marginHorizontal: -9, marginBottom: 80
   },
   row: {flexDirection: 'row',},
   headerCell: {
