@@ -10,6 +10,6 @@ export type ListaDePreciosScreenProps = NativeStackScreenProps<RootStackParamLis
 export type CategoriasScreenProps = NativeStackScreenProps<RootStackParamList, 'Categorias'>;
 export type SucursalesScreenProps = NativeStackScreenProps<RootStackParamList, 'Sucursales'>;
 
-export type ContenidoPaquete = {[key: number]: [string, string, number, string];};
+export type ContenidoPaquete = {[key: number]: [string, string, number];};
 export type FormerJSON = Record<string, string[]>;
 export type single = {[key: number]: string;};

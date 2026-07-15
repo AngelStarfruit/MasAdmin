@@ -141,8 +141,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   add: {
     backgroundColor: colors.input,
     width: 200,
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10, padding: 10,
     borderRadius: 15,
   },
   //Tabla estilos
@@ -153,9 +152,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   row: {flexDirection: 'row',},
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
     backgroundColor: colors.background,
-    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: colors.primary,},
+  headerText: {color: colors.primary,},
 });

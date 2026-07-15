@@ -351,7 +351,7 @@
     "servicio",
     [],
     "Servicio social",
-    ""
+    "Ninguno"
   ],
   "21": [
     "Paquete quesadillas",
@@ -359,9 +359,9 @@
     319.99,
     "",
     "paquete",
-    [["Queso","Caperucita",1,""],["Chorizo","Chimex",1,""],["Tortillas de harina","Tía Rosa",1,""]],
+    [["Queso","Caperucita",1],["Chorizo","Chimex",1],["Tortillas de harina","Tía Rosa",1]],
     "Tortillería",
-    ""
+    "Ninguno"
   ],
   "22": [
     "Laptop",
@@ -371,7 +371,7 @@
     "no almacenable",
     [],
     "",
-    ""
+    "Ninguno"
   ],
   "23": [
     "Equipo de escritorio",
@@ -381,7 +381,7 @@
     "agrupacion",
     [["Laptop","Gateway",5]],
     "",
-    ""
+    "Ninguno"
   ],
   "24": [
     "Ramen",

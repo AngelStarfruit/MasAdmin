@@ -281,11 +281,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   row: {flexDirection: 'row',},
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
     backgroundColor: colors.background,
-    borderColor: colors.border,
   },
-  headerText: {fontWeight: 'bold', color: colors.primary,},
+  headerText: {color: colors.primary,},
   //---------------
   picker: {
     height: 55,
@@ -296,6 +294,5 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   pickerItem: {
     fontSize: 16,
-    fontWeight: 'bold',
   },
 });

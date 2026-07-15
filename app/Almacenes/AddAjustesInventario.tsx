@@ -45,11 +45,11 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
   const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
     //Constantes de pickers
-  const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
-  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
+  const [selectedStore, setSelectedStore] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedOperation, setSelectedOperation] = useState('entrada');
   //Valores del picker producto
-  const [selectedProduct, setSelectedProduct] = useState(Object.keys(productos)[0] || '');
+  const [selectedProduct, setSelectedProduct] = useState('');
   const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
 
    useEffect(() => {
@@ -75,7 +75,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
    //ID
   const [idP, setIdP] = useState(1);
 
-  const [fieldOn, setFieldON] = useState(true)
+  const [fieldOn, setFieldOn] = useState(true)
 
   /* useFocusEffect(
     useCallback(() => {
@@ -236,7 +236,6 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     <Text style={styles.modalTitle}>Agregar productos</Text>
                   </View>
       
-                  <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Producto:</Text>
                       <View style={{width:200, height:55}}>
@@ -248,9 +247,19 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         const productoEncontrado = (productos as any)[itemValue];
                         if (productoEncontrado) {
                           setProductMarca(productoEncontrado[1]);
+
+                          const control = productoEncontrado[7] || 'Ninguno';
+                          const esLote = control === 'Lote';
+                          setFieldOn(esLote);
+      
+                          // Si es lote, limpiar o mantener el campo
+                          if (!esLote) {
+                          setNlote(''); // Limpiar si no es lote
+                          }
                         }
                         }}
                         >
+                          <Picker.Item label="(Seleccione un producto)" value="" />
                         {Object.entries(productos || {}).length > 0 ? (
                         Object.entries(productos)
                         .sort((a, b) => {
@@ -284,28 +293,31 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                 value={nlote} onChangeText={setNlote}
                                 keyboardType='numeric'></TextInput>
                     </View>
-                  <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
-                      const validation = Validar(2,cantidad,nlote,'','');
-                        if (!validation.isValid) {
-                        Alert.alert('Error', validation.message);
-                        return; 
-                          }
-                        const validationNum1 = NumeroValido(cantidad); const validationNum2 = NumeroValido(nlote);
+                      const validation = Validar(1,selectedProduct,'','','');
+                    const validationNum1 = NumeroValido(cantidad);  const validationNum2 = NumeroValido(nlote);  
+                     if (!validation.isValid) {
+                     Alert.alert('Error', validation.message);
+                      return; 
+                         }
                         if (!validationNum1.isValid) {
-                        Alert.alert('Error', validationNum1.message);
-                        return;
+                         Alert.alert('Error', validationNum1.message);
+                        return; 
                         }
-                        if (!validationNum2.isValid) {
+                       if (fieldOn){
+                      if (!validationNum2.isValid) {
                         Alert.alert('Error', validationNum2.message);
-                        return;
-                        }
-                      const productoSeleccionado = (productos as any)[selectedProduct];
-                      if (productoSeleccionado) {
+                       return; 
+                       }}
+                       const productoSeleccionado = (productos as any)[selectedProduct];
+                       if (!productoSeleccionado) {
+                        Alert.alert('Error', 'Producto no encontrado');
+                       return;
+                      }else {
                       setProcessAjusteInventario(AddElemento(
                       processAjusteInventario,
                       idP,
@@ -335,22 +347,20 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 360}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Confirmar cambio en el almacén?</Text>
                                       </View>
                           
-                                      <View style={styles.hr}/>
-                          
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
                                           <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Ajustes).length + 1)
@@ -374,13 +384,11 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 375}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
-                          
-                                      <View style={styles.hr}/>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
@@ -417,6 +425,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
+            <Picker.Item label="(Seleccione una sucursal)" value="" />
             {Object.entries(sucursales || {}).length > 0 ? (
                 Object.entries(sucursales)
                 .sort((a, b) => {
@@ -445,6 +454,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
+            <Picker.Item label="(Seleccione un almacén)" value="" />
         {Object.entries(almacenesMostrados || {}).length > 0 ? (
           Object.entries(almacenesMostrados)
           .sort((a, b) => {
@@ -479,22 +489,20 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
         </View>
 
         <View style={styles.table}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.5}]}>
+                  <View style={[styles.cell, {flex: 0.5}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.15}]}>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
-
-                  
                   {Object.entries(processAjusteInventario).map(([id, [descripcion, marca, cantidad]], index) => (
                     <View key={index} style={styles.row}>
                     <View style={styles.cell}>
@@ -526,7 +534,9 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
           <View style={styles.row}>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedProduct(''), setCantidad(''); setNlote('')
+                    setModalVisible(true)}}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
@@ -589,7 +599,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
   },
   buttonText: {
-    fontWeight: 'bold',
     color: colors.text,
     textAlign: 'center',
   },
@@ -598,24 +607,15 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: 20,
   },
   tableRow: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell, 
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
   showcase: {
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: colors.secondary,
-    borderColor: colors.border
   },
   headerText: {
-    fontWeight: 'bold', color: colors.text
+    color: colors.text
   },
   //------------------
   picker: {
@@ -626,7 +626,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   pickerItem: {
     fontSize: 16,
-    fontWeight: 'bold',
   },
   //Modal estilos
   modalOverlay: {
@@ -646,11 +645,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
     color: colors.text
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
@@ -673,21 +667,18 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalRegret: {
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   }
   

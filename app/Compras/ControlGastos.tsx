@@ -152,9 +152,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   row: {flexDirection: 'row',},
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: colors.background,
-    borderColor: colors.border,
+    backgroundColor: colors.background
   },
-  headerText: {fontWeight: 'bold', color: colors.primary,},
+  headerText: {color: colors.primary},
 });

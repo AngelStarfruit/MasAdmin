@@ -202,7 +202,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
-        style={styles.navIconsS}
+        style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}
       >
         <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableHighlight>
 
@@ -244,8 +244,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <Text style={styles.modalTitle}>Añadir sucursal</Text>
                     </View>
         
-                    <View style={styles.hr}/>
-        
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
                       <TextInput style={{...styles.input, width: 150}}
@@ -256,8 +254,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <TextInput style={{...styles.input, width: 150}}
                       value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
-        
-                    <View style={styles.hr}/>
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
@@ -303,8 +299,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <Text style={styles.modalTitle}>Editar sucursal</Text>
                     </View>
         
-                    <View style={styles.hr}/>
-        
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Sucursal:</Text>
                       <TextInput style={{...styles.input, width: 150}}
@@ -315,8 +309,6 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       <TextInput style={{...styles.input, width: 150}}
                       value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                     </View>
-        
-                    <View style={styles.hr}/>
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
@@ -370,16 +362,14 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                   <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                                 </View>
                     
-                                <View style={styles.hr}/>
-                    
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
-                                  underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                  underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                     onPress={() => setConfirm(!Confirm)}>
                                     <Text style={styles.text}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
-                                  underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                  underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                                     onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
@@ -417,7 +407,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
         style={[styles.add, AddOff && styles.addOff]}>
-            <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir sucursal</Text>
+            <Text style={{color: colors.text}}>Añadir sucursal</Text>
           </TouchableHighlight>
 
             <View style={styles.row}>
@@ -440,7 +430,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       setAddOff(true)
                     }
                    }}
-                    style={{...styles.add, width: 40, padding: 10}}>
+                    style={{...styles.add,  padding: 10}}>
                     <Ionicons name="search" size={20} color={colors.text} />
                    </TouchableHighlight>
                     </View>
@@ -464,9 +454,9 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                 const [sucursal, telefono] = data;
                 return (
                 <View key={id} style={styles.row}>
-                <View style={styles.cellF}>
+                <View style={styles.cell}>
                 <TouchableHighlight
-                underlayColor={colors.cellUnderlay}
+                underlayColor={colors.input}
                   onPress={() => {
                     setId(Number(id))
                     setSucursal(sucursal); setTelefono(telefono);
@@ -514,9 +504,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   navIcons:{
     padding: 10, borderRadius: 50 ,
   },
-  navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
-  },
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -524,7 +511,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.input,
-    height: 40, width: 150,
+    height: 40, 
     marginTop: 10,
     padding: 10,
     borderRadius: 15,
@@ -532,8 +519,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   addOff: {opacity: 0.6},
   query: {
     backgroundColor: colors.input, color: colors.text,  
-    height: 40, width: 120,
+    height: 40,
     marginTop: 10,
+    width: 150,
   },
   //Tabla estilos
   table: {
@@ -544,22 +532,12 @@ const getStyles = (colors: any) => StyleSheet.create({
   headerCell: {
     flex: 1, padding: 6,
     backgroundColor: colors.headerCell,
-    borderWidth: 1,
-    borderColor: colors.border,
   },
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
     backgroundColor: colors.background,
-     borderColor: colors.border,
   },
-  cellF: {
-    flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: colors.input,
-     borderColor: colors.border,
-  },
-  headerText: {fontWeight: 'bold', color: colors.text},
+  headerText: {color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -579,11 +557,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     textAlign: 'center',
     color: colors.text
   },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
-  },
    input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
@@ -602,28 +575,24 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalEdit: {
     backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   },
   modalRegret: {
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 80,
     justifyContent: 'center', alignItems: 'center',
   },
 });

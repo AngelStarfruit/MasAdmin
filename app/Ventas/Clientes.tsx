@@ -204,8 +204,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <Text style={styles.modalTitle}>Añadir cliente</Text>
                 </View>
     
-                <View style={styles.hr}/>
-    
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
                   <TextInput style={{...styles.query, width: 200}}
@@ -226,8 +224,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <TextInput style={{...styles.query, width: 150}}
                   value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
                 </View>
-    
-                <View style={styles.hr}/>
     
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                   <TouchableHighlight
@@ -283,8 +279,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <Text style={styles.modalTitle}>Editar cliente</Text>
                 </View>
     
-                <View style={styles.hr}/>
-    
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
                   <TextInput style={{...styles.query, width: 200}}
@@ -305,8 +299,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   <TextInput style={{...styles.query, width: 150}}
                   value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
                 </View>
-    
-                <View style={styles.hr}/>
     
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
@@ -343,7 +335,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           setBusqueda(!Busqueda);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 260}]}>
+                        <View style={[styles.modalView, {marginVertical: 275}]}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
@@ -363,8 +355,6 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                         Para deshacer la busqueda, deje el criterio en blanco.</Text>
                     </View>
               
-                          <View style={styles.hr}/>
-              
                           <View style={styles.modalRow}>
                             <Text style={styles.modalLabel}>Campo:</Text>
                             <View style={{width: 160, height: 55}}>
@@ -383,11 +373,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                           </View>
               
-                          <View style={styles.hr}/>
-              
                           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                             <TouchableHighlight
-                            underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 90}]}
+                            underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                                onPress={() => {
                           if(query.trim() == ''){
                             setClientes(datos.CLIENTES)
@@ -432,16 +420,14 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                           </View>
               
-                          <View style={styles.hr}/>
-              
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
-                            underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width:50}]}
+                            underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                               onPress={() => setConfirm(!Confirm)}>
                               <Text style={styles.text}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
-                            underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width:50}]}
+                            underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                               onPress={() => {
                                 setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
@@ -477,7 +463,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
                 style={[styles.add, AddOff && styles.addOff]}>
-                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir cliente</Text>
+                    <Text style={{ color: colors.text}}>Añadir cliente</Text>
                   </TouchableHighlight>
 
                       <TouchableHighlight
@@ -485,7 +471,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                       onPress={() => {
                         setBusqueda(true)
                       }}
-                      style={{...styles.add, width: 40, padding: 10}}>
+                      style={{...styles.add,  padding: 10}}>
                       <Ionicons name="search" size={20} color={colors.text} />
                       </TouchableHighlight>
                       
@@ -514,9 +500,9 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   const [nombre, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
-                      <View style={styles.cellF}>
+                      <View style={styles.cell}>
                           <TouchableHighlight
-                          underlayColor={colors.cellUnderlay}
+                          underlayColor={colors.input}
                           onPress={() => {
                             setId(Number(id))
                             setNombre(nombre); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
@@ -571,11 +557,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.background,
-    width: 125, height: 40,
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10,padding: 10,
     borderRadius: 15,
-    elevation: 5,
   },
   addOff: { opacity: 0.6},
   query: {
@@ -591,23 +574,13 @@ const getStyles = (colors: any) => StyleSheet.create({
   row: {flexDirection: 'row',},
   headerCell: {
     flex: 1, padding: 6,
-    backgroundColor: colors.headerCell,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: colors.headerCell
   },
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
     backgroundColor: colors.background,
-    borderColor: colors.border,
   },
-  cellF: {
-    flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: colors.input,
-    borderColor: colors.border,
-  },
-  headerText: {fontWeight: 'bold', color: 'white'},
+  headerText: { color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -627,11 +600,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     textAlign: 'center',
     color: colors.text
   },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
-  },
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', 
@@ -645,28 +613,24 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalEdit: {
     backgroundColor: colors.edit,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   },
   modalRegret: {
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   },
   //---------------
@@ -678,6 +642,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   
   },
   pickerItem: {
-    fontSize: 16, fontWeight: 'bold',
+    fontSize: 16
   }
 });

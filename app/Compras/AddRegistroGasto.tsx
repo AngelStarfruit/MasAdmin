@@ -103,8 +103,6 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <View>
                     <Text style={styles.modalTitle}>Agregar gastos</Text>
                   </View>
-      
-                  <View style={styles.hr}/>
                     <View style={styles.modalRow}>
                                           <Text style={styles.modalLabel}>Gasto:</Text>
                                           <TextInput style={[styles.input, {width: 200}]}
@@ -116,7 +114,6 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                                     value={costo} onChangeText={setCosto}
                                                     keyboardType='numeric'></TextInput>
                                         </View>
-                                      <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
@@ -147,22 +144,20 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 380}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Confirmar gastos?</Text>
                                       </View>
                           
-                                      <View style={styles.hr}/>
-                          
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
                                           <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Gastos).length + 1)
@@ -186,22 +181,20 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 375}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
                           
-                                      <View style={styles.hr}/>
-                          
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
                                           <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlGastos")
@@ -222,17 +215,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
         </Text>
         
         <View style={styles.table}>
+          <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.5}]}>
+                  <View style={[styles.cell, {flex: 0.5}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.15}]}>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processGasto).map(([id, [descripcion, costo]], index) => (
                     <View key={index} style={styles.row}>
@@ -261,7 +254,9 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
           <View style={styles.row}>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay} 
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setCosto(''), setGasto(''); 
+                    setModalVisible(true)}}
                   style={styles.button}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
@@ -318,7 +313,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   textRow:{
     fontSize: 20, 
     paddingVertical: 5, 
-    fontWeight: 'bold',
     color: colors.text
   },
   button: {
@@ -328,7 +322,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 10,
   },
   buttonText: {
-    fontWeight: 'bold',
     color: colors.text,
     textAlign: 'center',
   },
@@ -338,36 +331,15 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginHorizontal: 18
   },
   tableRow: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell, 
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
   showcase: {
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
-    backgroundColor: colors.secondary,
-    borderColor: colors.border
   },
   headerText: {
-    fontWeight: 'bold',
-    color: colors.text
-  },
-  //------------------
-  picker: {
-    height: 55,
-    marginLeft: 10,
-    flex: 1,
-    backgroundColor: colors.input, color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: colors.primary
   },
   //Modal estilos
   modalOverlay: {
@@ -388,11 +360,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     textAlign: 'center',
     color: colors.text
   },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
-  },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 120,
@@ -412,21 +379,18 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalRegret: {
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   }
   

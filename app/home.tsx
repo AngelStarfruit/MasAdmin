@@ -34,8 +34,6 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                       <Text style={styles.modalTitle}>Acerca de MasAdmin</Text>
                     </View>
         
-                    <View style={styles.hr}/>
-        
                     <View>
                       <Text style={styles.modalParagraph}>
                         MasAdmin ERP Web es un poderoso sistema de gestión comercial por Internet, 
@@ -49,8 +47,6 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                         funcionalidades.
                         </Text>
                     </View>
-        
-                    <View style={styles.hr}/>
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                       <TouchableHighlight
@@ -165,11 +161,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingBottom: 20,
     textAlign: 'justify',
     color: colors.text
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
   },
   modalLabel:{
     fontSize: 20, fontWeight: 'bold',

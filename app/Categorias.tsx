@@ -270,8 +270,6 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <Text style={styles.modalTitle}>¿Eliminar categoría?</Text>
                                      </View>
                          
-                                     <View style={styles.hr}/>
-                         
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                        <TouchableHighlight
                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
@@ -351,7 +349,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                               <View key={id}>
                                 <View style={styles.cell}>
                                 <TouchableHighlight
-                                underlayColor={colors.scrollBackground}
+                                underlayColor={colors.input}
                                 onPress={() => {
                                   setId(Number(id))
                                     setCategory(categoria)
@@ -428,7 +426,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1, borderColor: colors.border,
     backgroundColor: colors.background,
   },
   //Modal estilos
@@ -449,11 +446,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
     color: colors.text
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,

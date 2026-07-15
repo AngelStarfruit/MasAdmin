@@ -168,7 +168,7 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
         <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableHighlight>
 
       <TouchableHighlight
-        style={styles.navIconsS}
+        style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}
       >
         <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableHighlight>
 
@@ -258,9 +258,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
-  },
-  navIconsS:{
-    padding: 10, borderRadius: 50 , backgroundColor: colors.navIconUnderlay,
   },
   space: {
     flex: 1,

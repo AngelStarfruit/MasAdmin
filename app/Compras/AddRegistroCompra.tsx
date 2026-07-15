@@ -50,9 +50,9 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   const [existencias, setExistencias] = useState(datosA.EXISTENCIAS_ALMACEN);
 
   //Constantes de pickers
-  const [selectedProvider, setSelectedProvider] = useState(proveedores[Object.keys(proveedores)[0]]?.[0] || '');
-  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
-  const [selectedStore, setSelectedStore] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
+  const [selectedProvider, setSelectedProvider] = useState('');
+  const [selectedBranch, setSelectedBranch] = useState('');
+  const [selectedStore, setSelectedStore] = useState('');
     //Valores del picker producto
     const [selectedProduct, setSelectedProduct] = useState(Object.keys(productos)[0] || '');
     const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
@@ -82,7 +82,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
   //ID
   const [idP, setIdP] = useState(1);
 
-  const [fieldOn, setFieldON] = useState(true)
+  const [fieldOn, setFieldOn] = useState(true)
 
   /*useFocusEffect(
     useCallback(() => {
@@ -272,8 +272,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View>
                     <Text style={styles.modalTitle}>Agregar productos</Text>
                   </View>
-      
-                  <View style={styles.hr}/>
+
                     <View style={styles.modalRow}>
                       <Text style={styles.modalLabel}>Elemento:</Text>
                       <View style={{width:200, height:55}}>
@@ -286,9 +285,19 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         if (productoEncontrado) {
                           setProductMarca(productoEncontrado[1]);
                           setProductCosto(productoEncontrado[2]);
+
+                          const control = productoEncontrado[7] || 'Ninguno';
+                          const esLote = control === 'Lote';
+                          setFieldOn(esLote);
+      
+                          // Si es lote, limpiar o mantener el campo
+                          if (!esLote) {
+                          setNlote(''); // Limpiar si no es lote
+                          }
                         }
                         }}
                         >
+                          <Picker.Item label="(Seleccione un producto)" value="" />
                         {Object.entries(productos || {}).length > 0 ? (
                         Object.entries(productos)
                         .sort((a, b) => {
@@ -323,28 +332,31 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                 value={nlote} onChangeText={setNlote}
                                 keyboardType='numeric'></TextInput>
                     </View>
-                  <View style={styles.hr}/>
       
                   <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                     <TouchableHighlight
                     underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                       onPress={() => {
-                       const validation = Validar(2,cantidad,nlote,'','');
-                          if (!validation.isValid) {
-                          Alert.alert('Error', validation.message);
-                          return; 
-                            }
-                          const validationNum1 = NumeroValido(cantidad); const validationNum2 = NumeroValido(nlote);
-                          if (!validationNum1.isValid) {
-                          Alert.alert('Error', validationNum1.message);
-                          return;
-                          }
-                          if (!validationNum2.isValid) {
-                         Alert.alert('Error', validationNum2.message);
-                         return;
-                         }
+                      const validation = Validar(1,selectedProduct,'','','');
+                        const validationNum1 = NumeroValido(cantidad);  const validationNum2 = NumeroValido(nlote);  
+                        if (!validation.isValid) {
+                       Alert.alert('Error', validation.message);
+                       return; 
+                        }
+                       if (!validationNum1.isValid) {
+                       Alert.alert('Error', validationNum1.message);
+                       return; 
+                      }
+                     if (fieldOn){
+                    if (!validationNum2.isValid) {
+                     Alert.alert('Error', validationNum2.message);
+                     return; 
+                      }}
                       const productoSeleccionado = (productos as any)[selectedProduct];
-                      if (productoSeleccionado) {
+                      if (!productoSeleccionado) {
+                       Alert.alert('Error', 'Producto no encontrado');
+                       return;
+                      }else {
                       setProcessCompra(AddElemento(
                       processCompra,
                       idP,
@@ -376,22 +388,20 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 360}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Recibir los artículos en el almacén?</Text>
                                       </View>
                           
-                                      <View style={styles.hr}/>
-                          
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
                                           <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 50}]}
+                                        underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Compras).length + 1)
@@ -416,22 +426,20 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 375}]}>
+                                    <View style={[styles.modalView, {marginVertical: 390}]}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
                           
-                                      <View style={styles.hr}/>
-                          
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
+                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
                                           <Text style={styles.text}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
-                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                        underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlCompras")
@@ -459,6 +467,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             selectedValue={selectedProvider}
             onValueChange={(itemValue) => setSelectedProvider(itemValue)}
           >
+            <Picker.Item label="(Seleccione un proveedor)" value="" />
              {Object.entries(proveedores || {}).length > 0 ? (
                Object.entries(proveedores)
                .sort((a, b) => {
@@ -487,6 +496,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
+            <Picker.Item label="(Seleccione una sucursal)" value="" />
             {Object.entries(sucursales || {}).length > 0 ? (
             Object.entries(sucursales)
             .sort((a, b) => {
@@ -509,26 +519,26 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         </View>
 
         <View style={styles.table}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.65}]}>
+                  <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.8}]}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>Cantidad</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.65}]}>
+                  <View style={[styles.cell, {flex: 0.65}]}>
                       <Text style={styles.headerText}>N° Lote</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.15}]}>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processCompra).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
@@ -538,7 +548,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={styles.cell}>
                     <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.65}]}>
+                    <View style={[styles.cell, {flex: 0.75}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.8}]}>
@@ -567,7 +577,9 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay} 
                 disabled={Off}
-                  onPress={() => setModalVisible(true)}
+                  onPress={() => {
+                    setSelectedProduct(''), setCantidad(''); setNlote('')
+                    setModalVisible(true)}}
                   style={[styles.button, Off && styles.buttonOff]}>
                   <Text style={styles.buttonText}>Agregar</Text>
               </TouchableHighlight>
@@ -589,8 +601,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         Total a gastar: {total}$
         </Text>
 
-        <View style={[styles.hr, {marginTop: 15}]}></View>
-
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Recepciones al almacén
         </Text>
@@ -603,6 +613,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
+            <Picker.Item label="(Seleccione un almacén)" value="" />
         {Object.entries(almacenesMostrados || {}).length > 0 ? (
           Object.entries(almacenesMostrados)
           .sort((a, b) => {
@@ -625,24 +636,24 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         </View>
 
         <View style={styles.table}>
+                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Descripción</Text>
                       </View>
-                  <View style={styles.headerCell}>
+                  <View style={styles.cell}>
                       <Text style={styles.headerText}>Marca</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.7}]}>
+                  <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.headerText}>Costo</Text>
                       </View>
-                  <View style={[styles.headerCell, {flex: 0.7}]}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.headerText}>A recibir</Text>
                       </View>
-                      <View style={[styles.headerCell, {flex: 0.7}]}>
+                      <View style={[styles.cell, {flex: 0.7}]}>
                       <Text style={styles.headerText}>N° Lote</Text>
                       </View>
                   </View>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
 
                     {Object.entries(processACompra).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
@@ -652,10 +663,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <View style={styles.cell}>
                     <Text style={styles.text}>{marca}</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.7}]}>
+                    <View style={[styles.cell, {flex: 0.75}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.7}]}>
+                    <View style={[styles.cell, {flex: 0.8}]}>
                     <Text style={styles.text}>{cantidad}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.7}]}>
@@ -722,7 +733,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   textRow:{
     fontSize: 20, 
     paddingVertical: 5, 
-    fontWeight: 'bold',
     color: colors.text
   },
   button: {
@@ -735,7 +745,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     opacity: 0.8, 
   },
   buttonText: {
-    fontWeight: 'bold',
     color: colors.text,
     textAlign: 'center',
   },
@@ -745,24 +754,15 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginHorizontal: -18
   },
   tableRow: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell, 
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
   showcase: {
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
   cell: {
     flex: 1, padding: 6,
-    borderWidth: 1,
-     borderColor: colors.border,
   },
   headerText: {
-    fontWeight: 'bold',
-    color: colors.text
+    color: colors.primary
   },
   //------------------
   picker: {
@@ -773,7 +773,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   pickerItem: {
     fontSize: 16,
-    fontWeight: 'bold',
   },
   //Modal estilos
   modalOverlay: {
@@ -793,11 +792,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
     color: colors.text
-  },
-   hr:{
-    height: 2, 
-    backgroundColor: '#777', 
-    marginBottom: 15,
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
@@ -820,21 +814,18 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.confirm,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalRegret: {
     backgroundColor: colors.regret,
     padding: 10,
     borderRadius: 20,
-    width: 130,
     justifyContent: 'center', alignItems: 'center',
   },
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10,
     borderRadius: 20,
-    width: 135,
     justifyContent: 'center', alignItems: 'center',
   }
   
