@@ -245,7 +245,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
               else navigation.navigate("ControlCompras")
             }}
           >
-            <Ionicons name="arrow-back" size={25} color={colors.text} />
+            <Ionicons name="arrow-back" size={30} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -265,7 +265,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -307,7 +307,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         })
                         .map(([id, producto]: [string, any]) => (
                         <Picker.Item 
-                        style={styles.pickerItem} 
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
                         value={id}  // ← ID como value
@@ -398,7 +397,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
@@ -409,7 +408,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                             afectarAlmacen(existencias, processACompra, selectedStore, selectedBranch)
                                             navigation.navigate("ControlCompras")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -436,7 +435,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -444,7 +443,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlCompras")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -477,7 +476,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         })
                .map(([id, proveedor]: [string, any]) => (
               <Picker.Item 
-                  style={styles.pickerItem} 
                   key={id} 
                   label={String(proveedor[0])} 
                   value={String(proveedor[0])} 
@@ -506,7 +504,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         })
             .map(([id, sucursal]: [string, any]) => (
             <Picker.Item 
-              style={styles.pickerItem} 
               key={id} 
               label={String(sucursal[0])} 
               value={String(sucursal[0])} 
@@ -522,21 +519,19 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Descripción</Text>
+                      <Text style={styles.text}>Descripción</Text>
                       </View>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Marca</Text>
+                      <Text style={styles.text}>Marca</Text>
                       </View>
                   <View style={[styles.cell, {flex: 0.75}]}>
-                      <Text style={styles.headerText}>Costo</Text>
+                      <Text style={styles.text}>Costo</Text>
                       </View>
                   <View style={[styles.cell, {flex: 0.8}]}>
-                      <Text style={styles.headerText}>Cantidad</Text>
+                      <Text style={styles.text}>Cantidad</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.65}]}>
-                      <Text style={styles.headerText}>N° Lote</Text>
-                      </View>
-                  <View style={[styles.cell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.95}]}>
+                      <Text style={styles.text}>N° Lote</Text>
                       </View>
                   </View>
 
@@ -564,7 +559,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                           setProcessCompra(QuitarElemento(processCompra,Number(id)))}}
                         underlayColor={colors.deleteUnderlay}
                         >
-                        <Ionicons name="close" size={20} color='red' />
+                        <Ionicons name="close" size={25} color='red' />
                         </TouchableHighlight>
                         </View>
                       </View>
@@ -581,7 +576,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     setSelectedProduct(''), setCantidad(''); setNlote('')
                     setModalVisible(true)}}
                   style={[styles.button, Off && styles.buttonOff]}>
-                  <Text style={styles.buttonText}>Agregar</Text>
+                  <Text style={styles.text}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
@@ -594,10 +589,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     else Alert.alert("Error", "Por favor, agregue los elementos que va a comprar.")
                   }}
                   style={[styles.button, Off && styles.buttonOff]}>
-                  <Text style={styles.buttonText}>Enviar</Text>
+                  <Text style={styles.text}>Enviar</Text>
               </TouchableHighlight>
               </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10 , color: colors.text}}>
+        <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {total}$
         </Text>
 
@@ -623,7 +618,6 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
           })
           .map(([id, almacen]: [string, any]) => (
             <Picker.Item 
-              style={styles.pickerItem} 
               key={id} 
               label={String(almacen[0])} 
               value={String(almacen[0])} 
@@ -639,19 +633,19 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Descripción</Text>
+                      <Text style={styles.text}>Descripción</Text>
                       </View>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Marca</Text>
+                      <Text style={styles.text}>Marca</Text>
                       </View>
                   <View style={[styles.cell, {flex: 0.75}]}>
-                      <Text style={styles.headerText}>Costo</Text>
+                      <Text style={styles.text}>Costo</Text>
                       </View>
                   <View style={[styles.cell, {flex: 0.8}]}>
-                      <Text style={styles.headerText}>A recibir</Text>
+                      <Text style={styles.text}>A recibir</Text>
                       </View>
                       <View style={[styles.cell, {flex: 0.7}]}>
-                      <Text style={styles.headerText}>N° Lote</Text>
+                      <Text style={styles.text}>N° Lote</Text>
                       </View>
                   </View>
 
@@ -688,10 +682,10 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     }
                     else Alert.alert("Error", "El almacén no tiene productos que recibir")}}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Aplicar cambios</Text>
+                  <Text style={styles.text}>Aplicar cambios</Text>
               </TouchableHighlight>
               </View>
-              <Text style={{  fontSize: 25, fontWeight: 'bold', marginTop: 10 , marginBottom: 50, color: colors.text}}>
+              <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {totalA}$
         </Text>
 
@@ -727,8 +721,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', justifyContent: 'space-between',
   },
   textRow:{
     fontSize: 20, 
@@ -737,17 +730,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   button: {
     backgroundColor: colors.option,
-    borderRadius: 20,
-    width: 150,
-    padding: 10,
+    borderRadius: 20, padding: 10,
   },
-  buttonOff: {
-    opacity: 0.8, 
-  },
-  buttonText: {
-    color: colors.text,
-    textAlign: 'center',
-  },
+  buttonOff: { opacity: 0.8},
   //Tabla estilos
   table: {
     paddingTop: 20,
@@ -761,18 +746,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   cell: {
     flex: 1, padding: 6,
   },
-  headerText: {
-    color: colors.primary
-  },
   //------------------
   picker: {
-    height: 55,
-    marginLeft: 10,
-    flex: 1,
     backgroundColor: colors.input, color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
   },
   //Modal estilos
   modalOverlay: {
@@ -780,12 +756,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 260,
-    flex: 1,
-    justifyContent: 'center',
+    marginHorizontal: 18, marginVertical: 275,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 20, padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -801,32 +774,23 @@ const getStyles = (colors: any) => StyleSheet.create({
   disabled: {
     opacity: 0.6
   },
-  modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    modalRow:{
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold', color: colors.text
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   }
-  
 });

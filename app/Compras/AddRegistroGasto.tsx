@@ -76,7 +76,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
               else navigation.navigate("ControlGastos")
             }}
           >
-            <Ionicons name="arrow-back" size={25} color={colors.text} />
+            <Ionicons name="arrow-back" size={30} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -96,7 +96,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -154,7 +154,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
@@ -164,7 +164,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                             setGastos(registrar(Gastos,idP,hoyStr,Number(total),gasto))
                                             navigation.navigate("ControlGastos")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -191,7 +191,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -199,7 +199,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlGastos")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -218,12 +218,10 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
           <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Descripción</Text>
+                      <Text style={styles.text}>Descripción</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.5}]}>
-                      <Text style={styles.headerText}>Costo</Text>
-                      </View>
-                  <View style={[styles.cell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
+                      <Text style={styles.text}>Costo</Text>
                       </View>
                   </View>
 
@@ -242,12 +240,11 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                           setProcessGasto(QuitarElemento(processGasto,Number(id)))}}
                         underlayColor={colors.deleteUnderlay}
                         >
-                        <Ionicons name="close" size={20} color='red' />
+                        <Ionicons name="close" size={25} color='red' />
                         </TouchableHighlight>
                         </View>
                       </View>
                     ))}  
-                    
                   </ScrollView>
           </View>
 
@@ -258,7 +255,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     setCosto(''), setGasto(''); 
                     setModalVisible(true)}}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Agregar</Text>
+                  <Text style={styles.text}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
@@ -269,10 +266,10 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     else Alert.alert("Error","Por favor, inserte los gastos que va a efectuar.")
                   }}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Confirmar</Text>
+                  <Text style={styles.text}>Confirmar</Text>
               </TouchableHighlight>
               </View>
-        <Text style={{  fontSize: 25, fontWeight: 'bold', marginVertical: 10, color: colors.text }}>
+        <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {total}$
         </Text>
         
@@ -297,7 +294,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: 10,
   },
   navIcons:{
-    padding: 10, 
     borderRadius: 50 ,
     marginTop: 20,
   },
@@ -307,8 +303,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', justifyContent: 'space-between',
   },
   textRow:{
     fontSize: 20, 
@@ -317,13 +312,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   button: {
     backgroundColor: colors.option,
-    borderRadius: 20,
-    width: 150,
-    padding: 10,
-  },
-  buttonText: {
-    color: colors.text,
-    textAlign: 'center',
+    borderRadius: 20, padding: 10,
   },
   //Tabla estilos
   table: {
@@ -335,24 +324,16 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
-  cell: {
-    flex: 1, padding: 6,
-  },
-  headerText: {
-    color: colors.primary
-  },
+  cell: { flex: 1, padding: 6,},
   //Modal estilos
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 290,
-    flex: 1,
-    justifyContent: 'center',
+ modalView: {
+    marginHorizontal: 18, marginVertical: 275,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 20, padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -361,37 +342,27 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   input: {
-    backgroundColor: colors.scrollBackground, color: colors.text, 
+    backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
-  modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    modalRow:{
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
-  modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-    color: colors.text
+ modalLabel:{
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   }
-  
 });

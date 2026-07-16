@@ -294,7 +294,7 @@ useFocusEffect(
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -302,7 +302,7 @@ useFocusEffect(
                       <Text style={styles.modalTitle}>Añadir elemento</Text>
                     </View>
 
-                     <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                     <Text style={styles.modalLabel}>
                         <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
                         {selectedCategory === "Sin categoria" ? <Text>Este elemento no contará con categoría.</Text>  
                           : selectedCategory == "No almacenables" ? <Text>Este elemento será un no almacenable.</Text>  
@@ -340,7 +340,7 @@ useFocusEffect(
                       enabled={fieldControlOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !fieldControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !fieldControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
@@ -363,7 +363,7 @@ useFocusEffect(
                         setFieldUnidadOn(true); setFieldControlOn(true); setFieldMarcaOn(true);
                         }
                         }}
-                        style={[styles.picker, !fieldTipoOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !fieldTipoOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
                         >
                         <Picker.Item label="Producto" value="producto" />
                         <Picker.Item label="Servicio" value="servicio" />
@@ -456,13 +456,13 @@ useFocusEffect(
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
                     <View>
                       <Text style={styles.modalTitle}>Editar elemento</Text>
-                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                      <Text style={styles.modalLabel}>
                         <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
                         El tipo de registro no se puede modificar</Text>
                     </View>
@@ -498,7 +498,7 @@ useFocusEffect(
                       enabled={editControlOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !editControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !editControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
@@ -509,7 +509,7 @@ useFocusEffect(
                       enabled={editCategoriaOn}
                         selectedValue={selectedECategory}
                         onValueChange={(itemValue) => setSelectedECategory(itemValue)}
-                        style={[styles.picker, !editCategoriaOn && styles.disable , {backgroundColor: colors.scrollBackground}]} itemStyle={styles.pickerItem}
+                        style={[styles.picker, !editCategoriaOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
                         >
                        <Picker.Item label="(Sin categoría)" value="" />
                         {Object.values(categorias || {}).length > 0 ? (
@@ -521,7 +521,6 @@ useFocusEffect(
                         })
                         .map((categoria: any, id) => (
                       <Picker.Item 
-                       style={styles.pickerItem} 
                         key={id} 
                         label={String(categoria)} 
                         value={String(categoria)} 
@@ -534,12 +533,12 @@ useFocusEffect(
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       disabled = {editContenidoOff}
-                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editContenidoOff && styles.disable]}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, editContenidoOff && styles.disable, {width: 90}]}
                         onPress={() => setPaquete(true)}>
                         <Text style={styles.text}>Editar contenido</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={colors.editUnderlay} style={styles.modalEdit}
+                      underlayColor={colors.editUnderlay} style={[styles.modalEdit, {width: 90}]}
                         onPress={() => {
                           const validationNum = CostoValido(costo)
                           let validation = Validar(4,descripcion,marca,costo,unidad);
@@ -568,7 +567,7 @@ useFocusEffect(
                         <Text style={styles.text}>Confirmar cambios</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
-                      underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                      underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 90}]}
                         onPress={() => setConfirm(true)}>
                         <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
@@ -590,7 +589,7 @@ useFocusEffect(
                     setConfirm(!Confirm);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 375}]}>
+                  <View style={[styles.modalView, {marginVertical: 385}]}>
         
                     <View>
                       <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
@@ -600,7 +599,7 @@ useFocusEffect(
                       <TouchableHighlight
                       underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                         onPress={() => setConfirm(!Confirm)}>
-                        <Text style={styles.text}>NO</Text>
+                        <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -609,7 +608,7 @@ useFocusEffect(
                           setConfirm(!Confirm);
                           setEModalVisible(!EmodalVisible);
                         }}>
-                        <Text style={styles.text}>SÍ</Text>
+                        <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                       </TouchableHighlight>
                     </View>
         
@@ -633,7 +632,7 @@ useFocusEffect(
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setNewPaquete(!NewPaquete)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -642,44 +641,42 @@ useFocusEffect(
                     </View>
         
                    <View>
-                      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
+                      <Text style={styles.modalLabel}>
                         Ingrese los elementos del contenido</Text>
                     </View>
 
                     <View style={styles.table}>
                       <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
                         <View style={styles.row}>
-                        <View style={[styles.headerCell, {backgroundColor: 'transparent'}]}>
-                            <Text style={styles.headerText}>Descripción</Text>
+                        <View style={styles.cell}>
+                            <Text style={styles.text}>Descripción</Text>
                             </View>
-                            <View style={[styles.headerCell, {backgroundColor: 'transparent'}]}>
-                            <Text style={styles.headerText}>Marca</Text>
+                            <View style={styles.cell}>
+                            <Text style={styles.text}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: 'transparent', flex: 0.5}]}>
-                            <Text style={styles.headerText}>Cantidad</Text>
-                              </View>
-                              <View style={[styles.headerCell, {backgroundColor: 'transparent', flex: 0.15}]}>
+                            <View style={[styles.cell, {flex: 0.75}]}>
+                            <Text style={styles.text}>Cantidad</Text>
                               </View>
                               </View>
                           {Object.entries(contenidoPaquete).map(([id, [descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
-                          <View style={[styles.cell, {backgroundColor: 'transparent'}]}>
+                          <View style={styles.cell}>
                           <Text style={styles.text}>{descripcion}</Text>
                             </View>
-                          <View style={[styles.cell, {backgroundColor: 'transparent'}]}>
+                          <View style={styles.cell}>
                           <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: 'transparent', flex: 0.5}]}>
+                            <View style={[styles.cell, { flex: 0.5}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: 'transparent', flex: 0.15}]}>
+                            <View style={[styles.cell, { flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={colors.deleteUnderlay}
                             >
-                               <Ionicons name="close" size={20} color='red' />
+                               <Ionicons name="close" size={25} color='red' />
                             </TouchableHighlight>
                             </View>
                           </View>
@@ -738,7 +735,7 @@ useFocusEffect(
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setPaquete(!Paquete)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -747,45 +744,43 @@ useFocusEffect(
                     </View>
         
                    <View>
-                      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
+                      <Text style={styles.modalLabel}>
                         Ingrese los elementos del contenido</Text>
                     </View>
 
-                    <View style={[styles.table]}>
+                    <View style={styles.table}>
                               <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
                         <View style={styles.row}>
-                        <View style={[styles.headerCell, {backgroundColor: 'transparent'}]}>
-                            <Text style={styles.headerText}>Descripción</Text>
+                        <View style={styles.cell}>
+                            <Text style={styles.text}>Descripción</Text>
                             </View>
-                             <View style={[styles.headerCell, {backgroundColor: 'transparent'}]}>
-                            <Text style={styles.headerText}>Marca</Text>
+                             <View style={styles.cell}>
+                            <Text style={styles.text}>Marca</Text>
                               </View>
-                            <View style={[styles.headerCell, {backgroundColor: 'transparent', flex: 0.5}]}>
-                            <Text style={styles.headerText}>Cantidad</Text>
-                              </View>
-                              <View style={[styles.headerCell, {backgroundColor: 'transparent', flex: 0.15}]}>
+                            <View style={[styles.cell, {flex: 0.75}]}>
+                            <Text style={styles.text}>Cantidad</Text>
                               </View>
                               </View>
 
                                 {Object.entries(contenidoPaquete).map(([id,[descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
-                          <View style={[styles.cell, {backgroundColor: 'transparent'}]}>
+                          <View style={styles.cell}>
                           <Text style={styles.text}>{descripcion}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: 'transparent'}]}>
+                            <View style={styles.cell}>
                             <Text style={styles.text}>{marca}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: 'transparent', flex: 0.5}]}>
+                            <View style={[styles.cell, { flex: 0.5}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, {backgroundColor: 'transparent', flex: 0.15}]}>
+                            <View style={[styles.cell, { flex: 0.15}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
                               setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
                             underlayColor={colors.deleteUnderlay}
                             >
-                               <Ionicons name="close" size={20} color='red' />
+                               <Ionicons name="close" size={25} color='red' />
                             </TouchableHighlight>
                             </View>
                           </View>
@@ -851,14 +846,14 @@ useFocusEffect(
                         setAlterPaquete(!AlterPaquete);
                       }}>
                       <View style={styles.modalOverlay}>
-                      <View style={[styles.modalView, {marginVertical: 310}]}>
+                      <View style={[styles.modalView, {marginVertical: 305}]}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                           <TouchableHighlight
                            style={{height: 30, width: 30, alignItems: "flex-end"}}
                           underlayColor={colors.scrollBackground}
                           onPress={() => setAlterPaquete(!AlterPaquete)}>
-                         <Ionicons name="close" size={20} color={colors.text} />
+                         <Ionicons name="close" size={30} color={colors.text} />
                           </TouchableHighlight>
                         </View>
             
@@ -888,8 +883,7 @@ useFocusEffect(
                          return nombreA.localeCompare(nombreB);  
                         })
                         .map(([id, producto]: [string, any]) => (
-                        <Picker.Item 
-                        style={styles.pickerItem} 
+                        <Picker.Item  
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
                         value={id}  // ← Usar el ID como value
@@ -985,7 +979,6 @@ useFocusEffect(
                         })
                         .map(([id, producto]: [string, any]) => (
                         <Picker.Item 
-                        style={styles.pickerItem} 
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
                         value={String(producto[0]) + '-' + String(producto[1])}  // ← Usar el ID como value
@@ -1044,7 +1037,7 @@ useFocusEffect(
           <Picker
               selectedValue={selectedCategory}
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-              style={styles.picker} itemStyle={styles.pickerItem}
+              style={styles.picker} 
               >
                 <Picker.Item label="REGISTROS SIN CLASIFICAR" value="Sin categoria" />
                  {Object.values(categorias || {}).length > 0 ? (
@@ -1056,7 +1049,6 @@ useFocusEffect(
                   })
                   .map((categoria: any, id) => (
                   <Picker.Item 
-                    style={styles.pickerItem} 
                     key={id} 
                     label={String(categoria)} 
                     value={String(categoria)} 
@@ -1093,30 +1085,28 @@ useFocusEffect(
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Gestionar categorías</Text>
                   </TouchableHighlight>
                   </View>
-                  <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 5,}}>
+                  <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 15,}}>
           <Ionicons name="pricetag-outline" size={18} color={colors.text} /> PRODUCTOS {'   '}
            <Ionicons name="construct-outline" size={18} color={colors.text} /> SERVICIOS {'   '}
             <Ionicons name="cube-outline" size={18} color={colors.text} /> PAQUETES
           </Text> 
-          <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 5,}}>
+          <Text style={{ color: colors.text ,fontSize: 15}}>
           Los productos con el icono {' '}<Ionicons name="layers-outline" size={15} color={colors.text} /> {' '}
           estan controlados por lotes.
           </Text> 
           <View style={[styles.table, {marginBottom: 80}]}>
-                <View style={styles.row}>
-                        <View style={styles.headerCell}>
-                          <Text style={styles.headerText}>Descripción</Text>
+                <View style={[styles.row, {backgroundColor: colors.headerCell}]}>
+                        <View style={styles.cell}>
+                          <Text style={styles.text}>Descripción</Text>
                           </View>
-                        <View style={styles.headerCell}>
-                          <Text style={styles.headerText}>Marca</Text>
+                        <View style={styles.cell}>
+                          <Text style={styles.text}>Marca</Text>
                           </View>
-                        <View style={[styles.headerCell, {flex: 0.8}]}>
-                          <Text style={styles.headerText}>Costo</Text>
+                        <View style={[styles.cell, {flex: 0.8}]}>
+                          <Text style={styles.text}>Costo</Text>
                           </View>
-                        <View style={[styles.headerCell, {flex: 0.8}]}>
-                          <Text style={styles.headerText}>Unidad</Text>
-                          </View>
-                          <View style={[styles.headerCell, {flex: 0.2}]}>
+                        <View style={[styles.cell, {flex: 1.2}]}>
+                          <Text style={styles.text}>Unidad</Text>
                           </View>
                       </View>
 
@@ -1173,10 +1163,10 @@ useFocusEffect(
                   );
                   })
                 ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8,  textAlign: 'center', color: colors.text}}>
               No hay elementos en esta categoría</Text>
             )) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              <Text style={{opacity: 0.8,  textAlign: 'center', color: colors.text}}>
               Cargando...</Text>
             )}
           </View>   
@@ -1224,77 +1214,56 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   disable: {opacity: 0.6},
   //Tabla estilos
-  table: {paddingVertical: 20, marginHorizontal: -9},
-  row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell
-  },
-  cell: {
-    flex: 1, padding: 6,
+  table: {
+    marginVertical: 20, marginHorizontal: -9,
     backgroundColor: colors.background,
   },
-  headerText: {color: colors.text},
+  row: {flexDirection: 'row',},
+  cell: {
+    flex: 1, padding: 6,
+  },
   //Modal estilos
   modalOverlay: {
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 18, marginVertical: 120,
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 18,
   },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 30, fontWeight: 'bold', color: colors.text,
     marginBottom: 10,
-    textAlign: 'center',
-    color: colors.text
+    textAlign: 'center'
   },
   modalRow:{
     flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    justifyContent: 'space-evenly', alignItems: 'center',
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-    color: colors.text
+    fontSize: 20, color: colors.text,
+    textAlign: 'center'
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
   buttonRegister: {
-    backgroundColor: colors.option,
-    padding: 10,borderRadius: 20,
+    backgroundColor: colors.option, padding: 10,borderRadius: 20,
   },
   //---------------
   picker: {
-    marginLeft: 10, flex: 1,
-    backgroundColor: colors.input,
-    color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
+    backgroundColor: colors.input, color: colors.text,
   },
 
 });

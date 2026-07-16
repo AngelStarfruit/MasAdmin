@@ -74,7 +74,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
         underlayColor={colors.primaryUnderlay} style={styles.navButton}
         onPress={() => navigation.navigate("home")} 
       >
-        <Ionicons name="arrow-back" size={25} color={colors.text} />
+        <Ionicons name="arrow-back" size={30} color={colors.text} />
         </TouchableHighlight>
     </View>
 
@@ -103,7 +103,7 @@ export default function Dashboard({navigation}: registerScreenProps ) {
                 <Picker
                   selectedValue={genero}
                   onValueChange={(itemValue) => setGenero(itemValue)}
-                  style={styles.picker} itemStyle={styles.pickerItem}
+                  style={styles.picker}
                 >
                   <Picker.Item label="Hombre" value="hombre" />
                   <Picker.Item label="Mujer" value="mujer" />
@@ -200,15 +200,12 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: 5, paddingVertical: 10,
   },
   navButton:{
-    padding: 10, 
     borderRadius: 25 ,
   },
   Button:{
     backgroundColor: colors.enter,
-    padding: 15, 
-    borderRadius: 25 ,
-    width: '50%',
-    alignSelf: 'center',
+    padding: 15, borderRadius: 25 ,
+    width: '50%',  alignSelf: 'center',
   },
   ButtonText:{
     color: colors.text, 
@@ -223,15 +220,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {flexDirection: 'row',},
   box:{
-    marginVertical: 0,
-    flex: 1,
-    borderRadius: 20,
-    backgroundColor: colors.background,
-    fontWeight: 'bold', 
-    paddingVertical: 30, paddingHorizontal: 5,
+    borderRadius: 20,backgroundColor: colors.background,
+    paddingVertical: 20, paddingHorizontal: 5,
   },
   Card:{
-    flex: 1,
     paddingHorizontal: 20, paddingVertical: 10,
   },
   CardText:{
@@ -245,17 +237,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   LinkText:{
     color: colors.primary,
-    fontWeight: 'bold',
     textAlign: 'center',
   },
    picker: {
-    height: 50,
     marginBottom: 15,
-    flex: 1,
     backgroundColor: colors.input, color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  }
 });

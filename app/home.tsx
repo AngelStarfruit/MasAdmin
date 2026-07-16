@@ -52,7 +52,7 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                       <TouchableHighlight
                       underlayColor={colors.regretUnderlay} style={styles.modalOK}
                         onPress={() => setModalVisible(!modalVisible)}>
-                        <Text style={{color: colors.text}}>OK</Text>
+                        <Text style={{color: colors.text, fontSize: 20}}>OK</Text>
                       </TouchableHighlight>
                       </View>
         
@@ -76,7 +76,7 @@ export default function Dashboard({navigation}: homeScreenProps ) {
         ¡Bienvenido a MasAdmin!
         </Text>
 
-        <Image source={getImage('homeImage')} style={{height: 300, width: 300, alignSelf: 'center', borderWidth: 1, borderColor: 'black'}}/>
+        <Image source={getImage('homeImage')} style={{height: 300, width: 300, alignSelf: 'center'}}/>
 
         <View style={styles.ButtonRow}>
             <TouchableHighlight
@@ -117,17 +117,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   ButtonRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', 
-    alignItems: 'center',
     paddingVertical: 20,
   },
   Button:{
     backgroundColor: colors.primary,
     padding: 15, 
-    borderRadius: 25 ,
+    borderRadius: 25,
   },
   ButtonText:{
     color: colors.background, 
-    fontWeight: 'bold',
     fontSize: 20,
   },
   scroll: {
@@ -135,7 +133,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.scrollBackground,
     paddingHorizontal: 20, paddingVertical: 50,
     justifyContent: 'center',
-    textAlignVertical: 'center',
   },
   //Modal estilos
   modalOverlay: {
@@ -143,9 +140,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 140,
-    flex: 1,
-    justifyContent: 'center',
+    marginHorizontal: 18, marginVertical: 165,
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
@@ -168,8 +163,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalOK: {
     backgroundColor: colors.regret,
     padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
     width: 50,
-    justifyContent: 'center', alignItems: 'center',
   },
 });

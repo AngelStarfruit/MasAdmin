@@ -154,7 +154,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -204,7 +204,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
                       onPress={() => setModalEVisible(!modalEVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -274,7 +274,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                        <TouchableHighlight
                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                          onPress={() => setConfirm(!Confirm)}>
-                                         <Text style={styles.text}>NO</Text>
+                                         <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                        </TouchableHighlight>
                                        <TouchableHighlight
                                        underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
@@ -283,7 +283,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                                            setConfirm(!Confirm);
                                            setModalEVisible(!modalEVisible);
                                          }}>
-                                         <Text style={styles.text}>SI</Text>
+                                         <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
                                        </TouchableHighlight>
                                      </View>
                          
@@ -310,12 +310,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                 setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
-            style={[styles.add, AddOff && styles.addOff , {width: 160}]}>
+            style={[styles.add, AddOff && styles.addOff ]}>
             <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
             </TouchableHighlight>
 
               <View style={styles.row}>
-              <TextInput style={styles.query}
+              <TextInput style={styles.input}
               placeholder="Buscar" placeholderTextColor="#777"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
@@ -334,12 +334,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                       setAddOff(true)
                   }
                 }}
-                style={{...styles.add, width: 40, padding: 10}}>
+                style={{...styles.add, padding: 10}}>
                 <Ionicons name="search" size={20} color={colors.text} />
                 </TouchableHighlight>
                 </View></View>
         
-        <View style={{marginBottom: 80, marginHorizontal: 27}}>
+        <View style={{marginBottom: 80, marginHorizontal: 27, backgroundColor: colors.background}}>
             
         {!isLoading ? (
         Object.values(categorias || {}).length > 0 ? (
@@ -362,10 +362,10 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                         );
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               No hay categorías registradas</Text>
             )) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               Cargando...</Text>
             )}
                         </View>
@@ -401,50 +401,34 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row', justifyContent: 'space-between',
   },
   textRow:{
     fontSize: 20, 
     paddingVertical: 5, 
-    fontWeight: 'bold',
-  },
-  query: {
-    backgroundColor: colors.input, color: colors.text,  
-    height: 40, width: 120,
-    marginTop: 10,
   },
    add: {
     backgroundColor: colors.input,
-    width: 150,
     marginVertical: 10, padding: 10,
     borderRadius: 15,
   },
-   addOff: {
-    opacity: 0.6
-   },
+   addOff: { opacity: 0.6},
   //Tabla estilos
-  cell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.background,
-  },
+  cell: {flex: 1, padding: 6,},
   //Modal estilos
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18,
-    flex: 1,
+    marginHorizontal: 18, padding: 20,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
-    padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 10,
-    textAlign: 'center',
     color: colors.text
   },
   input: {
@@ -453,41 +437,27 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
   },
   modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold', color: colors.text
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    width: 130,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
    modalEdit: {
     backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    width: 150,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    width: 50,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    width: 150,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   }
   
 });

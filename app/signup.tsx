@@ -111,7 +111,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
           style={styles.navButton}
           onPress={() => navigation.navigate("home")}
         >
-          <Ionicons name="arrow-back" size={25} color={colors.text} />
+          <Ionicons name="arrow-back" size={30} color={colors.text} />
         </TouchableHighlight>
       </View>
 
@@ -119,9 +119,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
         <View style={styles.scroll}>
           <View style={styles.box}>
             <Text style={{
-              fontSize: 30,
-              fontWeight: 'bold',
-              color: colors.primary,
+              fontSize: 30, fontWeight: 'bold', color: colors.primary,
               textAlign: 'center',
             }}>
               Inicie sesión
@@ -199,7 +197,7 @@ export default function Dashboard({ navigation }: signupScreenProps) {
               >
                 <Text style={styles.ButtonText}>Iniciar sesión</Text>
               </TouchableHighlight>
-              <Text style={{ textAlign: 'center', marginTop: 30, color: 'red', opacity: textVisible }}>
+              <Text style={{ textAlign: 'center', marginTop: 20, color: 'red', opacity: textVisible }}>
                 Correo o contraseña incorrectos
               </Text>
               <Text style={{ textAlign: 'center', color: colors.text }}>
@@ -228,7 +226,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingVertical: 10,
   },
   navButton: {
-    padding: 10,
     borderRadius: 25,
   },
   Button: {
@@ -243,7 +240,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   ButtonText: {
     color: colors.text,
-    fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 20,
   },
@@ -254,19 +250,15 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingVertical: 100,
   },
   box: {
-    flex: 1,
     borderRadius: 20,
     backgroundColor: colors.background,
-    fontWeight: 'bold',
-    paddingVertical: 30,
-    paddingHorizontal: 5,
+    paddingVertical: 25,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   Card: {
-    flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
@@ -276,13 +268,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   input: {
     backgroundColor: colors.input,
-    padding: 10,
-    marginBottom: 15,
+    padding: 10, marginBottom: 15,
     color: colors.text,
   },
   LinkText: {
-    color: colors.primary,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: colors.primary, textAlign: 'center',
   },
 });

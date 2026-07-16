@@ -514,7 +514,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
                 underlayColor={colors.scrollBackground}
                 onPress={() => setModalVisible(!modalVisible)}>
-                <Ionicons name="close" size={20} color={colors.text} />
+                <Ionicons name="close" size={30} color={colors.text} />
               </TouchableHighlight>
             </View>
             
@@ -579,7 +579,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setUserModalVisible(!userModalVisible)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -587,13 +587,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <Text style={styles.modalTitle}>Ajustes de cuenta</Text>
                 </View>
                 
-                <Text style={styles.CardText}>Nombre completo:</Text>
+                <Text style={styles.modalLabel}>Nombre completo:</Text>
                 <TextInput style={styles.input} 
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
-                <Text style={styles.CardText}>Teléfono:</Text>
+                <Text style={styles.modalLabel}>Teléfono:</Text>
                 <TextInput style={styles.input} 
                   value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
-                <Text style={styles.CardText}>Fecha de nacimiento:</Text>
+                <Text style={styles.modalLabel}>Fecha de nacimiento:</Text>
                 <TextInput 
                   style={styles.input}
                   value={fecha.toLocaleDateString()}
@@ -614,16 +614,16 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     }}
                   />
                 )}
-                <Text style={styles.CardText}>Nombre de usuario:</Text>
+                <Text style={styles.modalLabel}>Nombre de usuario:</Text>
                 <TextInput style={styles.input} 
                   value={nombreUsuario} onChangeText={(text) => setNombreUsuario(NoEmojis(text))}/>
-                <Text style={styles.CardText}>Contraseña:</Text>
+                <Text style={styles.modalLabel}>Contraseña:</Text>
                 <TextInput style={styles.input} 
                   value={contrasena} onChangeText={(text) => setContrasena(NoEmojis(text))} secureTextEntry />
                 
                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                   <TouchableHighlight
-                 underlayColor={colors.confirmUnderlay} style={[styles.modalConfirm, {width: 160}]}
+                 underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
                   onPress={async () => {
                   const validation = Validar(4, nombre, telefono, nombreUsuario, contrasena);
                   if (!validation.isValid) {
@@ -684,7 +684,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           style={{height: 30, width: 30, alignItems: "flex-end"}}
           underlayColor={colors.scrollBackground}
           onPress={() => setEmpresaModalVisible(!empresaModalVisible)}>
-          <Ionicons name="close" size={20} color={colors.text} />
+          <Ionicons name="close" size={30} color={colors.text} />
         </TouchableHighlight>
       </View>
       
@@ -772,7 +772,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <TouchableHighlight
                 underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                 onPress={() => setConfirmCerradoSesion(!ConfirmCerradoSesion)}>
-                <Text style={styles.text}>NO</Text>
+                <Text style={[styles.text, {fontSize:20}]}>NO</Text>
               </TouchableHighlight>
               <TouchableHighlight
                 underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -781,7 +781,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   setConfirmCerradoSesion(!ConfirmCerradoSesion);
                   cerrarSesion();
                 }}>
-                <Text style={styles.text}>SÍ</Text>
+                <Text style={[styles.text, {fontSize:20}]}>SÍ</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -809,7 +809,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalEvento(!modalEvento)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -895,7 +895,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalEditEvento(!modalEditEvento)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
                 
@@ -982,7 +982,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                             <TouchableHighlight
                             underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                               onPress={() => setConfirm(!Confirm)}>
-                              <Text style={styles.text}>NO</Text>
+                              <Text style={[styles.text ,{fontSize: 20}]}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                             underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -991,7 +991,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                                 setConfirm(!Confirm);
                                 setModalEditEvento(!modalEditEvento);
                               }}>
-                              <Text style={styles.text}>SÍ</Text>
+                              <Text style={[styles.text ,{fontSize: 20}]}>SÍ</Text>
                             </TouchableHighlight>
                           </View>
               
@@ -1075,8 +1075,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <Picker
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
-              style={[styles.picker, {height: 55}]} 
-              itemStyle={styles.pickerItem}>
+              style={[styles.picker, {height: 55}]} >
               <Picker.Item label="Hoy" value="hoy" />
               <Picker.Item label="Esta semana" value="semana" />
               <Picker.Item label="Este mes" value="mes" />
@@ -1107,8 +1106,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Picker
                 selectedValue={selectedAValue}
                 onValueChange={(itemValue) => setSelectedAValue(itemValue)}
-                style={[styles.picker]} 
-                itemStyle={styles.pickerItem}>
+                style={[styles.picker]} >
                 <Picker.Item label="Hoy" value="hoyA" />
                 <Picker.Item label="Esta semana" value="semanaA" />
                 <Picker.Item label="Este mes" value="mesA" />
@@ -1131,11 +1129,11 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </View>
           
           <View style={styles.table}>
-            <View style={styles.row}>
-              <View style={styles.headerCell}><Text style={styles.headerText}>Evento</Text></View>
-              <View style={[styles.headerCell, {flex: 0.9}]}><Text style={styles.headerText}>Fecha y Hora</Text></View>
-              <View style={styles.headerCell}><Text style={styles.headerText}>Lugar</Text></View>
-              <View style={[styles.headerCell, {flex: 0.8}]}><Text style={styles.headerText}>Contacto</Text></View>
+            <View style={[styles.row,{backgroundColor: colors.headerCell}]}>
+              <View style={styles.cell}><Text style={styles.text}>Evento</Text></View>
+              <View style={[styles.cell, {flex: 0.9}]}><Text style={styles.text}>Fecha y Hora</Text></View>
+              <View style={styles.cell}><Text style={styles.text}>Lugar</Text></View>
+              <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>Contacto</Text></View>
             </View>
 
             {Object.values(eventosMostrados || {}).length > 0 ? (
@@ -1167,7 +1165,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 );
               })
             ) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>No hay eventos</Text>
+              <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>No hay eventos</Text>
             )}
           </View>
         </View>
@@ -1182,9 +1180,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background,
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
@@ -1200,8 +1196,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   input:{
     backgroundColor: colors.scrollBackground,
-    padding: 10,
-    marginBottom: 15,
+    padding: 10, marginBottom: 15,
     color: colors.text,
   },
   box: {
@@ -1214,33 +1209,19 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.background,
-    height: 40, 
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10, padding: 10,
     borderRadius: 15,
   },
   table: {
-    paddingVertical: 20, 
-    marginHorizontal: -9, marginBottom: 80
+    marginTop: 20, marginBottom: 80,
+    marginHorizontal: -18, 
+    backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell,
-  },
-  cell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.background,
-  },
-  headerText: {color: colors.text},
+  cell: {flex: 1, padding: 6,},
   picker: {
-    height: 50,
-    marginLeft: 10,
     flex: 1,
     backgroundColor: colors.background, color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
@@ -1248,60 +1229,44 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalView: {
     marginHorizontal: 18, marginVertical: 200,
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
   modalTitle: {
-    color: colors.text,
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 30, fontWeight: 'bold', color: colors.text,
     marginBottom: 10,
-    textAlign: 'center',
-  },
-  CardText:{
-    fontSize: 20,  color: colors.text,
+    textAlign: 'center'
   },
   modalRow:{
     flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    justifyContent: 'space-evenly', alignItems: 'center',
+    marginBottom: 18,
   },
   modalLabel:{
-    color: colors.text,
-    fontSize: 20, fontWeight: 'bold',
+    color: colors.text, fontSize: 20,
+    
   },
   modalOption: {
     backgroundColor: colors.option,
-    padding: 10,
-    borderRadius: 20,
-    width: 200,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
+    width: 200, 
+    alignItems: 'center',
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalEdit: {
     backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
 });

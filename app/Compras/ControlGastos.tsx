@@ -56,7 +56,7 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
-            <Ionicons name="arrow-back" size={25} color={colors.text} />
+            <Ionicons name="arrow-back" size={30} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -70,7 +70,7 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
         underlayColor={colors.cellUnderlay}
         onPress={() => navigation.navigate("AddRegistroGasto")}
         style={styles.add}>
-            <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir registro de gasto</Text>
+            <Text style={{color: colors.text}}>Añadir registro de gasto</Text>
           </TouchableHighlight>
 
         <View style={styles.table}>
@@ -99,9 +99,9 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                     )
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>Esperando a que efectúe un gasto...</Text>
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>Esperando a que efectúe un gasto...</Text>
             )) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
                 Cargando...</Text>
             )}
 
@@ -128,9 +128,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: 10,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
-    marginTop: 20,
+    borderRadius: 50, marginTop: 20,
   },
   scroll: {
     flex: 1,
@@ -139,20 +137,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.input,
-    width: 200,
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 15,
+    marginTop: 10, padding: 10,
+    borderRadius: 20,
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-    marginBottom: 80
-  },
-  row: {flexDirection: 'row',},
-  cell: {
-    flex: 1, padding: 6,
+    marginTop: 20, marginBottom: 80,
     backgroundColor: colors.background
   },
+  row: {flexDirection: 'row',},
+  cell: {flex: 1, padding: 6,},
   headerText: {color: colors.primary},
 });

@@ -196,7 +196,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   style={{height: 30, width: 30, alignItems: "flex-end"}}
                   underlayColor={colors.scrollBackground}
                   onPress={() => setModalVisible(!modalVisible)}>
-                  <Ionicons name="close" size={20} color={colors.text} />
+                  <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
     
@@ -206,22 +206,22 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 200}}
+                  <TextInput style={{...styles.input, width: 200}}
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Teléfono:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Ciudad:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={ciudad} onChangeText={(text) => setCiudad(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Estado:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
                 </View>
     
@@ -271,7 +271,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   style={{height: 30, width: 30, alignItems: "flex-end"}}
                   underlayColor={colors.scrollBackground}
                   onPress={() => setEModalVisible(!EmodalVisible)}>
-                  <Ionicons name="close" size={20} color={colors.text} />
+                  <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
     
@@ -281,22 +281,22 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
     
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Nombre:</Text>
-                  <TextInput style={{...styles.query, width: 200}}
+                  <TextInput style={{...styles.input, width: 200}}
                   value={nombre} onChangeText={(text) => setNombre(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Teléfono:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={telefono} onChangeText={(text) => setTelefono(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Ciudad:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={ciudad} onChangeText={(text) => setCiudad(NoEmojis(text))}/>
                 </View>
                 <View style={styles.modalRow}>
                   <Text style={styles.modalLabel}>Estado:</Text>
-                  <TextInput style={{...styles.query, width: 150}}
+                  <TextInput style={{...styles.input, width: 150}}
                   value={estado} onChangeText={(text) => setEstado(NoEmojis(text))}/>
                 </View>
     
@@ -335,14 +335,14 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           setBusqueda(!Busqueda);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 275}]}>
+                        <View style={[styles.modalView, {marginVertical: 285}]}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
                             style={{height: 30, width: 30, alignItems: "flex-end"}}
                             underlayColor={colors.scrollBackground}
                             onPress={() => setBusqueda(!Busqueda)}>
-                            <Ionicons name="close" size={20} color={colors.text} />
+                            <Ionicons name="close" size={30} color={colors.text} />
                             </TouchableHighlight>
                           </View>
               
@@ -351,7 +351,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                           </View>
 
                      <View>
-                      <Text style={[styles.modalLabel, {textAlign: 'center', opacity: 0.5, marginBottom: 10}]}>
+                      <Text style={[styles.modalLabel, {marginBottom: 18}]}>
                         Para deshacer la busqueda, deje el criterio en blanco.</Text>
                     </View>
               
@@ -361,7 +361,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
-                                  style={styles.picker} itemStyle={styles.pickerItem}
+                                  style={styles.picker}
                                   >
                                   <Picker.Item label="Nombre" value="Nombre" />
                                   <Picker.Item label="Ciudad" value="Ciudad" />
@@ -369,7 +369,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                                   </Picker></View>
                           </View>
                           <View style={styles.modalRow}>
-                            <TextInput style={{...styles.query, width: 200}}
+                            <TextInput style={{...styles.input, width: 200}}
                             value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                           </View>
               
@@ -424,7 +424,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                             <TouchableHighlight
                             underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                               onPress={() => setConfirm(!Confirm)}>
-                              <Text style={styles.text}>NO</Text>
+                              <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                             underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -433,7 +433,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                                 setConfirm(!Confirm);
                                 setEModalVisible(!EmodalVisible);
                               }}>
-                              <Text style={styles.text}>SÍ</Text>
+                              <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                             </TouchableHighlight>
                           </View>
               
@@ -478,18 +478,18 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   </View>
 
         <View style={styles.table}>
-              <View style={styles.row}>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Nombre</Text>
+              <View style={[styles.row, {backgroundColor: colors.headerCell}]}>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Nombre</Text>
                       </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Teléfono</Text>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Teléfono</Text>
                       </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Ciudad</Text>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Ciudad</Text>
                   </View>
-                      <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Estado</Text>
+                      <View style={styles.cell}>
+                      <Text style={styles.text}>Estado</Text>
                       </View>
                   </View>
 
@@ -517,10 +517,10 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   )
                })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8,  textAlign: 'center', color: colors.text}}>
               No hay clientes registrados</Text>
             )) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              <Text style={{opacity: 0.8,  textAlign: 'center', color: colors.text}}>
               Cargando...</Text>
             )}
           </View>
@@ -557,42 +557,33 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.background,
-    marginTop: 10,padding: 10,
+    marginTop: 10, padding: 10,
     borderRadius: 15,
   },
   addOff: { opacity: 0.6},
-  query: {
+  input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
     marginTop: 10,
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-    marginHorizontal: -9, marginBottom: 80
-  },
-  row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell
-  },
-  cell: {
-    flex: 1, padding: 6,
+    marginTop: 20,
+    marginHorizontal: -9, marginBottom: 80,
     backgroundColor: colors.background,
   },
-  headerText: { color: colors.text},
+  row: {flexDirection: 'row',},
+  cell: {
+    flex: 1, padding: 6,
+  },
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
     marginHorizontal: 18, marginVertical: 220,
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 20, padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -602,46 +593,31 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalRow:{
     flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    justifyContent: 'space-evenly', alignItems: 'center',
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold', color: colors.text
+    fontSize: 20, color: colors.text,
+    textAlign: 'center'
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalEdit: {
     backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   //---------------
   picker: {
-    height: 60,
-    marginLeft: 10,
-    flex: 1,
     backgroundColor: colors.scrollBackground, color: colors.text,
-  
-  },
-  pickerItem: {
-    fontSize: 16
   }
 });

@@ -181,7 +181,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
                           underlayColor={colors.scrollBackground}
                           onPress={() => setModalVisible(!modalVisible)}>
-                          <Ionicons name="close" size={20} color={colors.text} />
+                          <Ionicons name="close" size={30} color={colors.text} />
                           </TouchableHighlight>
                         </View>
             
@@ -191,7 +191,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
-                          <TextInput style={{...styles.query, width: 150}}
+                          <TextInput style={{...styles.input, width: 150}}
                           value={almacen} onChangeText={(text) => setAlmacen(NoEmojis(text))}/>
                         </View>
                         <View style={styles.modalRow}>
@@ -206,7 +206,6 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               {Object.values(sucursales || {}).length > 0 ? (
                               Object.values(sucursales).map((sucursal: any, index) => (
                               <Picker.Item 
-                                style={styles.pickerItem} 
                                 key={index} 
                                 label={String(sucursal[0])} 
                                 value={String(sucursal[0])} 
@@ -254,7 +253,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
                           underlayColor={colors.scrollBackground}
                           onPress={() => setEModalVisible(!EmodalVisible)}>
-                          <Ionicons name="close" size={20} color={colors.text} />
+                          <Ionicons name="close" size={30} color={colors.text} />
                           </TouchableHighlight>
                         </View>
             
@@ -264,7 +263,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
             
                         <View style={styles.modalRow}>
                           <Text style={styles.modalLabel}>Almacén:</Text>
-                          <TextInput style={{...styles.query, width: 150}}
+                          <TextInput style={{...styles.input, width: 150}}
                           value={almacen} onChangeText={(text) => setAlmacen(NoEmojis(text))}/>
                         </View>
                         <View style={styles.modalRow}>
@@ -278,7 +277,6 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                               {Object.values(sucursales || {}).length > 0 ? (
                               Object.values(sucursales).map((sucursal: any, index) => (
                               <Picker.Item 
-                                style={styles.pickerItem} 
                                 key={index} 
                                 label={String(sucursal[0])} 
                                 value={String(sucursal[0])} 
@@ -330,7 +328,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                             style={{height: 30, width: 30, alignItems: "flex-end"}}
                             underlayColor={colors.scrollBackground}
                             onPress={() => setBusqueda(!Busqueda)}>
-                            <Ionicons name="close" size={20} color={colors.text} />
+                            <Ionicons name="close" size={30} color={colors.text} />
                             </TouchableHighlight>
                           </View>
               
@@ -344,14 +342,14 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
-                                  style={styles.picker} itemStyle={styles.pickerItem}
+                                  style={styles.picker}
                                   >
                                   <Picker.Item label="Almacén" value="Almacén" />
                                   <Picker.Item label="Sucursal" value="Sucursal" />
                                   </Picker></View>
                           </View>
                           <View style={styles.modalRow}>
-                            <TextInput style={{...styles.query, width: 150}}
+                            <TextInput style={{...styles.input, width: 150}}
                             value={query} onChangeText={(text) => setQuery(NoEmojis(text))}/>
                           </View>
               
@@ -403,7 +401,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -412,7 +410,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                             setConfirm(!Confirm);
                                             setEModalVisible(!EmodalVisible);
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -427,8 +425,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
         </Text>
 
         <Text style={{ 
-          fontSize: 15, 
-          paddingVertical: 10, color: colors.text}}>
+          fontSize: 15, paddingVertical: 10, color: colors.text}}>
           Seleccione el nombre de un almacén en la tabla para modificar sus datos.
           </Text>
 
@@ -460,12 +457,12 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   </View>
 
         <View style={styles.table}>
-              <View style={styles.row}>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Almacén</Text>
+              <View style={[styles.row, {backgroundColor: colors.headerCell}]}>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Almacén</Text>
                       </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Sucursal</Text>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Sucursal</Text>
                       </View>
                   </View>
 
@@ -491,10 +488,10 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   )
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               No hay almacenes registrados en esta sucursal</Text>
             )) : (
-              <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+              <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               Cargando...</Text>
             )}
           </View>
@@ -521,41 +518,31 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navIcons:{
     padding: 10, 
-    borderRadius: 50 ,
-    marginTop: 20,
+    borderRadius: 50, marginTop: 20,
   },
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
     padding: 18,
   },
-   add: {
+  add: {
     backgroundColor: colors.background,
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10, padding: 10,
     borderRadius: 15,
   },
   addOff: {opacity: 0.6},
-  query: {
+  input: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 150,
     marginTop: 10,
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-    marginHorizontal: 18, marginBottom: 80
-  },
-  row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell,
-  },
-  cell: {
-    flex: 1, padding: 6,
+    marginTop: 20, marginHorizontal: 18, marginBottom: 80,
     backgroundColor: colors.background
   },
-  headerText: {color: colors.text},
+  row: {flexDirection: 'row',},
+  cell: {flex: 1, padding: 6,},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -564,60 +551,40 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalView: {
     marginHorizontal: 18, marginVertical: 290,
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: colors.modalBackground,
     borderRadius: 20,
     padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
+    marginBottom: 10, textAlign: 'center',
     color: colors.text
   },
   modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-    color: colors.text
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalEdit: {
     backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   //------------------
   picker: {
-    height: 50,
-    marginLeft: 10,
-    flex: 1,
-    backgroundColor: colors.scrollBackground,
-    color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
-  },
+    backgroundColor: colors.scrollBackground,color: colors.text,
+  }
 });

@@ -208,7 +208,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
               else navigation.navigate("AjustesInventario")
             }}
           >
-            <Ionicons name="arrow-back" size={25} color={colors.text} />
+            <Ionicons name="arrow-back" size={30} color={colors.text} />
           </TouchableHighlight>
         </View>
 
@@ -228,7 +228,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Ionicons name="close" size={20} color={colors.text} />
+                    <Ionicons name="close" size={30} color={colors.text} />
                     </TouchableHighlight>
                   </View>
       
@@ -269,7 +269,6 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         })
                         .map(([id, producto]: [string, any]) => (
                         <Picker.Item 
-                        style={styles.pickerItem} 
                         key={id} 
                         label={String(producto[0]) + ' - ' + String(producto[1])} 
                         value={id}  // ← ID como value
@@ -357,7 +356,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
@@ -367,7 +366,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                             setAjustes(registrar(Ajustes,idP,selectedStore,selectedOperation,hoyStr))
                                             navigation.navigate("AjustesInventario")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -394,7 +393,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={[styles.modalRegret, {width: 50}]}
                                           onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={styles.text}>NO</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
                                         underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
@@ -402,7 +401,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                                             setConfirm(!Confirm);
                                             navigation.navigate("AjustesInventario")
                                           }}>
-                                          <Text style={styles.text}>SÍ</Text>
+                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
                                       </View>
                           
@@ -435,7 +434,6 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                         })
                 .map(([id, sucursal]: [string, any]) => (
                 <Picker.Item 
-                style={styles.pickerItem} 
                 key={id} 
                 label={String(sucursal[0])} 
                 value={String(sucursal[0])} 
@@ -464,7 +462,6 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
           })
           .map(([id, almacen]: [string, any]) => (
             <Picker.Item 
-              style={styles.pickerItem} 
               key={id} 
               label={String(almacen[0])} 
               value={String(almacen[0])} 
@@ -483,8 +480,8 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
             selectedValue={selectedOperation}
             onValueChange={(itemValue) => setSelectedOperation(itemValue)}
           >
-            <Picker.Item style={styles.pickerItem} label="ENTRADA" value="entrada" />
-            <Picker.Item style={styles.pickerItem} label="SALIDA" value="salida" />
+            <Picker.Item label="ENTRADA" value="entrada" />
+            <Picker.Item label="SALIDA" value="salida" />
           </Picker></View>
         </View>
 
@@ -492,15 +489,13 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                   <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
               <View style={styles.tableRow}>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Descripción</Text>
+                      <Text style={styles.text}>Descripción</Text>
                       </View>
                   <View style={styles.cell}>
-                      <Text style={styles.headerText}>Marca</Text>
+                      <Text style={styles.text}>Marca</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.5}]}>
-                      <Text style={styles.headerText}>Cantidad</Text>
-                      </View>
-                  <View style={[styles.cell, {flex: 0.15}]}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
+                      <Text style={styles.text}>Cantidad</Text>
                       </View>
                   </View>
                   {Object.entries(processAjusteInventario).map(([id, [descripcion, marca, cantidad]], index) => (
@@ -522,7 +517,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                             }}
                              underlayColor={colors.deleteUnderlay}
                             >
-                            <Ionicons name="close" size={20} color='red' />
+                            <Ionicons name="close" size={25} color='red' />
                             </TouchableHighlight>
                             </View>
                         </View>
@@ -538,7 +533,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     setSelectedProduct(''), setCantidad(''); setNlote('')
                     setModalVisible(true)}}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Agregar</Text>
+                  <Text style={styles.text}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
@@ -548,7 +543,7 @@ export default function AddRegistroCompra({ navigation }: AddAjustesInventarioSc
                     }
                     else Alert.alert("Error","Por favor, seleccione al menos un producto")}}
                   style={styles.button}>
-                  <Text style={styles.buttonText}>Afectar inventario</Text>
+                  <Text style={styles.text}>Afectar inventario</Text>
               </TouchableHighlight>
               </View>
         
@@ -587,20 +582,12 @@ const getStyles = (colors: any) => StyleSheet.create({
     justifyContent: 'space-between',
   },
   textRow:{
-    fontSize: 20, 
-    paddingVertical: 5, 
-    fontWeight: 'bold',
+    fontSize: 20, paddingVertical: 5, 
     color: colors.text
   },
   button: {
     backgroundColor: colors.option,
-    width: 150,
-    padding: 10,
-    borderRadius: 20,
-  },
-  buttonText: {
-    color: colors.text,
-    textAlign: 'center',
+    padding: 10, borderRadius: 20,
   },
   //Tabla estilos
   table: {
@@ -611,34 +598,18 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
-  cell: {
-    flex: 1, padding: 6,
-  },
-  headerText: {
-    color: colors.text
-  },
+  cell: {flex: 1, padding: 6,},
   //------------------
-  picker: {
-    height: 55,
-    marginLeft: 10,
-    flex: 1,
-    backgroundColor: colors.input, color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
-  },
+  picker: {backgroundColor: colors.input, color: colors.text},
   //Modal estilos
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 260,
-    flex: 1,
-    justifyContent: 'center',
+    marginHorizontal: 18, marginVertical: 275,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 20, padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -654,32 +625,23 @@ const getStyles = (colors: any) => StyleSheet.create({
   disabled: {
     opacity: 0.6
   },
-  modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    modalRow:{
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold', color: colors.text
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   }
-  
 });

@@ -236,7 +236,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.input}
                       onPress={() => setModalVisible(!modalVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -291,7 +291,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.input}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
-                      <Ionicons name="close" size={20} color={colors.text} />
+                      <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
         
@@ -366,7 +366,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                   <TouchableHighlight
                                   underlayColor={colors.regretUnderlay} style={styles.modalRegret}
                                     onPress={() => setConfirm(!Confirm)}>
-                                    <Text style={styles.text}>NO</Text>
+                                    <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
                                   underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
@@ -375,7 +375,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                                       setConfirm(!Confirm);
                                       setEModalVisible(!EmodalVisible);
                                     }}>
-                                    <Text style={styles.text}>SI</Text>
+                                    <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
                                   </TouchableHighlight>
                                 </View>
                     
@@ -411,7 +411,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           </TouchableHighlight>
 
             <View style={styles.row}>
-                    <TextInput style={styles.query}
+                    <TextInput style={styles.input}
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
@@ -438,12 +438,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
           </View>
           
         <View style={styles.table}>
-              <View style={styles.row}>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Sucursal</Text>
+              <View style={[styles.row,{backgroundColor: colors.headerCell}]}>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Sucursal</Text>
                       </View>
-                  <View style={styles.headerCell}>
-                      <Text style={styles.headerText}>Teléfono</Text>
+                  <View style={styles.cell}>
+                      <Text style={styles.text}>Teléfono</Text>
                       </View>
                   </View>
 
@@ -472,10 +472,10 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                 );
                 })
               ) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               No hay sucursales registradas</Text>
             )) : (
-            <Text style={{opacity: 0.8, marginVertical: 20, textAlign: 'center', color: colors.text}}>
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
               Cargando...</Text>
             )}
 
@@ -511,45 +511,27 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.input,
-    height: 40, 
-    marginTop: 10,
-    padding: 10,
+    marginTop: 10, padding: 10,
     borderRadius: 15,
   },
   addOff: {opacity: 0.6},
-  query: {
-    backgroundColor: colors.input, color: colors.text,  
-    height: 40,
-    marginTop: 10,
-    width: 150,
-  },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-   marginHorizontal: 18, marginBottom: 80
+   marginTop: 20,
+   marginHorizontal: 18, marginBottom: 80,
+   backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  headerCell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.headerCell,
-  },
-  cell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.background,
-  },
-  headerText: {color: colors.text},
+  cell: {flex: 1, padding: 6},
   //Modal estilos
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 290,
-    flex: 1,
-    justifyContent: 'center',
+    marginHorizontal: 18, marginVertical: 290, padding: 20,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
+    borderRadius: 20
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -563,36 +545,26 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10,
   },
   modalRow:{
-    flexDirection: 'row', 
-    justifyContent: 'space-evenly', 
-    marginBottom: 15,
-    alignItems: 'center',
+    flexDirection: 'row', justifyContent: 'space-evenly', 
+    marginBottom: 18,
   },
   modalLabel:{
-    fontSize: 20, fontWeight: 'bold', color: colors.text
+    fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalEdit: {
     backgroundColor: colors.edit,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
   modalRegret: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    justifyContent: 'center', alignItems: 'center',
+    padding: 10, borderRadius: 20,
   },
 });
