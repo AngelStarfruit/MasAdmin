@@ -148,6 +148,35 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
     }, [])
   );
  */
+ //-----------------Paginación--------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+  const [existenciasPaginadas, setExistenciasPaginadas] = useState<Record<string, any>>({});
+
+  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentPage(nuevaPagina);
+  const paginados = paginarClientes(existenciasMostradas, nuevaPagina);
+  setExistenciasMostradas(paginados);
+};
+
+// useEffect para actualizar la paginación cuando cambian los clientes
+useEffect(() => {
+  setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarClientes(existenciasMostradas, 1);
+  setExistenciasMostradas(paginados);
+}, [existenciasMostradas]);
 
   return (
     <View style={styles.container}>
@@ -226,8 +255,8 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
                   </View>
 
                   {/* Body - cada registro es una fila */}
-                  {Object.values(existenciasMostradas || {}).length > 0 ? (
-                  Object.entries(existenciasMostradas).map(([id, data]: [string, any]) => {
+                  {Object.values(existenciasPaginadas || {}).length > 0 ? (
+                  Object.entries(existenciasPaginadas).map(([id, data]: [string, any]) => {
                   const [descripcion, marca, cantidad] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -242,6 +271,35 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
             )}
 
           </View>
+                             {/* Controles de paginación */}
+          {Object.keys(existenciasMostradas || {}).length > itemsPerPage && (
+            <View style={styles.paginationContainer}>
+              <TouchableHighlight
+                underlayColor={colors.input}
+                onPress={() => cambiarPagina(currentPage - 1)}
+                style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+                disabled={currentPage === 1}
+              >
+                  <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+              </TouchableHighlight>
+              
+              <Text style={styles.text}>
+                Página {currentPage} de {Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage)}
+              </Text>
+              
+              <TouchableHighlight
+                underlayColor={colors.input}
+                onPress={() => cambiarPagina(currentPage + 1)}
+                style={[
+                  styles.paginationButton, 
+                  currentPage === Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage) && styles.disabled
+                ]}
+                disabled={currentPage === Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage)}
+              >
+                <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+              </TouchableHighlight>
+            </View>
+          )}
         
         </View>
       </ScrollView>
@@ -284,6 +342,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background,
   },
   headerText: {color: colors.primary,},
+  disabled: { opacity: 0.6},
   //---------------
   picker: {
     height: 55,
@@ -295,4 +354,14 @@ const getStyles = (colors: any) => StyleSheet.create({
   pickerItem: {
     fontSize: 16,
   },
+  //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

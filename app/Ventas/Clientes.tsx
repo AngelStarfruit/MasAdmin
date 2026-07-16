@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NoEmojis, Validar } from './backend'
 //import { obtenerClientes, agregarCliente, editarCliente, eliminarCliente } from './backend';
 import { QuitarElemento, AddCliente } from './backend';
@@ -157,6 +157,36 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
       Alert.alert('Error', error.message || 'No se pudo eliminar el cliente');
     }
   };*/
+
+  //-----------------Paginación--------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+  const [clientesPaginados, setClientesPaginados] = useState<Record<string, any>>({});
+
+  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(clientes || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentPage(nuevaPagina);
+  const paginados = paginarClientes(clientes, nuevaPagina);
+  setClientesPaginados(paginados);
+};
+
+// useEffect para actualizar la paginación cuando cambian los clientes
+useEffect(() => {
+  setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarClientes(clientes, 1);
+  setClientesPaginados(paginados);
+}, [clientes]);
 
   return (
     <View style={styles.container}>
@@ -462,7 +492,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
                   setId(Object.keys(clientes).length + 1)
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
-                style={[styles.add, AddOff && styles.addOff]}>
+                style={[styles.add, AddOff && styles.disabled]}>
                     <Text style={{ color: colors.text}}>Añadir cliente</Text>
                   </TouchableHighlight>
 
@@ -495,8 +525,8 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
                   {/* Body - cada registro es una fila */}
                   {!isLoading ? (
-                  Object.values(clientes || {}).length > 0 ? (
-                  Object.entries(clientes).map(([id, data]: [string, any]) => {
+                  Object.values(clientesPaginados || {}).length > 0 ? (
+                  Object.entries(clientesPaginados).map(([id, data]: [string, any]) => {
                   const [nombre, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -524,6 +554,36 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
               Cargando...</Text>
             )}
           </View>
+
+          {/* Controles de paginación */}
+{Object.keys(clientes || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(clientes || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(clientes || {}).length / itemsPerPage) && styles.disabled
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(clientes || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
         
         </View>
       </ScrollView>
@@ -560,7 +620,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10, padding: 10,
     borderRadius: 15,
   },
-  addOff: { opacity: 0.6},
+  disabled: { opacity: 0.6},
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
     height: 40, width: 120,
@@ -568,8 +628,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    marginTop: 20,
-    marginHorizontal: -9, marginBottom: 80,
+    marginVertical: 20,
+    marginHorizontal: -9, 
     backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
@@ -619,5 +679,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   //---------------
   picker: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-  }
+  },
+  //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

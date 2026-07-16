@@ -67,7 +67,7 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
         </Text>
 
           <TouchableHighlight 
-        underlayColor={colors.cellUnderlay}
+        underlayColor={colors.input}
         onPress={() => navigation.navigate("AddRegistroGasto")}
         style={styles.add}>
             <Text style={{color: colors.text}}>Añadir registro de gasto</Text>
@@ -87,8 +87,8 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Gastos || {}).length > 0 ? (
-                  Object.entries(Gastos).map(([id, data]: [string, any]) => {
+                  Object.values(Gastos || {}).slice(-50).length > 0 ? (
+                  Object.entries(Gastos).slice(-50).map(([id, data]: [string, any]) => {
                   const [fecha, total, gasto] = data;
                     return(
                       <View key={id} style={styles.row}>

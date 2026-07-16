@@ -68,7 +68,7 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
         </Text>
 
         <TouchableHighlight 
-        underlayColor={colors.cellUnderlay}
+        underlayColor={colors.input}
         onPress={() => navigation.navigate("AddRegistroCompra")}
         style={styles.add}>
             <Text style={{color: colors.text}}>Añadir registro de compra</Text>
@@ -88,8 +88,8 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Compras || {}).length > 0 ? (
-                  Object.entries(Compras).map(([id, data]: [string, any]) => {
+                  Object.values(Compras || {}).slice(-50).length > 0 ? (
+                  Object.entries(Compras).slice(-50).map(([id, data]: [string, any]) => {
                   const [fecha, total, proveedor] = data;
                   return(
                       <View key={id} style={styles.row}>

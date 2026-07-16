@@ -67,7 +67,7 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
         Control de ventas
         </Text>
         <TouchableHighlight 
-        underlayColor={colors.cellUnderlay}
+        underlayColor={colors.input}
         onPress={() => navigation.navigate("AddRegistroVenta")}
         style={styles.add}>
             <Text style={{ color: colors.text}}>Añadir registro de venta</Text>
@@ -86,8 +86,8 @@ export default function ControlVentas({ navigation }: ControlVentasScreenProps )
                   </View>
 
                 {!isLoading ? (
-                Object.values(Ventas || {}).length > 0 ? (
-                Object.entries(Ventas).map(([id, data]: [string, any]) => {
+                Object.values(Ventas || {}).slice(-50).length > 0 ? (
+                Object.entries(Ventas).slice(-50).map(([id, data]: [string, any]) => {
                   const [fecha, total, cliente] = data;
                   return(
                       <View key={id} style={styles.row}>

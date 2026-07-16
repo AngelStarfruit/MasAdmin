@@ -124,6 +124,29 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
       Alert.alert('Error', error.message || 'No se pudo eliminar la categoría');
     }
   }; */
+
+  //-----------------Paginación--------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+  const [categoriasPaginadas, setCategoriasPaginadas] = useState<Record<string, any>>({});
+
+  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(categorias || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentPage(nuevaPagina);
+  const paginados = paginarClientes(categorias, nuevaPagina);
+  setCategoriasPaginadas(paginados);
+};
  
   return (
     <View style={styles.container}>
@@ -305,12 +328,12 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
           <View style={styles.row}>
         <TouchableHighlight 
             disabled={AddOff}
-            underlayColor={colors.cellUnderlay}
+            underlayColor={colors.input}
             onPress={() => {
                 setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
-            style={[styles.add, AddOff && styles.addOff ]}>
+            style={[styles.add, AddOff && styles.disabled ]}>
             <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
             </TouchableHighlight>
 
@@ -319,7 +342,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
               placeholder="Buscar" placeholderTextColor="#777"
               value={query} onChangeText={setQuery}></TextInput>
              <TouchableHighlight
-                underlayColor={colors.cellUnderlay}
+                underlayColor={colors.input}
                  onPress={() => {
                   if(query.trim() == ''){
                     setCategorias(datos.CATEGORIAS);
@@ -339,11 +362,11 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
                 </TouchableHighlight>
                 </View></View>
         
-        <View style={{marginBottom: 80, marginHorizontal: 27, backgroundColor: colors.background}}>
+        <View style={{marginVertical: 20, marginHorizontal: 27, backgroundColor: colors.background}}>
             
         {!isLoading ? (
-        Object.values(categorias || {}).length > 0 ? (
-        Object.entries(categorias).map(([id, data]: [string, any]) => {
+        Object.values(categoriasPaginadas || {}).length > 0 ? (
+        Object.entries(categoriasPaginadas).map(([id, data]: [string, any]) => {
             const categoria = data;
              return (
                               <View key={id}>
@@ -369,7 +392,36 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
               Cargando...</Text>
             )}
                         </View>
-        
+
+       {/* Controles de paginación */}
+{Object.keys(categorias || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(categorias || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(categorias|| {}).length / itemsPerPage) && styles.disabled
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(categorias || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
         </View>
       </ScrollView>
     </View>
@@ -410,9 +462,9 @@ const getStyles = (colors: any) => StyleSheet.create({
    add: {
     backgroundColor: colors.input,
     marginVertical: 10, padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
   },
-   addOff: { opacity: 0.6},
+   disabled: { opacity: 0.6},
   //Tabla estilos
   cell: {flex: 1, padding: 6,},
   //Modal estilos
@@ -458,6 +510,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalDelete: {
     backgroundColor: colors.delete,
     padding: 10, borderRadius: 20,
-  }
-  
+  },
+    //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

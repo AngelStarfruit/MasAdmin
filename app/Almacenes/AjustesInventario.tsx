@@ -64,7 +64,7 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
         Ajustes de inventario
         </Text>
         <TouchableHighlight 
-                underlayColor={colors.cellUnderlay}
+                underlayColor={colors.input}
                 onPress={() => navigation.navigate("AddAjustesInventario")}
                 style={styles.add}>
                     <Text style={{color: colors.text}}>Realizar ajuste</Text>
@@ -83,8 +83,8 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Ajustes || {}).length > 0 ? (
-                   Object.entries(Ajustes).map(([id, data]: [string, any]) => {
+                  Object.values(Ajustes || {}).slice(-50).length > 0 ? (
+                   Object.entries(Ajustes).slice(-50).map(([id, data]: [string, any]) => {
                     const [almacenAfectado, operacion, fechaAjuste] = data;
                     return(
                       <View key={id} style={styles.row}>

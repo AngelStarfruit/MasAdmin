@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend' 
 //import { obtenerAlmacenes, agregarAlmacen, editarAlmacen, eliminarAlmacen } from './backend';
@@ -152,6 +152,35 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
       Alert.alert('Error', error.message || 'No se pudo eliminar el almacén');
     }
   }; */
+  //-----------------Paginación--------------------------------------------------------
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(50);
+    const [almacenesPaginados, setAlmacenesPaginados] = useState<Record<string, any>>({});
+  
+    const paginarClientes = (data: Record<string, any>, page: number) => {
+    const entries = Object.entries(data || {});
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedEntries = entries.slice(startIndex, endIndex);
+    
+    return Object.fromEntries(paginatedEntries);
+  };
+  
+  const cambiarPagina = (nuevaPagina: number) => {
+    const totalPaginas = Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage);
+    if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+    
+    setCurrentPage(nuevaPagina);
+    const paginados = paginarClientes(sucursales, nuevaPagina);
+    setAlmacenesPaginados(paginados);
+  };
+  
+  // useEffect para actualizar la paginación cuando cambian los clientes
+  useEffect(() => {
+    setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+    const paginados = paginarClientes(sucursales, 1);
+    setAlmacenesPaginados(paginados);
+  }, [sucursales]);
 
   return (
     <View style={styles.container}>
@@ -441,7 +470,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   }
                   else Alert.alert("Error","Registre al menos una sucursal primero")
                 }}
-                style={[styles.add, AddOff && styles.addOff]}>
+                style={[styles.add, AddOff && styles.disabled]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir almacén</Text>
                   </TouchableHighlight>
 
@@ -468,8 +497,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
 
                   {/* Body - cada registro es una fila */}
                   {!isLoading ? (
-                  Object.values(almacenes || {}).length > 0 ? (
-                  Object.entries(almacenes).map(([id, data]: [string, any]) => {
+                  Object.values(almacenesPaginados || {}).length > 0 ? (
+                  Object.entries(almacenesPaginados).map(([id, data]: [string, any]) => {
                   const [almacen, sucursal] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -495,6 +524,36 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
               Cargando...</Text>
             )}
           </View>
+
+          {/* Controles de paginación */}
+{Object.keys(sucursales || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage) && styles.disabled
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
         
         </View>
       </ScrollView>
@@ -530,7 +589,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10, padding: 10,
     borderRadius: 15,
   },
-  addOff: {opacity: 0.6},
+  disabled: {opacity: 0.6},
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
     height: 40, width: 150,
@@ -538,7 +597,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    marginTop: 20, marginHorizontal: 18, marginBottom: 80,
+    marginVertical: 20, marginHorizontal: 18, 
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
@@ -586,5 +645,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   //------------------
   picker: {
     backgroundColor: colors.scrollBackground,color: colors.text,
-  }
+  },
+    //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

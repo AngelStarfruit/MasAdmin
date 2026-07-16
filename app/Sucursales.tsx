@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NoEmojis, Validar} from './backend';
 //import { obtenerSucursales, agregarSucursal, editarSucursal, eliminarSucursal } from './backend'
 //import { obtenerAlmacenes } from './Almacenes/backend'
@@ -176,6 +176,36 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
     throw error;
   }
 };*/
+//-----------------Paginación--------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+  const [sucursalesPaginadas, setSucursalesPaginadas] = useState<Record<string, any>>({});
+
+  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentPage(nuevaPagina);
+  const paginados = paginarClientes(sucursales, nuevaPagina);
+  setSucursalesPaginadas(paginados);
+};
+
+// useEffect para actualizar la paginación cuando cambian los clientes
+useEffect(() => {
+  setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarClientes(sucursales, 1);
+  setSucursalesPaginadas(paginados);
+}, [sucursales]);
+
 
   return (
     <View style={styles.container}>
@@ -401,12 +431,12 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableHighlight
         disabled = {AddOff}
-        underlayColor={colors.cellUnderlay}
+        underlayColor={colors.input}
         onPress={() => {
           setId(Object.keys(sucursales).length + 1)
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
-        style={[styles.add, AddOff && styles.addOff]}>
+        style={[styles.add, AddOff && styles.disabled]}>
             <Text style={{color: colors.text}}>Añadir sucursal</Text>
           </TouchableHighlight>
 
@@ -415,7 +445,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
-                    underlayColor={colors.cellUnderlay}
+                    underlayColor={colors.input}
                    onPress={() => {
                     if (query.trim() == ''){
                       setSucursales(datos.SUCURSALES || {})
@@ -449,8 +479,8 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 
                 {/* Body - cada registro es una fila */}
                 {!isLoading ? (
-                Object.values(sucursales || {}).length > 0 ? (
-                Object.entries(sucursales).map(([id, data]: [string, any]) => {
+                Object.values(sucursalesPaginadas || {}).length > 0 ? (
+                Object.entries(sucursalesPaginadas).map(([id, data]: [string, any]) => {
                 const [sucursal, telefono] = data;
                 return (
                 <View key={id} style={styles.row}>
@@ -480,6 +510,35 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
             )}
 
           </View>
+                    {/* Controles de paginación */}
+{Object.keys(sucursales || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage) && styles.disabled
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
         
         </View>
       </ScrollView>
@@ -512,13 +571,12 @@ const getStyles = (colors: any) => StyleSheet.create({
   add: {
     backgroundColor: colors.input,
     marginTop: 10, padding: 10,
-    borderRadius: 15,
+    borderRadius: 20,
   },
-  addOff: {opacity: 0.6},
+  disabled: {opacity: 0.6},
   //Tabla estilos
   table: {
-   marginTop: 20,
-   marginHorizontal: 18, marginBottom: 80,
+   marginVertical: 20, marginHorizontal: 18,
    backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
@@ -567,4 +625,14 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.regret,
     padding: 10, borderRadius: 20,
   },
+  //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

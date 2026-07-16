@@ -221,6 +221,36 @@ useFocusEffect(
     }, [])
   );*/
 
+    //-----------------Paginación--------------------------------------------------------
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+  const [elementosPaginados, setElementosPaginados] = useState<Record<string, any>>({});
+
+  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentPage(nuevaPagina);
+  const paginados = paginarClientes(elementosMostrados, nuevaPagina);
+  setElementosPaginados(paginados);
+};
+
+// useEffect para actualizar la paginación cuando cambian los clientes
+useEffect(() => {
+  setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarClientes(elementosMostrados, 1);
+  setElementosPaginados(paginados);
+}, [elementosMostrados]);
+
   return (
     <View style={styles.container}>
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
@@ -1061,7 +1091,7 @@ useFocusEffect(
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
           <TouchableHighlight 
-                underlayColor={colors.cellUnderlay}
+                underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setContenidoPaquete({})
@@ -1076,13 +1106,13 @@ useFocusEffect(
                   }
                   setModalVisible(true)}}
                 style={styles.add}>
-                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir elemento</Text>
+                    <Text style={{ color: colors.text}}>Añadir elemento</Text>
                   </TouchableHighlight>
           <TouchableHighlight 
-                underlayColor={colors.cellUnderlay}
+                underlayColor={colors.input}
                 onPress={() => navigation.navigate("Categorias")}
-                style={[styles.add , {width: 180}]}>
-                    <Text style={{fontWeight: 'bold', color: colors.text}}>Gestionar categorías</Text>
+                style={styles.add}>
+                    <Text style={{ color: colors.text}}>Gestionar categorías</Text>
                   </TouchableHighlight>
                   </View>
                   <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 15,}}>
@@ -1094,7 +1124,7 @@ useFocusEffect(
           Los productos con el icono {' '}<Ionicons name="layers-outline" size={15} color={colors.text} /> {' '}
           estan controlados por lotes.
           </Text> 
-          <View style={[styles.table, {marginBottom: 80}]}>
+          <View style={styles.table}>
                 <View style={[styles.row, {backgroundColor: colors.headerCell}]}>
                         <View style={styles.cell}>
                           <Text style={styles.text}>Descripción</Text>
@@ -1112,8 +1142,8 @@ useFocusEffect(
 
                 {/* Body - cada registro es una fila */}
                 {!isLoading ? (
-                Object.values(elementosMostrados || {}).length > 0 ? (
-                 Object.entries(elementosMostrados).map(([id, data]: [string, any]) => {
+                Object.values(elementosPaginados || {}).length > 0 ? (
+                 Object.entries(elementosPaginados).map(([id, data]: [string, any]) => {
                   const [descripcion, marca, costo, unidad, tipo, contenidoPaquete, categoria, control] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -1170,7 +1200,36 @@ useFocusEffect(
               Cargando...</Text>
             )}
           </View>   
-
+                   {/* Controles de paginación */}
+{Object.keys(elementosMostrados || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disable]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage) && styles.disable
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
+        
         </View>
       </ScrollView>
     </View>
@@ -1265,5 +1324,14 @@ const getStyles = (colors: any) => StyleSheet.create({
   picker: {
     backgroundColor: colors.input, color: colors.text,
   },
-
+  //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });

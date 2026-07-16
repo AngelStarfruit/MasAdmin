@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import { NoEmojis, Validar } from './backend'
 //import { obtenerProveedores, agregarProveedor, editarProveedor, eliminarProveedor } from './backend';
@@ -157,6 +157,35 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
       Alert.alert('Error', error.message || 'No se pudo eliminar el proveedor');
     }
   };*/
+    //-----------------Paginación--------------------------------------------------------
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(50);
+    const [proveedoresPaginados, setProveedoresPaginados] = useState<Record<string, any>>({});
+  
+    const paginarClientes = (data: Record<string, any>, page: number) => {
+    const entries = Object.entries(data || {});
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedEntries = entries.slice(startIndex, endIndex);
+    
+    return Object.fromEntries(paginatedEntries);
+  };
+  
+  const cambiarPagina = (nuevaPagina: number) => {
+    const totalPaginas = Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage);
+    if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+    
+    setCurrentPage(nuevaPagina);
+    const paginados = paginarClientes(proveedores, nuevaPagina);
+    setProveedoresPaginados(paginados);
+  };
+  
+  // useEffect para actualizar la paginación cuando cambian los clientes
+  useEffect(() => {
+    setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
+    const paginados = paginarClientes(proveedores, 1);
+    setProveedoresPaginados(paginados);
+  }, [proveedores]);
 
   return (
     <View style={styles.container}>
@@ -462,7 +491,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   setId(Object.keys(proveedores).length + 1)
                   setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
                   setModalVisible(true)}}
-                style={[styles.add , AddOff && styles.addOff]}>
+                style={[styles.add , AddOff && styles.disabled]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir proveedor</Text>
                   </TouchableHighlight>
 
@@ -495,8 +524,8 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
 
                   {/* Body - cada registro es una fila */}
                   {!isLoading ? (
-                  Object.values(proveedores || {}).length > 0 ? (
-                  Object.entries(proveedores).map(([id, data]: [string, any]) => {
+                  Object.values(proveedoresPaginados || {}).length > 0 ? (
+                  Object.entries(proveedoresPaginados).map(([id, data]: [string, any]) => {
                   const [empresa, telefono, ciudad, estado] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -524,7 +553,35 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
               Cargando...</Text>
             )}
 
-
+ {/* Controles de paginación */}
+{Object.keys(proveedores || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage - 1)}
+      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      disabled={currentPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentPage} de {Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarPagina(currentPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentPage === Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage) && styles.disabled
+      ]}
+      disabled={currentPage === Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
 
           </View>
         
@@ -563,7 +620,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 10, padding: 10, 
     borderRadius: 15,
   },
-  addOff: {
+  disabled: {
     opacity: 0.6,
   },
   input: {
@@ -573,8 +630,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    marginTop: 20, 
-    marginHorizontal: -9, marginBottom: 80,
+    marginVertical: 20, 
+    marginHorizontal: -9,
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
@@ -623,5 +680,15 @@ const getStyles = (colors: any) => StyleSheet.create({
   //---------------
   picker: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-  }
+  },
+  //Paginación
+  paginationContainer: {
+  flexDirection: 'row', justifyContent: 'space-evenly',
+  alignItems: 'center',
+  marginBottom: 40,
+},
+paginationButton: {
+  padding: 5, borderRadius: 20,
+  backgroundColor: colors.input,
+},
 });
