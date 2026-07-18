@@ -262,7 +262,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: colors.primary,
-    //marginHorizontal: 60,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',

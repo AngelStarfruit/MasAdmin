@@ -368,6 +368,7 @@ useEffect(() => {
                                         );
                                         return;
                                         }
+                                        setEModalVisible(false)
                           setConfirm(true)}}>
                         <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
@@ -395,7 +396,9 @@ useEffect(() => {
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                   <TouchableHighlight
                                   underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                                    onPress={() => setConfirm(!Confirm)}>
+                                    onPress={() => {
+                                       setEModalVisible(true);
+                                      setConfirm(!Confirm)}}>
                                     <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                   </TouchableHighlight>
                                   <TouchableHighlight
@@ -403,7 +406,6 @@ useEffect(() => {
                                     onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
-                                      setEModalVisible(!EmodalVisible);
                                     }}>
                                     <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
                                   </TouchableHighlight>
@@ -428,7 +430,7 @@ useEffect(() => {
         <Text style={{ color: colors.text, fontSize: 15, paddingVertical: 10,}}>
           Para deshacer una busqueda, deje el criterio en blanco.</Text>
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', }}>
         <TouchableHighlight
         disabled = {AddOff}
         underlayColor={colors.input}
@@ -440,8 +442,8 @@ useEffect(() => {
             <Text style={{color: colors.text}}>Añadir sucursal</Text>
           </TouchableHighlight>
 
-            <View style={styles.row}>
-                    <TextInput style={styles.input}
+            <View style={[styles.row, {alignItems: 'center'}]}>
+                    <TextInput style={[styles.input, {backgroundColor: colors.background}]}
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
                     <TouchableHighlight
@@ -460,7 +462,7 @@ useEffect(() => {
                       setAddOff(true)
                     }
                    }}
-                    style={{...styles.add,  padding: 10}}>
+                    style={styles.add}>
                     <Ionicons name="search" size={20} color={colors.text} />
                    </TouchableHighlight>
                     </View>
@@ -588,8 +590,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalView: {
     marginHorizontal: 18, marginVertical: 290, padding: 20,
-    backgroundColor: colors.modalBackground,
-    borderRadius: 20
+    backgroundColor: colors.modalBackground
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -599,31 +600,25 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
    input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-    height: 40, width: 120,
-    marginTop: 10,
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
   },
   modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   //Paginación
   paginationContainer: {

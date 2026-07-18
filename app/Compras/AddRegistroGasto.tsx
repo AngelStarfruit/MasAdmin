@@ -291,12 +291,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
-  navIcons:{
-    borderRadius: 50 ,
-    marginTop: 20,
-  },
+  navIcons:{borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -331,9 +328,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
  modalView: {
-    marginHorizontal: 18, marginVertical: 275,
-    backgroundColor: colors.modalBackground,
-    borderRadius: 20, padding: 20,
+    marginHorizontal: 18, marginVertical: 275, padding: 20,
+    backgroundColor: colors.modalBackground
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -343,26 +339,21 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-    height: 40, width: 120,
-    marginTop: 10,
   },
     modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 18,
+    marginBottom: 24,
   },
  modalLabel:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   }
 });

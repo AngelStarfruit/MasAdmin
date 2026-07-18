@@ -227,7 +227,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                            <View style={{width:180, height:50}}>
                               <Picker
-                              style={styles.picker}
+                              style={styles.input}
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
@@ -299,7 +299,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           <Text style={styles.modalLabel}>Sucursal:</Text>
                           <View style={{width:180, height:55}}>
                               <Picker
-                              style={styles.picker}
+                              style={styles.input}
                               selectedValue={selectedBranch}
                               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
                               >
@@ -333,7 +333,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           </TouchableHighlight>
                           <TouchableHighlight
                           underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
-                            onPress={() => setConfirm(true)}>
+                            onPress={() => {
+                              setEModalVisible(false)
+                              setConfirm(true)}}>
                             <Text style={styles.text}>Borrar registro</Text>
                           </TouchableHighlight>
                         </View>
@@ -371,7 +373,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
-                                  style={styles.picker}
+                                  style={styles.input}
                                   >
                                   <Picker.Item label="Almacén" value="Almacén" />
                                   <Picker.Item label="Sucursal" value="Sucursal" />
@@ -429,7 +431,9 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                         <TouchableHighlight
                                         underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                                          onPress={() => setConfirm(!Confirm)}>
+                                          onPress={() => {
+                                            setEModalVisible(true)
+                                            setConfirm(!Confirm)}}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                         </TouchableHighlight>
                                         <TouchableHighlight
@@ -437,7 +441,6 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                           onPress={() => {
                                             setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
-                                            setEModalVisible(!EmodalVisible);
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                                         </TouchableHighlight>
@@ -592,8 +595,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   disabled: {opacity: 0.6},
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
-    height: 40, width: 150,
-    marginTop: 10,
   },
   //Tabla estilos
   table: {
@@ -621,30 +622,22 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
   },
   modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
-  },
-  //------------------
-  picker: {
-    backgroundColor: colors.scrollBackground,color: colors.text,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
     //Paginación
   paginationContainer: {

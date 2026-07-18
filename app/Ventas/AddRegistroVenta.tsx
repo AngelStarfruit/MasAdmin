@@ -276,7 +276,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                       <Text style={styles.modalLabel}>Elemento:</Text>
                       <View style={{width:200, height:55}}>
                         <Picker
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
+                        style={styles.input}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => {
                         setSelectedProduct(itemValue);
@@ -460,7 +460,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <Text style={styles.textRow}>Cliente:</Text>
           <View style={{width:150}}>
           <Picker
-            style={styles.picker}
+            style={styles.input}
             selectedValue={selectedCustomer}
             onValueChange={(itemValue) => setSelectedCustomer(itemValue)}
           >
@@ -488,7 +488,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <Text style={styles.textRow}>Sucursal afectada:</Text>
           <View style={{width:150}}>
           <Picker
-            style={styles.picker}
+            style={styles.input}
             selectedValue={selectedBranch}
             onValueChange={(itemValue) => setSelectedBranch(itemValue)}
           >
@@ -572,7 +572,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   onPress={() => {
                     setSelectedProduct(''), setCantidad(''); setNlote('')
                     setModalVisible(true)}}
-                  style={[styles.button, Off && styles.buttonOff]}>
+                  style={[styles.button, Off && styles.disabled]}>
                   <Text style={styles.text}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
@@ -585,7 +585,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                     }
                     else Alert.alert("Error", "Por favor, agregue los elementos que va a vender.")
                   }}
-                  style={[styles.button, Off && styles.buttonOff]}>
+                  style={[styles.button, Off && styles.disabled]}>
                   <Text style={styles.text}>Enviar</Text>
               </TouchableHighlight>
               </View>
@@ -601,7 +601,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
           <Text style={styles.textRow}>Almacen afectado:</Text>
           <View style={{width:180}}>
           <Picker
-            style={styles.picker}
+            style={styles.input}
             selectedValue={selectedStore}
             onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
@@ -701,12 +701,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
-  navIcons:{
-    borderRadius: 50 ,
-    marginTop: 20,
-  },
+  navIcons:{borderRadius: 50 },
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -724,7 +721,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.option,
     padding: 10, borderRadius: 20,
   },
-  buttonOff: {opacity: 0.8},
   //Tabla estilos
   table: {
     paddingTop: 20, marginHorizontal: -18
@@ -734,21 +730,14 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
-  cell: {
-    flex: 1, padding: 6,
-  },
-  //------------------
-  picker: {
-    backgroundColor: colors.input, color: colors.text,
-  },
+  cell: {flex: 1, padding: 6},
   //Modal estilos
   modalOverlay: {
     flex: 1,  backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 275,
+    marginHorizontal: 18, marginVertical: 275, padding: 20,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20, padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -758,27 +747,22 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text, 
-    height: 40, width: 120,
-    marginTop: 10,
   },
   disabled: {opacity: 0.6},
    modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10,borderRadius: 20,
+    backgroundColor: colors.confirm, padding: 10,borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10,borderRadius: 20,
+    backgroundColor: colors.delete, padding: 10,borderRadius: 20,
   }
 });

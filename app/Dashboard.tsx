@@ -536,21 +536,26 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
-                onPress={() => setUserModalVisible(true)}>
+                onPress={() => { setModalVisible(false) 
+                  setUserModalVisible(true)}}>
                 <Text style={styles.text}>Mi cuenta</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
-                onPress={() => setEmpresaModalVisible(true)}>
+                onPress={() => {
+                  setModalVisible(false)
+                  setEmpresaModalVisible(true)}}>
                 <Text style={styles.text}>Mi empresa</Text>
               </TouchableHighlight>
             </View>
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
-                onPress={() => setConfirmCerradoSesion(true)}>
+                onPress={() => {
+                  setModalVisible(false)
+                  setConfirmCerradoSesion(true)}}>
                 <Text style={styles.text}>Cerrar sesión</Text>
               </TouchableHighlight>
             </View>
@@ -578,7 +583,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   <TouchableHighlight
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
                     underlayColor={colors.scrollBackground}
-                    onPress={() => setUserModalVisible(!userModalVisible)}>
+                    onPress={() => {
+                      setModalVisible(true)
+                      setUserModalVisible(!userModalVisible)}}>
                     <Ionicons name="close" size={30} color={colors.text} />
                   </TouchableHighlight>
                 </View>
@@ -656,7 +663,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   // 4. Actualizar el estado local
                   setUsuarioSesion(usuarioActualizado);
                 }
-                setModalVisible(!modalVisible);
                 setUserModalVisible(!userModalVisible);
                 Alert.alert('Éxito', 'Los cambios han sido guardados');
                 }}>
@@ -683,7 +689,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         <TouchableHighlight
           style={{height: 30, width: 30, alignItems: "flex-end"}}
           underlayColor={colors.scrollBackground}
-          onPress={() => setEmpresaModalVisible(!empresaModalVisible)}>
+          onPress={() => {
+            setModalVisible(true)
+            setEmpresaModalVisible(!empresaModalVisible)}}>
           <Ionicons name="close" size={30} color={colors.text} />
         </TouchableHighlight>
       </View>
@@ -746,6 +754,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               setUsuarioSesion(usuarioActualizado);
             }
             setEmpresaModalVisible(!empresaModalVisible);
+            setModalVisible(true)
             Alert.alert('Éxito', 'Nombre de empresa guardado');
           }}>
           <Text style={styles.text}>Confirmar</Text>
@@ -771,7 +780,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
               <TouchableHighlight
                 underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                onPress={() => setConfirmCerradoSesion(!ConfirmCerradoSesion)}>
+                onPress={() => {
+                  setModalVisible(true)
+                  setConfirmCerradoSesion(!ConfirmCerradoSesion)}}>
                 <Text style={[styles.text, {fontSize:20}]}>NO</Text>
               </TouchableHighlight>
               <TouchableHighlight
@@ -953,7 +964,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   </TouchableHighlight>
                   <TouchableHighlight
                     underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
-                    onPress={() => setConfirm(true)}>
+                    onPress={() => {
+                      setModalEditEvento(false)
+                      setConfirm(true)}}>
                     <Text style={styles.text}>Borrar registro</Text>
                   </TouchableHighlight>
                 </View>
@@ -981,7 +994,9 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
                             underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                              onPress={() => setConfirm(!Confirm)}>
+                              onPress={() => {
+                                setModalEditEvento(true);
+                                setConfirm(!Confirm)}}>
                               <Text style={[styles.text ,{fontSize: 20}]}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
@@ -989,7 +1004,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                               onPress={() => {
                                 setEventosMostrados(QuitarElemento(eventosMostrados,id))
                                 setConfirm(!Confirm);
-                                setModalEditEvento(!modalEditEvento);
                               }}>
                               <Text style={[styles.text ,{fontSize: 20}]}>SÍ</Text>
                             </TouchableHighlight>
@@ -1060,7 +1074,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         </View>
       </View>
 
-      <ScrollView keyboardShouldPersistTaps="handled">
+      <ScrollView>
         <View style={styles.scroll}>
           <Text style={{ fontSize: 30, fontWeight: 'bold', color: colors.primary, paddingBottom: 10}}>
             {bienvenida}
@@ -1075,7 +1089,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             <Picker
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
-              style={[styles.picker, {height: 55}]} >
+              style={[styles.input, {height: 55}]} >
               <Picker.Item label="Hoy" value="hoy" />
               <Picker.Item label="Esta semana" value="semana" />
               <Picker.Item label="Este mes" value="mes" />
@@ -1106,7 +1120,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Picker
                 selectedValue={selectedAValue}
                 onValueChange={(itemValue) => setSelectedAValue(itemValue)}
-                style={[styles.picker]} >
+                style={styles.input} >
                 <Picker.Item label="Hoy" value="hoyA" />
                 <Picker.Item label="Esta semana" value="semanaA" />
                 <Picker.Item label="Este mes" value="mesA" />
@@ -1129,6 +1143,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           </View>
           
           <View style={styles.table}>
+            <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
             <View style={[styles.row,{backgroundColor: colors.headerCell}]}>
               <View style={styles.cell}><Text style={styles.text}>Evento</Text></View>
               <View style={[styles.cell, {flex: 0.9}]}><Text style={styles.text}>Fecha y Hora</Text></View>
@@ -1167,6 +1182,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             ) : (
               <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>No hay eventos</Text>
             )}
+            </ScrollView>
           </View>
         </View>
       </ScrollView>
@@ -1195,9 +1211,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   input:{
-    backgroundColor: colors.scrollBackground,
-    padding: 10, marginBottom: 15,
-    color: colors.text,
+    backgroundColor: colors.scrollBackground, color: colors.text,
   },
   box: {
     flex: 1,
@@ -1214,24 +1228,20 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   table: {
     marginTop: 20, marginBottom: 80,
-    marginHorizontal: -18, 
-    backgroundColor: colors.background
+    marginHorizontal: -18,
+  },
+  showcase: {
+    maxHeight: 300, minHeight: 300
   },
   row: {flexDirection: 'row',},
   cell: {flex: 1, padding: 6,},
-  picker: {
-    flex: 1,
-    backgroundColor: colors.background, color: colors.text,
-  },
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 200,
+    marginHorizontal: 18, marginVertical: 200, padding: 9,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold', color: colors.text,
@@ -1241,11 +1251,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     color: colors.text, fontSize: 20,
-    
   },
   modalOption: {
     backgroundColor: colors.option,
@@ -1254,19 +1263,15 @@ const getStyles = (colors: any) => StyleSheet.create({
     alignItems: 'center',
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.confirm,  padding: 10, borderRadius: 20,
   },
   modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
 });

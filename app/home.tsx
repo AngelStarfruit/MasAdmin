@@ -140,10 +140,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 165,
+    marginHorizontal: 18, marginVertical: 165, padding: 20,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
   },
   modalTitle: {
     color: colors.primary,
@@ -152,18 +150,13 @@ const getStyles = (colors: any) => StyleSheet.create({
     textAlign: 'center',
   },
   modalParagraph:{
-    fontSize: 20,
+    fontSize: 20, 
     paddingBottom: 20,
     textAlign: 'justify',
     color: colors.text
   },
-  modalLabel:{
-    fontSize: 20, fontWeight: 'bold',
-  },
   modalOK: {
     backgroundColor: colors.regret,
-    padding: 10,
-    borderRadius: 20,
-    width: 50,
+    padding: 10, borderRadius: 20,
   },
 });

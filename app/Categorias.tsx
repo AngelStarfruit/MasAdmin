@@ -268,6 +268,7 @@ const cambiarPagina = (nuevaPagina: number) => {
                                         );
                                         return;
                                         }
+                                        setModalEVisible(false)
                                           setConfirm(true)}}
                                         >
                                         <Text style={styles.text}>Borrar categoría</Text>
@@ -296,7 +297,9 @@ const cambiarPagina = (nuevaPagina: number) => {
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                                        <TouchableHighlight
                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                                         onPress={() => setConfirm(!Confirm)}>
+                                         onPress={() => {
+                                          setModalEVisible(true)
+                                          setConfirm(!Confirm)}}>
                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                                        </TouchableHighlight>
                                        <TouchableHighlight
@@ -304,7 +307,6 @@ const cambiarPagina = (nuevaPagina: number) => {
                                          onPress={() => {
                                            setCategorias(QuitarElemento(categorias, id));
                                            setConfirm(!Confirm);
-                                           setModalEVisible(!modalEVisible);
                                          }}>
                                          <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
                                        </TouchableHighlight>
@@ -456,8 +458,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between',
   },
   textRow:{
-    fontSize: 20, 
-    paddingVertical: 5, 
+    fontSize: 20, paddingVertical: 5, 
   },
    add: {
     backgroundColor: colors.input,
@@ -465,7 +466,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
   },
    disabled: { opacity: 0.6},
-  //Tabla estilos
   cell: {flex: 1, padding: 6,},
   //Modal estilos
   modalOverlay: {
@@ -476,7 +476,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginHorizontal: 18, padding: 20,
     justifyContent: 'center',
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -485,31 +484,25 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-    height: 40, width: 120,
-    marginTop: 10,
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
   },
    modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
     //Paginación
   paginationContainer: {

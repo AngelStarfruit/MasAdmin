@@ -124,11 +124,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
   navIcons:{
-    borderRadius: 50 ,
-    marginTop: 20,
+    borderRadius: 50,
   },
   scroll: {
     flex: 1,

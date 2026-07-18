@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
-import { useState, useEffect, useCallback} from 'react';
+import { useState, useEffect, useCallback, useMemo} from 'react';
 import { NoEmojis, Validar, NumeroValido, CostoValido, AddElemento, QuitarElemento} from './backend'
 //import { obtenerPrecios, agregarPrecio, editarPrecio, eliminarPrecio, obtenerCategorias } from './backend'
 import { AddPrecio } from './backend';
@@ -24,6 +24,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   const [costo, setCosto] = useState('');
   const [cantidad, setCantidad] = useState('');
   const [unidad, setUnidad] = useState('');
+  const [query, setQuery] = useState('');
 
   //Constantes de modales
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,15 +38,24 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   //JSON con los datos
   //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const [listaPreciosOG, setListaPreciosOG] = useState<Record<string, any>>({});
+  
   let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS // <----❌ Eliminar esto
   //const [categorias, setCategorias] = useState<Record<string, any>>({});
   const categorias: Record<string, any>  = datos.CATEGORIAS
-  const productos = Object.fromEntries(
-  Object.entries(datos.LISTA_PRECIOS || {}).filter(
-      ([id, data]) => data[4] === "producto"));
-  const noAlmacenables = Object.fromEntries(
-  Object.entries(datos.LISTA_PRECIOS || {}).filter(
-      ([id, data]) => data[4] === "no almacenable"));
+  let productos = useMemo(() => {
+  return Object.fromEntries(
+    Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "producto"
+    )
+  );
+}, []); // ← Dependencias vacías porque datos es estático
+  const noAlmacenables = useMemo(() => {
+  return Object.fromEntries(
+    Object.entries(datos.LISTA_PRECIOS || {}).filter(
+      ([id, data]) => data[4] === "no almacenable"
+    )
+  );
+}, []);
   const [elementosMostrados, setElementosMostrados] = useState(listaPrecios);
   //JSON para crear paquetes
   const [contenidoPaquete, setContenidoPaquete] = useState<ContenidoPaquete>({});
@@ -108,8 +118,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   setElementosMostrados(filtrados);
 }, [selectedCategory]);
   //IDs
-  const [id, setId] = useState(1);
-  const [idP, setIdP] = useState(1);
+  const [id, setId] = useState(1); const [idP, setIdP] = useState(1); 
   const [isLoading, setIsLoading] = useState(false);
   const [idEmpresa, setIdEmpresa] = useState('');
 
@@ -222,11 +231,15 @@ useFocusEffect(
   );*/
 
     //-----------------Paginación--------------------------------------------------------
-  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
+
+  const [currentElementoPage, setCurrentElementoPage] = useState(1);
   const [elementosPaginados, setElementosPaginados] = useState<Record<string, any>>({});
 
-  const paginarClientes = (data: Record<string, any>, page: number) => {
+  const [currentProductoPage, setCurrentProductoPage] = useState(1);
+  const [productosPaginados, setProductosPaginados] = useState<Record<string, any>>({});
+
+  const paginarElementos = (data: Record<string, any>, page: number) => {
   const entries = Object.entries(data || {});
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -235,21 +248,44 @@ useFocusEffect(
   return Object.fromEntries(paginatedEntries);
 };
 
-const cambiarPagina = (nuevaPagina: number) => {
+const cambiarElementoPagina = (nuevaPagina: number) => {
   const totalPaginas = Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage);
   if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
   
-  setCurrentPage(nuevaPagina);
-  const paginados = paginarClientes(elementosMostrados, nuevaPagina);
+  setCurrentElementoPage(nuevaPagina);
+  const paginados = paginarElementos(elementosMostrados, nuevaPagina);
   setElementosPaginados(paginados);
 };
 
-// useEffect para actualizar la paginación cuando cambian los clientes
 useEffect(() => {
-  setCurrentPage(1); // Resetear a página 1 cuando cambian los datos
-  const paginados = paginarClientes(elementosMostrados, 1);
+  setCurrentElementoPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarElementos(elementosMostrados, 1);
   setElementosPaginados(paginados);
 }, [elementosMostrados]);
+
+const paginarProductos = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  
+  return Object.fromEntries(paginatedEntries);
+};
+
+const cambiarProductoPagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(productos || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  
+  setCurrentProductoPage(nuevaPagina);
+  const paginados = paginarProductos(productos, nuevaPagina);
+  setProductosPaginados(paginados);
+};
+
+useEffect(() => {
+  setCurrentProductoPage(1); // Resetear a página 1 cuando cambian los datos
+  const paginados = paginarProductos(productos, 1);
+  setProductosPaginados(paginados);
+}, [productos]);
 
   return (
     <View style={styles.container}>
@@ -370,7 +406,7 @@ useEffect(() => {
                       enabled={fieldControlOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !fieldControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
+                        style={[styles.input, !fieldControlOn && styles.disable]} 
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
@@ -393,7 +429,7 @@ useEffect(() => {
                         setFieldUnidadOn(true); setFieldControlOn(true); setFieldMarcaOn(true);
                         }
                         }}
-                        style={[styles.picker, !fieldTipoOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
+                        style={[styles.input, !fieldTipoOn && styles.disable]} 
                         >
                         <Picker.Item label="Producto" value="producto" />
                         <Picker.Item label="Servicio" value="servicio" />
@@ -432,8 +468,8 @@ useEffect(() => {
                             }
                             else if (selectedType == 'paquete'){
                               if (Object.keys((productos)).length > 0){
-                              setNewPaquete(true)
-                              setIdP(1); setContenidoPaquete({});
+                              setModalVisible(false); setNewPaquete(true)
+                              setIdP(1); 
                               }
                               else Alert.alert("Error","Para poder registrar un paquete, registre por lo menos un producto para incluir en los paquetes")
                             }
@@ -444,7 +480,7 @@ useEffect(() => {
                             else if (selectedCategory == 'Agrupaciones'){
                               if (Object.keys((noAlmacenables)).length > 0){
                               setNewPaquete(true)
-                              setIdP(1); setContenidoPaquete({});
+                              setIdP(1); 
                               }
                               else Alert.alert("Error","Para poder registrar una agrupacion, registre por lo menos un elemento no almacenable para incluir en las agrupaciones")
                             }
@@ -528,18 +564,18 @@ useEffect(() => {
                       enabled={editControlOn}
                         selectedValue={selectedControl}
                         onValueChange={(itemValue) => setSelectedControl(itemValue)}
-                        style={[styles.picker, !editControlOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
+                        style={[styles.input, !editControlOn && styles.disable]} 
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
                       </Picker></View>
                     </View><View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !editCategoriaOn && styles.disable ,{marginBottom: 15}]}>Categoría:</Text>
+                      <Text style={[styles.modalLabel, !editCategoriaOn && styles.disable]}>Categoría:</Text>
                       <View style={{height: 55, width: 200, marginBottom: 5}}><Picker
                       enabled={editCategoriaOn}
                         selectedValue={selectedECategory}
                         onValueChange={(itemValue) => setSelectedECategory(itemValue)}
-                        style={[styles.picker, !editCategoriaOn && styles.disable , {backgroundColor: colors.scrollBackground}]} 
+                        style={[styles.input, !editCategoriaOn && styles.disable]} 
                         >
                        <Picker.Item label="(Sin categoría)" value="" />
                         {Object.values(categorias || {}).length > 0 ? (
@@ -564,7 +600,7 @@ useEffect(() => {
                       <TouchableHighlight
                       disabled = {editContenidoOff}
                       underlayColor={colors.editUnderlay} style={[styles.modalEdit, editContenidoOff && styles.disable, {width: 90}]}
-                        onPress={() => setPaquete(true)}>
+                        onPress={() => {setEModalVisible(false); setPaquete(true)}}>
                         <Text style={styles.text}>Editar contenido</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -598,7 +634,7 @@ useEffect(() => {
                       </TouchableHighlight>
                       <TouchableHighlight
                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 90}]}
-                        onPress={() => setConfirm(true)}>
+                        onPress={() => {setEModalVisible(false); setConfirm(true)}}>
                         <Text style={styles.text}>Borrar registro</Text>
                       </TouchableHighlight>
                     </View>
@@ -628,7 +664,8 @@ useEffect(() => {
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                       <TouchableHighlight
                       underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                        onPress={() => setConfirm(!Confirm)}>
+                        onPress={() => {
+                          setEModalVisible(true); setConfirm(!Confirm)}}>
                         <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                       </TouchableHighlight>
                       <TouchableHighlight
@@ -636,7 +673,6 @@ useEffect(() => {
                         onPress={() => {
                           setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
-                          setEModalVisible(!EmodalVisible);
                         }}>
                         <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                       </TouchableHighlight>
@@ -661,7 +697,7 @@ useEffect(() => {
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
-                      onPress={() => setNewPaquete(!NewPaquete)}>
+                      onPress={() => {setModalVisible(true); setNewPaquete(!NewPaquete)}}>
                       <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
@@ -718,13 +754,9 @@ useEffect(() => {
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
                                       onPress={() => {
-                                        setSelectedProduct(''); setCantidad(''); 
-                                        if (selectedType == 'paquete'){
-                                        setAlterPaquete(true)
-                                      }
-                                      else if (selectedType == 'agrupacion'){
-                                        setAlterAgrupacion(true)
-                                      }
+                                        setSelectedProduct(''); setCantidad(''); setQuery('')
+                                        if (selectedType == 'paquete'){setAlterPaquete(true)}
+                                      else if (selectedType == 'agrupacion'){setAlterAgrupacion(true)}
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
@@ -764,7 +796,7 @@ useEffect(() => {
                       <TouchableHighlight
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
                       underlayColor={colors.scrollBackground}
-                      onPress={() => setPaquete(!Paquete)}>
+                      onPress={() => {setEModalVisible(true); setPaquete(!Paquete)}}>
                       <Ionicons name="close" size={30} color={colors.text} />
                       </TouchableHighlight>
                     </View>
@@ -823,13 +855,9 @@ useEffect(() => {
                               <TouchableHighlight
                                     underlayColor={colors.optionUnderlay}
                                       onPress={() => {
-                                        setSelectedProduct(''); setCantidad(''); 
-                                        if (selectedType == 'paquete'){
-                                        setAlterPaquete(true)
-                                      }
-                                      else if (selectedType == 'agrupacion'){
-                                        setAlterAgrupacion(true)
-                                      }
+                                        setSelectedProduct(''); setCantidad(''); setQuery('')
+                                        if (selectedType == 'paquete'){setAlterPaquete(true)}
+                                      else if (selectedType == 'agrupacion'){setAlterAgrupacion(true)}
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
@@ -857,7 +885,7 @@ useEffect(() => {
     
                     // También actualizar listaPrecios si es necesario
                     Alert.alert('Exito', 'Cambios al paquete guardados');
-                    setPaquete(!Paquete);
+                    setEModalVisible(true); setPaquete(!Paquete);
                     }}>
                     <Text style={styles.text}>Confirmar cambios</Text>
                     </TouchableHighlight>
@@ -867,99 +895,164 @@ useEffect(() => {
                   </View>
                 </Modal>
       
-      {/* Modal para definir elementos para los paquetes*/}
-                <Modal
-                      animationType="fade"
-                      transparent={true}
-                      visible={AlterPaquete}
-                      onRequestClose={() => {
-                        setAlterPaquete(!AlterPaquete);
-                      }}>
-                      <View style={styles.modalOverlay}>
-                      <View style={[styles.modalView, {marginVertical: 305}]}>
-            
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                          <TouchableHighlight
-                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={colors.scrollBackground}
-                          onPress={() => setAlterPaquete(!AlterPaquete)}>
-                         <Ionicons name="close" size={30} color={colors.text} />
-                          </TouchableHighlight>
-                        </View>
-            
-                        <View>
-                          <Text style={styles.modalTitle}>Agregar elementos</Text>
-                        </View>
-                          <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Elemento:</Text>
-                            <View style={{width:200, height:55}}>
-                              <Picker
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
-                        selectedValue={selectedProduct}
-                        onValueChange={(itemValue) => {
-                        setSelectedProduct(itemValue);
-                        const productoEncontrado = (productos as any)[itemValue]; // ← Acceder por ID
-                        if (productoEncontrado) {
-                          setProductMarca(productoEncontrado[1]);
-                          setProductCosto(productoEncontrado[2]);
-                          }
-                        }} >
-                        <Picker.Item label="(Seleccione un producto)" value="" />
-                        {Object.entries(productos || {}).length > 0 ? (
-                        Object.entries(productos)
-                        .sort((a, b) => {
-                        const nombreA = String(a[1][0]).toLowerCase();
-                        const nombreB = String(b[1][0]).toLowerCase();
-                         return nombreA.localeCompare(nombreB);  
-                        })
-                        .map(([id, producto]: [string, any]) => (
-                        <Picker.Item  
-                        key={id} 
-                        label={String(producto[0]) + ' - ' + String(producto[1])} 
-                        value={id}  // ← Usar el ID como value
-                        />
-                        ))
-                        ) : (
-                        <Picker.Item label="-" value="" />
-                         )}
-                        </Picker></View>
-                          </View>
-                          <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Cantidad:</Text>
-                            <TextInput style={styles.input}
-                                        value={cantidad} onChangeText={setCantidad}
-                                        keyboardType='numeric'></TextInput>
-                          </View>
-            
-                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                          <TouchableHighlight
-                          underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
-                            onPress={() => {
-                              const validation = Validar(1,selectedProduct,'','','');
-                              const validationNum = NumeroValido(cantidad);  
-                              if (!validation.isValid) {
-                            Alert.alert('Error', validation.message);
-                            return; 
-                            }
-                                  if (!validationNum.isValid) {
-                              Alert.alert('Error', validationNum.message);
-                              return; 
-                            }
-                            const productoSeleccionado = (productos as any)[selectedProduct];
-                            if (!productoSeleccionado) {
-                            Alert.alert('Error', 'Producto no encontrado');
-                                return;
-                            }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, productoSeleccionado[0], productoSeleccionado[1], Number(cantidad)))
-                            setIdP(idP + 1); 
-                            setAlterPaquete(!AlterPaquete)}}>
-                            <Text style={styles.text}>Agregar</Text>
-                          </TouchableHighlight>
-                        </View>
-            
-                      </View>
-                      </View>
-                    </Modal>
+{/* Modal para definir elementos para los paquetes*/}
+<Modal
+  animationType="fade"
+  transparent={true}
+  visible={AlterPaquete}
+  onRequestClose={() => {
+    setAlterPaquete(false);
+  }}>
+  <View style={styles.modalOverlay}>
+    <View style={[styles.modalView, {marginVertical: 100}]}>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <TouchableHighlight
+          style={{height: 30, width: 30, alignItems: "flex-end"}}
+          underlayColor={colors.scrollBackground}
+          onPress={() => {
+            setAlterPaquete(false);
+          }}>
+          <Ionicons name="close" size={30} color={colors.text} />
+        </TouchableHighlight>
+      </View>
+      
+      <Text style={styles.modalTitle}>Agregar elementos</Text>
+      <Text style={styles.modalLabel}>Seleccione un elemento de la lista:</Text>
+
+      <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
+  <TextInput 
+    style={[styles.input, {width: 150}]}
+    placeholder="Buscar producto"  placeholderTextColor="#777"
+    value={query} onChangeText={setQuery}
+  />
+  <TouchableHighlight
+    underlayColor={colors.input}
+    onPress={() => {
+      if (query.trim() == '') {
+        // Si no hay búsqueda, mostrar todos los productos
+        productos = useMemo(() => {
+        return Object.fromEntries(
+        Object.entries(datos.LISTA_PRECIOS || {}).filter(
+          ([id, data]) => data[4] === "producto"
+          )
+           );
+        }, []);
+      } else {
+        productos = useMemo(() => {
+        return Object.fromEntries(
+        Object.entries(datos.LISTA_PRECIOS || {}).filter(
+          ([id, data]) => data[4] === "producto" && data[0] === query
+          )
+           );
+        }, []);
+      }
+    }}
+    style={styles.add}
+  >
+    <Ionicons name="search" size={20} color={colors.text} />
+  </TouchableHighlight>
+</View>
+      
+      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300, marginHorizontal: 18}]} showsVerticalScrollIndicator={true}>
+        {!isLoading ? (
+          Object.values(productosPaginados || {}).length > 0 ? (
+            Object.entries(productosPaginados).map(([id, data]: [string, any]) => {
+              const [descripcion, marca] = data;
+              return (
+                <View key={id}>
+                  <View style={styles.cell}>
+                    <TouchableHighlight
+                      underlayColor={colors.input}
+                      onPress={() => {
+                        const validationNum = NumeroValido(cantidad);
+                        if (!validationNum.isValid) {
+                          Alert.alert('Error', validationNum.message);
+                          return;
+                        }
+                        
+                        const productoSeleccionado = (productos as any)[id];
+                        if (!productoSeleccionado) {
+                          Alert.alert('Error', 'Producto no encontrado');
+                          return;
+                        }
+                        setQuery('')
+                        
+                        // ✅ Usar función de actualización para evitar problemas de estado capturado
+                        setContenidoPaquete(prevContenido => 
+                          AddElemento(
+                            prevContenido, 
+                            idP, 
+                            productoSeleccionado[0], 
+                            productoSeleccionado[1], 
+                            Number(cantidad)
+                          )
+                        );
+                        
+                        setIdP(prev => prev + 1);
+                        setCantidad(''); 
+                        setSelectedProduct('');
+                        setAlterPaquete(false);
+                      }}
+                    >
+                      <Text style={styles.text}>{descripcion} - {marca}</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              );
+            })
+          ) : (
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
+              No hay productos registrados
+            </Text>
+          )
+        ) : (
+          <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
+            Cargando...
+          </Text>
+        )}
+      </ScrollView>
+                         {/* Controles de paginación */}
+{Object.keys(productos || {}).length > itemsPerPage && (
+  <View style={styles.paginationContainer}>
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarProductoPagina(currentProductoPage - 1)}
+      style={[styles.paginationButton, currentProductoPage === 1 && styles.disable]}
+      disabled={currentProductoPage === 1}
+    >
+        <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+    
+    <Text style={styles.text}>
+      Página {currentProductoPage} de {Math.ceil(Object.keys(productos || {}).length / itemsPerPage)}
+    </Text>
+    
+    <TouchableHighlight
+      underlayColor={colors.input}
+      onPress={() => cambiarProductoPagina(currentProductoPage + 1)}
+      style={[
+        styles.paginationButton, 
+        currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage) && styles.disable
+      ]}
+      disabled={currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage)}
+    >
+      <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+    </TouchableHighlight>
+  </View>
+)}
+      
+      <View style={styles.modalRow}>
+        <Text style={styles.modalLabel}>Cantidad:</Text>
+        <TextInput 
+          style={[styles.input, {width: 75}]}
+          value={cantidad} 
+          onChangeText={setCantidad}
+          keyboardType='numeric'
+        />
+      </View>
+    </View>
+  </View>
+</Modal>
       
       {/* Modal para definir elementos para las agrupaciones*/}
                 <Modal
@@ -967,7 +1060,7 @@ useEffect(() => {
                       transparent={true}
                       visible={AlterAgrupacion}
                       onRequestClose={() => {
-                        setAlterAgrupacion(!AlterAgrupacion);
+                        setAlterAgrupacion(!AlterAgrupacion)
                       }}>
                       <View style={styles.modalOverlay}>
                       <View style={[styles.modalView, {marginVertical: 310}]}>
@@ -989,7 +1082,7 @@ useEffect(() => {
                             <Text style={styles.modalLabel}>Elemento:</Text>
                             <View style={{width:150, height:55}}>
                               <Picker
-                        style={[styles.picker, {backgroundColor: colors.scrollBackground}]}
+                        style={styles.input}
                         selectedValue={selectedProduct}
                         onValueChange={(itemValue) => {
                         setSelectedProduct(itemValue);
@@ -1042,7 +1135,8 @@ useEffect(() => {
                             }
                             setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
                             setIdP(idP + 1); 
-                            setAlterAgrupacion(!AlterAgrupacion)}}>
+                            setAlterAgrupacion(!AlterAgrupacion)
+                            }}>
                             <Text style={styles.text}>Agregar</Text>
                           </TouchableHighlight>
                         </View>
@@ -1067,7 +1161,7 @@ useEffect(() => {
           <Picker
               selectedValue={selectedCategory}
               onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-              style={styles.picker} 
+              style={styles.input} 
               >
                 <Picker.Item label="REGISTROS SIN CLASIFICAR" value="Sin categoria" />
                  {Object.values(categorias || {}).length > 0 ? (
@@ -1094,7 +1188,7 @@ useEffect(() => {
                 underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
-                  setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setContenidoPaquete({})
+                  setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setSelectedControl("Ninguno"); setSelectedType("producto"); setContenidoPaquete({})
                   if (selectedCategory == 'No almacenables'){
                     setFieldUnidadOn(false); setFieldControlOn(false); setFieldCostoOn(false); setFieldMarcaOn(true); setFieldTipoOn(false)
                   }
@@ -1205,25 +1299,25 @@ useEffect(() => {
   <View style={styles.paginationContainer}>
     <TouchableHighlight
       underlayColor={colors.input}
-      onPress={() => cambiarPagina(currentPage - 1)}
-      style={[styles.paginationButton, currentPage === 1 && styles.disable]}
-      disabled={currentPage === 1}
+      onPress={() => cambiarElementoPagina(currentElementoPage - 1)}
+      style={[styles.paginationButton, currentElementoPage === 1 && styles.disable]}
+      disabled={currentElementoPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
     </TouchableHighlight>
     
     <Text style={styles.text}>
-      Página {currentPage} de {Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
+      Página {currentElementoPage} de {Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
     </Text>
     
     <TouchableHighlight
       underlayColor={colors.input}
-      onPress={() => cambiarPagina(currentPage + 1)}
+      onPress={() => cambiarElementoPagina(currentElementoPage + 1)}
       style={[
         styles.paginationButton, 
-        currentPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage) && styles.disable
+        currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage) && styles.disable
       ]}
-      disabled={currentPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
+      disabled={currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
     </TouchableHighlight>
@@ -1262,14 +1356,11 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   add: {
     backgroundColor: colors.input,
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 15,
+    marginTop: 10, padding: 10,
+    borderRadius: 20,
   },
   input:{
     backgroundColor: colors.scrollBackground, color: colors.text,
-    height: 40, width: 120,
-    marginTop: 10,
   },
   disable: {opacity: 0.6},
   //Tabla estilos
@@ -1278,18 +1369,14 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  cell: {
-    flex: 1, padding: 6,
-  },
+  cell: {flex: 1, padding: 6,},
   //Modal estilos
   modalOverlay: {
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 120,
+    marginHorizontal: 18, marginVertical: 120, padding: 18,
     backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 18,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold', color: colors.text,
@@ -1299,11 +1386,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text,
-    textAlign: 'center'
   },
   modalConfirm: {
     backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
@@ -1319,10 +1405,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   buttonRegister: {
     backgroundColor: colors.option, padding: 10,borderRadius: 20,
-  },
-  //---------------
-  picker: {
-    backgroundColor: colors.input, color: colors.text,
   },
   //Paginación
   paginationContainer: {

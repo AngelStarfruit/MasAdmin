@@ -345,7 +345,9 @@ useEffect(() => {
                   </TouchableHighlight>
                   <TouchableHighlight
                   underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
-                    onPress={() => setConfirm(true)}>
+                    onPress={() => {
+                      setEModalVisible(false);
+                      setConfirm(true)}}>
                     <Text style={styles.text}>Borrar registro</Text>
                   </TouchableHighlight>
                 </View>
@@ -391,7 +393,7 @@ useEffect(() => {
                                   <Picker
                                   selectedValue={selectedCriteria}
                                   onValueChange={(itemValue) => setSelectedCriteria(itemValue)}
-                                  style={styles.picker}
+                                  style={styles.input}
                                   >
                                   <Picker.Item label="Nombre" value="Nombre" />
                                   <Picker.Item label="Ciudad" value="Ciudad" />
@@ -453,7 +455,9 @@ useEffect(() => {
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                             <TouchableHighlight
                             underlayColor={colors.regretUnderlay} style={styles.modalRegret}
-                              onPress={() => setConfirm(!Confirm)}>
+                              onPress={() => {
+                                setEModalVisible(true);
+                                setConfirm(!Confirm)}}>
                               <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
@@ -461,7 +465,6 @@ useEffect(() => {
                               onPress={() => {
                                 setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
-                                setEModalVisible(!EmodalVisible);
                               }}>
                               <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
                             </TouchableHighlight>
@@ -512,13 +515,13 @@ useEffect(() => {
                   <View style={styles.cell}>
                       <Text style={styles.text}>Nombre</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.text}>Teléfono</Text>
                       </View>
-                  <View style={styles.cell}>
+                  <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.text}>Ciudad</Text>
                   </View>
-                      <View style={styles.cell}>
+                      <View style={[styles.cell, {flex: 0.8}]}>
                       <Text style={styles.text}>Estado</Text>
                       </View>
                   </View>
@@ -540,9 +543,9 @@ useEffect(() => {
                           <Text style={styles.text}>{nombre}</Text>
                           </TouchableHighlight>
                           </View> 
-                      <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{ciudad}</Text></View>
-                      <View style={styles.cell}><Text style={styles.text}>{estado}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{telefono}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{ciudad}</Text></View>
+                      <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{estado}</Text></View>
                 </View>
                   )
                })
@@ -603,12 +606,11 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
   navIcons:{
     padding: 10, 
-    borderRadius: 50 ,
-    marginTop: 20,
+    borderRadius: 50,
   },
   scroll: {
     flex: 1,
@@ -623,27 +625,22 @@ const getStyles = (colors: any) => StyleSheet.create({
   disabled: { opacity: 0.6},
   input: {
     backgroundColor: colors.scrollBackground, color: colors.text,
-    height: 40, width: 120,
-    marginTop: 10,
   },
   //Tabla estilos
   table: {
     marginVertical: 20,
-    marginHorizontal: -9, 
+    marginHorizontal: -18, 
     backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  cell: {
-    flex: 1, padding: 6,
-  },
+  cell: { flex: 1, padding: 6},
   //Modal estilos
   modalOverlay: {
     flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 220,
-    backgroundColor: colors.modalBackground,
-    borderRadius: 20, padding: 20,
+    marginHorizontal: 18, marginVertical: 220, padding: 18,
+    backgroundColor: colors.modalBackground, 
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
@@ -654,31 +651,22 @@ const getStyles = (colors: any) => StyleSheet.create({
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 18,
+    marginBottom: 24,
   },
   modalLabel:{
     fontSize: 20, color: colors.text,
-    textAlign: 'center'
   },
   modalConfirm: {
-    backgroundColor: colors.confirm,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
   },
   modalEdit: {
-    backgroundColor: colors.edit,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
   modalRegret: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
+    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
-    backgroundColor: colors.delete,
-    padding: 10, borderRadius: 20,
-  },
-  //---------------
-  picker: {
-    backgroundColor: colors.scrollBackground, color: colors.text,
+    backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
   //Paginación
   paginationContainer: {

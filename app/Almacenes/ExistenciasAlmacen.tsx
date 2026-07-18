@@ -203,12 +203,11 @@ useEffect(() => {
           <Picker
               selectedValue={selectedBranch}
               onValueChange={(itemValue) => setSelectedBranch(itemValue)}
-              style={styles.picker} itemStyle={styles.pickerItem}
+              style={styles.picker}
               >
               {Object.values(sucursales || {}).length > 0 ? (
                 Object.values(sucursales).map((sucursal: any, index) => (
                 <Picker.Item 
-                style={styles.pickerItem} 
                 key={index} 
                 label={String(sucursal[0])} 
                 value={String(sucursal[0])} 
@@ -226,12 +225,11 @@ useEffect(() => {
           <Picker
               selectedValue={selectedValue}
               onValueChange={(itemValue) => setSelectedValue(itemValue)}
-              style={styles.picker} itemStyle={styles.pickerItem}
+              style={styles.picker}
               >
               {Object.values(almacenesMostrados || {}).length > 0 ? (
                     Object.values(almacenesMostrados).map((almacen: any, index) => (
-                    <Picker.Item 
-                    style={styles.pickerItem} 
+                    <Picker.Item
                     key={index} 
                     label={String(almacen[0])} 
                     value={String(almacen[0])} 
@@ -319,12 +317,11 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
   navIcons:{
     padding: 10, 
-    borderRadius: 50 ,
-    marginTop: 20,
+    borderRadius: 50
   },
   scroll: {
     flex: 1,
@@ -333,26 +330,16 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    paddingVertical: 20,
-    marginBottom: 80
+    paddingVertical: 20, marginBottom: 80, 
+    backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: {
-    flex: 1, padding: 6,
-    backgroundColor: colors.background,
-  },
+  cell: { flex: 1, padding: 6},
   headerText: {color: colors.primary,},
   disabled: { opacity: 0.6},
   //---------------
   picker: {
-    height: 55,
-    marginLeft: 10,
-    flex: 1,
-    backgroundColor: colors.input,
-    color: colors.text,
-  },
-  pickerItem: {
-    fontSize: 16,
+    backgroundColor: colors.input, color: colors.text,
   },
   //Paginación
   paginationContainer: {
