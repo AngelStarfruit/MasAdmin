@@ -42,7 +42,7 @@ export default function ListaDePrecios({ navigation }: ListaDePreciosScreenProps
   let listaPrecios: Record<string, any> = datos.LISTA_PRECIOS // <----❌ Eliminar esto
   //const [categorias, setCategorias] = useState<Record<string, any>>({});
   const categorias: Record<string, any>  = datos.CATEGORIAS
-  let productos = useMemo(() => {
+  const productos = useMemo(() => {
   return Object.fromEntries(
     Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"
@@ -236,9 +236,6 @@ useFocusEffect(
   const [currentElementoPage, setCurrentElementoPage] = useState(1);
   const [elementosPaginados, setElementosPaginados] = useState<Record<string, any>>({});
 
-  const [currentProductoPage, setCurrentProductoPage] = useState(1);
-  const [productosPaginados, setProductosPaginados] = useState<Record<string, any>>({});
-
   const paginarElementos = (data: Record<string, any>, page: number) => {
   const entries = Object.entries(data || {});
   const startIndex = (page - 1) * itemsPerPage;
@@ -263,6 +260,9 @@ useEffect(() => {
   setElementosPaginados(paginados);
 }, [elementosMostrados]);
 
+  const [currentProductoPage, setCurrentProductoPage] = useState(1);
+  const [productosPaginados, setProductosPaginados] = useState<Record<string, any>>({});
+
 const paginarProductos = (data: Record<string, any>, page: number) => {
   const entries = Object.entries(data || {});
   const startIndex = (page - 1) * itemsPerPage;
@@ -286,6 +286,35 @@ useEffect(() => {
   const paginados = paginarProductos(productos, 1);
   setProductosPaginados(paginados);
 }, [productos]);
+
+// Agregar después de las otras variables de paginación
+const [currentNoAlmacenablePage, setCurrentNoAlmacenablePage] = useState(1);
+const [noAlmacenablesPaginados, setNoAlmacenablesPaginados] = useState<Record<string, any>>({});
+
+// Función para paginar noAlmacenables
+const paginarNoAlmacenables = (data: Record<string, any>, page: number) => {
+  const entries = Object.entries(data || {});
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEntries = entries.slice(startIndex, endIndex);
+  return Object.fromEntries(paginatedEntries);
+};
+
+// Función para cambiar página de noAlmacenables
+const cambiarNoAlmacenablePagina = (nuevaPagina: number) => {
+  const totalPaginas = Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  setCurrentNoAlmacenablePage(nuevaPagina);
+  const paginados = paginarNoAlmacenables(noAlmacenables, nuevaPagina);
+  setNoAlmacenablesPaginados(paginados);
+};
+
+// useEffect para actualizar paginación de noAlmacenables
+useEffect(() => {
+  setCurrentNoAlmacenablePage(1);
+  const paginados = paginarNoAlmacenables(noAlmacenables, 1);
+  setNoAlmacenablesPaginados(paginados);
+}, [noAlmacenables]);
 
   return (
     <View style={styles.container}>
@@ -769,8 +798,7 @@ useEffect(() => {
                         onPress={() => {
                           if(Object.keys(contenidoPaquete).length > 0){
                             setElementosMostrados(AddPrecio(elementosMostrados,id,descripcion,'',Number(costo),'','paquete',contenidoPaquete,'',selectedControl))
-                            setNewPaquete(!NewPaquete)
-                            setModalVisible(!modalVisible)}
+                            setNewPaquete(!NewPaquete)}
                           else Alert.alert("Error","Por favor, agregue los productos que contendrá el paquete")
                           }}>
                         <Text style={styles.text}>Añadir paquete</Text>
@@ -929,22 +957,26 @@ useEffect(() => {
     underlayColor={colors.input}
     onPress={() => {
       if (query.trim() == '') {
-        // Si no hay búsqueda, mostrar todos los productos
-        productos = useMemo(() => {
-        return Object.fromEntries(
-        Object.entries(datos.LISTA_PRECIOS || {}).filter(
-          ([id, data]) => data[4] === "producto"
-          )
-           );
-        }, []);
+        // Restaurar todos los productos
+        const paginados = paginarProductos(productos, 1);
+        setProductosPaginados(paginados);
+        setCurrentProductoPage(1);
       } else {
-        productos = useMemo(() => {
-        return Object.fromEntries(
-        Object.entries(datos.LISTA_PRECIOS || {}).filter(
-          ([id, data]) => data[4] === "producto" && data[0] === query
+        // Filtrar productos por descripción
+        const filtrado = Object.fromEntries(
+          Object.entries(productos || {}).filter(
+            ([id, data]) => {
+            const descripcion = data[0];
+            // Verificar que existe y es string antes de usar toLowerCase
+            if (descripcion && typeof descripcion === 'string') {
+              return descripcion.toLowerCase().includes(query.toLowerCase());
+            }
+            return false;
+          }
           )
-           );
-        }, []);
+        );
+        setProductosPaginados(filtrado);
+        setCurrentProductoPage(1);
       }
     }}
     style={styles.add}
@@ -1055,95 +1087,170 @@ useEffect(() => {
 </Modal>
       
       {/* Modal para definir elementos para las agrupaciones*/}
-                <Modal
-                      animationType="fade"
-                      transparent={true}
-                      visible={AlterAgrupacion}
-                      onRequestClose={() => {
-                        setAlterAgrupacion(!AlterAgrupacion)
-                      }}>
-                      <View style={styles.modalOverlay}>
-                      <View style={[styles.modalView, {marginVertical: 310}]}>
-            
-                        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                          <TouchableHighlight
-                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={colors.scrollBackground}
-                          onPress={() => setAlterAgrupacion(!AlterAgrupacion)}>
-                         <Ionicons name="close" size={20} color={colors.text} />
-                          </TouchableHighlight>
-                        </View>
-            
-                        <View>
-                          <Text style={styles.modalTitle}>Agregar elementos</Text>
-                        </View>
-            
-                          <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Elemento:</Text>
-                            <View style={{width:150, height:55}}>
-                              <Picker
-                        style={styles.input}
-                        selectedValue={selectedProduct}
-                        onValueChange={(itemValue) => {
-                        setSelectedProduct(itemValue);
-                        const productoEncontrado = (productos as any)[itemValue]; // ← Acceder por ID
-                        if (productoEncontrado) {
-                          setProductMarca(productoEncontrado[1]);
-                          setProductCosto(productoEncontrado[2]);
+<Modal
+  animationType="fade"
+  transparent={true}
+  visible={AlterAgrupacion}
+  onRequestClose={() => {
+    setAlterAgrupacion(false);
+  }}>
+  <View style={styles.modalOverlay}>
+    <View style={[styles.modalView, {marginVertical: 100}]}>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+        <TouchableHighlight
+          style={{height: 30, width: 30, alignItems: "flex-end"}}
+          underlayColor={colors.scrollBackground}
+          onPress={() => {
+            setAlterAgrupacion(false);
+          }}>
+          <Ionicons name="close" size={30} color={colors.text} />
+        </TouchableHighlight>
+      </View>
+      
+      <Text style={styles.modalTitle}>Agregar elementos</Text>
+      <Text style={styles.modalLabel}>Seleccione un elemento de la lista:</Text>
+
+      {/* Buscador para noAlmacenables */}
+      <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
+        <TextInput 
+          style={[styles.input, {width: 150}]}
+          placeholder="Buscar no almacenable"  
+          placeholderTextColor="#777"
+          value={query} 
+          onChangeText={setQuery}
+        />
+        <TouchableHighlight
+          underlayColor={colors.input}
+          onPress={() => {
+            if (query.trim() == '') {
+              // Restaurar todos los noAlmacenables
+              const paginados = paginarNoAlmacenables(noAlmacenables, 1);
+              setNoAlmacenablesPaginados(paginados);
+              setCurrentNoAlmacenablePage(1);
+            } else {
+              // Filtrar noAlmacenables por descripción
+              const filtrado = Object.fromEntries(
+                Object.entries(noAlmacenables || {}).filter(
+                 ([id, data]) => {
+            const descripcion = data[0];
+            // Verificar que existe y es string antes de usar toLowerCase
+            if (descripcion && typeof descripcion === 'string') {
+              return descripcion.toLowerCase().includes(query.toLowerCase());
+            }
+            return false;
+          }
+                )
+              );
+              setNoAlmacenablesPaginados(filtrado);
+              setCurrentNoAlmacenablePage(1);
+            }
+          }}
+          style={styles.add}
+        >
+          <Ionicons name="search" size={20} color={colors.text} />
+        </TouchableHighlight>
+      </View>
+      
+      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300, marginHorizontal: 18}]} showsVerticalScrollIndicator={true}>
+        {!isLoading ? (
+          Object.values(noAlmacenablesPaginados || {}).length > 0 ? (
+            Object.entries(noAlmacenablesPaginados).map(([id, data]: [string, any]) => {
+              const [descripcion, marca] = data;
+              return (
+                <View key={id}>
+                  <View style={styles.cell}>
+                    <TouchableHighlight
+                      underlayColor={colors.input}
+                      onPress={() => {
+                        const validationNum = NumeroValido(cantidad);
+                        if (!validationNum.isValid) {
+                          Alert.alert('Error', validationNum.message);
+                          return;
                         }
-                        }}>
-                          <Picker.Item label="(Seleccione un producto)" value="" />
-                        {Object.entries(noAlmacenables || {}).length > 0 ? (
-                        Object.entries(noAlmacenables)
-                        .sort((a, b) => {
-                        const nombreA = String(a[1][0]).toLowerCase();
-                        const nombreB = String(b[1][0]).toLowerCase();
-                         return nombreA.localeCompare(nombreB);  
-                        })
-                        .map(([id, producto]: [string, any]) => (
-                        <Picker.Item 
-                        key={id} 
-                        label={String(producto[0]) + ' - ' + String(producto[1])} 
-                        value={String(producto[0]) + '-' + String(producto[1])}  // ← Usar el ID como value
-                        />
-                        ))
-                        ) : (
-                        <Picker.Item label="-" value="" />
-                         )}
-                        </Picker></View>
-                          </View>
-                          <View style={styles.modalRow}>
-                            <Text style={styles.modalLabel}>Cantidad:</Text>
-                            <TextInput style={styles.input}
-                                        value={cantidad} onChangeText={setCantidad}
-                                        keyboardType='numeric'></TextInput>
-                          </View>
-            
-                        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                          <TouchableHighlight
-                          underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
-                            onPress={() => {
-                              const validation = Validar(1,selectedProduct,'','','');
-                              const validationNum = NumeroValido(cantidad);  
-                              if (!validation.isValid) {
-                            Alert.alert('Error', validation.message);
-                            return; 
-                            }
-                                  if (!validationNum.isValid) {
-                              Alert.alert('Error', validationNum.message);
-                              return; 
-                            }
-                            setContenidoPaquete(AddElemento(contenidoPaquete, idP, selectedProduct.split('-')[0], selectedProduct.split('-')[1], Number(cantidad)))
-                            setIdP(idP + 1); 
-                            setAlterAgrupacion(!AlterAgrupacion)
-                            }}>
-                            <Text style={styles.text}>Agregar</Text>
-                          </TouchableHighlight>
-                        </View>
-            
-                      </View>
-                      </View>
-                    </Modal>
+                        
+                        const productoSeleccionado = (noAlmacenables as any)[id];
+                        if (!productoSeleccionado) {
+                          Alert.alert('Error', 'Producto no encontrado');
+                          return;
+                        }
+                        setQuery('');
+                        
+                        setContenidoPaquete(prevContenido => 
+                          AddElemento(
+                            prevContenido, 
+                            idP, 
+                            productoSeleccionado[0], 
+                            productoSeleccionado[1], 
+                            Number(cantidad)
+                          )
+                        );
+                        
+                        setIdP(prev => prev + 1);
+                        setCantidad(''); 
+                        setSelectedProduct('');
+                        setAlterAgrupacion(false);
+                      }}
+                    >
+                      <Text style={styles.text}>{descripcion} - {marca}</Text>
+                    </TouchableHighlight>
+                  </View>
+                </View>
+              );
+            })
+          ) : (
+            <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
+              No hay no almacenables registrados
+            </Text>
+          )
+        ) : (
+          <Text style={{opacity: 0.8, textAlign: 'center', color: colors.text}}>
+            Cargando...
+          </Text>
+        )}
+      </ScrollView>
+
+      {/* Controles de paginación para noAlmacenables */}
+      {Object.keys(noAlmacenables || {}).length > itemsPerPage && (
+        <View style={styles.paginationContainer}>
+          <TouchableHighlight
+            underlayColor={colors.input}
+            onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage - 1)}
+            style={[styles.paginationButton, currentNoAlmacenablePage === 1 && styles.disable]}
+            disabled={currentNoAlmacenablePage === 1}
+          >
+            <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
+          </TouchableHighlight>
+          
+          <Text style={styles.text}>
+            Página {currentNoAlmacenablePage} de {Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
+          </Text>
+          
+          <TouchableHighlight
+            underlayColor={colors.input}
+            onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage + 1)}
+            style={[
+              styles.paginationButton, 
+              currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage) && styles.disable
+            ]}
+            disabled={currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
+          >
+            <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
+          </TouchableHighlight>
+        </View>
+      )}
+      
+      <View style={styles.modalRow}>
+        <Text style={styles.modalLabel}>Cantidad:</Text>
+        <TextInput 
+          style={[styles.input, {width: 75}]}
+          value={cantidad} 
+          onChangeText={setCantidad}
+          keyboardType='numeric'
+        />
+      </View>
+    </View>
+  </View>
+</Modal>
 
       {/*ScrollView*/}
       <ScrollView>
