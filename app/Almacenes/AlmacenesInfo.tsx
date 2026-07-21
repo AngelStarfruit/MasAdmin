@@ -7,7 +7,7 @@ import { NoEmojis, Validar } from './backend'
 //import { obtenerAlmacenes, agregarAlmacen, editarAlmacen, eliminarAlmacen } from './backend';
 import { QuitarElemento, AddAlmacen } from './backend';
 import type { AlmacenesInfoScreenProps, FormerJSON } from './types';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import datosA from './datos.json'; import datosS from '../datos.json'
 
@@ -154,7 +154,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   }; */
   //-----------------Paginación--------------------------------------------------------
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(50);
+    const {itemsPerPage} = usePagination();
     const [almacenesPaginados, setAlmacenesPaginados] = useState<Record<string, any>>({});
   
     const paginarClientes = (data: Record<string, any>, page: number) => {
@@ -352,7 +352,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                           setBusqueda(!Busqueda);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 290}]}>
+                        <View style={styles.modalView}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
@@ -422,7 +422,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
@@ -576,11 +576,10 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50, marginTop: 20,
+    borderRadius: 50
   },
   scroll: {
     flex: 1,
@@ -588,8 +587,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.background,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.background, padding: 10,
     borderRadius: 15,
   },
   disabled: {opacity: 0.6},
@@ -602,27 +600,27 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2,},
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 290,
-    flex: 1,
-    backgroundColor: colors.modalBackground,
-    borderRadius: 20,
-    padding: 20,
-  },
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxHeight: 300, maxWidth: 350,
+  padding: 9,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10, textAlign: 'center',
+    marginBottom: 9, textAlign: 'center',
     color: colors.text
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text

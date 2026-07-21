@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import type { ControlGastosScreenProps } from './types';
 import { useState, useCallback } from 'react';
 //import { obtenerGastos } from './backend';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json'
@@ -13,6 +13,8 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
+
+  const {itemsPerPage} = usePagination();
 
   //Constantes JSON
   //const Gastos, setGastos] = useState<Record<string, any>>({});
@@ -87,8 +89,8 @@ export default function ControlGastos({ navigation }: ControlGastosScreenProps) 
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Gastos || {}).slice(-50).length > 0 ? (
-                  Object.entries(Gastos).slice(-50).map(([id, data]: [string, any]) => {
+                  Object.values(Gastos || {}).slice(-itemsPerPage).length > 0 ? (
+                  Object.entries(Gastos).slice(-itemsPerPage).map(([id, data]: [string, any]) => {
                   const [fecha, total, gasto] = data;
                     return(
                       <View key={id} style={styles.row}>
@@ -134,8 +136,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.input,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
   //Tabla estilos
@@ -144,6 +145,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2,},
   headerText: {color: colors.primary},
 });

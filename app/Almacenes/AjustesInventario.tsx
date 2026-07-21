@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 //import { obtenerAjustes } from './backend';
 import type { AjustesInventarioScreenProps } from './types';
 import { useFocusEffect } from '@react-navigation/native';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json'
@@ -14,6 +14,8 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
+
+    const {itemsPerPage} = usePagination();
 
   const [Ajustes, setAjustes] = useState(datos.AJUSTES_INVENTARIO || {});
 
@@ -83,8 +85,8 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Ajustes || {}).slice(-50).length > 0 ? (
-                   Object.entries(Ajustes).slice(-50).map(([id, data]: [string, any]) => {
+                  Object.values(Ajustes || {}).slice(-itemsPerPage).length > 0 ? (
+                   Object.entries(Ajustes).slice(-itemsPerPage).map(([id, data]: [string, any]) => {
                     const [almacenAfectado, operacion, fechaAjuste] = data;
                     return(
                       <View key={id} style={styles.row}>
@@ -129,8 +131,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.input,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
   //Tabla estilos
@@ -139,6 +140,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6},
+  cell: {flex: 1, padding: 2},
   headerText: { color: colors.primary,},
 });

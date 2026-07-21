@@ -7,7 +7,7 @@ import { NoEmojis, Validar} from './backend';
 //import { obtenerAlmacenes } from './Almacenes/backend'
 import { QuitarElemento, AddSucursal } from './backend';
 import type { SucursalesScreenProps, FormerJSON } from './types';
-import { useTheme } from '../context/ThemeContext';
+import { usePagination } from '../context/PaginationContext'; import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json'; import datosA from './Almacenes/datos.json'
@@ -178,7 +178,7 @@ export default function Sucursales({navigation}: SucursalesScreenProps) {
 };*/
 //-----------------Paginación--------------------------------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const {itemsPerPage} = usePagination();
   const [sucursalesPaginadas, setSucursalesPaginadas] = useState<Record<string, any>>({});
 
   const paginarClientes = (data: Record<string, any>, page: number) => {
@@ -387,7 +387,7 @@ useEffect(() => {
                                 setConfirm(!Confirm);
                               }}>
                               <View style={styles.modalOverlay}>
-                              <View style={[styles.modalView, {marginVertical: 375}]}>
+                              <View style={styles.modalView}>
                     
                                 <View>
                                   <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
@@ -571,8 +571,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.input,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
   disabled: {opacity: 0.6},
@@ -582,19 +581,22 @@ const getStyles = (colors: any) => StyleSheet.create({
    backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6},
+  cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 290, padding: 20,
-    backgroundColor: colors.modalBackground
-  },
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxHeight: 300, maxWidth: 350,
+  padding: 9,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 9,
     textAlign: 'center',
     color: colors.text
   },
@@ -603,7 +605,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text

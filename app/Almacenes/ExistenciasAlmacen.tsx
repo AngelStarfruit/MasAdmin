@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import { useState, useEffect} from 'react';
 //import { obtenerSucursales } from '../backend'; import { obtenerAlmacenes, obtenerExistencias } from './backend';
 import type { ExistenciasAlmacenScreenProps } from './types';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datosS from '../datos.json'; import datosA from './datos.json';
@@ -26,17 +26,10 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
   const [existenciasMostradas, setExistenciasMostradas] = useState(existencias);
 
   //Constantes de pickers
-  const [selectedBranch, setSelectedBranch] = useState(sucursales[Object.keys(sucursales)[0]]?.[0] || '');
   const [selectedValue, setSelectedValue] = useState(almacenes[Object.keys(almacenes)[0]]?.[0] || '');
 
   useEffect(() => {
   let existenciasFiltradas; let almacenesFiltrados
-  
-   almacenesFiltrados = Object.fromEntries(
-      Object.entries(datosA.ALMACENES || {}).filter(
-        ([id, data]) => data[1] === selectedBranch
-      )
-    );
 
     existenciasFiltradas = Object.fromEntries(
       Object.entries(datosA.EXISTENCIAS_ALMACEN || {}).filter(
@@ -45,8 +38,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
     );
   
   setExistenciasMostradas(existenciasFiltradas);
-  setalmacenesMostrados(almacenesFiltrados);
-}, [selectedBranch, selectedValue]);
+}, [selectedValue]);
 
 /*// Cargar ID de empresa
   useFocusEffect(
@@ -150,7 +142,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
  */
  //-----------------Paginación--------------------------------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const {itemsPerPage} = usePagination();
   const [existenciasPaginadas, setExistenciasPaginadas] = useState<Record<string, any>>({});
 
   const paginarClientes = (data: Record<string, any>, page: number) => {
@@ -195,28 +187,7 @@ useEffect(() => {
         <Text style={{  color: colors.text, fontSize: 25, fontWeight: 'bold' }}>
         Existencias por almacén
         </Text>
-        <Text style={{ color: colors.text,
-          fontSize: 15, 
-          paddingVertical: 10,}}>
-          Inserte una sucursal
-          </Text>
-          <Picker
-              selectedValue={selectedBranch}
-              onValueChange={(itemValue) => setSelectedBranch(itemValue)}
-              style={styles.picker}
-              >
-              {Object.values(sucursales || {}).length > 0 ? (
-                Object.values(sucursales).map((sucursal: any, index) => (
-                <Picker.Item 
-                key={index} 
-                label={String(sucursal[0])} 
-                value={String(sucursal[0])} 
-                />
-                ))
-                ) : (
-                <Picker.Item label="-" value="" />
-                )}
-          </Picker>
+        
         <Text style={{ color: colors.text,
           fontSize: 15, 
           paddingVertical: 10,}}>
@@ -231,7 +202,7 @@ useEffect(() => {
                     Object.values(almacenesMostrados).map((almacen: any, index) => (
                     <Picker.Item
                     key={index} 
-                    label={String(almacen[0])} 
+                    label={String(almacen[0]) + ' (' + String(almacen[1]) + ')'} 
                     value={String(almacen[0])} 
                     />
                     ))
@@ -319,10 +290,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
   },
-  navIcons:{
-    padding: 10, 
-    borderRadius: 50
-  },
+  navIcons:{borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -334,7 +302,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: { flex: 1, padding: 6},
+  cell: { flex: 1, padding: 2},
   headerText: {color: colors.primary,},
   disabled: { opacity: 0.6},
   //---------------

@@ -7,7 +7,7 @@ import { NoEmojis, Validar, NumeroValido, CostoValido, AddElemento, QuitarElemen
 //import { obtenerPrecios, agregarPrecio, editarPrecio, eliminarPrecio, obtenerCategorias } from './backend'
 import { AddPrecio } from './backend';
 import type { ListaDePreciosScreenProps, ContenidoPaquete } from './types';
-import { useTheme } from '../context/ThemeContext';
+import { usePagination } from '../context/PaginationContext'; import { useTheme } from '../context/ThemeContext';
 import { useFocusEffect } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -231,7 +231,7 @@ useFocusEffect(
   );*/
 
     //-----------------Paginación--------------------------------------------------------
-  const [itemsPerPage] = useState(50);
+  const { itemsPerPage } = usePagination();
 
   const [currentElementoPage, setCurrentElementoPage] = useState(1);
   const [elementosPaginados, setElementosPaginados] = useState<Record<string, any>>({});
@@ -374,14 +374,6 @@ useEffect(() => {
                     setModalVisible(!modalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                    <KeyboardAvoidingView 
-                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                        style={{ flex: 1 }}
-                        >  
-                      <ScrollView 
-                           showsVerticalScrollIndicator={false}
-                          keyboardShouldPersistTaps="handled"
-                        >
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -523,7 +515,6 @@ useEffect(() => {
                     </View>
         
                   </View>
-                  </ScrollView></KeyboardAvoidingView>
                   </View>
                 </Modal>
         
@@ -536,15 +527,7 @@ useEffect(() => {
                     setEModalVisible(!EmodalVisible);
                   }}>
                   <View style={styles.modalOverlay}>
-                    <KeyboardAvoidingView 
-                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                        style={{ flex: 1 }}
-                        >  
-                      <ScrollView 
-                           showsVerticalScrollIndicator={false}
-                          keyboardShouldPersistTaps="handled"
-                        >
-                  <View style={[styles.modalView, {marginVertical: 130}]}>
+                  <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -557,7 +540,7 @@ useEffect(() => {
         
                     <View>
                       <Text style={styles.modalTitle}>Editar elemento</Text>
-                      <Text style={styles.modalLabel}>
+                      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
                         <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
                         El tipo de registro no se puede modificar</Text>
                     </View>
@@ -669,8 +652,6 @@ useEffect(() => {
                     </View>
         
                   </View>
-                  </ScrollView>
-                  </KeyboardAvoidingView>
                   </View>
                   
                 </Modal>
@@ -684,7 +665,7 @@ useEffect(() => {
                     setConfirm(!Confirm);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginVertical: 385}]}>
+                  <View style={styles.modalView}>
         
                     <View>
                       <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
@@ -720,7 +701,7 @@ useEffect(() => {
                     setNewPaquete(!NewPaquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginHorizontal: 9, marginVertical: 210}]}>
+                  <View style={styles.modalView}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -732,12 +713,7 @@ useEffect(() => {
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Definir contenido</Text>
-                    </View>
-        
-                   <View>
-                      <Text style={styles.modalLabel}>
-                        Ingrese los elementos del contenido</Text>
+                      <Text style={styles.modalTitle}>Ingrese elementos para el contenido</Text>
                     </View>
 
                     <View style={styles.table}>
@@ -746,25 +722,19 @@ useEffect(() => {
                         <View style={styles.cell}>
                             <Text style={styles.text}>Descripción</Text>
                             </View>
-                            <View style={styles.cell}>
-                            <Text style={styles.text}>Marca</Text>
-                              </View>
-                            <View style={[styles.cell, {flex: 0.75}]}>
+                            <View style={[styles.cell, {flex: 0.65}]}>
                             <Text style={styles.text}>Cantidad</Text>
                               </View>
                               </View>
                           {Object.entries(contenidoPaquete).map(([id, [descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={styles.cell}>
-                          <Text style={styles.text}>{descripcion}</Text>
-                            </View>
-                          <View style={styles.cell}>
-                          <Text style={styles.text}>{marca}</Text>
+                          <Text style={styles.text}>{descripcion} {marca}</Text>
                             </View>
                             <View style={[styles.cell, { flex: 0.5}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, { flex: 0.15}]}>
+                            <View style={[styles.cell, { flex: 0.1}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
@@ -785,7 +755,7 @@ useEffect(() => {
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
-                                      else if (selectedType == 'agrupacion'){setAlterAgrupacion(true)}
+                                      else if (selectedCategory == 'Agrupaciones'){setAlterAgrupacion(true)}
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
@@ -818,7 +788,7 @@ useEffect(() => {
                     setPaquete(!Paquete);
                   }}>
                   <View style={styles.modalOverlay}>
-                  <View style={[styles.modalView, {marginHorizontal: 9, marginVertical: 210}]}>
+                  <View style={styles.modalView}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                       <TouchableHighlight
@@ -830,12 +800,7 @@ useEffect(() => {
                     </View>
         
                     <View>
-                      <Text style={styles.modalTitle}>Editar contenido</Text>
-                    </View>
-        
-                   <View>
-                      <Text style={styles.modalLabel}>
-                        Ingrese los elementos del contenido</Text>
+                      <Text style={styles.modalTitle}>Ingrese elementos para el contenido</Text>
                     </View>
 
                     <View style={styles.table}>
@@ -844,10 +809,7 @@ useEffect(() => {
                         <View style={styles.cell}>
                             <Text style={styles.text}>Descripción</Text>
                             </View>
-                             <View style={styles.cell}>
-                            <Text style={styles.text}>Marca</Text>
-                              </View>
-                            <View style={[styles.cell, {flex: 0.75}]}>
+                            <View style={[styles.cell, {flex: 0.65}]}>
                             <Text style={styles.text}>Cantidad</Text>
                               </View>
                               </View>
@@ -855,15 +817,12 @@ useEffect(() => {
                                 {Object.entries(contenidoPaquete).map(([id,[descripcion, marca, cantidad]], index) => (
                           <View key={index} style={styles.row}>
                           <View style={styles.cell}>
-                          <Text style={styles.text}>{descripcion}</Text>
-                            </View>
-                            <View style={styles.cell}>
-                            <Text style={styles.text}>{marca}</Text>
+                          <Text style={styles.text}>{descripcion} {marca}</Text>
                             </View>
                             <View style={[styles.cell, { flex: 0.5}]}>
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
-                            <View style={[styles.cell, { flex: 0.15}]}>
+                            <View style={[styles.cell, { flex: 0.1}]}>
                             <TouchableHighlight
                             style={{height:25, width:25}}
                             onPress={() => {
@@ -885,7 +844,7 @@ useEffect(() => {
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
-                                      else if (selectedType == 'agrupacion'){setAlterAgrupacion(true)}
+                                      else if (selectedCategory == 'Agrupaciones'){setAlterAgrupacion(true)}
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
@@ -918,7 +877,6 @@ useEffect(() => {
                     <Text style={styles.text}>Confirmar cambios</Text>
                     </TouchableHighlight>
                       </View>
-        
                   </View>
                   </View>
                 </Modal>
@@ -932,7 +890,7 @@ useEffect(() => {
     setAlterPaquete(false);
   }}>
   <View style={styles.modalOverlay}>
-    <View style={[styles.modalView, {marginVertical: 100}]}>
+    <View style={styles.modalView}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <TouchableHighlight
           style={{height: 30, width: 30, alignItems: "flex-end"}}
@@ -945,7 +903,7 @@ useEffect(() => {
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
-      <Text style={styles.modalLabel}>Seleccione un elemento de la lista:</Text>
+      <Text style={[styles.modalLabel , {textAlign: 'center'}]}>Seleccione un elemento:</Text>
 
       <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
   <TextInput 
@@ -985,7 +943,7 @@ useEffect(() => {
   </TouchableHighlight>
 </View>
       
-      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300, marginHorizontal: 18}]} showsVerticalScrollIndicator={true}>
+      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
           Object.values(productosPaginados || {}).length > 0 ? (
             Object.entries(productosPaginados).map(([id, data]: [string, any]) => {
@@ -1026,7 +984,7 @@ useEffect(() => {
                         setAlterPaquete(false);
                       }}
                     >
-                      <Text style={styles.text}>{descripcion} - {marca}</Text>
+                      <Text style={styles.text}>{descripcion} {marca}</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -1095,7 +1053,7 @@ useEffect(() => {
     setAlterAgrupacion(false);
   }}>
   <View style={styles.modalOverlay}>
-    <View style={[styles.modalView, {marginVertical: 100}]}>
+    <View style={[styles.modalView, {marginVertical: 150}]}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <TouchableHighlight
           style={{height: 30, width: 30, alignItems: "flex-end"}}
@@ -1108,14 +1066,12 @@ useEffect(() => {
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
-      <Text style={styles.modalLabel}>Seleccione un elemento de la lista:</Text>
-
+      <Text style={[styles.modalLabel, {textAlign: 'center'}]}>Seleccione un elemento:</Text>
       {/* Buscador para noAlmacenables */}
       <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
         <TextInput 
           style={[styles.input, {width: 150}]}
-          placeholder="Buscar no almacenable"  
-          placeholderTextColor="#777"
+          placeholder="Buscar no almacenable"  placeholderTextColor="#777"
           value={query} 
           onChangeText={setQuery}
         />
@@ -1123,24 +1079,19 @@ useEffect(() => {
           underlayColor={colors.input}
           onPress={() => {
             if (query.trim() == '') {
-              // Restaurar todos los noAlmacenables
               const paginados = paginarNoAlmacenables(noAlmacenables, 1);
               setNoAlmacenablesPaginados(paginados);
               setCurrentNoAlmacenablePage(1);
             } else {
-              // Filtrar noAlmacenables por descripción
               const filtrado = Object.fromEntries(
                 Object.entries(noAlmacenables || {}).filter(
                  ([id, data]) => {
             const descripcion = data[0];
-            // Verificar que existe y es string antes de usar toLowerCase
             if (descripcion && typeof descripcion === 'string') {
               return descripcion.toLowerCase().includes(query.toLowerCase());
             }
             return false;
-          }
-                )
-              );
+          }));
               setNoAlmacenablesPaginados(filtrado);
               setCurrentNoAlmacenablePage(1);
             }
@@ -1150,8 +1101,7 @@ useEffect(() => {
           <Ionicons name="search" size={20} color={colors.text} />
         </TouchableHighlight>
       </View>
-      
-      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300, marginHorizontal: 18}]} showsVerticalScrollIndicator={true}>
+      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
           Object.values(noAlmacenablesPaginados || {}).length > 0 ? (
             Object.entries(noAlmacenablesPaginados).map(([id, data]: [string, any]) => {
@@ -1167,14 +1117,12 @@ useEffect(() => {
                           Alert.alert('Error', validationNum.message);
                           return;
                         }
-                        
                         const productoSeleccionado = (noAlmacenables as any)[id];
                         if (!productoSeleccionado) {
                           Alert.alert('Error', 'Producto no encontrado');
                           return;
                         }
                         setQuery('');
-                        
                         setContenidoPaquete(prevContenido => 
                           AddElemento(
                             prevContenido, 
@@ -1184,14 +1132,13 @@ useEffect(() => {
                             Number(cantidad)
                           )
                         );
-                        
                         setIdP(prev => prev + 1);
                         setCantidad(''); 
                         setSelectedProduct('');
                         setAlterAgrupacion(false);
                       }}
                     >
-                      <Text style={styles.text}>{descripcion} - {marca}</Text>
+                      <Text style={styles.text}>{descripcion} {marca}</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -1208,7 +1155,6 @@ useEffect(() => {
           </Text>
         )}
       </ScrollView>
-
       {/* Controles de paginación para noAlmacenables */}
       {Object.keys(noAlmacenables || {}).length > itemsPerPage && (
         <View style={styles.paginationContainer}>
@@ -1224,7 +1170,6 @@ useEffect(() => {
           <Text style={styles.text}>
             Página {currentNoAlmacenablePage} de {Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
           </Text>
-          
           <TouchableHighlight
             underlayColor={colors.input}
             onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage + 1)}
@@ -1336,7 +1281,7 @@ useEffect(() => {
                         <View style={[styles.cell, {flex: 0.8}]}>
                           <Text style={styles.text}>Costo</Text>
                           </View>
-                        <View style={[styles.cell, {flex: 1.2}]}>
+                        <View style={styles.cell}>
                           <Text style={styles.text}>Unidad</Text>
                           </View>
                       </View>
@@ -1462,8 +1407,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     maxHeight: 200, minHeight: 200
   },
   add: {
-    backgroundColor: colors.input,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
   input:{
@@ -1476,24 +1420,28 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2,},
   //Modal estilos
-  modalOverlay: {
-    flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 120, padding: 18,
-    backgroundColor: colors.modalBackground,
-  },
+   modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxHeight: 650, maxWidth: 350,
+  padding: 9,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     fontSize: 30, fontWeight: 'bold', color: colors.text,
-    marginBottom: 10,
+    marginBottom: 9,
     textAlign: 'center'
   },
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text,

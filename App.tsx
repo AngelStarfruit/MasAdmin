@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { ActivityIndicator, View, Text } from 'react-native';
-import { ThemeProvider } from './context/ThemeContext';
+import { PaginationProvider } from './context/PaginationContext'; import { ThemeProvider } from './context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Compras = lazy(() => import('./app/Compras/Compras'));
@@ -109,6 +109,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <PaginationProvider>
       <NavigationContainer>
         <Suspense fallback={<LoadingScreen />}>
           <Stack.Navigator 
@@ -147,6 +148,7 @@ export default function App() {
           </Stack.Navigator>
         </Suspense>
       </NavigationContainer>
+      </PaginationProvider>
     </ThemeProvider>
   );
 }

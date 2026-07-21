@@ -12,7 +12,7 @@ import { Validar, NoEmojis, filtrarPorRango } from './backend';
 //import { obtenerEventos, agregarEvento, editarEvento, eliminarEvento, editarUsuario } from './backend';
 import { AddEvento, QuitarElemento, AddUsuario } from './backend';
 import type { DashboardScreenProps } from './types';
-import { useTheme } from '../context/ThemeContext';
+import { usePagination } from '../context/PaginationContext'; import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json';
@@ -83,6 +83,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   };
 
   //Constantes de picker
+  const {itemsPerPage, setItemsPerPage} = usePagination();
   const [selectedValue, setSelectedValue] = useState('hoy');
   const [selectedAValue, setSelectedAValue] = useState('hoyA');
 
@@ -508,7 +509,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalView, {marginVertical: 280}]}>
+          <View style={[styles.modalView, {marginVertical: 200}]}>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
               <TouchableHighlight
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
@@ -550,6 +551,19 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <Text style={styles.text}>Mi empresa</Text>
               </TouchableHighlight>
             </View>
+            <View style={{alignItems: 'center'}}>
+              <Text style={[styles.modalLabel]}>Número de datos páginados:</Text>
+              <View style={{width:150, marginBottom: 24}}>
+          <Picker
+            style={[styles.input, {height: 50}]}
+            selectedValue={itemsPerPage}
+            onValueChange={(itemValue) => setItemsPerPage(itemValue)}
+          >
+            <Picker.Item label="50" value={25} />
+            <Picker.Item label="50" value={50} />
+            <Picker.Item label="100" value={100} />
+            <Picker.Item label="500" value={200} />
+          </Picker></View></View>
             <View style={styles.modalRow}>
               <TouchableHighlight
                 underlayColor={colors.optionUnderlay} style={styles.modalOption}
@@ -1222,36 +1236,35 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20,
   },
   add: {
-    backgroundColor: colors.background,
-    marginTop: 10, padding: 10,
-    borderRadius: 15,
+    backgroundColor: colors.background, padding: 10,
+    borderRadius: 20,
   },
   table: {
     marginTop: 20, marginBottom: 80,
-    marginHorizontal: -18,
+    marginHorizontal: -9,
   },
   showcase: {
     maxHeight: 300, minHeight: 300
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2,},
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
   modalView: {
-    marginHorizontal: 18, marginVertical: 200, padding: 9,
+    marginHorizontal: 18, marginVertical: 250, padding: 9,
     backgroundColor: colors.modalBackground,
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold', color: colors.text,
-    marginBottom: 10,
+    marginBottom: 9,
     textAlign: 'center'
   },
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     color: colors.text, fontSize: 20,

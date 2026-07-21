@@ -6,7 +6,7 @@ import { useState, useCallback } from 'react';
 //import { obtenerCategorias, obtenerPrecios agregarCategoria, editarCategoria, eliminarCategoria } from './backend';
 import { NoEmojis, Validar} from './backend';
 import { AddCategoria, QuitarElemento } from './backend';
-import { useTheme } from '../context/ThemeContext';
+import { usePagination } from '../context/PaginationContext'; import { useTheme } from '../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json'; 
@@ -127,7 +127,7 @@ export default function AddRegistroVenta({ navigation }: CategoriasScreenProps) 
 
   //-----------------Paginación--------------------------------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const {itemsPerPage} = usePagination();
   const [categoriasPaginadas, setCategoriasPaginadas] = useState<Record<string, any>>({});
 
   const paginarClientes = (data: Record<string, any>, page: number) => {
@@ -442,13 +442,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row',
-    paddingHorizontal: 10,
+    padding: 10,
   },
-  navIcons:{
-    padding: 10, 
-    borderRadius: 50 ,
-    marginTop: 20,
-  },
+  navIcons:{borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -461,12 +457,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     fontSize: 20, paddingVertical: 5, 
   },
    add: {
-    backgroundColor: colors.input,
-    marginVertical: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
    disabled: { opacity: 0.6},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -479,7 +474,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 9, textAlign: 'center',
     color: colors.text
   },
   input: {
@@ -487,7 +482,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text

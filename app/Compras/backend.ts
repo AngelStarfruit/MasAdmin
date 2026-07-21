@@ -110,10 +110,10 @@ export const registrar = (data: any, id: number, fecha: string, total: number, p
   };
 };
 //Función para afectar el almacen luego de hacer una compra
-export const afectarAlmacen = (dataAlmacen: any, dataCompra: any, almacen: string, sucursal: string) => {
+export const afectarAlmacen = (dataAlmacen: any, dataCompra: any, almacen: string) => {
   // Filtrar existencias del almacén
   const existenciasAlmacen = Object.values(dataAlmacen || {})
-    .filter((item: any) => item[4] === almacen && item[5] === sucursal);
+    .filter((item: any) => item[4] === almacen);
   
   // Crear mapa de productos existentes
   const mapa = new Map();
@@ -129,9 +129,9 @@ export const afectarAlmacen = (dataAlmacen: any, dataCompra: any, almacen: strin
     
     if (mapa.has(key)) {
       const existente = mapa.get(key);
-      mapa.set(key, [descripcion, marca, existente[2] + cantidad, costo, almacen, sucursal]);
+      mapa.set(key, [descripcion, marca, existente[2] + cantidad, costo, almacen]);
     } else {
-      mapa.set(key, [descripcion, marca, cantidad, costo, almacen, sucursal]);
+      mapa.set(key, [descripcion, marca, cantidad, costo, almacen]);
     }
   });
   
@@ -139,7 +139,7 @@ export const afectarAlmacen = (dataAlmacen: any, dataCompra: any, almacen: strin
   const resultado: any = {};
   let id = 1;
   Object.values(dataAlmacen || {})
-    .filter((item: any) => item[4] !== almacen || item[5] !== sucursal)
+    .filter((item: any) => item[4] !== almacen)
     .forEach((item) => {
       resultado[id++] = item;
     });

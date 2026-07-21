@@ -30,20 +30,16 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //Constantes de JSON
   const [processCompra, setProcessCompra] = useState<RegistroCompra>({})
-  const [processACompra, setProcessACompra] = useState<RegistroCompra>({})
 
   //JSONs de datos
   //const [proveedores, setProveedores] = useState<Record<string, any>>({});
   const proveedores: Record<string, any> = datosP.PROVEEDORES || {};
   //const [sucursales, setSucursales] = useState<Record<string, any>>({});
-  const sucursales: Record<string, any> = datos.SUCURSALES || {}
+  const almacenes: Record<string, any> = datosA.ALMACENES || {};
   //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
       ([id, data]) => data[4] === "producto"));
-  //const [proveedores, setProveedores] = useState<Record<string, any>>({});
-  const almacenes: Record<string, any> = datosA.ALMACENES || {};
-  const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
   //const [Compras, setCompras] = useState<Record<string, any>>({});
   const [Compras, setCompras] = useState(datosP.CONTROL_COMPRAS);
   const [ComprasOG, setComprasOG] = useState<Record<string, any>>({});
@@ -51,28 +47,14 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
 
   //Constantes de pickers
   const [selectedProvider, setSelectedProvider] = useState('');
-  const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedStore, setSelectedStore] = useState('');
     //Valores del picker producto
     const [selectedProduct, setSelectedProduct] = useState(Object.keys(productos)[0] || '');
     const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
 
-  useEffect(() => {
-  let almacenesFiltrados
-  
-   almacenesFiltrados = Object.fromEntries(
-      Object.entries(datosA.ALMACENES || {}).filter(
-        ([id, data]) => data[1] === selectedBranch
-      )
-    );
-
-  setAlmacenesMostrados(almacenesFiltrados);
-}, [selectedBranch]);
-
   //Constantes extras
   const total = totalCompra(processCompra)
-  const totalA = totalCompra(processACompra)
   const hoy = new Date();
   const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
 
@@ -239,7 +221,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => {
-              if (Object.values(processCompra).length > 0 || Object.values(processACompra).length > 0){
+              if (Object.values(processCompra).length > 0){
               setConfirm(true)
               }
               else navigation.navigate("ControlCompras")
@@ -308,7 +290,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                         .map(([id, producto]: [string, any]) => (
                         <Picker.Item 
                         key={id} 
-                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        label={String(producto[0]) + ' ' + String(producto[1])} 
                         value={id}  // ← ID como value
                         />
                         ))
@@ -404,8 +386,8 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Compras).length + 1)
-                                            setCompras(registrar(Compras,idP,hoyStr,Number(totalA),selectedProvider))
-                                            afectarAlmacen(existencias, processACompra, selectedStore, selectedBranch)
+                                            setCompras(registrar(Compras,idP,hoyStr,Number(total),selectedProvider))
+                                            afectarAlmacen(existencias, processCompra, selectedStore)
                                             navigation.navigate("ControlCompras")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
@@ -486,32 +468,33 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                 )}
           </Picker></View>
         </View>
+
         <View style={styles.row}>
-          <Text style={styles.textRow}>Sucursal afectada:</Text>
-          <View style={{width:150}}>
+          <Text style={styles.textRow}>Almacen afectado:</Text>
+          <View style={{width:180}}>
           <Picker
             style={styles.input}
-            selectedValue={selectedBranch}
-            onValueChange={(itemValue) => setSelectedBranch(itemValue)}
+            selectedValue={selectedStore}
+            onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            <Picker.Item label="(Seleccione una sucursal)" value="" />
-            {Object.entries(sucursales || {}).length > 0 ? (
-            Object.entries(sucursales)
-            .sort((a, b) => {
-                        const nombreA = String(a[1][0]).toLowerCase();
-                        const nombreB = String(b[1][0]).toLowerCase();
-                        return nombreA.localeCompare(nombreB);
-                        })
-            .map(([id, sucursal]: [string, any]) => (
+            <Picker.Item label="(Seleccione un almacén)" value="" />
+        {Object.entries(almacenes || {}).length > 0 ? (
+          Object.entries(almacenes)
+          .sort((a, b) => {
+             const nombreA = String(a[1][0]).toLowerCase();
+            const nombreB = String(b[1][0]).toLowerCase();
+            return nombreA.localeCompare(nombreB);
+          })
+          .map(([id, almacen]: [string, any]) => (
             <Picker.Item 
               key={id} 
-              label={String(sucursal[0])} 
-              value={String(sucursal[0])} 
-              />
+              label={String(almacen[0]) + ' (' + String(almacen[1]) + ')'} 
+              value={String(almacen[0])} 
+            />
             ))
             ) : (
             <Picker.Item label="-" value="" />
-          )}
+            )}
           </Picker></View>
         </View>
 
@@ -521,35 +504,29 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <View style={styles.cell}>
                       <Text style={styles.text}>Descripción</Text>
                       </View>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Marca</Text>
-                      </View>
                   <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.text}>Costo</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.8}]}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.text}>Cantidad</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.95}]}>
+                  <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.text}>N° Lote</Text>
                       </View>
                   </View>
 
                     {Object.entries(processCompra).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{descripcion}</Text>
+                    <View style={[styles.cell, {flex: 0.9}]}>
+                    <Text style={styles.text}>{descripcion} {marca}</Text>
                     </View>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{marca}</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.75}]}>
+                    <View style={[styles.cell, {flex: 0.7}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.8}]}>
+                    <View style={[styles.cell, {flex: 0.5}]}>
                     <Text style={styles.text}>{cantidad}</Text>
                     </View>
-                    <View style={[styles.cell, {flex: 0.65}]}>
+                    <View style={[styles.cell, {flex: 0.5}]}>
                     <Text style={styles.text}>{nlote}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.15}]}>
@@ -575,121 +552,24 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   onPress={() => {
                     setSelectedProduct(''), setCantidad(''); setNlote('')
                     setModalVisible(true)}}
-                  style={[styles.button, Off && styles.disabled]}>
+                  style={styles.button}>
                   <Text style={styles.text}>Agregar</Text>
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
-                disabled={Off}
                   onPress={() => {
                     if (Object.keys(processCompra).length > 0){
-                    setOff(true)
-                    setProcessACompra(processCompra), setProcessCompra({})
+                      setReceive(true)
                     }
-                    else Alert.alert("Error", "Por favor, agregue los elementos que va a comprar.")
-                  }}
-                  style={[styles.button, Off && styles.disabled]}>
-                  <Text style={styles.text}>Enviar</Text>
+                    else Alert.alert("Error", "El almacén no tiene productos que recibir")}}
+                  style={styles.button}>
+                  <Text style={styles.text}>Registrar compra</Text>
               </TouchableHighlight>
               </View>
         <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {total}$
         </Text>
-
-        <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
-        Recepciones al almacén
-        </Text>
-
-        <View style={styles.row}>
-          <Text style={styles.textRow}>Almacen afectado:</Text>
-          <View style={{width:180}}>
-          <Picker
-            style={styles.input}
-            selectedValue={selectedStore}
-            onValueChange={(itemValue) => setSelectedStore(itemValue)}
-          >
-            <Picker.Item label="(Seleccione un almacén)" value="" />
-        {Object.entries(almacenesMostrados || {}).length > 0 ? (
-          Object.entries(almacenesMostrados)
-          .sort((a, b) => {
-             const nombreA = String(a[1][0]).toLowerCase();
-            const nombreB = String(b[1][0]).toLowerCase();
-            return nombreA.localeCompare(nombreB);
-          })
-          .map(([id, almacen]: [string, any]) => (
-            <Picker.Item 
-              key={id} 
-              label={String(almacen[0])} 
-              value={String(almacen[0])} 
-            />
-            ))
-            ) : (
-            <Picker.Item label="-" value="" />
-            )}
-          </Picker></View>
-        </View>
-
-        <View style={styles.table}>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
-              <View style={styles.tableRow}>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Descripción</Text>
-                      </View>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Marca</Text>
-                      </View>
-                  <View style={[styles.cell, {flex: 0.75}]}>
-                      <Text style={styles.text}>Costo</Text>
-                      </View>
-                  <View style={[styles.cell, {flex: 0.8}]}>
-                      <Text style={styles.text}>A recibir</Text>
-                      </View>
-                      <View style={[styles.cell, {flex: 0.7}]}>
-                      <Text style={styles.text}>N° Lote</Text>
-                      </View>
-                  </View>
-
-                    {Object.entries(processACompra).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
-                    <View key={index} style={styles.row}>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{descripcion}</Text>
-                    </View>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{marca}</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.75}]}>
-                    <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.8}]}>
-                    <Text style={styles.text}>{cantidad}</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.7}]}>
-                    <Text style={styles.text}>{nlote}</Text>
-                    </View>
-                      </View>
-                    ))}
-                    
-                  </ScrollView>
-          </View>
-
-          <View style={{flexDirection: 'row', justifyContent: 'center',
-            marginTop: 10}}>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay}
-                  onPress={() => {
-                    if (Object.keys(processACompra).length > 0){
-                      setReceive(true)
-                    }
-                    else Alert.alert("Error", "El almacén no tiene productos que recibir")}}
-                  style={styles.button}>
-                  <Text style={styles.text}>Aplicar cambios</Text>
-              </TouchableHighlight>
-              </View>
-              <Text style={[styles.textRow, {marginBottom: 50}]}>
-        Total a gastar: {totalA}$
-        </Text>
-
-        
+  
         </View>
       </ScrollView>
     </View>
@@ -732,16 +612,13 @@ const getStyles = (colors: any) => StyleSheet.create({
     borderRadius: 20, padding: 10,
   },
   //Tabla estilos
-  table: {
-    paddingTop: 20,
-    marginHorizontal: -18
-  },
+  table: { marginHorizontal: -18},
   tableRow: {flexDirection: 'row',},
   showcase: {
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
-  cell: {flex: 1, padding: 6},
+  cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -753,7 +630,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 18,
     textAlign: 'center',
     color: colors.text
   },
@@ -765,7 +642,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
     modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18
   },
   modalLabel:{
     fontSize: 20, color: colors.text

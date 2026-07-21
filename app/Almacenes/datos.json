@@ -43,106 +43,91 @@
   "Jugo de naranja",
   "Del Valle",
   40,
-  "Almacén Centro A",
-  "Centro"
+  "Almacén Centro A"
 ],
 "2": [
   "Agua mineral",
   "Topo Chico",
   75,
-  "Almacén Palmas Norte",
-  "Las Palmas"
+  "Almacén Palmas Norte"
 ],
 "3": [
   "Pan integral",
   "Bimbo",
   28,
-  "Almacén Miramar Sur",
-  "Miramar"
+  "Almacén Miramar Sur"
 ],
 "4": [
   "Cuernito",
   "Tía Rosa",
   60,
-  "Almacén Universidad",
-  "Universidad"
+  "Almacén Universidad"
 ],
 "5": [
   "Manzana roja",
   "Del Campo",
   120,
-  "Almacén Aero 1",
-  "Aeropuerto"
+  "Almacén Aero 1"
 ],
 "6": [
   "Zanahoria",
   "Del Campo",
   180,
-  "Almacén Jardines",
-  "Jardines"
+  "Almacén Jardines"
 ],
 "7": [
   "Papas fritas",
   "Sabritas",
   95,
-  "Almacén Centro A",
-  "Centro"
+  "Almacén Centro A"
 ],
 "8": [
   "Shampoo",
   "Head & Shoulders",
   32,
-  "Almacén Palmas Norte",
-  "Las Palmas"
+  "Almacén Palmas Norte"
 ],
 "9": [
   "Pizza congelada",
   "Great Value",
   18,
-  "Almacén Miramar Sur",
-  "Miramar"
+  "Almacén Miramar Sur"
 ],
 "10": [
   "Arroz",
   "Verde Valle",
   250,
-  "Almacén Universidad",
-  "Universidad"
+  "Almacén Universidad"
 ],
   "11": [
     "Nuez",
     "Valle Verde",
     3000,
-    "Almacén 67",
-    "Petrolera"
+    "Almacén 67"
   ],
   "12": [
     "Queso",
     "Caperucita",
     5,
-    "Almacén X",
-    "Altama"
+    "Almacén X"
   ],
   "13": [
     "Chorizo",
     "Chimex",
     5,
-    "Almacén X",
-    "Altama"
+    "Almacén X"
   ],
   "14": [
     "Tortillas de harina",
     "Tia Rosa",
     5,
-    "Almacén X",
-    "Altama"
+    "Almacén X"
   ],
   "15": [
     "Queso",
     "Caperucita",
     9,
-    "Almacén 8",
-    "Altama"
+    "Almacén 8"
   ]
   },
   "AJUSTES_INVENTARIO":{

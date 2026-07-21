@@ -5,7 +5,7 @@ import type { ControlComprasScreenProps } from './types';
 import { useState, useCallback } from 'react';
 //import { obtenerCompras } from './backend';
 import { useFocusEffect } from '@react-navigation/native';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json'
@@ -14,6 +14,8 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
 
   const { theme, colors } = useTheme();
     const styles = getStyles(colors);
+
+    const {itemsPerPage} = usePagination();
     
   //Constantes JSON
   //const [registrosCompra, setRegistrosCompra] = useState<Record<string, any>>({});
@@ -88,8 +90,8 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
                   </View>
 
                   {!isLoading ? (
-                  Object.values(Compras || {}).slice(-50).length > 0 ? (
-                  Object.entries(Compras).slice(-50).map(([id, data]: [string, any]) => {
+                  Object.values(Compras || {}).slice(-itemsPerPage).length > 0 ? (
+                  Object.entries(Compras).slice(-itemsPerPage).map(([id, data]: [string, any]) => {
                   const [fecha, total, proveedor] = data;
                   return(
                       <View key={id} style={styles.row}>
@@ -135,8 +137,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.input,
-    marginTop: 10, padding: 10,
+    backgroundColor: colors.input, padding: 10,
     borderRadius: 20,
   },
   //Tabla estilos
@@ -144,6 +145,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginTop: 20, marginBottom: 80, backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
-  cell: {flex: 1, padding: 6,},
+  cell: {flex: 1, padding: 2,},
   headerText: {color: colors.primary,},
 });

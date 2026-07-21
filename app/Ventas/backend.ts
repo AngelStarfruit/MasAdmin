@@ -78,10 +78,10 @@ export const registrar = (data: any, id: number, fecha: string, total: number, c
   };
 };
 //Función para afectar el almacen luego de hacer una venta
-export const afectarAlmacen = (dataAlmacen: any, dataVenta: any, almacen: string, sucursal: string) => {
+export const afectarAlmacen = (dataAlmacen: any, dataVenta: any, almacen: string) => {
   // Filtrar existencias del almacén
   const existenciasAlmacen = Object.values(dataAlmacen || {})
-    .filter((item: any) => item[4] === almacen && item[5] === sucursal);
+    .filter((item: any) => item[4] === almacen);
   
   // Crear mapa de productos existentes
   const mapa = new Map();
@@ -104,7 +104,7 @@ export const afectarAlmacen = (dataAlmacen: any, dataVenta: any, almacen: string
         mapa.delete(key);
       } else {
         // Si queda positivo, actualizar
-        mapa.set(key, [descripcion, marca, nuevaCantidad, costo, almacen, sucursal]);
+        mapa.set(key, [descripcion, marca, nuevaCantidad, costo, almacen]);
       }
     }
     // Si no existe en el almacén, no hacer nada (no se puede vender lo que no hay)
@@ -114,7 +114,7 @@ export const afectarAlmacen = (dataAlmacen: any, dataVenta: any, almacen: string
   const resultado: any = {};
   let id = 1;
   Object.values(dataAlmacen || {})
-    .filter((item: any) => item[4] !== almacen || item[5] !== sucursal)
+    .filter((item: any) => item[4] !== almacen)
     .forEach((item) => {
       resultado[id++] = item;
     });

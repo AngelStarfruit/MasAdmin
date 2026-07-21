@@ -135,14 +135,17 @@ const getStyles = (colors: any) => StyleSheet.create({
     justifyContent: 'center',
   },
   //Modal estilos
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 165, padding: 20,
-    backgroundColor: colors.modalBackground,
-  },
+   modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxHeight: 650, maxWidth: 350,
+  padding: 9,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     color: colors.primary,
     fontSize: 30, fontWeight: 'bold',

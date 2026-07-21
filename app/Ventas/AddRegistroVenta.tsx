@@ -30,19 +30,16 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
 
   //Constantes de JSON
   const [processVenta, setProcessVenta] = useState<RegistroVenta>({});
-  const [processAVenta, setProcessAVenta] = useState<RegistroVenta>({});
   //JSONs de datos
   //const [clientes, setClientes] = useState<Record<string, any>>({});
   const clientes: Record<string, any> = datosC.CLIENTES || {};
   //const [sucursales, setSucursales] = useState<Record<string, any>>({});
-  const sucursales: Record<string, any> = datos.SUCURSALES || {};
+   const almacenes: Record<string, any> = datosA.ALMACENES || {};
   //const [listaPrecios, setListaPrecios] = useState<Record<string, any>>({});
   const productos = Object.fromEntries(
   Object.entries(datos.LISTA_PRECIOS || {}).filter(
-      ([id, data]) => data[4] != "no almacenable"));
+      ([id, data]) => data[4] != "no almacenable" && data[4] != "agrupacion"));
   //const [almacenes, setAlmacenes] = useState<Record<string, any>>({});
-  const almacenes: Record<string, any> = datosA.ALMACENES || {};
-  const [almacenesMostrados, setAlmacenesMostrados] = useState(almacenes)
   //const [Ventas, setVentas] = useState<Record<string, any>>({});
   const [Ventas, setVentas] = useState(datosC.CONTROL_VENTAS);
   const [VentasOG, setVentasOG] = useState<Record<string, any>>({});
@@ -57,21 +54,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
     const [productMarca, setProductMarca] = useState(productos[Object.keys(productos)[0]]?.[1] || '');
     const [productCosto, setProductCosto] = useState(productos[Object.keys(productos)[0]]?.[2] || '');
 
-    useEffect(() => {
-  let almacenesFiltrados
-  
-   almacenesFiltrados = Object.fromEntries(
-      Object.entries(datosA.ALMACENES || {}).filter(
-        ([id, data]) => data[1] === selectedBranch
-      )
-    );
-
-  setAlmacenesMostrados(almacenesFiltrados);
-}, [selectedBranch]);
-
   //Constantes extra
   const total = totalVenta(processVenta)
-  const totalA = totalVenta(processAVenta)
   const hoy = new Date();
   const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
 
@@ -238,7 +222,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
             <TouchableHighlight
             underlayColor={colors.navIconUnderlay} style={styles.navIcons}
             onPress={() => {
-              if (Object.values(processVenta).length > 0 || Object.values(processAVenta).length > 0){
+              if (Object.values(processVenta).length > 0){
                 setConfirm(true)
               }
               else navigation.navigate("ControlVentas")
@@ -307,7 +291,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                         .map(([id, producto]: [string, any]) => (
                         <Picker.Item 
                         key={id} 
-                        label={String(producto[0]) + ' - ' + String(producto[1])} 
+                        label={String(producto[0]) + ' ' + String(producto[1])} 
                         value={id}  // ← Usar el ID como value
                         />
                         ))
@@ -336,10 +320,10 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                      onPress={() => {
                       const validation = Validar(1,selectedProduct,'','','');
                         const validationNum1 = NumeroValido(cantidad);  const validationNum2 = NumeroValido(nlote);  
-                        if (!validation.isValid) {
+                        /*if (!validation.isValid) {
                          Alert.alert('Error', validation.message);
                          return; 
-                        }
+                        }*/
                          if (!validationNum1.isValid) {
                          Alert.alert('Error', validationNum1.message);
                          return; 
@@ -402,8 +386,8 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Ventas).length + 1)
-                                            setVentas(registrar(Ventas,idP,hoyStr,Number(totalA),selectedCustomer))
-                                            afectarAlmacen(existencias, processAVenta, selectedStore, selectedBranch)
+                                            setVentas(registrar(Ventas,idP,hoyStr,Number(total),selectedCustomer))
+                                            afectarAlmacen(existencias, processVenta, selectedStore)
                                             navigation.navigate("ControlVentas")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
@@ -484,32 +468,33 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                 )}
           </Picker></View>
         </View>
-        <View style={styles.row}>
-          <Text style={styles.textRow}>Sucursal afectada:</Text>
-          <View style={{width:150}}>
+
+          <View style={styles.row}>
+          <Text style={styles.textRow}>Almacen afectado:</Text>
+          <View style={{width:180}}>
           <Picker
             style={styles.input}
-            selectedValue={selectedBranch}
-            onValueChange={(itemValue) => setSelectedBranch(itemValue)}
+            selectedValue={selectedStore}
+            onValueChange={(itemValue) => setSelectedStore(itemValue)}
           >
-            <Picker.Item label="(Seleccione una sucursal)" value="" />
-            {Object.entries(sucursales || {}).length > 0 ? (
-                Object.entries(sucursales)
-                .sort((a, b) => {
-                const nombreA = String(a[1][0]).toLowerCase();
-                const nombreB = String(b[1][0]).toLowerCase();
-                return nombreA.localeCompare(nombreB);
-                })
-                .map(([id, sucursal]: [string, any]) => (
-                <Picker.Item 
-                key={id} 
-                label={String(sucursal[0])} 
-                value={String(sucursal[0])} 
-                  />
-              ))
-              ) : (
-              <Picker.Item label="-" value="" />
-              )}
+            <Picker.Item label="(Seleccione un almacén)" value="" />
+        {Object.entries(almacenes || {}).length > 0 ? (
+          Object.entries(almacenes)
+          .sort((a, b) => {
+             const nombreA = String(a[1][0]).toLowerCase();
+            const nombreB = String(b[1][0]).toLowerCase();
+            return nombreA.localeCompare(nombreB);
+          })
+          .map(([id, almacen]: [string, any]) => (
+            <Picker.Item 
+              key={id} 
+              label={String(almacen[0]) + ' (' + String(almacen[1]) + ')'} 
+              value={String(almacen[0])} 
+            />
+            ))
+            ) : (
+            <Picker.Item label="-" value="" />
+            )}
           </Picker></View>
         </View>
 
@@ -519,34 +504,28 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <View style={styles.cell}>
                       <Text style={styles.text}>Descripción</Text>
                       </View>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Marca</Text>
-                      </View>
                   <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.text}>Costo</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.8}]}>
+                  <View style={[styles.cell, {flex: 0.6}]}>
                       <Text style={styles.text}>Cantidad</Text>
                       </View>
-                  <View style={[styles.cell, {flex: 0.95}]}>
+                  <View style={[styles.cell, {flex: 0.75}]}>
                       <Text style={styles.text}>N° Lote</Text>
                       </View>
                   </View>
                     {Object.entries(processVenta).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
                     <View key={index} style={styles.row}>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{descripcion}</Text>
+                    <View style={[styles.cell, {flex: 0.9}]}>
+                    <Text style={styles.text}>{descripcion} {marca}</Text>
                     </View>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{marca}</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.75}]}>
+                    <View style={[styles.cell, {flex: 0.7}]}>
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                       </View>
-                      <View style={[styles.cell, {flex: 0.8}]}>
+                      <View style={[styles.cell, {flex: 0.5}]}>
                       <Text style={styles.text}>{cantidad}</Text>
                       </View>
-                      <View style={[styles.cell, {flex: 0.65}]}>
+                      <View style={[styles.cell, {flex: 0.5}]}>
                       <Text style={styles.text}>{nlote}</Text>
                       </View>
                       <View style={[styles.cell, {flex: 0.15}]}>
@@ -577,110 +556,17 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
               </TouchableHighlight>
           <TouchableHighlight
                 underlayColor={colors.optionUnderlay}
-                  disabled={Off}
                   onPress={() => {
-                    if (Object.keys(processVenta).length > 0){
-                    setOff(true)
-                    setProcessAVenta(processVenta), setProcessVenta({})
-                    }
-                    else Alert.alert("Error", "Por favor, agregue los elementos que va a vender.")
-                  }}
-                  style={[styles.button, Off && styles.disabled]}>
-                  <Text style={styles.text}>Enviar</Text>
-              </TouchableHighlight>
-              </View>
-        <Text style={[styles.textRow, {marginBottom: 50}]}>
-        Total a ganar: {total}$
-        </Text>
-
-        <Text style={{  fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
-        Retiros del almacén
-        </Text>
-
-        <View style={styles.row}>
-          <Text style={styles.textRow}>Almacen afectado:</Text>
-          <View style={{width:180}}>
-          <Picker
-            style={styles.input}
-            selectedValue={selectedStore}
-            onValueChange={(itemValue) => setSelectedStore(itemValue)}
-          >
-            <Picker.Item label="(Seleccione un almacén)" value="" />
-        {Object.entries(almacenesMostrados || {}).length > 0 ? (
-          Object.entries(almacenesMostrados)
-          .sort((a, b) => {
-             const nombreA = String(a[1][0]).toLowerCase();
-            const nombreB = String(b[1][0]).toLowerCase();
-            return nombreA.localeCompare(nombreB);
-          })
-          .map(([id, almacen]: [string, any]) => (
-            <Picker.Item 
-              key={id} 
-              label={String(almacen[0])} 
-              value={String(almacen[0])} 
-            />
-            ))
-            ) : (
-            <Picker.Item label="-" value="" />
-            )}
-          </Picker></View>
-        </View>
-
-        <View style={styles.table}>
-                  <ScrollView style={styles.showcase} showsVerticalScrollIndicator={true}>
-              <View style={styles.tableRow}>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Descripción</Text>
-                      </View>
-                  <View style={styles.cell}>
-                      <Text style={styles.text}>Marca</Text>
-                      </View>
-                  <View style={[styles.cell , {flex: 0.75}]}>
-                      <Text style={styles.text}>Costo</Text>
-                      </View>
-                  <View style={[styles.cell , {flex: 0.8}]}>
-                      <Text style={styles.text}>A retirar</Text>
-                      </View>
-                  <View style={[styles.cell , {flex: 0.7}]}>
-                      <Text style={styles.text}>N° Lote</Text>
-                      </View>
-                  </View>
-                   {Object.entries(processAVenta).map(([id, [descripcion, marca, costo, cantidad, nlote]], index) => (
-                    <View key={index} style={styles.row}>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{descripcion}</Text>
-                    </View>
-                    <View style={styles.cell}>
-                    <Text style={styles.text}>{marca}</Text>
-                    </View>
-                    <View style={[styles.cell, {flex: 0.75}]}>
-                    <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
-                      </View>
-                      <View style={[styles.cell, { flex: 0.8}]}>
-                      <Text style={styles.text}>{cantidad}</Text>
-                      </View>
-                      <View style={[styles.cell, { flex: 0.7}]}>
-                      <Text style={styles.text}>{nlote}</Text>
-                      </View>
-                      </View>
-                    ))}  
-                  </ScrollView>
-          </View>
-
-          <View style={{flexDirection: 'row', justifyContent: 'center',  marginTop: 10,}}>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay}
-                  onPress={() => {
-                    if(Object.values(processAVenta).length > 0){
+                    if(Object.values(processVenta).length > 0){
                       setReceive(true)
                     }
                     else Alert.alert("Error", "El almacén no tiene productos que enviar")}}
                   style={styles.button}>
-                  <Text style={styles.text}>Aplicar cambios</Text>
+                  <Text style={styles.text}>Registrar venta</Text>
               </TouchableHighlight>
               </View>
-              <Text style={[styles.textRow, {marginBottom: 50}]}>
-        Total: {totalA}$
+        <Text style={[styles.textRow, {marginBottom: 50}]}>
+        Total a ganar: {total}$
         </Text>
         
         </View>
@@ -723,14 +609,14 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    paddingTop: 20, marginHorizontal: -18
+     marginHorizontal: -18
   },
   tableRow: {flexDirection: 'row',},
   showcase: {
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200,
   },
-  cell: {flex: 1, padding: 6},
+  cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
     flex: 1,  backgroundColor: 'rgba(0, 0, 0, 0.4)',
@@ -741,7 +627,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 18,
     textAlign: 'center',
     color: colors.text,
   },
@@ -751,7 +637,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   disabled: {opacity: 0.6},
    modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text

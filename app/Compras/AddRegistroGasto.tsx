@@ -313,7 +313,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    paddingTop: 20,
     marginHorizontal: 18
   },
   tableRow: {flexDirection: 'row',},
@@ -321,7 +320,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.secondary,
     maxHeight: 200, minHeight: 200
   },
-  cell: { flex: 1, padding: 6,},
+  cell: { flex: 1, padding: 2,},
   //Modal estilos
   modalOverlay: {
     flex: 1,
@@ -333,7 +332,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 18,
     textAlign: 'center',
     color: colors.text
   },
@@ -342,7 +341,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
     modalRow:{
     flexDirection: 'row', justifyContent: 'space-evenly', 
-    marginBottom: 24,
+    marginBottom: 18,
   },
  modalLabel:{
     fontSize: 20, color: colors.text

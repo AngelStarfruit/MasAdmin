@@ -8,7 +8,7 @@ import { QuitarElemento, AddCliente } from './backend';
 import { Picker } from '@react-native-picker/picker';
 import { ClientesScreenProps, FormerJSON } from './types';
 import { useFocusEffect } from '@react-navigation/native';
-import { useTheme } from '../../context/ThemeContext';
+import { usePagination } from '../../context/PaginationContext'; import { useTheme } from '../../context/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 import datos from './datos.json';
@@ -160,7 +160,7 @@ export default function Clientes({ navigation }: ClientesScreenProps ) {
 
   //-----------------Paginación--------------------------------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const {itemsPerPage} = usePagination();
   const [clientesPaginados, setClientesPaginados] = useState<Record<string, any>>({});
 
   const paginarClientes = (data: Record<string, any>, page: number) => {
@@ -211,14 +211,6 @@ useEffect(() => {
                 setModalVisible(!modalVisible);
               }}>
               <View style={styles.modalOverlay}>
-                <KeyboardAvoidingView 
-                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                        style={{ flex: 1 }}
-                        >  
-                      <ScrollView 
-                           showsVerticalScrollIndicator={false}
-                          keyboardShouldPersistTaps="handled"
-                        >
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -272,8 +264,6 @@ useEffect(() => {
                 </View>
     
               </View>
-              </ScrollView>
-              </KeyboardAvoidingView>
               </View>
             </Modal>
     
@@ -286,14 +276,6 @@ useEffect(() => {
                 setEModalVisible(!EmodalVisible);
               }}>
               <View style={styles.modalOverlay}>
-                <KeyboardAvoidingView 
-                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                        style={{ flex: 1 }}
-                        >  
-                      <ScrollView 
-                           showsVerticalScrollIndicator={false}
-                          keyboardShouldPersistTaps="handled"
-                        >
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -353,8 +335,6 @@ useEffect(() => {
                 </View>
     
               </View>
-              </ScrollView>
-              </KeyboardAvoidingView>
               </View>
             </Modal>
       
@@ -367,7 +347,7 @@ useEffect(() => {
                           setBusqueda(!Busqueda);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 285}]}>
+                        <View style={styles.modalView}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                             <TouchableHighlight
@@ -383,7 +363,7 @@ useEffect(() => {
                           </View>
 
                      <View>
-                      <Text style={[styles.modalLabel, {marginBottom: 18}]}>
+                      <Text style={[styles.modalLabel, {marginBottom: 18, textAlign: 'center'}]}>
                         Para deshacer la busqueda, deje el criterio en blanco.</Text>
                     </View>
               
@@ -445,10 +425,8 @@ useEffect(() => {
                           setConfirm(!Confirm);
                         }}>
                         <View style={styles.modalOverlay}>
-                        <View style={[styles.modalView, {marginVertical: 375}]}>
-              
+                        <View style={styles.modalView}>
                           <View>
-                            
                             <Text style={styles.modalTitle}>¿Eliminar registro?</Text>
                           </View>
               
@@ -618,9 +596,8 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   add: {
-    backgroundColor: colors.background,
-    marginTop: 10, padding: 10,
-    borderRadius: 15,
+    backgroundColor: colors.background, padding: 10,
+    borderRadius: 20,
   },
   disabled: { opacity: 0.6},
   input: {
@@ -629,29 +606,32 @@ const getStyles = (colors: any) => StyleSheet.create({
   //Tabla estilos
   table: {
     marginVertical: 20,
-    marginHorizontal: -18, 
+    marginHorizontal: -9, 
     backgroundColor: colors.background,
   },
   row: {flexDirection: 'row',},
-  cell: { flex: 1, padding: 6},
+  cell: { flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
-    flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 220, padding: 18,
-    backgroundColor: colors.modalBackground, 
-  },
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxHeight: 500, maxWidth: 350,
+  padding: 9,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 30, fontWeight: 'bold', color: colors.text,
+    marginBottom: 9,
     textAlign: 'center',
-    color: colors.text
   },
   modalRow:{
     flexDirection: 'row', 
     justifyContent: 'space-evenly', alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 18,
   },
   modalLabel:{
     fontSize: 20, color: colors.text,
