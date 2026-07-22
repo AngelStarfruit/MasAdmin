@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert, KeyboardAvoidingView, Platform, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 import { Picker } from '@react-native-picker/picker';
 import { useState, useEffect, useCallback, useMemo} from 'react';
@@ -322,46 +322,39 @@ useEffect(() => {
 
       <View style={styles.navigation}>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Dashboard")}
+      <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Dashboard")}
       >
         <Ionicons name="grid-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Compras")}
+      <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Compras")}
       >
         <Ionicons name="cart-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Ventas")}
+       <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Ventas")}
       >
         <Ionicons name="cash-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Sucursales")} 
+      <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Sucursales")}
       >
         <Ionicons name="business-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Almacenes")} 
+        <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Almacenes")}
       >
         <Ionicons name="cube-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
 
-        <TouchableHighlight
-        style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}
-      >
+        <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]} >
         <Ionicons name="pricetag-outline" size={20} color={colors.text} />
-      </TouchableHighlight>
+      </View>
 
     </View>
 
@@ -377,19 +370,18 @@ useEffect(() => {
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
                       <Text style={styles.modalTitle}>Añadir elemento</Text>
                     </View>
 
-                     <Text style={styles.modalLabel}>
+                     <Text style={[styles.modalLabel, {textAlign: 'center'}]}>
                         <Ionicons name="information-circle-outline" size={20}  color={colors.text} /> {''}
                         {selectedCategory === "Sin categoria" ? <Text>Este elemento no contará con categoría.</Text>  
                           : selectedCategory == "No almacenables" ? <Text>Este elemento será un no almacenable.</Text>  
@@ -530,12 +522,11 @@ useEffect(() => {
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -672,20 +663,18 @@ useEffect(() => {
                     </View>
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                      <TouchableHighlight
-                      underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                      <TouchableOpacity style={styles.modalRegret}
                         onPress={() => {
                           setEModalVisible(true); setConfirm(!Confirm)}}>
                         <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                      </TouchableHighlight>
-                      <TouchableHighlight
-                      underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.modalDelete}
                         onPress={() => {
                           setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
                         }}>
                         <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                   </View>
@@ -704,12 +693,11 @@ useEffect(() => {
                   <View style={styles.modalView}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => {setModalVisible(true); setNewPaquete(!NewPaquete)}}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -735,14 +723,12 @@ useEffect(() => {
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
                             <View style={[styles.cell, { flex: 0.1}]}>
-                            <TouchableHighlight
+                            <TouchableOpacity
                             style={{height:25, width:25}}
                             onPress={() => {
-                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
-                            underlayColor={colors.deleteUnderlay}
-                            >
+                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}>
                                <Ionicons name="close" size={25} color='red' />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                             </View>
                           </View>
                           ))}
@@ -750,8 +736,7 @@ useEffect(() => {
                           </View>
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
-                              <TouchableHighlight
-                                    underlayColor={colors.optionUnderlay}
+                              <TouchableOpacity
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
@@ -759,7 +744,7 @@ useEffect(() => {
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
-                                  </TouchableHighlight>
+                                  </TouchableOpacity>
                                   </View>
 
                     <View style={[styles.row, {justifyContent: 'center'}]}>
@@ -791,12 +776,11 @@ useEffect(() => {
                   <View style={styles.modalView}>
 
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => {setEModalVisible(true); setPaquete(!Paquete)}}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -823,14 +807,12 @@ useEffect(() => {
                             <Text style={styles.text}>{cantidad}</Text>
                             </View>
                             <View style={[styles.cell, { flex: 0.1}]}>
-                            <TouchableHighlight
+                            <TouchableOpacity
                             style={{height:25, width:25}}
                             onPress={() => {
-                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}
-                            underlayColor={colors.deleteUnderlay}
-                            >
+                              setContenidoPaquete(QuitarElemento(contenidoPaquete, Number(id)))}}>
                                <Ionicons name="close" size={25} color='red' />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                             </View>
                           </View>
                           ))}  
@@ -839,8 +821,7 @@ useEffect(() => {
                           </View>
 
                     <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
-                              <TouchableHighlight
-                                    underlayColor={colors.optionUnderlay}
+                              <TouchableOpacity
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
@@ -848,7 +829,7 @@ useEffect(() => {
                                       }}
                                       style={styles.buttonRegister}>
                                       <Text style={{color: colors.text}}>Agregar</Text>
-                                  </TouchableHighlight>
+                                  </TouchableOpacity>
                                   </View>
 
                     <View style={[styles.row, {justifyContent: 'center'}]}>
@@ -892,14 +873,13 @@ useEffect(() => {
   <View style={styles.modalOverlay}>
     <View style={styles.modalView}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <TouchableHighlight
+        <TouchableOpacity
           style={{height: 30, width: 30, alignItems: "flex-end"}}
-          underlayColor={colors.scrollBackground}
           onPress={() => {
             setAlterPaquete(false);
           }}>
           <Ionicons name="close" size={30} color={colors.text} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
@@ -911,8 +891,7 @@ useEffect(() => {
     placeholder="Buscar producto"  placeholderTextColor="#777"
     value={query} onChangeText={setQuery}
   />
-  <TouchableHighlight
-    underlayColor={colors.input}
+  <TouchableOpacity
     onPress={() => {
       if (query.trim() == '') {
         // Restaurar todos los productos
@@ -940,7 +919,7 @@ useEffect(() => {
     style={styles.add}
   >
     <Ionicons name="search" size={20} color={colors.text} />
-  </TouchableHighlight>
+  </TouchableOpacity>
 </View>
       
       <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
@@ -951,8 +930,7 @@ useEffect(() => {
               return (
                 <View key={id}>
                   <View style={styles.cell}>
-                    <TouchableHighlight
-                      underlayColor={colors.input}
+                    <TouchableOpacity
                       onPress={() => {
                         const validationNum = NumeroValido(cantidad);
                         if (!validationNum.isValid) {
@@ -985,7 +963,7 @@ useEffect(() => {
                       }}
                     >
                       <Text style={styles.text}>{descripcion} {marca}</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
                 </View>
               );
@@ -1004,21 +982,19 @@ useEffect(() => {
                          {/* Controles de paginación */}
 {Object.keys(productos || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarProductoPagina(currentProductoPage - 1)}
       style={[styles.paginationButton, currentProductoPage === 1 && styles.disable]}
       disabled={currentProductoPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentProductoPage} de {Math.ceil(Object.keys(productos || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarProductoPagina(currentProductoPage + 1)}
       style={[
         styles.paginationButton, 
@@ -1027,10 +1003,9 @@ useEffect(() => {
       disabled={currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
-      
       <View style={styles.modalRow}>
         <Text style={styles.modalLabel}>Cantidad:</Text>
         <TextInput 
@@ -1055,14 +1030,13 @@ useEffect(() => {
   <View style={styles.modalOverlay}>
     <View style={[styles.modalView, {marginVertical: 150}]}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <TouchableHighlight
+        <TouchableOpacity
           style={{height: 30, width: 30, alignItems: "flex-end"}}
-          underlayColor={colors.scrollBackground}
           onPress={() => {
             setAlterAgrupacion(false);
           }}>
           <Ionicons name="close" size={30} color={colors.text} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
@@ -1075,8 +1049,7 @@ useEffect(() => {
           value={query} 
           onChangeText={setQuery}
         />
-        <TouchableHighlight
-          underlayColor={colors.input}
+        <TouchableOpacity
           onPress={() => {
             if (query.trim() == '') {
               const paginados = paginarNoAlmacenables(noAlmacenables, 1);
@@ -1099,7 +1072,7 @@ useEffect(() => {
           style={styles.add}
         >
           <Ionicons name="search" size={20} color={colors.text} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
@@ -1109,8 +1082,7 @@ useEffect(() => {
               return (
                 <View key={id}>
                   <View style={styles.cell}>
-                    <TouchableHighlight
-                      underlayColor={colors.input}
+                    <TouchableOpacity
                       onPress={() => {
                         const validationNum = NumeroValido(cantidad);
                         if (!validationNum.isValid) {
@@ -1139,7 +1111,7 @@ useEffect(() => {
                       }}
                     >
                       <Text style={styles.text}>{descripcion} {marca}</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
                 </View>
               );
@@ -1158,20 +1130,18 @@ useEffect(() => {
       {/* Controles de paginación para noAlmacenables */}
       {Object.keys(noAlmacenables || {}).length > itemsPerPage && (
         <View style={styles.paginationContainer}>
-          <TouchableHighlight
-            underlayColor={colors.input}
+          <TouchableOpacity
             onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage - 1)}
             style={[styles.paginationButton, currentNoAlmacenablePage === 1 && styles.disable]}
             disabled={currentNoAlmacenablePage === 1}
           >
             <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-          </TouchableHighlight>
+          </TouchableOpacity>
           
           <Text style={styles.text}>
             Página {currentNoAlmacenablePage} de {Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
           </Text>
-          <TouchableHighlight
-            underlayColor={colors.input}
+          <TouchableOpacity
             onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage + 1)}
             style={[
               styles.paginationButton, 
@@ -1180,7 +1150,7 @@ useEffect(() => {
             disabled={currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
           >
             <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       )}
       
@@ -1197,7 +1167,7 @@ useEffect(() => {
   </View>
 </Modal>
 
-      {/*ScrollView*/}
+      {/*------------------------------ScrollView---------------------------------------*/}
       <ScrollView>
         <View style={styles.scroll}>
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
@@ -1236,8 +1206,7 @@ useEffect(() => {
           </Picker></View>
 
           <View style={[styles.row, {justifyContent: "space-between"}]}>
-          <TouchableHighlight 
-                underlayColor={colors.input}
+          <TouchableOpacity
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
                   setDescripcion(''); setMarca(''); setCosto(''); setUnidad(''); setSelectedControl("Ninguno"); setSelectedType("producto"); setContenidoPaquete({})
@@ -1253,13 +1222,11 @@ useEffect(() => {
                   setModalVisible(true)}}
                 style={styles.add}>
                     <Text style={{ color: colors.text}}>Añadir elemento</Text>
-                  </TouchableHighlight>
-          <TouchableHighlight 
-                underlayColor={colors.input}
-                onPress={() => navigation.navigate("Categorias")}
-                style={styles.add}>
+                  </TouchableOpacity>
+          <TouchableOpacity 
+                onPress={() => navigation.navigate("Categorias")} style={styles.add}>
                     <Text style={{ color: colors.text}}>Gestionar categorías</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   </View>
                   <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 15,}}>
           <Ionicons name="pricetag-outline" size={18} color={colors.text} /> PRODUCTOS {'   '}
@@ -1294,8 +1261,7 @@ useEffect(() => {
                   return(
                       <View key={id} style={styles.row}>
                         <View style={styles.cell}>
-                        <TouchableHighlight
-                        underlayColor={colors.input}
+                        <TouchableOpacity
                         onPress={() => {
 
                           if (tipo == "producto"){
@@ -1324,7 +1290,7 @@ useEffect(() => {
                           {control != "Ninguno" ? <Ionicons name="layers-outline" size={15} color={colors.text} />
                           : <Text style={styles.text}></Text>}
                           {descripcion}</Text>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                         </View> 
                         <View style={styles.cell}><Text style={styles.text}>{marca}</Text></View>
                         <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{tipo === "gasto" ? "" : Number(costo).toFixed(2)}</Text></View>
@@ -1349,21 +1315,19 @@ useEffect(() => {
                    {/* Controles de paginación */}
 {Object.keys(elementosMostrados || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarElementoPagina(currentElementoPage - 1)}
       style={[styles.paginationButton, currentElementoPage === 1 && styles.disable]}
       disabled={currentElementoPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentElementoPage} de {Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarElementoPagina(currentElementoPage + 1)}
       style={[
         styles.paginationButton, 
@@ -1372,7 +1336,7 @@ useEffect(() => {
       disabled={currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
         
@@ -1392,7 +1356,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
-    padding: 5
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -1428,8 +1391,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 650, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState, useEffect, useCallback } from 'react';
 import { NoEmojis, Validar} from './backend';
@@ -213,40 +213,38 @@ useEffect(() => {
 
       <View style={styles.navigation}>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Dashboard")}
+      <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Dashboard")}
       >
-        <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="grid-outline" size={20} color={colors.text} />
+      </TouchableOpacity>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Compras")}
+      <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Compras")}
       >
-        <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="cart-outline" size={20} color={colors.text} />
+      </TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Ventas")}
+       <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Ventas")}
       >
-        <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="cash-outline" size={20} color={colors.text} />
+      </TouchableOpacity>
 
-      <TouchableHighlight
-        style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}
-      >
-        <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableHighlight>
+      <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}>
+        <Ionicons name="business-outline" size={20} color={colors.text} /></View>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Almacenes")} 
+       <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("Almacenes")}
       >
-        <Ionicons name="cube-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="cube-outline" size={20} color={colors.text} />
+      </TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("ListaDePrecios")} 
+        <TouchableOpacity
+        style={styles.navIcons} onPress={() => navigation.navigate("ListaDePrecios")}
       >
-        <Ionicons name="pricetag-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="pricetag-outline" size={20} color={colors.text} />
+      </TouchableOpacity>
 
     </View>
 
@@ -262,12 +260,11 @@ useEffect(() => {
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.input}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -317,12 +314,11 @@ useEffect(() => {
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.input}
                       onPress={() => setEModalVisible(!EmodalVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -394,21 +390,19 @@ useEffect(() => {
                                 </View>
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                  <TouchableHighlight
-                                  underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                  <TouchableOpacity style={styles.modalRegret}
                                     onPress={() => {
                                        setEModalVisible(true);
                                       setConfirm(!Confirm)}}>
                                     <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                  </TouchableHighlight>
-                                  <TouchableHighlight
-                                  underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={styles.modalDelete}
                                     onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                     }}>
                                     <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
-                                  </TouchableHighlight>
+                                  </TouchableOpacity>
                                 </View>
                     
                               </View>
@@ -431,23 +425,21 @@ useEffect(() => {
           Para deshacer una busqueda, deje el criterio en blanco.</Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between', }}>
-        <TouchableHighlight
+        <TouchableOpacity
         disabled = {AddOff}
-        underlayColor={colors.input}
         onPress={() => {
           setId(Object.keys(sucursales).length + 1)
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
         style={[styles.add, AddOff && styles.disabled]}>
             <Text style={{color: colors.text}}>Añadir sucursal</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
             <View style={[styles.row, {alignItems: 'center'}]}>
                     <TextInput style={[styles.input, {backgroundColor: colors.background}]}
                     placeholder="Buscar sucursal" placeholderTextColor="#777"
                     value={query} onChangeText={setQuery}></TextInput>
-                    <TouchableHighlight
-                    underlayColor={colors.input}
+                    <TouchableOpacity
                    onPress={() => {
                     if (query.trim() == ''){
                       setSucursales(datos.SUCURSALES || {})
@@ -464,7 +456,7 @@ useEffect(() => {
                    }}
                     style={styles.add}>
                     <Ionicons name="search" size={20} color={colors.text} />
-                   </TouchableHighlight>
+                   </TouchableOpacity>
                     </View>
 
           </View>
@@ -487,15 +479,14 @@ useEffect(() => {
                 return (
                 <View key={id} style={styles.row}>
                 <View style={styles.cell}>
-                <TouchableHighlight
-                underlayColor={colors.input}
+                <TouchableOpacity
                   onPress={() => {
                     setId(Number(id))
                     setSucursal(sucursal); setTelefono(telefono);
                     setEModalVisible(true)
                   }}>
                   <Text style={styles.text}>{sucursal}</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                   </View>
                   <View style={styles.cell}>
                   <Text style={styles.text}>{telefono}</Text>
@@ -515,21 +506,19 @@ useEffect(() => {
                     {/* Controles de paginación */}
 {Object.keys(sucursales || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
       style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentPage} de {Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
       style={[
         styles.paginationButton, 
@@ -538,7 +527,7 @@ useEffect(() => {
       disabled={currentPage === Math.ceil(Object.keys(sucursales || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
         
@@ -560,7 +549,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
-    padding: 5,
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -589,8 +577,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 300, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },

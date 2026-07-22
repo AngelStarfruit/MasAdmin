@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import type { ControlComprasScreenProps } from './types';
 import { useState, useCallback } from 'react';
@@ -55,12 +55,11 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
-            <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+            <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")} 
           >
             <Ionicons name="arrow-back" size={30} color={colors.text} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       <ScrollView>
@@ -69,12 +68,11 @@ export default function ControlCompras({ navigation }: ControlComprasScreenProps
         Control de compras
         </Text>
 
-        <TouchableHighlight 
-        underlayColor={colors.input}
+        <TouchableOpacity
         onPress={() => navigation.navigate("AddRegistroCompra")}
         style={styles.add}>
             <Text style={{color: colors.text}}>Añadir registro de compra</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
         <View style={styles.table}>
               <View style={styles.row}>
@@ -126,11 +124,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
+    backgroundColor: colors.navBackground
   },
-  navIcons:{borderRadius: 50},
+  navIcons:{ padding: 10, borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

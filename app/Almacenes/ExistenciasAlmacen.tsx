@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import Constants from 'expo-constants';
 import { useState, useEffect} from 'react';
@@ -175,11 +175,10 @@ useEffect(() => {
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Ionicons name="arrow-back" size={25} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="arrow-back" size={25} color={colors.text} /></TouchableOpacity>
     </View>
 
       <ScrollView>
@@ -188,9 +187,7 @@ useEffect(() => {
         Existencias por almacén
         </Text>
         
-        <Text style={{ color: colors.text,
-          fontSize: 15, 
-          paddingVertical: 10,}}>
+        <Text style={{ color: colors.text, fontSize: 15, paddingVertical: 10,}}>
           Inserte un almacén para ver sus existencias
           </Text>
           <Picker
@@ -243,21 +240,19 @@ useEffect(() => {
                              {/* Controles de paginación */}
           {Object.keys(existenciasMostradas || {}).length > itemsPerPage && (
             <View style={styles.paginationContainer}>
-              <TouchableHighlight
-                underlayColor={colors.input}
+              <TouchableOpacity
                 onPress={() => cambiarPagina(currentPage - 1)}
                 style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
                 disabled={currentPage === 1}
               >
                   <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-              </TouchableHighlight>
+              </TouchableOpacity>
               
               <Text style={styles.text}>
                 Página {currentPage} de {Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage)}
               </Text>
               
-              <TouchableHighlight
-                underlayColor={colors.input}
+              <TouchableOpacity
                 onPress={() => cambiarPagina(currentPage + 1)}
                 style={[
                   styles.paginationButton, 
@@ -266,7 +261,7 @@ useEffect(() => {
                 disabled={currentPage === Math.ceil(Object.keys(existenciasMostradas || {}).length / itemsPerPage)}
               >
                 <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           )}
         
@@ -287,10 +282,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navigation: {
     backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
   },
-  navIcons:{borderRadius: 50},
+  navIcons:{padding: 10, borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

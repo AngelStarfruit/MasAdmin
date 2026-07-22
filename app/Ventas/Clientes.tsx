@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { useState, useEffect, useCallback } from 'react';
 import { NoEmojis, Validar } from './backend'
@@ -194,12 +194,11 @@ useEffect(() => {
 
       <View style={styles.navigation}>
       
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")} 
       >
         <Ionicons name="arrow-back" size={25} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
 
     {/* Modal para añadir clientes */}
@@ -214,12 +213,11 @@ useEffect(() => {
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                   style={{height: 30, width: 30, alignItems: "flex-end"}}
-                  underlayColor={colors.scrollBackground}
                   onPress={() => setModalVisible(!modalVisible)}>
                   <Ionicons name="close" size={30} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
     
                 <View>
@@ -279,12 +277,11 @@ useEffect(() => {
               <View style={styles.modalView}>
     
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                   style={{height: 30, width: 30, alignItems: "flex-end"}}
-                  underlayColor={colors.scrollBackground}
                   onPress={() => setEModalVisible(!EmodalVisible)}>
                   <Ionicons name="close" size={30} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
     
                 <View>
@@ -350,12 +347,11 @@ useEffect(() => {
                         <View style={styles.modalView}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                            <TouchableHighlight
+                            <TouchableOpacity
                             style={{height: 30, width: 30, alignItems: "flex-end"}}
-                            underlayColor={colors.scrollBackground}
                             onPress={() => setBusqueda(!Busqueda)}>
                             <Ionicons name="close" size={30} color={colors.text} />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                           </View>
               
                           <View>
@@ -431,21 +427,19 @@ useEffect(() => {
                           </View>
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                            <TouchableHighlight
-                            underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                            <TouchableOpacity style={styles.modalRegret}
                               onPress={() => {
                                 setEModalVisible(true);
                                 setConfirm(!Confirm)}}>
                               <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                            </TouchableHighlight>
-                            <TouchableHighlight
-                            underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalDelete}
                               onPress={() => {
                                 setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
                               }}>
                               <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                           </View>
               
                         </View>
@@ -466,25 +460,23 @@ useEffect(() => {
           </Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TouchableHighlight
+                <TouchableOpacity
                 disabled={AddOff}
-                underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(clientes).length + 1)
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
                 style={[styles.add, AddOff && styles.disabled]}>
                     <Text style={{ color: colors.text}}>Añadir cliente</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
-                      <TouchableHighlight
-                      underlayColor={colors.input}
+                      <TouchableOpacity
                       onPress={() => {
                         setBusqueda(true)
                       }}
                       style={{...styles.add,  padding: 10}}>
                       <Ionicons name="search" size={20} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                       
                   </View>
 
@@ -512,14 +504,13 @@ useEffect(() => {
                   return(
                       <View key={id} style={styles.row}>
                       <View style={styles.cell}>
-                          <TouchableHighlight
-                          underlayColor={colors.input}
+                          <TouchableOpacity
                           onPress={() => {
                             setId(Number(id))
                             setNombre(nombre); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
                             setEModalVisible(true)}}>
                           <Text style={styles.text}>{nombre}</Text>
-                          </TouchableHighlight>
+                          </TouchableOpacity>
                           </View> 
                       <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{telefono}</Text></View>
                       <View style={[styles.cell, {flex: 0.8}]}><Text style={styles.text}>{ciudad}</Text></View>
@@ -539,21 +530,19 @@ useEffect(() => {
           {/* Controles de paginación */}
 {Object.keys(clientes || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
       style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentPage} de {Math.ceil(Object.keys(clientes || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
       style={[
         styles.paginationButton, 
@@ -562,7 +551,7 @@ useEffect(() => {
       disabled={currentPage === Math.ceil(Object.keys(clientes || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
         
@@ -581,14 +570,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   text:{
     color: colors.text
   },
-  navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
-  },
+  navigation: {backgroundColor: colors.navBackground},
   navIcons:{
-    padding: 10, 
-    borderRadius: 50,
+    padding: 10, borderRadius: 50,
   },
   scroll: {
     flex: 1,
@@ -618,8 +602,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 500, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },

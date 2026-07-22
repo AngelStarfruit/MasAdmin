@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import { type CategoriasScreenProps, single } from './types';
 import { useState, useCallback } from 'react';
@@ -153,12 +153,11 @@ const cambiarPagina = (nuevaPagina: number) => {
      <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
-            <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+            <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}
           >
             <Ionicons name="arrow-back" size={25} color={colors.text} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       {/* Modal para añadir categorías */}
@@ -173,12 +172,11 @@ const cambiarPagina = (nuevaPagina: number) => {
                   <View style={[styles.modalView, {marginVertical: 340}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalVisible(!modalVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -223,12 +221,11 @@ const cambiarPagina = (nuevaPagina: number) => {
                   <View style={[styles.modalView, {marginVertical: 340}]}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => setModalEVisible(!modalEVisible)}>
                       <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -295,21 +292,19 @@ const cambiarPagina = (nuevaPagina: number) => {
                                      </View>
                          
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                       <TouchableHighlight
-                                       underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                       <TouchableOpacity style={styles.modalRegret}
                                          onPress={() => {
                                           setModalEVisible(true)
                                           setConfirm(!Confirm)}}>
                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                       </TouchableHighlight>
-                                       <TouchableHighlight
-                                       underlayColor={colors.deleteUnderlay} style={[styles.modalDelete, {width: 50}]}
+                                       </TouchableOpacity>
+                                       <TouchableOpacity style={[styles.modalDelete, {width: 50}]}
                                          onPress={() => {
                                            setCategorias(QuitarElemento(categorias, id));
                                            setConfirm(!Confirm);
                                          }}>
                                          <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
-                                       </TouchableHighlight>
+                                       </TouchableOpacity>
                                      </View>
                          
                                    </View>
@@ -328,23 +323,21 @@ const cambiarPagina = (nuevaPagina: number) => {
           Para deshacer una busqueda, deje el criterio en blanco.</Text>
 
           <View style={styles.row}>
-        <TouchableHighlight 
+        <TouchableOpacity
             disabled={AddOff}
-            underlayColor={colors.input}
             onPress={() => {
                 setId(Object.keys(categorias).length + 1)
                 setCategory('')
                 setModalVisible(true)}}
             style={[styles.add, AddOff && styles.disabled ]}>
             <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
 
               <View style={styles.row}>
               <TextInput style={styles.input}
               placeholder="Buscar" placeholderTextColor="#777"
               value={query} onChangeText={setQuery}></TextInput>
-             <TouchableHighlight
-                underlayColor={colors.input}
+             <TouchableOpacity
                  onPress={() => {
                   if(query.trim() == ''){
                     setCategorias(datos.CATEGORIAS);
@@ -361,7 +354,7 @@ const cambiarPagina = (nuevaPagina: number) => {
                 }}
                 style={{...styles.add, padding: 10}}>
                 <Ionicons name="search" size={20} color={colors.text} />
-                </TouchableHighlight>
+                </TouchableOpacity>
                 </View></View>
         
         <View style={{marginVertical: 20, marginHorizontal: 27, backgroundColor: colors.background}}>
@@ -373,15 +366,14 @@ const cambiarPagina = (nuevaPagina: number) => {
              return (
                               <View key={id}>
                                 <View style={styles.cell}>
-                                <TouchableHighlight
-                                underlayColor={colors.input}
+                                <TouchableOpacity
                                 onPress={() => {
                                   setId(Number(id))
                                     setCategory(categoria)
                                     setModalEVisible(true)
                                   }}>
                                 <Text style={styles.text}>{categoria}</Text>
-                                </TouchableHighlight>
+                                </TouchableOpacity>
                                 </View> 
                         </View>
                         );
@@ -398,21 +390,19 @@ const cambiarPagina = (nuevaPagina: number) => {
        {/* Controles de paginación */}
 {Object.keys(categorias || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
       style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentPage} de {Math.ceil(Object.keys(categorias || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
       style={[
         styles.paginationButton, 
@@ -421,7 +411,7 @@ const cambiarPagina = (nuevaPagina: number) => {
       disabled={currentPage === Math.ceil(Object.keys(categorias || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
         </View>
@@ -441,10 +431,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   navigation: {
     backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
   },
-  navIcons:{borderRadius: 50},
+  navIcons:{padding: 10, borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -464,14 +452,16 @@ const getStyles = (colors: any) => StyleSheet.create({
   cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, padding: 20,
-    justifyContent: 'center',
-    backgroundColor: colors.modalBackground,
-  },
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxWidth: 350,
+  padding: 12,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     fontSize: 30, fontWeight: 'bold',
     marginBottom: 9, textAlign: 'center',

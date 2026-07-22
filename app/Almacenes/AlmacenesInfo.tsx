@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Modal, Alert} from 'react-native';
 import Constants from 'expo-constants';
 import { useState, useEffect} from 'react';
 import { Picker } from '@react-native-picker/picker';
@@ -187,11 +187,10 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Ionicons name="arrow-back" size={25} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="arrow-back" size={25} color={colors.text} /></TouchableOpacity>
     </View>
 
     {/* Modal para añadir almacenes */}
@@ -206,12 +205,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       <View style={styles.modalView}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                          <TouchableHighlight
+                          <TouchableOpacity
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={colors.scrollBackground}
                           onPress={() => setModalVisible(!modalVisible)}>
                           <Ionicons name="close" size={30} color={colors.text} />
-                          </TouchableHighlight>
+                          </TouchableOpacity>
                         </View>
             
                         <View>
@@ -278,12 +276,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       <View style={styles.modalView}>
             
                         <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                          <TouchableHighlight
+                          <TouchableOpacity
                           style={{height: 30, width: 30, alignItems: "flex-end"}}
-                          underlayColor={colors.scrollBackground}
                           onPress={() => setEModalVisible(!EmodalVisible)}>
                           <Ionicons name="close" size={30} color={colors.text} />
-                          </TouchableHighlight>
+                          </TouchableOpacity>
                         </View>
             
                         <View>
@@ -343,6 +340,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                       </View>
                       </View>
                     </Modal>
+
       {/* Modal para realizar una búsqueda */}
                   <Modal
                         animationType="fade"
@@ -355,12 +353,11 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                         <View style={styles.modalView}>
               
                           <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                            <TouchableHighlight
+                            <TouchableOpacity
                             style={{height: 30, width: 30, alignItems: "flex-end"}}
-                            underlayColor={colors.scrollBackground}
                             onPress={() => setBusqueda(!Busqueda)}>
                             <Ionicons name="close" size={30} color={colors.text} />
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                           </View>
               
                           <View>
@@ -429,21 +426,19 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                        <TouchableOpacity style={styles.modalRegret}
                                           onPress={() => {
                                             setEModalVisible(true)
                                             setConfirm(!Confirm)}}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                        </TouchableHighlight>
-                                        <TouchableHighlight
-                                        underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.modalDelete}
                                           onPress={() => {
                                             setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                        </TouchableHighlight>
+                                        </TouchableOpacity>
                                       </View>
                           
                                     </View>
@@ -462,9 +457,8 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
           </Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TouchableHighlight
+                <TouchableOpacity
                 disabled = {AddOff}
-                underlayColor={colors.input}
                 onPress={() => {
                   if(Object.keys(sucursales).length > 0){
                   setId(Object.keys(almacenes).length + 1)
@@ -475,16 +469,15 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                 }}
                 style={[styles.add, AddOff && styles.disabled]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir almacén</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
-                    <TouchableHighlight
-                    underlayColor={colors.input}
+                    <TouchableOpacity
                     onPress={() => {
                       setBusqueda(true)
                     }}
                     style={{...styles.add, padding: 10}}>
                     <Ionicons name="search" size={20} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
   
                   </View>
 
@@ -506,14 +499,13 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   return(
                       <View key={id} style={styles.row}>
                       <View style={styles.cell}>
-                          <TouchableHighlight
-                          underlayColor={colors.input}
+                          <TouchableOpacity
                           onPress={() => {
                             setId(Number(id))
                             setAlmacen(almacen); setSelectedBranch(sucursal);
                             setEModalVisible(true)}}>
                           <Text style={{color: colors.text}}>{almacen}</Text>
-                          </TouchableHighlight>
+                          </TouchableOpacity>
                           </View> 
                       <View style={styles.cell}><Text style={{color: colors.text}}>{sucursal}</Text></View>
                 </View>
@@ -531,21 +523,19 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
           {/* Controles de paginación */}
 {Object.keys(sucursales || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
       style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentPage} de {Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
       style={[
         styles.paginationButton, 
@@ -554,7 +544,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
       disabled={currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
         
@@ -574,12 +564,10 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
+    backgroundColor: colors.navBackground
   },
   navIcons:{
-    borderRadius: 50
+    padding: 10, borderRadius: 50
   },
   scroll: {
     flex: 1,
@@ -608,8 +596,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 300, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },

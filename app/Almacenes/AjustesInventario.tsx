@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 //import { obtenerAjustes } from './backend';
@@ -53,11 +53,10 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Almacenes")} 
       >
-        <Ionicons name="arrow-back" size={30} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="arrow-back" size={30} color={colors.text} /></TouchableOpacity>
     </View>
 
       <ScrollView>
@@ -65,12 +64,11 @@ export default function AjustesInventario({ navigation }: AjustesInventarioScree
         <Text style={{  fontSize: 25, fontWeight: 'bold', color: colors.text }}>
         Ajustes de inventario
         </Text>
-        <TouchableHighlight 
-                underlayColor={colors.input}
+        <TouchableOpacity
                 onPress={() => navigation.navigate("AddAjustesInventario")}
                 style={styles.add}>
                     <Text style={{color: colors.text}}>Realizar ajuste</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
         <View style={styles.table}>
               <View style={styles.row}>
                   <View style={styles.cell}>
@@ -120,11 +118,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
+    backgroundColor: colors.navBackground
   },
-  navIcons:{borderRadius: 50},
+  navIcons:{padding: 10, borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

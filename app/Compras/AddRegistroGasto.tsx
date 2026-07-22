@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroGastoScreenProps, RegistroGasto } from './types';
 import { useState } from 'react';
@@ -67,8 +67,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
-            <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+            <TouchableOpacity style={styles.navIcons}
             onPress={() => {
               if (Object.values(processGasto).length > 0){
               setConfirm(true)
@@ -77,7 +76,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
             }}
           >
             <Ionicons name="arrow-back" size={30} color={colors.text} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       {/* Modal para agregar gastos */}
@@ -92,12 +91,11 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                 <View style={[styles.modalView, {marginVertical: 290}]}>
       
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Ionicons name="close" size={30} color={colors.text} />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
       
                   <View>
@@ -151,13 +149,11 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                        <TouchableOpacity style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                        </TouchableHighlight>
-                                        <TouchableHighlight
-                                        underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.modalConfirm}
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Gastos).length + 1)
@@ -165,7 +161,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                             navigation.navigate("ControlGastos")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                        </TouchableHighlight>
+                                        </TouchableOpacity>
                                       </View>
                           
                                     </View>
@@ -188,19 +184,17 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                        <TouchableOpacity style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                        </TouchableHighlight>
-                                        <TouchableHighlight
-                                        underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.modalDelete}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlGastos")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                        </TouchableHighlight>
+                                        </TouchableOpacity>
                                       </View>
                           
                                     </View>
@@ -234,14 +228,13 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     <Text style={styles.text}>{Number(costo).toFixed(2)}$</Text>
                     </View>
                     <View style={[styles.cell, { flex: 0.15}]}>
-                        <TouchableHighlight
+                        <TouchableOpacity
                         style={{height:20, width:20}}
                         onPress={()=> {
                           setProcessGasto(QuitarElemento(processGasto,Number(id)))}}
-                        underlayColor={colors.deleteUnderlay}
                         >
                         <Ionicons name="close" size={25} color='red' />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                         </View>
                       </View>
                     ))}  
@@ -249,16 +242,14 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
           </View>
 
           <View style={styles.row}>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay} 
+          <TouchableOpacity
                   onPress={() => {
                     setCosto(''), setGasto(''); 
                     setModalVisible(true)}}
                   style={styles.button}>
                   <Text style={styles.text}>Agregar</Text>
-              </TouchableHighlight>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay}
+              </TouchableOpacity>
+          <TouchableOpacity
                   onPress={() => {
                     if (Object.keys(processGasto).length > 0){
                       setReceive(true)
@@ -267,7 +258,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   }}
                   style={styles.button}>
                   <Text style={styles.text}>Confirmar</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
               </View>
         <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {total}$
@@ -289,11 +280,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     color: colors.text
   },
   navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
+    backgroundColor: colors.navBackground
   },
-  navIcons:{borderRadius: 50},
+  navIcons:{padding: 10, borderRadius: 50},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

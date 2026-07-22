@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { ComprasScreenProps } from './types';
 import { useCallback } from 'react';
@@ -161,43 +161,36 @@ export default function Compras({ navigation }: ComprasScreenProps ) {
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
       <View style={styles.navigation}>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+      <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Dashboard")}
       >
-        <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="grid-outline" size={20} color={colors.text} /></TouchableOpacity>
 
-      <TouchableHighlight
-        style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}
-      >
-        <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableHighlight>
+      <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}>
+        <Ionicons name="cart-outline" size={20} color={colors.text} /></View>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Ventas")}
       >
-        <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="cash-outline" size={20} color={colors.text} /></TouchableOpacity>
 
-      <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Sucursales")} 
+      <TouchableOpacity style={styles.navIcons}
+        onPress={() => navigation.navigate("Sucursales")}
       >
-        <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="business-outline" size={20} color={colors.text} /></TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("Almacenes")} 
+        <TouchableOpacity style={styles.navIcons}
+        onPress={() => navigation.navigate("Almacenes")}
       >
-        <Ionicons name="cube-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="cube-outline" size={20} color={colors.text} /></TouchableOpacity>
 
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
-        onPress={() => navigation.navigate("ListaDePrecios")} 
+       <TouchableOpacity style={styles.navIcons}
+        onPress={() => navigation.navigate("ListaDePrecios")}
       >
-        <Ionicons name="pricetag-outline" size={20} color={colors.text} /></TouchableHighlight>
+        <Ionicons name="pricetag-outline" size={20} color={colors.text} /></TouchableOpacity>
 
     </View>
-      
+    
         <View style={styles.space}>
 
         <Text style={{ fontSize: 25, fontWeight: 'bold' , color: colors.text}}>
@@ -254,7 +247,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
-    padding: 5,
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -268,7 +260,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     backgroundColor: colors.primary,
-    borderRadius: 25,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },

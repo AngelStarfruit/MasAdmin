@@ -27,7 +27,7 @@ const lightColors = {
   confirm: '#62ff77', confirmUnderlay: '#90ff9f',
   edit: '#f3fe53', editUnderlay: '#f7ff80',
   delete: '#ff8787', deleteUnderlay: '#ff9797',
-  regret: '#ccc', regretUnderlay: '#ddd'
+  regret: '#ccc'
 };
 
 const darkColors = {
@@ -46,7 +46,7 @@ const darkColors = {
   confirm: '#00620d', confirmUnderlay: '#1e942d',
   edit: '#8a9400', editUnderlay: '#bac700',
   delete: '#8e0000', deleteUnderlay: '#c20000',
-  regret: '#444',  regretUnderlay: '#555'
+  regret: '#444'
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);

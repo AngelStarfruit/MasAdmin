@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TextInput, Modal, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, TextInput, Modal, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { ProveedoresScreenProps, FormerJSON } from './types';
 import { useState, useEffect, useCallback } from 'react';
@@ -192,12 +192,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
       <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+        <TouchableOpacity style={styles.navIcons}
         onPress={() => navigation.navigate("Compras")} 
       >
         <Ionicons name="arrow-back" size={25} color={colors.text} />
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
 
     {/* Modal para añadir proveedores */}
@@ -212,12 +211,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
           <View style={styles.modalView}>
 
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <TouchableHighlight
+              <TouchableOpacity
               style={{height: 30, width: 30, alignItems: "flex-end"}}
-              underlayColor={colors.scrollBackground}
               onPress={() => setModalVisible(!modalVisible)}>
               <Ionicons name="close" size={30} color={colors.text} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
 
             <View>
@@ -277,12 +275,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
           <View style={styles.modalView}>
 
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <TouchableHighlight
+              <TouchableOpacity
               style={{height: 30, width: 30, alignItems: "flex-end"}}
-              underlayColor={colors.scrollBackground}
               onPress={() => setEModalVisible(!EmodalVisible)}>
               <Ionicons name="close" size={30} color={colors.text} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
 
             <View>
@@ -347,12 +344,11 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   <View style={styles.modalView}>
         
                     <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                      <TouchableHighlight
+                      <TouchableOpacity
                       style={{height: 30, width: 30, alignItems: "flex-end"}}
-                      underlayColor={colors.scrollBackground}
                       onPress={() => setBusqueda(!Busqueda)}>
                      <Ionicons name="close" size={30} color={colors.text} />
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
         
                     <View>
@@ -430,21 +426,19 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                                 </View>
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                  <TouchableHighlight
-                                  underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                  <TouchableOpacity style={styles.modalRegret}
                                     onPress={() => {
                                 setEModalVisible(true);
                                       setConfirm(!Confirm)}}>
                                     <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                  </TouchableHighlight>
-                                  <TouchableHighlight
-                                  underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                                  </TouchableOpacity>
+                                  <TouchableOpacity style={styles.modalDelete}
                                     onPress={() => {
                                       setProveedores(QuitarElemento(proveedores, id));
                                       setConfirm(!Confirm);
                                     }}>
                                     <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                  </TouchableHighlight>
+                                  </TouchableOpacity>
                                 </View>
                     
                               </View>
@@ -466,25 +460,23 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
           </Text>
 
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                <TouchableHighlight
+                <TouchableOpacity
                 disabled={AddOff}
-                underlayColor={colors.input}
                 onPress={() => {
                   setId(Object.keys(proveedores).length + 1)
                   setEmpresa(''); setTelefono(''); setCiudad(''); setEstado(''); 
                   setModalVisible(true)}}
                 style={[styles.add , AddOff && styles.disabled]}>
                     <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir proveedor</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
-                  <TouchableHighlight
-                  underlayColor={colors.input}
+                  <TouchableOpacity
                   onPress={() => {
                     setBusqueda(true)
                   }}
                   style={{...styles.add, padding: 10}}>
                   <Ionicons name="search" size={20} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
 
                   </View>
 
@@ -512,14 +504,13 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
                   return(
                       <View key={id} style={styles.row}>
                         <View style={styles.cell}>
-                        <TouchableHighlight
-                        underlayColor={colors.input}
+                        <TouchableOpacity
                         onPress={() => {
                           setId(Number(id))
                           setEmpresa(empresa); setTelefono(telefono); setCiudad(ciudad); setEstado(estado);
                           setEModalVisible(true)}}>
                         <Text style={styles.text}>{empresa}</Text>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                         </View> 
                       <View style={styles.cell}><Text style={styles.text}>{telefono}</Text></View>
                       <View style={styles.cell}><Text style={styles.text}>{ciudad}</Text></View>
@@ -538,21 +529,19 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
  {/* Controles de paginación */}
 {Object.keys(proveedores || {}).length > itemsPerPage && (
   <View style={styles.paginationContainer}>
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
       style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
     
     <Text style={styles.text}>
       Página {currentPage} de {Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage)}
     </Text>
     
-    <TouchableHighlight
-      underlayColor={colors.input}
+    <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
       style={[
         styles.paginationButton, 
@@ -561,7 +550,7 @@ export default function Proveedores({ navigation }: ProveedoresScreenProps) {
       disabled={currentPage === Math.ceil(Object.keys(proveedores || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
-    </TouchableHighlight>
+    </TouchableOpacity>
   </View>
 )}
 
@@ -582,14 +571,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   text:{
     color: colors.text
   },
-  navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
-  },
+  navigation: { backgroundColor: colors.navBackground },
   navIcons:{
-    padding: 10, 
-    borderRadius: 50
+    padding: 10, borderRadius: 50
   },
   scroll: {
     flex: 1,
@@ -620,8 +604,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 500, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },

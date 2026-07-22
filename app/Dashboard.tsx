@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Modal, Alert, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
 import Constants from 'expo-constants';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -511,12 +511,11 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
         <View style={styles.modalOverlay}>
           <View style={[styles.modalView, {marginVertical: 200}]}>
             <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-              <TouchableHighlight
+              <TouchableOpacity
                 style={{height: 30, width: 30, alignItems: "flex-end"}}
-                underlayColor={colors.scrollBackground}
                 onPress={() => setModalVisible(!modalVisible)}>
                 <Ionicons name="close" size={30} color={colors.text} />
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
             
             <View>
@@ -586,22 +585,21 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setUserModalVisible(!userModalVisible);
         }}>
         <View style={styles.modalOverlay}>
-          <KeyboardAvoidingView 
+          {/*<KeyboardAvoidingView 
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{ flex: 1 }}>
             <ScrollView 
               showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled">
+              keyboardShouldPersistTaps="handled">*/}
               <View style={[styles.modalView, { marginVertical: 150 }]}>
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.scrollBackground}
                     onPress={() => {
                       setModalVisible(true)
                       setUserModalVisible(!userModalVisible)}}>
                     <Ionicons name="close" size={30} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
                 
                 <View>
@@ -684,8 +682,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 </TouchableHighlight>
                 </View>
               </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
         </View>
       </Modal>
 
@@ -700,14 +696,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
   <View style={styles.modalOverlay}>
     <View style={[styles.modalView, {marginVertical: 310}]}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <TouchableHighlight
+        <TouchableOpacity
           style={{height: 30, width: 30, alignItems: "flex-end"}}
-          underlayColor={colors.scrollBackground}
           onPress={() => {
             setModalVisible(true)
             setEmpresaModalVisible(!empresaModalVisible)}}>
           <Ionicons name="close" size={30} color={colors.text} />
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
       
       <View>
@@ -792,22 +787,19 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Text style={styles.modalTitle}>¿Cerrar sesión?</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              <TouchableHighlight
-                underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+              <TouchableOpacity style={styles.modalRegret}
                 onPress={() => {
                   setModalVisible(true)
                   setConfirmCerradoSesion(!ConfirmCerradoSesion)}}>
                 <Text style={[styles.text, {fontSize:20}]}>NO</Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalDelete}
                 onPress={() => {
-                  setModalVisible(!modalVisible);
                   setConfirmCerradoSesion(!ConfirmCerradoSesion);
                   cerrarSesion();
                 }}>
                 <Text style={[styles.text, {fontSize:20}]}>SÍ</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -822,20 +814,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setModalEvento(!modalEvento);
         }}>
         <View style={styles.modalOverlay}>
-          <KeyboardAvoidingView 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}>
-            <ScrollView 
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled">
               <View style={styles.modalView}>
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalEvento(!modalEvento)}>
                     <Ionicons name="close" size={30} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
                 
                 <View>
@@ -894,8 +879,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   </TouchableHighlight>
                 </View>
               </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
         </View>
       </Modal>
       
@@ -908,20 +891,13 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
           setModalEvento(!modalEditEvento);
         }}>
         <View style={styles.modalOverlay}>
-          <KeyboardAvoidingView 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}>
-            <ScrollView 
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled">
               <View style={styles.modalView}>
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalEditEvento(!modalEditEvento)}>
                     <Ionicons name="close" size={30} color={colors.text} />
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
                 
                 <View>
@@ -985,8 +961,6 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                   </TouchableHighlight>
                 </View>
               </View>
-            </ScrollView>
-          </KeyboardAvoidingView>
         </View>
       </Modal>
 
@@ -1006,28 +980,26 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           </View>
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                            <TouchableHighlight
-                            underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                            <TouchableOpacity style={styles.modalRegret}
                               onPress={() => {
                                 setModalEditEvento(true);
                                 setConfirm(!Confirm)}}>
                               <Text style={[styles.text ,{fontSize: 20}]}>NO</Text>
-                            </TouchableHighlight>
-                            <TouchableHighlight
-                            underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalDelete}
                               onPress={() => {
                                 setEventosMostrados(QuitarElemento(eventosMostrados,id))
                                 setConfirm(!Confirm);
                               }}>
                               <Text style={[styles.text ,{fontSize: 20}]}>SÍ</Text>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                           </View>
               
                         </View>
                         </View>
                       </Modal>
 
-      {/* Pantalla */}
+      {/* ---------------------------------Pantalla--------------------------------- */}
       <View>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 10}}>
@@ -1037,8 +1009,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               color: colors.primary,
             }}>MasAdmin</Text>
           </View>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay}
+          <TouchableOpacity
             onPress={() => {
             setNombre(usuarioSesion[0]);
             setTelefono(usuarioSesion[2]);
@@ -1053,38 +1024,40 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             }}
             style={[styles.navIcons, {height: 50, width: 50, marginRight: 20}]}>
             <Ionicons name="settings-outline" size={30} color={colors.text}/>
-            </TouchableHighlight>
+            </TouchableOpacity>
         </View>
 
         <View style={styles.navigation}>
-          <TouchableHighlight style={[styles.navIcons, {backgroundColor: colors.navIconUnderlay}]}>
+
+          <View style={[styles.navIcons, {backgroundColor: colors.navIconUnderlay}]}>
             <Ionicons name="grid-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+          </View>
+
+          <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("Compras")}>
             <Ionicons name="cart-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("Ventas")}>
             <Ionicons name="cash-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("Sucursales")}>
             <Ionicons name="business-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("Almacenes")}>
             <Ionicons name="cube-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.navIcons}
             onPress={() => navigation.navigate("ListaDePrecios")}>
             <Ionicons name="pricetag-outline" size={20} color={colors.text} />
-          </TouchableHighlight>
+          </TouchableOpacity>
+          
         </View>
       </View>
 
@@ -1141,8 +1114,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 <Picker.Item label="Este año" value="añoA" />
               </Picker>
             </View>
-            <TouchableHighlight
-              underlayColor={colors.input}
+            <TouchableOpacity
               onPress={() => {
                 setId(Object.keys(eventos).length + 1);
                 setEvento(''); 
@@ -1153,7 +1125,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               }}
               style={styles.add}>
               <Text style={{color: colors.text}}>Registrar evento</Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
           
           <View style={styles.table}>
@@ -1171,15 +1143,14 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 return (
                   <View key={id} style={styles.row}>
                     <View style={styles.cell}>
-                      <TouchableHighlight
-                        underlayColor={colors.input}
+                      <TouchableOpacity
                         onPress={() => {
                           setId(Number(id))
                           setEvento(evento); setFechaHora(new Date(fechaHora)); setLugar(lugar); setContacto(contacto);
                           setModalEditEvento(true);
                         }}>
                         <Text style={styles.text}>{evento}</Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
                     <View style={[styles.cell, {flex: 0.9}]}>
                       <Text style={styles.text}>{fechaHora.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1')}</Text>
@@ -1214,7 +1185,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
-    padding: 5,
   },
   navIcons:{
     padding: 10, borderRadius: 50 ,
@@ -1248,14 +1218,17 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {flexDirection: 'row',},
   cell: {flex: 1, padding: 2,},
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 250, padding: 9,
-    backgroundColor: colors.modalBackground,
-  },
+ modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxWidth: 350,
+  padding: 12,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
     fontSize: 30, fontWeight: 'bold', color: colors.text,
     marginBottom: 9,

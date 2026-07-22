@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Modal, TextInput, Alert } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
 import Constants from 'expo-constants';
 import type { AddRegistroCompraScreenProps, RegistroCompra } from './types';
 import { useState, useEffect, useCallback } from 'react';
@@ -218,8 +218,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
       <StatusBar style={theme === 'oscuro' ? 'light' : 'dark'}  />
 
     <View style={styles.navigation}>
-            <TouchableHighlight
-            underlayColor={colors.navIconUnderlay} style={styles.navIcons}
+            <TouchableOpacity style={styles.navIcons}
             onPress={() => {
               if (Object.values(processCompra).length > 0){
               setConfirm(true)
@@ -228,7 +227,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
             }}
           >
             <Ionicons name="arrow-back" size={30} color={colors.text} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       {/* Modal para agregar elementos a la compra */}
@@ -243,12 +242,11 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                 <View style={styles.modalView}>
       
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                     style={{height: 30, width: 30, alignItems: "flex-end"}}
-                    underlayColor={colors.scrollBackground}
                     onPress={() => setModalVisible(!modalVisible)}>
                     <Ionicons name="close" size={30} color={colors.text} />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                   </View>
       
                   <View>
@@ -376,13 +374,11 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                        <TouchableOpacity style={styles.modalRegret}
                                           onPress={() => setReceive(!Receive)}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                        </TouchableHighlight>
-                                        <TouchableHighlight
-                                        underlayColor={colors.confirmUnderlay} style={styles.modalConfirm}
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.modalConfirm}
                                           onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Compras).length + 1)
@@ -391,7 +387,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                             navigation.navigate("ControlCompras")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                        </TouchableHighlight>
+                                        </TouchableOpacity>
                                       </View>
                           
                                     </View>
@@ -414,19 +410,17 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableHighlight
-                                        underlayColor={colors.regretUnderlay} style={styles.modalRegret}
+                                        <TouchableOpacity style={styles.modalRegret}
                                           onPress={() => setConfirm(!Confirm)}>
                                           <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
-                                        </TouchableHighlight>
-                                        <TouchableHighlight
-                                        underlayColor={colors.deleteUnderlay} style={styles.modalDelete}
+                                        </TouchableOpacity>
+                                        <TouchableOpacity style={styles.modalDelete}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlCompras")
                                           }}>
                                           <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
-                                        </TouchableHighlight>
+                                        </TouchableOpacity>
                                       </View>
                           
                                     </View>
@@ -530,14 +524,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     <Text style={styles.text}>{nlote}</Text>
                     </View>
                     <View style={[styles.cell, {flex: 0.15}]}>
-                        <TouchableHighlight
+                        <TouchableOpacity
                         style={{height:20, width:20}}
                         onPress={()=> {
                           setProcessCompra(QuitarElemento(processCompra,Number(id)))}}
-                        underlayColor={colors.deleteUnderlay}
                         >
                         <Ionicons name="close" size={25} color='red' />
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                         </View>
                       </View>
                     ))}  
@@ -546,17 +539,15 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
           </View>
 
           <View style={styles.row}>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay} 
+          <TouchableOpacity
                 disabled={Off}
                   onPress={() => {
                     setSelectedProduct(''), setCantidad(''); setNlote('')
                     setModalVisible(true)}}
                   style={styles.button}>
                   <Text style={styles.text}>Agregar</Text>
-              </TouchableHighlight>
-          <TouchableHighlight
-                underlayColor={colors.optionUnderlay}
+              </TouchableOpacity>
+          <TouchableOpacity
                   onPress={() => {
                     if (Object.keys(processCompra).length > 0){
                       setReceive(true)
@@ -564,7 +555,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                     else Alert.alert("Error", "El almacén no tiene productos que recibir")}}
                   style={styles.button}>
                   <Text style={styles.text}>Registrar compra</Text>
-              </TouchableHighlight>
+              </TouchableOpacity>
               </View>
         <Text style={[styles.textRow, {marginBottom: 50}]}>
         Total a gastar: {total}$
@@ -585,14 +576,9 @@ const getStyles = (colors: any) => StyleSheet.create({
   text:{
     color: colors.text
   },
-  navigation: {
-    backgroundColor: colors.navBackground,
-    flexDirection: 'row',
-    padding: 10,
-  },
+  navigation: {backgroundColor: colors.navBackground},
   navIcons:{
-    padding: 10, 
-    borderRadius: 50
+    padding: 10, borderRadius: 50
   },
   scroll: {
     flex: 1,

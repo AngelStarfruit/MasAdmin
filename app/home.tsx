@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, ScrollView, TouchableHighlight, Modal, Image} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity, Modal, Image} from 'react-native';
 import Constants from 'expo-constants';
 import type { homeScreenProps } from './types';
 import { useState } from 'react';
@@ -49,11 +49,10 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                     </View>
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <TouchableHighlight
-                      underlayColor={colors.regretUnderlay} style={styles.modalOK}
+                      <TouchableOpacity style={styles.modalOK}
                         onPress={() => setModalVisible(!modalVisible)}>
                         <Text style={{color: colors.text, fontSize: 20}}>OK</Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                       </View>
         
                   </View>
@@ -62,11 +61,10 @@ export default function Dashboard({navigation}: homeScreenProps ) {
 
       {/* Pantalla */ }
       <View style={styles.navigation}>
-        <TouchableHighlight
-        underlayColor={colors.primaryUnderlay} style={styles.navButton}
+        <TouchableOpacity style={styles.navButton}
         onPress={() => setModalVisible(true)} 
       >
-        <Text style={{color: colors.background, fontWeight: 'bold'}}>Acerca de</Text></TouchableHighlight>
+        <Text style={{color: colors.background, fontWeight: 'bold'}}>Acerca de</Text></TouchableOpacity>
     </View>
 
       <ScrollView>
@@ -141,8 +139,8 @@ const getStyles = (colors: any) => StyleSheet.create({
   justifyContent: 'center', alignItems: 'center',
 },
 modalView: {
-  maxHeight: 650, maxWidth: 350,
-  padding: 9,
+  maxWidth: 350,
+  padding: 12,
   backgroundColor: colors.modalBackground,
   borderRadius: 20,
 },
