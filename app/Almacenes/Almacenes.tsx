@@ -155,8 +155,8 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
         <Ionicons name="business-outline" size={20} color={colors.text} />
       </TouchableOpacity>
 
-        <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}>
-        <Ionicons name="cube-outline" size={20} color={colors.text} /></View>
+        <View style={styles.navIcons}>
+        <Ionicons name="cube-outline" size={20} color={colors.primary} /></View>
 
         <TouchableOpacity
         style={styles.navIcons} onPress={() => navigation.navigate("ListaDePrecios")}
@@ -172,7 +172,7 @@ export default function Almacenes({ navigation }: AlmacenesScreenProps ) {
           <Ionicons name="cube" size={25} color={colors.text} /> Almacenes
           </Text>
           <Text style={{ fontSize: 20, color: colors.text}}>
-          Seleccione una sección:
+          Seleccione una opción:
           </Text>
 
         <View style={{flex: 1, justifyContent: 'space-evenly', alignItems: 'center'}}>
@@ -226,9 +226,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
   },
-  navIcons:{
-    padding: 10, borderRadius: 50 ,
-  },
+  navIcons:{ padding: 10},
   space: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

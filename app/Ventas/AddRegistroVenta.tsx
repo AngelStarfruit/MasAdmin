@@ -255,7 +255,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   </View>
       
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Elemento:</Text>
+                      <Text style={styles.label}>Elemento:</Text>
                       <View style={{width:200, height:55}}>
                         <Picker
                         style={styles.input}
@@ -299,13 +299,13 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                         </Picker></View>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Cantidad:</Text>
+                      <Text style={styles.label}>Cantidad:</Text>
                       <TextInput style={styles.input} 
                                 value={cantidad} onChangeText={setCantidad}
                                 keyboardType='numeric'></TextInput>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !fieldOn && styles.disabled]}>N° de lote:</Text>
+                      <Text style={[styles.label, !fieldOn && styles.disabled]}>N° de lote:</Text>
                       <TextInput style={[styles.input, !fieldOn && styles.disabled]} 
                       editable={fieldOn}
                                 value={nlote} onChangeText={setNlote}
@@ -367,26 +367,23 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Enviar los artículos desde el almacén?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setReceive(!Receive)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setReceive(!Receive)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalConfirm}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Ventas).length + 1)
                                             setVentas(registrar(Ventas,idP,hoyStr,Number(total),selectedCustomer))
                                             afectarAlmacen(existencias, processVenta, selectedStore)
                                             navigation.navigate("ControlVentas")
-                                          }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          }}><Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -403,23 +400,21 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setConfirm(!Confirm)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalDelete}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlVentas")
                                           }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          <Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -435,7 +430,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
         </Text>
 
         <View style={[styles.row, {marginBottom: 12}]}>
-          <Text style={styles.textRow}>Cliente:</Text>
+          <Text style={styles.label}>Cliente:</Text>
           <View style={{width:150}}>
           <Picker
             style={styles.input}
@@ -464,7 +459,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
         </View>
 
           <View style={styles.row}>
-          <Text style={styles.textRow}>Almacen afectado:</Text>
+          <Text style={styles.label}>Almacen afectado:</Text>
           <View style={{width:180}}>
           <Picker
             style={styles.input}
@@ -556,7 +551,7 @@ export default function AddRegistroVenta({ navigation }: AddRegistroVentaScreenP
                   <Text style={styles.text}>Registrar venta</Text>
               </TouchableOpacity>
               </View>
-        <Text style={[styles.textRow, {marginBottom: 50}]}>
+        <Text style={[styles.label, {marginBottom: 50}]}>
         Total a ganar: {total}$
         </Text>
         
@@ -572,13 +567,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{ color: colors.text},
   navigation: {backgroundColor: colors.navBackground},
-  navIcons:{ 
-    padding: 10, borderRadius: 50 
-  },
+  navIcons:{ padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -586,11 +577,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {
     flexDirection: 'row', justifyContent: 'space-between',
-  },
-  textRow:{
-    fontSize: 20, 
-    paddingVertical: 5, 
-    color: colors.text,
   },
   button: {
     backgroundColor: colors.option,
@@ -619,7 +605,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 9,
     textAlign: 'center',
     color: colors.text,
@@ -632,14 +618,11 @@ modalView: {
     flexDirection: 'row', justifyContent: 'space-evenly', 
     marginBottom: 18,
   },
-  modalLabel:{
+  label:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm, padding: 10,borderRadius: 20,
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10,borderRadius: 20,

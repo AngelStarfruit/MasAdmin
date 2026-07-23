@@ -231,8 +231,8 @@ useEffect(() => {
         <Ionicons name="cash-outline" size={20} color={colors.text} />
       </TouchableOpacity>
 
-      <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}>
-        <Ionicons name="business-outline" size={20} color={colors.text} /></View>
+      <View style={styles.navIcons} >
+        <Ionicons name="business-outline" size={20} color={colors.primary} /></View>
 
        <TouchableOpacity
         style={styles.navIcons} onPress={() => navigation.navigate("Almacenes")}
@@ -390,18 +390,16 @@ useEffect(() => {
                                 </View>
                     
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                  <TouchableOpacity style={styles.modalRegret}
-                                    onPress={() => {
+                                  <TouchableOpacity onPress={() => {
                                        setEModalVisible(true);
                                       setConfirm(!Confirm)}}>
-                                    <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                    <Ionicons name="close" size={40} color={colors.text} />
                                   </TouchableOpacity>
-                                  <TouchableOpacity style={styles.modalDelete}
-                                    onPress={() => {
+                                  <TouchableOpacity onPress={() => {
                                       setSucursales(QuitarElemento(sucursales, id));
                                       setConfirm(!Confirm);
                                     }}>
-                                    <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
+                                    <Ionicons name="checkmark" size={40} color={colors.text} />
                                   </TouchableOpacity>
                                 </View>
                     
@@ -432,7 +430,7 @@ useEffect(() => {
           setSucursal(''); setTelefono('');
           setModalVisible(true)}}
         style={[styles.add, AddOff && styles.disabled]}>
-            <Text style={{color: colors.text}}>Añadir sucursal</Text>
+            <Ionicons name="add" size={20} color={colors.text} />
           </TouchableOpacity>
 
             <View style={[styles.row, {alignItems: 'center'}]}>
@@ -543,16 +541,12 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{ color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
   },
-  navIcons:{
-    padding: 10, borderRadius: 50 ,
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -583,7 +577,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 9,
     textAlign: 'center',
     color: colors.text
@@ -607,17 +601,11 @@ modalView: {
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
-  },
   //Paginación
   paginationContainer: {
   flexDirection: 'row', justifyContent: 'space-evenly',
   alignItems: 'center',
   marginBottom: 40,
 },
-paginationButton: {
-  padding: 5, borderRadius: 20,
-  backgroundColor: colors.input,
-},
+paginationButton: {padding: 5},
 });

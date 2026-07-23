@@ -427,18 +427,16 @@ useEffect(() => {
                           </View>
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                            <TouchableOpacity style={styles.modalRegret}
-                              onPress={() => {
+                            <TouchableOpacity onPress={() => {
                                 setEModalVisible(true);
                                 setConfirm(!Confirm)}}>
-                              <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                              <Ionicons name="close" size={40} color={colors.text} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.modalDelete}
-                              onPress={() => {
+                            <TouchableOpacity onPress={() => {
                                 setClientes(QuitarElemento(clientes, id));
                                 setConfirm(!Confirm);
                               }}>
-                              <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                              <Ionicons name="checkmark" size={40} color={colors.text} />
                             </TouchableOpacity>
                           </View>
               
@@ -467,7 +465,7 @@ useEffect(() => {
                   setNombre(''); setTelefono(''); setCiudad(''); setEstado('')
                   setModalVisible(true)}}
                 style={[styles.add, AddOff && styles.disabled]}>
-                    <Text style={{ color: colors.text}}>Añadir cliente</Text>
+                    <Ionicons name="add" size={20} color={colors.text} />
                   </TouchableOpacity>
 
                       <TouchableOpacity
@@ -567,13 +565,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{ color: colors.text},
   navigation: {backgroundColor: colors.navBackground},
-  navIcons:{
-    padding: 10, borderRadius: 50,
-  },
+  navIcons:{ padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -608,7 +602,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold', color: colors.text,
+    fontSize: 25, fontWeight: 'bold', color: colors.text,
     marginBottom: 9,
     textAlign: 'center',
   },
@@ -626,9 +620,6 @@ modalView: {
   modalEdit: {
     backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
-  },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
@@ -638,8 +629,5 @@ modalView: {
   alignItems: 'center',
   marginBottom: 40,
 },
-paginationButton: {
-  padding: 5, borderRadius: 20,
-  backgroundColor: colors.input,
-},
+paginationButton: {padding: 5},
 });

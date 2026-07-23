@@ -558,7 +558,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             selectedValue={itemsPerPage}
             onValueChange={(itemValue) => setItemsPerPage(itemValue)}
           >
-            <Picker.Item label="50" value={25} />
+            <Picker.Item label="25" value={25} />
             <Picker.Item label="50" value={50} />
             <Picker.Item label="100" value={100} />
             <Picker.Item label="500" value={200} />
@@ -787,18 +787,15 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
               <Text style={styles.modalTitle}>¿Cerrar sesión?</Text>
             </View>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-              <TouchableOpacity style={styles.modalRegret}
-                onPress={() => {
+              <TouchableOpacity onPress={() => {
                   setModalVisible(true)
                   setConfirmCerradoSesion(!ConfirmCerradoSesion)}}>
-                <Text style={[styles.text, {fontSize:20}]}>NO</Text>
+                <Ionicons name="close" size={40} color={colors.text} />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.modalDelete}
-                onPress={() => {
+              <TouchableOpacity onPress={() => {
                   setConfirmCerradoSesion(!ConfirmCerradoSesion);
                   cerrarSesion();
-                }}>
-                <Text style={[styles.text, {fontSize:20}]}>SÍ</Text>
+                }}><Ionicons name="checkmark" size={40} color={colors.text} />
               </TouchableOpacity>
             </View>
           </View>
@@ -980,18 +977,16 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                           </View>
               
                           <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                            <TouchableOpacity style={styles.modalRegret}
-                              onPress={() => {
+                            <TouchableOpacity onPress={() => {
                                 setModalEditEvento(true);
                                 setConfirm(!Confirm)}}>
-                              <Text style={[styles.text ,{fontSize: 20}]}>NO</Text>
+                              <Ionicons name="close" size={40} color={colors.text} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.modalDelete}
-                              onPress={() => {
+                            <TouchableOpacity onPress={() => {
                                 setEventosMostrados(QuitarElemento(eventosMostrados,id))
                                 setConfirm(!Confirm);
                               }}>
-                              <Text style={[styles.text ,{fontSize: 20}]}>SÍ</Text>
+                              <Ionicons name="checkmark" size={40} color={colors.text} />
                             </TouchableOpacity>
                           </View>
               
@@ -1029,8 +1024,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
 
         <View style={styles.navigation}>
 
-          <View style={[styles.navIcons, {backgroundColor: colors.navIconUnderlay}]}>
-            <Ionicons name="grid-outline" size={20} color={colors.text} />
+          <View style={styles.navIcons}>
+            <Ionicons name="grid-outline" size={20} color={colors.primary} />
           </View>
 
           <TouchableOpacity style={styles.navIcons}
@@ -1102,7 +1097,7 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
             Seleccione un evento para modificarlo.
           </Text>
           
-          <View style={[styles.row, {justifyContent: 'space-between'}]}>
+          <View style={[styles.row, {justifyContent: 'space-between', alignItems: 'center'}]}>
             <View style={{width: 180, height: 55}}>
               <Picker
                 selectedValue={selectedAValue}
@@ -1122,9 +1117,8 @@ export default function Dashboard({navigation}: DashboardScreenProps ) {
                 setLugar(''); 
                 setContacto('');
                 setModalEvento(true);
-              }}
-              style={styles.add}>
-              <Text style={{color: colors.text}}>Registrar evento</Text>
+              }}>
+              <Ionicons name="add" size={30} color={colors.text} />
             </TouchableOpacity>
           </View>
           
@@ -1186,9 +1180,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
   },
-  navIcons:{
-    padding: 10, borderRadius: 50 ,
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -1203,10 +1195,6 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.secondary,
     fontWeight: 'bold', fontSize: 30, color: colors.primary,
     paddingVertical: 30, marginVertical: 10,
-    borderRadius: 20,
-  },
-  add: {
-    backgroundColor: colors.background, padding: 10,
     borderRadius: 20,
   },
   table: {
@@ -1230,7 +1218,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold', color: colors.text,
+    fontSize: 25, fontWeight: 'bold', color: colors.text,
     marginBottom: 9,
     textAlign: 'center'
   },
@@ -1256,8 +1244,5 @@ modalView: {
   },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
 });

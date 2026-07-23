@@ -184,7 +184,7 @@ const cambiarPagina = (nuevaPagina: number) => {
                     </View>
         
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Nombre:</Text>
+                      <Text style={styles.label}>Nombre:</Text>
                       <TextInput style={{...styles.input, width: 150}}
                       value={category} onChangeText={(text) => setCategory(NoEmojis(text))}/>
                     </View>
@@ -233,7 +233,7 @@ const cambiarPagina = (nuevaPagina: number) => {
                     </View>
         
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Nombre:</Text>
+                      <Text style={styles.label}>Nombre:</Text>
                       <TextInput style={{...styles.input, width: 200}}
                       value={category} onChangeText={(text) => setCategory(NoEmojis(text))}/>
                     </View>
@@ -292,18 +292,15 @@ const cambiarPagina = (nuevaPagina: number) => {
                                      </View>
                          
                                      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                       <TouchableOpacity style={styles.modalRegret}
-                                         onPress={() => {
+                                       <TouchableOpacity onPress={() => {
                                           setModalEVisible(true)
                                           setConfirm(!Confirm)}}>
-                                         <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                         <Ionicons name="close" size={40} color={colors.text} />
                                        </TouchableOpacity>
-                                       <TouchableOpacity style={[styles.modalDelete, {width: 50}]}
-                                         onPress={() => {
+                                       <TouchableOpacity  onPress={() => {
                                            setCategorias(QuitarElemento(categorias, id));
                                            setConfirm(!Confirm);
-                                         }}>
-                                         <Text style={[styles.text, {fontSize: 20}]}>SI</Text>
+                                         }}><Ionicons name="checkmark" size={40} color={colors.text} />
                                        </TouchableOpacity>
                                      </View>
                          
@@ -330,7 +327,7 @@ const cambiarPagina = (nuevaPagina: number) => {
                 setCategory('')
                 setModalVisible(true)}}
             style={[styles.add, AddOff && styles.disabled ]}>
-            <Text style={{fontWeight: 'bold', color: colors.text}}>Agregar categorías</Text>
+            <Ionicons name="add" size={20} color={colors.text} />
             </TouchableOpacity>
 
               <View style={styles.row}>
@@ -426,13 +423,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground,
   },
-  navIcons:{padding: 10, borderRadius: 50},
+  navIcons:{padding: 10 },
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -440,9 +435,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {
     flexDirection: 'row', justifyContent: 'space-between',
-  },
-  textRow:{
-    fontSize: 20, paddingVertical: 5, 
   },
    add: {
     backgroundColor: colors.input, padding: 10,
@@ -463,7 +455,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 9, textAlign: 'center',
     color: colors.text
   },
@@ -474,7 +466,7 @@ modalView: {
     flexDirection: 'row', justifyContent: 'space-evenly', 
     marginBottom: 18,
   },
-  modalLabel:{
+  label:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
@@ -482,9 +474,6 @@ modalView: {
   },
    modalEdit: {
     backgroundColor: colors.edit, padding: 10, borderRadius: 20,
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,
@@ -495,8 +484,5 @@ modalView: {
   alignItems: 'center',
   marginBottom: 40,
 },
-paginationButton: {
-  padding: 5, borderRadius: 20,
-  backgroundColor: colors.input,
-},
+paginationButton: {padding: 5},
 });

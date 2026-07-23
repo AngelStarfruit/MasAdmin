@@ -49,8 +49,7 @@ export default function Dashboard({navigation}: homeScreenProps ) {
                     </View>
         
                     <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                      <TouchableOpacity style={styles.modalOK}
-                        onPress={() => setModalVisible(!modalVisible)}>
+                      <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                         <Text style={{color: colors.text, fontSize: 20}}>OK</Text>
                       </TouchableOpacity>
                       </View>
@@ -146,7 +145,7 @@ modalView: {
 },
   modalTitle: {
     color: colors.primary,
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
   },
@@ -155,9 +154,5 @@ modalView: {
     paddingBottom: 20,
     textAlign: 'justify',
     color: colors.text
-  },
-  modalOK: {
-    backgroundColor: colors.regret,
-    padding: 10, borderRadius: 20,
   },
 });

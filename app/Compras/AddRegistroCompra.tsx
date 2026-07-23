@@ -254,7 +254,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   </View>
 
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Elemento:</Text>
+                      <Text style={styles.label}>Elemento:</Text>
                       <View style={{width:200, height:55}}>
                         <Picker
                         style={[styles.input, {backgroundColor: colors.scrollBackground}]}
@@ -299,13 +299,13 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                       </View>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={styles.modalLabel}>Cantidad:</Text>
+                      <Text style={styles.label}>Cantidad:</Text>
                       <TextInput style={styles.input}
                                 value={cantidad} onChangeText={setCantidad}
                                 keyboardType='numeric'></TextInput>
                     </View>
                     <View style={styles.modalRow}>
-                      <Text style={[styles.modalLabel, !fieldOn && styles.disabled]}>N° de lote:</Text>
+                      <Text style={[styles.label, !fieldOn && styles.disabled]}>N° de lote:</Text>
                       <TextInput style={[styles.input, !fieldOn && styles.disabled]} 
                       editable={fieldOn}
                                 value={nlote} onChangeText={setNlote}
@@ -367,26 +367,23 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Recibir los artículos en el almacén?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setReceive(!Receive)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setReceive(!Receive)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalConfirm}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Compras).length + 1)
                                             setCompras(registrar(Compras,idP,hoyStr,Number(total),selectedProvider))
                                             afectarAlmacen(existencias, processCompra, selectedStore)
                                             navigation.navigate("ControlCompras")
-                                          }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          }}><Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -403,23 +400,21 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setConfirm(!Confirm)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalDelete}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlCompras")
                                           }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          <Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -435,7 +430,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         </Text>
 
         <View style={[styles.row, {marginBottom: 12}]}>
-          <Text style={styles.textRow}>Proveedor:</Text>
+          <Text style={styles.label}>Proveedor:</Text>
           <View style={{width:150}}>
           <Picker
             style={styles.input}
@@ -464,7 +459,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
         </View>
 
         <View style={styles.row}>
-          <Text style={styles.textRow}>Almacen afectado:</Text>
+          <Text style={styles.label}>Almacen afectado:</Text>
           <View style={{width:180}}>
           <Picker
             style={styles.input}
@@ -557,7 +552,7 @@ export default function AddRegistroCompra({ navigation }: AddRegistroCompraScree
                   <Text style={styles.text}>Registrar compra</Text>
               </TouchableOpacity>
               </View>
-        <Text style={[styles.textRow, {marginBottom: 50}]}>
+        <Text style={[styles.label, {marginBottom: 50}]}>
         Total a gastar: {total}$
         </Text>
   
@@ -573,13 +568,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {backgroundColor: colors.navBackground},
-  navIcons:{
-    padding: 10, borderRadius: 50
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -587,11 +578,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {
     flexDirection: 'row', justifyContent: 'space-between',
-  },
-  textRow:{
-    fontSize: 20, 
-    paddingVertical: 5, 
-    color: colors.text
   },
   button: {
     backgroundColor: colors.option,
@@ -607,15 +593,18 @@ const getStyles = (colors: any) => StyleSheet.create({
   cell: {flex: 1, padding: 2},
   //Modal estilos
   modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  modalView: {
-    marginHorizontal: 18, marginVertical: 275, padding: 20,
-    backgroundColor: colors.modalBackground
-  },
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxWidth: 350,
+  padding: 12,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 18,
     textAlign: 'center',
     color: colors.text
@@ -630,14 +619,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-evenly', 
     marginBottom: 18
   },
-  modalLabel:{
+  label:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm,  padding: 10, borderRadius: 20
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,

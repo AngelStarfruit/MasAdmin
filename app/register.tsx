@@ -194,9 +194,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.headerCell,
   },
-  navButton:{
-    padding: 10, borderRadius: 25 ,
-  },
+  navButton:{ padding: 10},
   Button:{
     backgroundColor: colors.enter,
     padding: 15, borderRadius: 25 ,
@@ -230,10 +228,7 @@ const getStyles = (colors: any) => StyleSheet.create({
      marginBottom: 15,
      color: colors.text
   },
-  LinkText:{
-    color: colors.primary,
-    textAlign: 'center',
-  },
+  LinkText:{color: colors.primary},
    picker: {
     marginBottom: 15,
     backgroundColor: colors.input, color: colors.text,

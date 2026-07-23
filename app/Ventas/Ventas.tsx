@@ -172,8 +172,8 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
       >
         <Ionicons name="cart-outline" size={20} color={colors.text} /></TouchableOpacity>
 
-        <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]}>
-        <Ionicons name="cash-outline" size={20} color={colors.text} /></View>
+        <View style={styles.navIcons}>
+        <Ionicons name="cash-outline" size={20} color={colors.primary} /></View>
 
       <TouchableOpacity
         style={styles.navIcons} onPress={() => navigation.navigate("Sucursales")} 
@@ -197,7 +197,7 @@ export default function Ventas({ navigation }: VentasScreenProps ) {
           <Ionicons name="cash" size={25} color={colors.text} /> Ventas
           </Text>
           <Text style={{ fontSize: 20, color: colors.text }}>
-          Seleccione una sección:
+          Seleccione una opción:
           </Text>
 
         <View style={{flex: 1, justifyContent: 'space-evenly', alignItems: 'center'}}>
@@ -241,9 +241,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
   },
-  navIcons:{
-    padding: 10, borderRadius: 50 ,
-  },
+  navIcons:{padding: 10 },
   space: {
     flex: 1,
     backgroundColor: colors.scrollBackground,

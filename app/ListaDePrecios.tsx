@@ -352,8 +352,8 @@ useEffect(() => {
         <Ionicons name="cube-outline" size={20} color={colors.text} />
       </TouchableOpacity>
 
-        <View style={[styles.navIcons , {backgroundColor: colors.navIconUnderlay}]} >
-        <Ionicons name="pricetag-outline" size={20} color={colors.text} />
+        <View style={styles.navIcons} >
+        <Ionicons name="pricetag-outline" size={20} color={colors.primary} />
       </View>
 
     </View>
@@ -423,7 +423,6 @@ useEffect(() => {
                         >
                         <Picker.Item label="Ninguno" value="Ninguno" />
                         <Picker.Item label="Lote" value="Lote" />
-                        <Picker.Item label="Lote y Fecha de Caducidad" value="LoteFechaCaducidad" />
                       </Picker></View>
                       </View>
                       <View style={styles.modalRow}>
@@ -435,7 +434,7 @@ useEffect(() => {
                         if (itemValue === 'servicio') {
                         setFieldUnidadOn(false); setFieldControlOn(false); setFieldMarcaOn(false);
                         } 
-                        if (itemValue === 'paquete') {
+                        else if (itemValue === 'paquete') {
                         setFieldUnidadOn(false); setFieldControlOn(true); setFieldMarcaOn(false);
                         } else {
                         // Si es "producto", habilitar
@@ -663,17 +662,15 @@ useEffect(() => {
                     </View>
         
                     <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                      <TouchableOpacity style={styles.modalRegret}
-                        onPress={() => {
+                      <TouchableOpacity onPress={() => {
                           setEModalVisible(true); setConfirm(!Confirm)}}>
-                        <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                        <Ionicons name="close" size={40} color={colors.text} />
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.modalDelete}
-                        onPress={() => {
+                      <TouchableOpacity onPress={() => {
                           setElementosMostrados(QuitarElemento(elementosMostrados,id))
                           setConfirm(!Confirm);
                         }}>
-                        <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                        <Ionicons name="checkmark" size={40} color={colors.text} />
                       </TouchableOpacity>
                     </View>
         
@@ -735,15 +732,14 @@ useEffect(() => {
                               </ScrollView>
                           </View>
 
-                    <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
+                    <View style={{marginBottom: 40, marginTop: -20}}>
                               <TouchableOpacity
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
                                       else if (selectedCategory == 'Agrupaciones'){setAlterAgrupacion(true)}
-                                      }}
-                                      style={styles.buttonRegister}>
-                                      <Text style={{color: colors.text}}>Agregar</Text>
+                                      }}>
+                                      <Ionicons name="add" size={40} color={colors.text} />
                                   </TouchableOpacity>
                                   </View>
 
@@ -820,15 +816,14 @@ useEffect(() => {
                               </ScrollView>
                           </View>
 
-                    <View style={[styles.row, {justifyContent: 'center', marginBottom: 15}]}>
+                    <View style={{marginBottom: 40, marginTop: -20}}>
                               <TouchableOpacity
                                       onPress={() => {
                                         setSelectedProduct(''); setCantidad(''); setQuery('')
                                         if (selectedType == 'paquete'){setAlterPaquete(true)}
                                       else if (selectedCategory == 'Agrupaciones'){setAlterAgrupacion(true)}
-                                      }}
-                                      style={styles.buttonRegister}>
-                                      <Text style={{color: colors.text}}>Agregar</Text>
+                                      }}>
+                                      <Ionicons name="add" size={40} color={colors.text} />
                                   </TouchableOpacity>
                                   </View>
 
@@ -840,19 +835,12 @@ useEffect(() => {
                     const nuevoElementosMostrados = {
                     ...elementosMostrados,
                     [id]: [
-                    elementosMostrados[id][0],
-                    elementosMostrados[id][1],
-                    elementosMostrados[id][2],
-                    elementosMostrados[id][3],
-                    elementosMostrados[id][4],
-                    contenidoPaquete,  // Nuevo contenido
-                    elementosMostrados[id][6],
-                    elementosMostrados[id][7],]
+                    elementosMostrados[id][0],elementosMostrados[id][1],
+                    elementosMostrados[id][2], elementosMostrados[id][3],
+                    elementosMostrados[id][4], contenidoPaquete,  // Nuevo contenido
+                    elementosMostrados[id][6], elementosMostrados[id][7],]
                     };
                     setElementosMostrados(nuevoElementosMostrados);
-    
-                    // También actualizar listaPrecios si es necesario
-                    Alert.alert('Exito', 'Cambios al paquete guardados');
                     setEModalVisible(true); setPaquete(!Paquete);
                     }}>
                     <Text style={styles.text}>Confirmar cambios</Text>
@@ -883,6 +871,15 @@ useEffect(() => {
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
+      <View style={styles.modalRow}>
+        <Text style={styles.modalLabel}>Cantidad:</Text>
+        <TextInput 
+          style={[styles.input, {width: 75}]}
+          value={cantidad} 
+          onChangeText={setCantidad}
+          keyboardType='numeric'
+        />
+      </View>
       <Text style={[styles.modalLabel , {textAlign: 'center'}]}>Seleccione un elemento:</Text>
 
       <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -922,7 +919,7 @@ useEffect(() => {
   </TouchableOpacity>
 </View>
       
-      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
+      <ScrollView style={[styles.table, {minHeight:200, maxHeight: 200}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
           Object.values(productosPaginados || {}).length > 0 ? (
             Object.entries(productosPaginados).map(([id, data]: [string, any]) => {
@@ -1006,15 +1003,6 @@ useEffect(() => {
     </TouchableOpacity>
   </View>
 )}
-      <View style={styles.modalRow}>
-        <Text style={styles.modalLabel}>Cantidad:</Text>
-        <TextInput 
-          style={[styles.input, {width: 75}]}
-          value={cantidad} 
-          onChangeText={setCantidad}
-          keyboardType='numeric'
-        />
-      </View>
     </View>
   </View>
 </Modal>
@@ -1040,6 +1028,15 @@ useEffect(() => {
       </View>
       
       <Text style={styles.modalTitle}>Agregar elementos</Text>
+      <View style={styles.modalRow}>
+        <Text style={styles.modalLabel}>Cantidad:</Text>
+        <TextInput 
+          style={[styles.input, {width: 75}]}
+          value={cantidad} 
+          onChangeText={setCantidad}
+          keyboardType='numeric'
+        />
+      </View>
       <Text style={[styles.modalLabel, {textAlign: 'center'}]}>Seleccione un elemento:</Text>
       {/* Buscador para noAlmacenables */}
       <View style={[styles.row, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -1074,7 +1071,7 @@ useEffect(() => {
           <Ionicons name="search" size={20} color={colors.text} />
         </TouchableOpacity>
       </View>
-      <ScrollView style={[styles.table, {minHeight:300, maxHeight: 300}]} showsVerticalScrollIndicator={true}>
+      <ScrollView style={[styles.table, {minHeight:200, maxHeight: 200}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
           Object.values(noAlmacenablesPaginados || {}).length > 0 ? (
             Object.entries(noAlmacenablesPaginados).map(([id, data]: [string, any]) => {
@@ -1153,16 +1150,6 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
       )}
-      
-      <View style={styles.modalRow}>
-        <Text style={styles.modalLabel}>Cantidad:</Text>
-        <TextInput 
-          style={[styles.input, {width: 75}]}
-          value={cantidad} 
-          onChangeText={setCantidad}
-          keyboardType='numeric'
-        />
-      </View>
     </View>
   </View>
 </Modal>
@@ -1205,7 +1192,22 @@ useEffect(() => {
                 <Picker.Item label="AGRUPACIONES" value="Agrupaciones" />
           </Picker></View>
 
-          <View style={[styles.row, {justifyContent: "space-between"}]}>
+          <View style={{width: 180}}>
+          <TouchableOpacity 
+                onPress={() => navigation.navigate("Categorias")} style={styles.add}>
+                    <Text style={{ color: colors.text}}>Gestionar categorías</Text>
+                  </TouchableOpacity>
+                  </View>
+                  <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 15,}}>
+          <Ionicons name="pricetag-outline" size={18} color={colors.text} /> PRODUCTOS {'   '}
+           <Ionicons name="construct-outline" size={18} color={colors.text} /> SERVICIOS {'   '}
+            <Ionicons name="cube-outline" size={18} color={colors.text} /> PAQUETES
+          </Text> 
+          <Text style={{ color: colors.text ,fontSize: 15, paddingBottom: 15}}>
+          Los productos con el icono {' '}<Ionicons name="layers-outline" size={15} color={colors.text} /> {' '}
+          estan controlados por lotes.
+          </Text> 
+          <View style={{width: 50}}>
           <TouchableOpacity
                 onPress={() => {
                   setId(Object.keys(listaPrecios).length + 1)
@@ -1221,22 +1223,9 @@ useEffect(() => {
                   }
                   setModalVisible(true)}}
                 style={styles.add}>
-                    <Text style={{ color: colors.text}}>Añadir elemento</Text>
-                  </TouchableOpacity>
-          <TouchableOpacity 
-                onPress={() => navigation.navigate("Categorias")} style={styles.add}>
-                    <Text style={{ color: colors.text}}>Gestionar categorías</Text>
+                    <Ionicons name="add" size={30} color={colors.text} />
                   </TouchableOpacity>
                   </View>
-                  <Text style={{ color: colors.text ,fontSize: 15, paddingVertical: 15,}}>
-          <Ionicons name="pricetag-outline" size={18} color={colors.text} /> PRODUCTOS {'   '}
-           <Ionicons name="construct-outline" size={18} color={colors.text} /> SERVICIOS {'   '}
-            <Ionicons name="cube-outline" size={18} color={colors.text} /> PAQUETES
-          </Text> 
-          <Text style={{ color: colors.text ,fontSize: 15}}>
-          Los productos con el icono {' '}<Ionicons name="layers-outline" size={15} color={colors.text} /> {' '}
-          estan controlados por lotes.
-          </Text> 
           <View style={styles.table}>
                 <View style={[styles.row, {backgroundColor: colors.headerCell}]}>
                         <View style={styles.cell}>
@@ -1357,9 +1346,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     backgroundColor: colors.navBackground,
     flexDirection: 'row', justifyContent: 'space-around',
   },
-  navIcons:{
-    padding: 10, borderRadius: 50 ,
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -1397,7 +1384,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold', color: colors.text,
+    fontSize: 25, fontWeight: 'bold', color: colors.text,
     marginBottom: 9,
     textAlign: 'center'
   },
@@ -1411,9 +1398,6 @@ modalView: {
   },
   modalConfirm: {
     backgroundColor: colors.confirm, padding: 10, borderRadius: 20,
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalEdit: {
     backgroundColor: colors.edit, padding: 10, borderRadius: 20,
@@ -1430,8 +1414,5 @@ modalView: {
   alignItems: 'center',
   marginBottom: 40,
 },
-paginationButton: {
-  padding: 5, borderRadius: 20,
-  backgroundColor: colors.input,
-},
+paginationButton: {padding: 5},
 });

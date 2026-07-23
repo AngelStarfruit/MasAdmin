@@ -88,7 +88,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.modalOverlay}>
-                <View style={[styles.modalView, {marginVertical: 290}]}>
+                <View style={styles.modalView}>
       
                   <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                     <TouchableOpacity
@@ -102,12 +102,12 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     <Text style={styles.modalTitle}>Agregar gastos</Text>
                   </View>
                     <View style={styles.modalRow}>
-                                          <Text style={styles.modalLabel}>Gasto:</Text>
+                                          <Text style={styles.label}>Gasto:</Text>
                                           <TextInput style={[styles.input, {width: 200}]}
                                                     value={gasto} onChangeText={setGasto}></TextInput>
                                         </View>
                     <View style={styles.modalRow}>
-                                          <Text style={styles.modalLabel}>Costo:</Text>
+                                          <Text style={styles.label}>Costo:</Text>
                                           <TextInput style={styles.input}
                                                     value={costo} onChangeText={setCosto}
                                                     keyboardType='numeric'></TextInput>
@@ -142,25 +142,22 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       setConfirm(!Receive);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Confirmar gastos?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setReceive(!Receive)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setReceive(!Receive)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalConfirm}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setConfirm(!Receive);
                                             setIdP(Object.keys(Gastos).length + 1)
                                             setGastos(registrar(Gastos,idP,hoyStr,Number(total),gasto))
                                             navigation.navigate("ControlGastos")
-                                          }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          }}> <Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -177,23 +174,21 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                                       setConfirm(!Confirm);
                                     }}>
                                     <View style={styles.modalOverlay}>
-                                    <View style={[styles.modalView, {marginVertical: 390}]}>
+                                    <View style={styles.modalView}>
                           
                                       <View>
                                         <Text style={styles.modalTitle}>¿Salir sin guardar?</Text>
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => setConfirm(!Confirm)}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                        <TouchableOpacity onPress={() => setConfirm(!Confirm)}>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                         <TouchableOpacity style={styles.modalDelete}
                                           onPress={() => {
                                             setConfirm(!Confirm);
                                             navigation.navigate("ControlGastos")
-                                          }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          }}><Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -260,7 +255,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                   <Text style={styles.text}>Confirmar</Text>
               </TouchableOpacity>
               </View>
-        <Text style={[styles.textRow, {marginBottom: 50}]}>
+        <Text style={[styles.label, {marginBottom: 50}]}>
         Total a gastar: {total}$
         </Text>
         
@@ -276,13 +271,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground
   },
-  navIcons:{padding: 10, borderRadius: 50},
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -290,11 +283,6 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   row: {
     flexDirection: 'row', justifyContent: 'space-between',
-  },
-  textRow:{
-    fontSize: 20, 
-    paddingVertical: 5, 
-    color: colors.text
   },
   button: {
     backgroundColor: colors.option,
@@ -311,16 +299,19 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   cell: { flex: 1, padding: 2,},
   //Modal estilos
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
- modalView: {
-    marginHorizontal: 18, marginVertical: 275, padding: 20,
-    backgroundColor: colors.modalBackground
-  },
+   modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  justifyContent: 'center', alignItems: 'center',
+},
+modalView: {
+  maxWidth: 350,
+  padding: 12,
+  backgroundColor: colors.modalBackground,
+  borderRadius: 20,
+},
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 18,
     textAlign: 'center',
     color: colors.text
@@ -332,14 +323,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-evenly', 
     marginBottom: 18,
   },
- modalLabel:{
+ label:{
     fontSize: 20, color: colors.text
   },
   modalConfirm: {
     backgroundColor: colors.confirm, padding: 10, borderRadius: 20
-  },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
   },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,

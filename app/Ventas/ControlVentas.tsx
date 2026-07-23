@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import Constants from 'expo-constants';
 import { useState, useCallback } from 'react';
 //import { obtenerVentas } from './backend';
@@ -118,13 +118,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text: {
-    color: colors.text
-  },
+  text: {color: colors.text},
   navigation: {backgroundColor: colors.navBackground,},
-  navIcons:{
-    padding: 10, borderRadius: 50,
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -136,7 +132,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   //Tabla estilos
   table: {
-    marginTop: 20, marginBottom: 80, backgroundColor: colors.background
+    marginTop: 20, marginBottom: 40, backgroundColor: colors.background
   },
   row: {flexDirection: 'row',},
   cell: {flex: 1, padding: 2},

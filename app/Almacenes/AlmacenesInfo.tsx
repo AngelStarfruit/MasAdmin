@@ -426,18 +426,15 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                                       </View>
                           
                                       <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                                        <TouchableOpacity style={styles.modalRegret}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setEModalVisible(true)
                                             setConfirm(!Confirm)}}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>NO</Text>
+                                          <Ionicons name="close" size={40} color={colors.text} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity style={styles.modalDelete}
-                                          onPress={() => {
+                                        <TouchableOpacity onPress={() => {
                                             setAlmacenes(QuitarElemento(almacenes, id));
                                             setConfirm(!Confirm);
-                                          }}>
-                                          <Text style={[styles.text, {fontSize: 20}]}>SÍ</Text>
+                                          }}><Ionicons name="checkmark" size={40} color={colors.text} />
                                         </TouchableOpacity>
                                       </View>
                           
@@ -468,7 +465,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
                   else Alert.alert("Error","Registre al menos una sucursal primero")
                 }}
                 style={[styles.add, AddOff && styles.disabled]}>
-                    <Text style={{fontWeight: 'bold', color: colors.text}}>Añadir almacén</Text>
+                    <Ionicons name="add" size={20} color={colors.text} />
                   </TouchableOpacity>
 
                     <TouchableOpacity
@@ -560,15 +557,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: colors.background
   },
-  text:{
-    color: colors.text
-  },
+  text:{color: colors.text},
   navigation: {
     backgroundColor: colors.navBackground
   },
-  navIcons:{
-    padding: 10, borderRadius: 50
-  },
+  navIcons:{padding: 10},
   scroll: {
     flex: 1,
     backgroundColor: colors.scrollBackground,
@@ -602,7 +595,7 @@ modalView: {
   borderRadius: 20,
 },
   modalTitle: {
-    fontSize: 30, fontWeight: 'bold',
+    fontSize: 25, fontWeight: 'bold',
     marginBottom: 9, textAlign: 'center',
     color: colors.text
   },
@@ -619,9 +612,6 @@ modalView: {
   modalEdit: {
     backgroundColor: colors.edit, padding: 10, borderRadius: 20,
   },
-  modalRegret: {
-    backgroundColor: colors.regret, padding: 10, borderRadius: 20,
-  },
   modalDelete: {
     backgroundColor: colors.delete, padding: 10, borderRadius: 20,
   },
@@ -631,8 +621,5 @@ modalView: {
   alignItems: 'center',
   marginBottom: 40,
 },
-paginationButton: {
-  padding: 5, borderRadius: 20,
-  backgroundColor: colors.input,
-},
+paginationButton: {padding: 5},
 });
