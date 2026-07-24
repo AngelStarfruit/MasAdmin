@@ -577,7 +577,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   row: {
-    flexDirection: 'row', justifyContent: 'space-between',
+    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 9
   },
   button: {
     backgroundColor: colors.option,

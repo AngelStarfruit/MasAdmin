@@ -252,7 +252,7 @@ export default function AddRegistroGasto({ navigation }: AddRegistroGastoScreenP
                     else Alert.alert("Error","Por favor, inserte los gastos que va a efectuar.")
                   }}
                   style={styles.button}>
-                  <Text style={styles.text}>Confirmar</Text>
+                  <Text style={styles.text}>Registrar gasto</Text>
               </TouchableOpacity>
               </View>
         <Text style={[styles.label, {marginBottom: 50}]}>
@@ -282,7 +282,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     padding: 18,
   },
   row: {
-    flexDirection: 'row', justifyContent: 'space-between',
+    flexDirection: 'row', justifyContent: 'space-between', marginBottom: 9
   },
   button: {
     backgroundColor: colors.option,

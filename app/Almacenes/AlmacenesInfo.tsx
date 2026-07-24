@@ -522,7 +522,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
   <View style={styles.paginationContainer}>
     <TouchableOpacity
       onPress={() => cambiarPagina(currentPage - 1)}
-      style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+      style={[currentPage === 1 && styles.disabled]}
       disabled={currentPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
@@ -534,10 +534,7 @@ export default function AlmacenesInfo({ navigation }: AlmacenesInfoScreenProps )
     
     <TouchableOpacity
       onPress={() => cambiarPagina(currentPage + 1)}
-      style={[
-        styles.paginationButton, 
-        currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage) && styles.disabled
-      ]}
+      style={[currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage) && styles.disabled]}
       disabled={currentPage === Math.ceil(Object.keys(almacenes || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
@@ -619,7 +616,6 @@ modalView: {
   paginationContainer: {
   flexDirection: 'row', justifyContent: 'space-evenly',
   alignItems: 'center',
-  marginBottom: 40,
-},
-paginationButton: {padding: 5},
+  marginBottom: 20,
+}
 });

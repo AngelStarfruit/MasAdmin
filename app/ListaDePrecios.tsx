@@ -918,7 +918,6 @@ useEffect(() => {
     <Ionicons name="search" size={20} color={colors.text} />
   </TouchableOpacity>
 </View>
-      
       <ScrollView style={[styles.table, {minHeight:200, maxHeight: 200}]} showsVerticalScrollIndicator={true}>
         {!isLoading ? (
           Object.values(productosPaginados || {}).length > 0 ? (
@@ -981,7 +980,7 @@ useEffect(() => {
   <View style={styles.paginationContainer}>
     <TouchableOpacity
       onPress={() => cambiarProductoPagina(currentProductoPage - 1)}
-      style={[styles.paginationButton, currentProductoPage === 1 && styles.disable]}
+      style={[currentProductoPage === 1 && styles.disable]}
       disabled={currentProductoPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
@@ -993,10 +992,7 @@ useEffect(() => {
     
     <TouchableOpacity
       onPress={() => cambiarProductoPagina(currentProductoPage + 1)}
-      style={[
-        styles.paginationButton, 
-        currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage) && styles.disable
-      ]}
+      style={[currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage) && styles.disable]}
       disabled={currentElementoPage === Math.ceil(Object.keys(productos || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
@@ -1129,7 +1125,7 @@ useEffect(() => {
         <View style={styles.paginationContainer}>
           <TouchableOpacity
             onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage - 1)}
-            style={[styles.paginationButton, currentNoAlmacenablePage === 1 && styles.disable]}
+            style={[currentNoAlmacenablePage === 1 && styles.disable]}
             disabled={currentNoAlmacenablePage === 1}
           >
             <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
@@ -1140,10 +1136,7 @@ useEffect(() => {
           </Text>
           <TouchableOpacity
             onPress={() => cambiarNoAlmacenablePagina(currentNoAlmacenablePage + 1)}
-            style={[
-              styles.paginationButton, 
-              currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage) && styles.disable
-            ]}
+            style={[currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage) && styles.disable]}
             disabled={currentNoAlmacenablePage === Math.ceil(Object.keys(noAlmacenables || {}).length / itemsPerPage)}
           >
             <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
@@ -1306,7 +1299,7 @@ useEffect(() => {
   <View style={styles.paginationContainer}>
     <TouchableOpacity
       onPress={() => cambiarElementoPagina(currentElementoPage - 1)}
-      style={[styles.paginationButton, currentElementoPage === 1 && styles.disable]}
+      style={[currentElementoPage === 1 && styles.disable]}
       disabled={currentElementoPage === 1}
     >
         <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
@@ -1318,10 +1311,7 @@ useEffect(() => {
     
     <TouchableOpacity
       onPress={() => cambiarElementoPagina(currentElementoPage + 1)}
-      style={[
-        styles.paginationButton, 
-        currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage) && styles.disable
-      ]}
+      style={[currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage) && styles.disable]}
       disabled={currentElementoPage === Math.ceil(Object.keys(elementosMostrados || {}).length / itemsPerPage)}
     >
       <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
@@ -1412,7 +1402,6 @@ modalView: {
   paginationContainer: {
   flexDirection: 'row', justifyContent: 'space-evenly',
   alignItems: 'center',
-  marginBottom: 40,
-},
-paginationButton: {padding: 5},
+  marginBottom: 20,
+}
 });

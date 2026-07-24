@@ -132,7 +132,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
             <View style={styles.paginationContainer}>
               <TouchableOpacity
                 onPress={() => cambiarPagina(currentPage - 1)}
-                style={[styles.paginationButton, currentPage === 1 && styles.disabled]}
+                style={[currentPage === 1 && styles.disabled]}
                 disabled={currentPage === 1}
               >
                 <Ionicons name="chevron-back" size={30} color={colors.headerCell} />
@@ -144,10 +144,7 @@ export default function ExistenciasAlmacen({ navigation }: ExistenciasAlmacenScr
 
               <TouchableOpacity
                 onPress={() => cambiarPagina(currentPage + 1)}
-                style={[
-                  styles.paginationButton,
-                  currentPage === totalPaginas && styles.disabled,
-                ]}
+                style={[currentPage === totalPaginas && styles.disabled]}
                 disabled={currentPage === totalPaginas}
               >
                 <Ionicons name="chevron-forward" size={30} color={colors.headerCell} />
@@ -192,10 +189,8 @@ const getStyles = (colors: any) =>
       color: colors.text,
     },
     paginationContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      flexDirection: 'row', justifyContent: 'space-evenly',
       alignItems: 'center',
-      marginBottom: 40,
-    },
-    paginationButton: { padding: 5 },
+      marginBottom: 20,
+    }
   });
